@@ -57,7 +57,7 @@ class SplashScreen : AppCompatActivity() {
                     override fun onAnimationEnd(drawable: Drawable?) {
                         //do whatever after specified number of loops complete
                         Log.d("checkkk==", false.toString())
-                        val intents = Intent(this@SplashScreen, MainActivity::class.java)
+                        val intents = Intent(this@SplashScreen, StartActivity::class.java)
                         startActivity(intents)
                         finish()
                     }

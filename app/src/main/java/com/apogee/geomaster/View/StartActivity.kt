@@ -145,6 +145,7 @@ private fun RequestMultiplePermission() {
 
 // overriden method.
 override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     if (requestCode == RequestPermissionCode) {
         if (grantResults.size > 0) {
             val LocationPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED
