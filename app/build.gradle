@@ -70,5 +70,6 @@ dependencies {
 
     //Metrial theme
     implementation 'com.google.android.material:material:1.10.0-alpha05'
-
+    //Curved bottom sheet nav bar
+    implementation 'np.com.susanthapa:curved_bottom_navigation:0.6.5'
 }
