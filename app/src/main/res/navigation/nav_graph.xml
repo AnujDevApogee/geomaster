@@ -15,7 +15,7 @@
         android:label="device_layout_fragment"
         tools:layout="@layout/device_layout_fragment" />
     <fragment
-        android:id="@+id/toolsFragment2"
+        android:id="@+id/toolsFragment"
         android:name="com.apogee.newgeo.ui.ToolsFragment"
         android:label="tools_fragment_layout"
         tools:layout="@layout/tools_fragment_layout" />
