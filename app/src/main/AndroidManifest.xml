@@ -38,6 +38,11 @@
             android:exported="true"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
 
+        <activity
+            android:name=".ui.HomeScreen"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+
         <service
             android:name=".service.ApiService"
             android:exported="true" />
