@@ -1,4 +1,4 @@
-package com.apogee.geomaster.View
+package com.apogee.geomaster.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,7 +11,6 @@ import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
-import com.apogee.geomaster.MainActivity
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SplashActivityBinding
 import com.apogee.geomaster.service.ApiService

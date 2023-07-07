@@ -1,15 +1,6 @@
-package com.apogee.geomaster.Repository
+package com.apogee.geomaster.repository
 
-import android.content.ContentValues
-import android.content.Context
-import android.util.Log
-
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Response
-import kotlin.coroutines.coroutineContext
-
-class RepositoryClass{
+class LoginRepository{
 
     var responseData=""
 fun myApi(){

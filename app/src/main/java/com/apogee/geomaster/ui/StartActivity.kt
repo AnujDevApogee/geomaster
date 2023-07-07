@@ -1,4 +1,4 @@
-package com.apogee.geomaster.View
+package com.apogee.geomaster.ui
 
 import android.Manifest
 import android.annotation.SuppressLint

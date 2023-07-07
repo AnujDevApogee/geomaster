@@ -3,16 +3,24 @@ package com.apogee.geomaster
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import com.apogee.geomaster.Repository.RepositoryClass
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.apogee.geomaster.databinding.ActivityMainBinding
+import com.apogee.geomaster.utils.toastMsg
+import com.apogee.geomaster.viewmodel.LoginViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(){
-    val RESULTCODE=500
-    private val myViewModel = LoginViewModel("Sibin", "123456", repositoryClass = RepositoryClass())
-//    lateinit var testSocket: SocketActivity
+class MainActivity : AppCompatActivity() {
+    val RESULTCODE = 500
+    private val myViewModel: LoginViewModel by viewModels()
+
+    //    lateinit var testSocket: SocketActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activityMainBinding: ActivityMainBinding =
@@ -20,6 +28,14 @@ class MainActivity : AppCompatActivity(){
         activityMainBinding.viewModel = myViewModel
         activityMainBinding.lifecycleOwner = this
         activityMainBinding.executePendingBindings()
+        lifecycleScope.launch {
+
+            myViewModel.msgEvent.collectLatest { msg ->
+                msg.let {
+                    toastMsg(it)
+                }
+            }
+        }
     }
 
     companion object {

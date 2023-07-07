@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,10 +20,10 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".View.SplashScreen"
-            android:theme="@style/Theme.GeoMaster.NoActionBar"
+            android:name=".ui.SplashScreen"
+            android:exported="true"
 
-            android:exported="true">
+            android:theme="@style/Theme.GeoMaster.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,12 +32,11 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            />
-        <activity
-            android:name=".View.StartActivity"
-            android:theme="@style/Theme.GeoMaster.NoActionBar"
             android:exported="true" />
+        <activity
+            android:name=".ui.StartActivity"
+            android:exported="true"
+            android:theme="@style/Theme.GeoMaster.NoActionBar" />
 
         <service
             android:name=".service.ApiService"
