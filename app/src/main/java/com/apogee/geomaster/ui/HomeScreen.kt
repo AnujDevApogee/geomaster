@@ -25,7 +25,7 @@ class HomeScreen : AppCompatActivity() {
                 supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
             navHostFragment = navHost.findNavController()
             setUpBottomNav()
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Log.i("Exception_ICON", "onCreate: ${e.message}")
         }
     }
