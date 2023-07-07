@@ -41,15 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        @JvmStatic
-        @BindingAdapter("toastMessage")
-        fun runMe(view: View, message: String?) {
-            if (!message.isNullOrEmpty()) {
-                Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+
 
 
 }
