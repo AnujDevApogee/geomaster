@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.apogee.geomaster.MainActivity
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ActivityStartBinding
 import com.apogee.geomaster.service.ApiService
@@ -57,7 +56,7 @@ class StartActivity : AppCompatActivity() {
             Log.d(TAG, "onCreate: " + prefs!!.getBoolean("database_created", false))
             if (prefs!!.getBoolean("database_created", true)) {
 
-                val intents = Intent(this@StartActivity, MainActivity::class.java)
+                val intents = Intent(this@StartActivity, LoginActivity::class.java)
                 startActivity(intents)
                 finish()
             } else {

@@ -1,4 +1,4 @@
-package com.apogee.geomaster
+package com.apogee.geomaster.ui
 
 import android.os.Bundle
 import android.view.View
@@ -10,17 +10,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ActivityMainBinding
+import com.apogee.geomaster.utils.isInvalidString
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.LoginViewModel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
-    val RESULTCODE = 500
+class LoginActivity : AppCompatActivity() {
+    //  val RESULTCODE = 500
     private val myViewModel: LoginViewModel by viewModels()
 
-    //    lateinit var testSocket: SocketActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activityMainBinding: ActivityMainBinding =
@@ -29,12 +30,14 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.lifecycleOwner = this
         activityMainBinding.executePendingBindings()
         lifecycleScope.launch {
-
-            myViewModel.msgEvent.collectLatest { msg ->
-                msg.let {
-                    toastMsg(it)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                myViewModel.msgEvent.collect { msg ->
+                    if (!isInvalidString(msg)) {
+                        toastMsg(msg)
+                    }
                 }
             }
+
         }
     }
 

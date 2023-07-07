@@ -5,9 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.apogee.geomaster.model.User
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var user: User = User("", "")
@@ -15,8 +14,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val errorMessage = "failed"
 
 
-    private val _msgEvent = MutableSharedFlow<String>()
-    val msgEvent: SharedFlow<String>
+    private val _msgEvent = MutableStateFlow("")
+    val msgEvent: StateFlow<String>
         get() = _msgEvent
 
 
@@ -29,9 +28,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onLoginClicked() {
-        viewModelScope.launch {
-            _msgEvent.emit(errorMessage)
-        }
+        _msgEvent.value = (errorMessage)
     }
 
     override fun onCleared() {
