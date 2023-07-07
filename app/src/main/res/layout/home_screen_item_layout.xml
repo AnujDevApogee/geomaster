@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:padding="5dp"
+            android:textStyle="bold"
             android:textColor="@color/md_theme_light_shadow"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
