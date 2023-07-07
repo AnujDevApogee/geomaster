@@ -63,7 +63,7 @@ class SplashScreen : AppCompatActivity() {
                 })
                 return false
             }
-        }).into(binding!!.ivGif)
+        }).into(binding.ivGif)
 
 
     }
