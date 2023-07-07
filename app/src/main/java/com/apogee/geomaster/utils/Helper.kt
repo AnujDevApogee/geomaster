@@ -8,4 +8,4 @@ fun Context.toastMsg(msg: String) {
 }
 
 
-fun isInvalidString(txt: String) = txt.isEmpty() || txt.isEmpty() || txt == "null"
+fun isInvalidString(txt: String?) = txt.isNullOrEmpty() || txt.isBlank() || txt == "null"
