@@ -8,6 +8,7 @@ import com.apogee.geomaster.databinding.DeviceLayoutFragmentBinding
 
 
 class DeviceFragment :Fragment(R.layout.device_layout_fragment) {
+
     private lateinit var binding: DeviceLayoutFragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
