@@ -8,10 +8,9 @@
         tools:context=".ui.SurveyFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/device_recycle_view"
+            android:id="@+id/survey_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="4"

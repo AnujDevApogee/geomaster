@@ -9,20 +9,32 @@
         android:layout_margin="5dp"
         android:padding="5dp">
 
-        <ImageView
-            android:id="@+id/img_txt"
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/icon_card"
+            style="@style/Widget.Material3.CardView.Outlined"
             android:layout_width="wrap_content"
+            app:cardElevation="2dp"
+            app:strokeWidth="2dp"
+            app:rippleColor="@color/md_theme_dark_outline"
             android:layout_height="wrap_content"
-            android:background="@drawable/leaf_layout"
-            android:minWidth="100dp"
-            android:elevation="5dp"
-            android:minHeight="100dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_device"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/md_theme_light_primary" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/img_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                android:minWidth="100dp"
+                android:minHeight="100dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_device"
+                app:tint="@color/md_theme_light_primary" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <TextView
             android:id="@+id/profile_txt"
@@ -30,13 +42,13 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:padding="5dp"
-            android:textStyle="bold"
-            android:textColor="@color/md_theme_light_shadow"
+            style="@style/text_theme"
             android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_txt"
+            app:layout_constraintTop_toBottomOf="@id/icon_card"
             tools:text="Profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

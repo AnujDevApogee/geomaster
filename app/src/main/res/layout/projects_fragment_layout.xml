@@ -8,13 +8,13 @@
         tools:context=".ui.ProjectsFragment">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/project_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:spanCount="4"
             android:overScrollMode="never"
-            android:padding="10dp"
-            tools:listitem="@layout/home_screen_item_layout"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="4"
+            tools:listitem="@layout/home_screen_item_layout"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

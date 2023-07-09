@@ -11,11 +11,10 @@
             android:id="@+id/tools_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="4"
-            tools:listitem="@layout/home_screen_item_layout" />
+            tools:listitem="@layout/home_screen_item_layout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

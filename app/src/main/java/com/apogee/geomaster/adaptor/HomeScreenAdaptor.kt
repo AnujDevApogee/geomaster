@@ -3,9 +3,12 @@ package com.apogee.geomaster.adaptor
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.HomeScreenItemLayoutBinding
 import com.apogee.geomaster.model.HomeScreenOption
 import com.apogee.geomaster.utils.OnItemClickListener
@@ -51,7 +54,9 @@ class HomeScreenAdaptor(private val listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = getItem(position)
-
+        val animation: Animation =
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.enter_anim_layout)
+        holder.itemView.startAnimation(animation)
         item?.let {
            holder.getItem(it,listener)
         }
