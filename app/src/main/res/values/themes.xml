@@ -32,4 +32,9 @@
     <style name="text_theme" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/md_theme_light_shadow</item>
     </style>
+
+    <style name="MyToolbarStyle" parent="Widget.Material3.Toolbar">
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
+
 </resources>

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.HomeScreenLayoutBinding
+import com.apogee.geomaster.utils.changeStatusBarColor
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.lang.Exception
 
@@ -19,6 +20,8 @@ class HomeScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = HomeScreenLayoutBinding.inflate(layoutInflater)
+
+        changeStatusBarColor(R.color.md_theme_light_primary)
         setContentView(binding.root)
         try {
             val navHost =
