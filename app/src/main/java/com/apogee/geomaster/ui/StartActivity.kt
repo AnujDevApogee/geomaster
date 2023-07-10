@@ -24,6 +24,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ActivityStartBinding
 import com.apogee.geomaster.service.ApiService
 import com.apogee.geomaster.service.Constants
+import com.apogee.geomaster.ui.login.LoginActivity
 
 class StartActivity : AppCompatActivity() {
     var TAG: String = StartActivity::class.java.simpleName

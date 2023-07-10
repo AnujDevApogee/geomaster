@@ -1,4 +1,4 @@
-package com.apogee.geomaster.ui
+package com.apogee.geomaster.ui.projects
 
 import android.os.Bundle
 import android.view.View

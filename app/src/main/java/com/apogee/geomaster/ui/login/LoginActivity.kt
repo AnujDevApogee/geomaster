@@ -1,18 +1,16 @@
-package com.apogee.geomaster.ui
+package com.apogee.geomaster.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ActivityMainBinding
+import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.isInvalidString
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.LoginViewModel
@@ -36,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
                 myViewModel.msgEvent.collectLatest {  msg ->
                     if (!isInvalidString(msg)) {
                         toastMsg(msg)
-                        val intent=Intent(this@LoginActivity,HomeScreen::class.java)
+                        val intent=Intent(this@LoginActivity, HomeScreen::class.java)
                         startActivity(intent)
                         finishAffinity()
 
