@@ -1,14 +1,18 @@
 package com.apogee.geomaster.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.apogee.geomaster.instance.ModuleInstance
+import com.apogee.geomaster.model.GetAllTblResponse
 import com.apogee.geomaster.repository.LoginRepository
+import com.apogee.geomaster.use_case.GeoMasterUseCase
 import com.apogee.geomaster.utils.ApiResponse
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class RecordsViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,6 +20,9 @@ class RecordsViewModel(application: Application) : AndroidViewModel(application)
     private val repo by lazy {
         LoginRepository(ModuleInstance.getInstance())
     }
+
+    private val geoMasterUseCase = GeoMasterUseCase()
+
 
     private val _recordsTbl = MutableSharedFlow<ApiResponse<out Any?>>()
     val recordsTable: MutableSharedFlow<ApiResponse<out Any?>>
@@ -26,16 +33,22 @@ class RecordsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getTblRecords() {
-        viewModelScope.launch {
-            repo.getApiInfo()
-        }
+        repo.getApiInfo()
     }
 
+    private var job: Job?=null
     private fun listForChanges() {
-        viewModelScope.launch {
+        job?.cancel()
+        job=viewModelScope.launch {
             repo.data.collect {
-                Log.i("LIVE", "Tsting_liva: $it")
-                _recordsTbl.emit(it)
+                if (it is ApiResponse.Success) {
+                    val ls =
+                        ApiResponse.Success(geoMasterUseCase.getListOfName(it.data as GetAllTblResponse))
+                    _recordsTbl.emit(ls)
+                } else {
+                    if (it!=null)
+                    _recordsTbl.emit(it)
+                }
             }
         }
     }
@@ -43,7 +56,6 @@ class RecordsViewModel(application: Application) : AndroidViewModel(application)
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()
-        repo.cancel()
     }
 
 }

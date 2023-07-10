@@ -7,10 +7,12 @@ import com.apogee.geomaster.model.GetAllTblResponse
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.ApiUtils
 import com.apogee.geomaster.utils.fromJson
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -19,8 +21,8 @@ import retrofit2.Response
 class LoginRepository(moduleInstance: ModuleInstance) :  CustomCallback {
 
 
-    private val _data = MutableSharedFlow<ApiResponse<out Any>>()
-    val data: SharedFlow<ApiResponse<out Any>>
+    private val _data = MutableStateFlow<ApiResponse<out Any>?>(null)
+    val data: StateFlow<ApiResponse<out Any>?>
         get() = _data
 
 
@@ -28,24 +30,22 @@ class LoginRepository(moduleInstance: ModuleInstance) :  CustomCallback {
         moduleInstance.getApiInstance()
     }
 
-    private val coroutine by lazy {
-        moduleInstance.coroutineScope
-    }
+
 
     fun getApiInfo() {
-        coroutine.launch {
+        runBlocking(Dispatchers.IO) {
             api.postDataWithoutBody(
                 this@LoginRepository,
                 ApiUtils.POST_GET_TABLE_RECORDS.first,
                 ApiUtils.POST_GET_TABLE_RECORDS.second
             )
-            _data.emit(ApiResponse.Loading("Please Wait loading Data.."))
+            _data.value=(ApiResponse.Loading("Please Wait loading Data.."))
         }
     }
 
 
     override fun onResponse(p0: Call<*>?, res: Response<*>?, p2: Int) {
-        coroutine.launch {
+        runBlocking {
             val emitData = res?.let {
                 val responseBody: ResponseBody = it.body() as ResponseBody
                 if (res.isSuccessful) {
@@ -63,17 +63,14 @@ class LoginRepository(moduleInstance: ModuleInstance) :  CustomCallback {
 
             } ?: ApiResponse.Error(null, Throwable("Oops cannot find Response"))
 
-            _data.emit(emitData)
+            _data.value=(emitData)
         }
     }
 
     override fun onFailure(p0: Call<*>?, p1: Throwable?, p2: Int) {
-        coroutine.launch {
-            _data.emit(ApiResponse.Error(null, p1))
+        runBlocking(Dispatchers.IO) {
+            _data.value=(ApiResponse.Error(null, p1))
         }
     }
 
-    fun cancel() {
-        coroutine.cancel()
-    }
 }
