@@ -22,7 +22,7 @@ class HomeScreenAdaptor(private val listener: OnItemClickListener) :
         fun getItem(data: HomeScreenOption, listener: OnItemClickListener) {
             binding.imgTxt.setImageResource(data.icon)
             binding.profileTxt.text=data.title
-            binding.root.setOnClickListener{
+            binding.iconCard.setOnClickListener{
                 listener.onClickListener(data)
             }
         }
