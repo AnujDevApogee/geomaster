@@ -1,10 +1,11 @@
 package com.apogee.geomaster.repository
 
-class LoginRepository {
+import com.apogee.geomaster.utils.ApiResponse
 
-    fun myApi() {
+import kotlinx.coroutines.flow.MutableSharedFlow
 
-    }
+interface  LoginRepository {
 
+    val data: MutableSharedFlow<ApiResponse<Any?>>
 
 }
