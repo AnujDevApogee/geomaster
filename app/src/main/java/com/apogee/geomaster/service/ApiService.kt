@@ -26,7 +26,8 @@ import retrofit2.Call
 import retrofit2.Response
 
 class ApiService : Service(), CustomCallback {
-    val TAG= "ApiService"
+    val TAG = "ApiService"
+
     companion object {
         private const val NOTIFICATION_ID = 1
         private const val CHANNEL_ID = "my_channel_id"
@@ -34,13 +35,22 @@ class ApiService : Service(), CustomCallback {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(NOTIFICATION_ID, createNotification())
+        try {
+            startForeground(NOTIFICATION_ID, createNotification())
+        }catch (e:Exception){
+            Log.i(TAG, "onCreate: ${e.message}")
+        }
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Handle your service logic here
         val REQUEST_CODE = 1
-        ApiCall().postDataWithoutBody(this,"http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getAllTableRecords/",REQUEST_CODE )
+        ApiCall().postDataWithoutBody(
+            this,
+            "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getAllTableRecords/",
+            REQUEST_CODE
+        )
         return START_STICKY
     }
 
@@ -54,7 +64,8 @@ class ApiService : Service(), CustomCallback {
             val channelName = "My Channel"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, channelName, importance)
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 
@@ -83,11 +94,12 @@ class ApiService : Service(), CustomCallback {
                     Log.d(TAG, "onResponse: $responseString")
                     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
                     val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-                    editor.putString(Constants.RESPONSE_STRING,responseString)
+                    editor.putString(Constants.RESPONSE_STRING, responseString)
                     editor.apply()
 
                 } catch (e: Exception) {
-                    Log.d(TAG, "onResponse: ${e.message}")                }
+                    Log.d(TAG, "onResponse: ${e.message}")
+                }
             }
         } else {
             val strOutput = response.toString()

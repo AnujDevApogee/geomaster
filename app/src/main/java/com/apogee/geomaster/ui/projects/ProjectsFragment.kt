@@ -28,6 +28,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment_layout), OnItemClic
     }
 
     override fun <T> onClickListener(response: T) {
-        findNavController().navigate(R.id.action_projectsFragment_to_testingFragment)
+        findNavController()
+            .navigate(ProjectsFragmentDirections.actionProjectsFragmentToTestingFragment())
     }
 }
