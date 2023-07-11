@@ -8,11 +8,7 @@
         android:id="@+id/projectsFragment"
         android:name="com.apogee.geomaster.ui.projects.ProjectsFragment"
         android:label="projects_fragment_layout"
-        tools:layout="@layout/projects_fragment_layout" >
-        <action
-            android:id="@+id/action_projectsFragment_to_testingFragment"
-            app:destination="@id/testingFragment" />
-    </fragment>
+        tools:layout="@layout/projects_fragment_layout" />
     <fragment
         android:id="@+id/deviceFragment"
         android:name="com.apogee.geomaster.ui.device.DeviceFragment"
@@ -28,9 +24,4 @@
         android:name="com.apogee.geomaster.ui.survey.SurveyFragment"
         android:label="survey_fragment_layout"
         tools:layout="@layout/survey_fragment_layout" />
-    <fragment
-        android:id="@+id/testingFragment"
-        android:name="com.apogee.geomaster.ui.testing.TestingFragment"
-        android:label="testing_layout"
-        tools:layout="@layout/testing_layout" />
 </navigation>
