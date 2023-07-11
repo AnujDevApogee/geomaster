@@ -1,0 +1,82 @@
+{
+    
+    "ble_operation_name": [
+        {
+            "ble_operation_name_id": 1,
+            "bleOperation_name": "Data Transfer",
+            "remark": null
+        }
+    ],  
+    "operation_name": [
+        {
+            "operationName": "Enable GGA & Disable All String",
+            "parent_id": null,
+            "is_super_child": "Y",
+            "remark": "jkhjg",
+            "id": 1
+        },
+        {
+            "operationName": "Enable_GST_",
+            "parent_id": "119",
+            "is_super_child": "Y",
+            "remark": "gngngn",
+            "id": 93
+        },
+        {
+            "operationName": "Base_Info",
+            "parent_id": "116",
+            "is_super_child": "N",
+            "remark": "sfsdf",
+            "id": 118
+        },
+        {
+            "operationName": "Radio_Rover",
+            "parent_id": null,
+            "is_super_child": "Y",
+            "remark": "Radio Module",
+            "id": 134
+        }
+    ],
+    "input": [
+        {
+            "command_id": 1,
+            "response_id": null,
+            "remark": null,
+            "input_id": 1,
+            "parameter_id": 8
+        },
+        {
+            "command_id": 121,
+            "response_id": null,
+            "remark": null,
+            "input_id": 26,
+            "parameter_id": 34
+        },
+        {
+            "command_id": 0,
+            "response_id": "20",
+            "remark": "sdfsdfsdf",
+            "input_id": 69,
+            "parameter_id": 79
+        },
+        {
+            "command_id": 264,
+            "response_id": null,
+            "remark": null,
+            "input_id": 131,
+            "parameter_id": 17}
+			],
+        
+    "command_type": [
+        {
+            "name": "Dummy",
+            "remark": "sdfsdfsdf",
+            "id": 1
+        },
+        {
+            "name": "Programming",
+            "remark": "abcddd",
+            "id": 2
+        }
+    ]
+}

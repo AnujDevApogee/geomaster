@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestListener
 class SplashScreen : AppCompatActivity() {
     private val TAG: String?=SplashScreen::class.java.simpleName
     var sharedPreferences: SharedPreferences? = null
+
     lateinit var binding: SplashActivityBinding
     var responseString=""
     override fun onCreate(savedInstanceState: Bundle?) {

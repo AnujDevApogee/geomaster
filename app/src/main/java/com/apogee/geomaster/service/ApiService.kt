@@ -83,7 +83,8 @@ class ApiService : Service(), CustomCallback {
                     Log.d(TAG, "onResponse: $responseString")
                     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
                     val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-                    editor.putString(Constants.RESPONSE_STRING,responseString)
+//                    editor.putString(Constants.RESPONSE_STRING,responseString)
+                    editor.putString(Constants.RESPONSE_STRING,"")
                     editor.apply()
 
                 } catch (e: Exception) {
