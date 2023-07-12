@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/icon_card"
+            style="@style/Widget.Material3.CardView.Outlined"
+            android:layout_width="wrap_content"
+            app:strokeWidth="1dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:elevation="11dp"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="@color/md_theme_light_onPrimaryContainer"
+            app:rippleColor="@color/md_theme_dark_outline"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/img_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="85dp"
+                android:minHeight="85dp"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:src="@drawable/ic_device"
+                app:tint="@color/md_theme_light_primary" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/profile_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:padding="5dp"
+            style="@style/text_theme"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon_card"
+            tools:text="Profile" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

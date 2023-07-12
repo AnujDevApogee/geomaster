@@ -8,7 +8,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="@color/md_theme_light_onPrimary"
             android:orientation="vertical">
 
             <ImageView
@@ -40,7 +40,7 @@
                     android:background="@drawable/rounbutton"
                     android:drawableEnd="@drawable/dualarrow"
                     android:text="Let's Start"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/md_theme_light_onPrimary" />
             </LinearLayout>
 
 
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Powered By"
-                android:textColor="@color/black"
+                android:textColor="@color/md_theme_light_onPrimary"
                 android:textSize="@dimen/_18sdp"/>
 
             <ImageView
@@ -73,12 +73,12 @@
 
         </LinearLayout>
 
-<!--        <View-->
-<!--            android:id="@+id/view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="#80000000"-->
-<!--            android:visibility="gone"/>-->
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
