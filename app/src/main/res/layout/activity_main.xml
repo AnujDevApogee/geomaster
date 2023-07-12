@@ -45,8 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:onClick="@{()-> viewModel.onLoginClicked()}"
-                android:text="LOGIN"
-                />
+                android:text="LOGIN" />
 
 
         </LinearLayout>
