@@ -7,6 +7,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.HomeScreenAdaptor
 import com.apogee.geomaster.databinding.DeviceLayoutFragmentBinding
 import com.apogee.geomaster.model.HomeScreenOption
+import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.toastMsg
 
@@ -17,6 +18,7 @@ class DeviceFragment : Fragment(R.layout.device_layout_fragment), OnItemClickLis
     private lateinit var homeScreenAdaptor: HomeScreenAdaptor
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as  HomeScreen?)?.showActionBar()
         binding = DeviceLayoutFragmentBinding.bind(view)
         recycleView()
         homeScreenAdaptor.submitList(HomeScreenOption.list)

@@ -2,17 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/mnu_item_1"
-        android:title="Item 1"
+        android:id="@+id/about"
+        android:title="About"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/mnu_item_2"
-        android:title="Item 2"
+        android:id="@+id/setting_mnu"
+        android:title="Setting"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/mnu_item_3"
-        android:title="Item 3"
+        android:id="@+id/udt_mnu"
+        android:title="Update"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/restore_mnu"
+        android:title="Restore"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/diagnose_mnu"
+        android:title="Diagnostic Data"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/back_up"
+        android:title="BackUp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/reset"
+        android:title="Reset Device"
         app:showAsAction="never" />
 </menu>
