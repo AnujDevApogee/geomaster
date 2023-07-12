@@ -12,6 +12,8 @@ import com.apogee.geomaster.databinding.HomeScreenLayoutBinding
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.changeStatusBarColor
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.hide
+import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.toastMsg
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.lang.Exception
@@ -103,5 +105,13 @@ class HomeScreen : AppCompatActivity() {
         binding.navView.setupWithNavController(navHostFragment)
     }
 
+    fun showActionBar() {
+        binding.actionLayout.root.show()
+    }
+
+
+    fun hideActionBar(){
+        binding.actionLayout.root.hide()
+    }
 
 }
