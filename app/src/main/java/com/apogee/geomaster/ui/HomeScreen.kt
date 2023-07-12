@@ -107,11 +107,13 @@ class HomeScreen : AppCompatActivity() {
 
     fun showActionBar() {
         binding.actionLayout.root.show()
+        binding.navView.show()
     }
 
 
     fun hideActionBar(){
         binding.actionLayout.root.hide()
+        binding.navView.hide()
     }
 
 }

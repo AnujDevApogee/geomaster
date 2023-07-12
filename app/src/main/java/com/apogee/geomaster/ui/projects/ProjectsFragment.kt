@@ -3,6 +3,7 @@ package com.apogee.geomaster.ui.projects
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.HomeScreenAdaptor
 import com.apogee.geomaster.databinding.ProjectsFragmentLayoutBinding
@@ -33,5 +34,8 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment_layout), OnItemClic
 
     override fun <T> onClickListener(response: T) {
         activity?.toastMsg("$response")
+        if (response is HomeScreenOption && response.navId!=-1){
+            findNavController().navigate(response.navId)
+        }
     }
 }

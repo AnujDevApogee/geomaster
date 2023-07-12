@@ -10,11 +10,11 @@ data class HomeScreenOption(
     companion object {
         val list = listOf(
             HomeScreenOption(
-                icon = R.drawable.ic_device,
-                title = "Device",
-                navId = -1
-            ),HomeScreenOption(
                 icon = R.drawable.ic_folder,
+                title = "Project",
+                navId = R.id.action_projectsFragment_to_projectListFragment
+            ),HomeScreenOption(
+                icon = R.drawable.ic_device,
                 title = "Device",
                 navId = -1
             ),HomeScreenOption(
