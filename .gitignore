@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e1230f0cab4447dbbea8ba672cd89fb9fc8be638
 # Gradle files
 .gradle/
 build/
@@ -32,6 +35,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+<<<<<<< HEAD
 =======
 *.iml
 .gradle
@@ -49,3 +53,5 @@ google-services.json
 .cxx
 local.properties
 >>>>>>> 668dea0 (first commit)
+=======
+>>>>>>> e1230f0cab4447dbbea8ba672cd89fb9fc8be638
