@@ -2,9 +2,9 @@ package com.apogee.geomaster.utils
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
+import android.view.View
 import android.widget.Toast
-import com.apogee.geomaster.R
+import androidx.core.view.isVisible
 import com.google.gson.Gson
 
 fun Context.toastMsg(msg: String) {
@@ -34,4 +34,17 @@ fun <T> toJson(t: T): String {
 
 inline fun <reified T> fromJson(str: String): T {
     return Gson().fromJson(str, T::class.java)
+}
+
+fun View.hide() {
+    this.isVisible = false
+}
+
+fun View.show() {
+    this.isVisible = true
+}
+
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
 }
