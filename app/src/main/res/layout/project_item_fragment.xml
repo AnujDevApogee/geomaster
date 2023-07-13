@@ -25,7 +25,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/action_layout" />
+                app:layout_constraintTop_toBottomOf="@id/action_layout"
+                tools:listitem="@layout/project_list_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -36,8 +37,8 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="20dp"
             android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/md_theme_light_scrim"
             android:text="Create Projects"
+            android:textColor="@color/md_theme_light_scrim"
             app:icon="@drawable/ic_help" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
