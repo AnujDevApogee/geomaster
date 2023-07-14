@@ -12,7 +12,7 @@ data class HomeScreenOption(
             HomeScreenOption(
                 icon = R.drawable.ic_folder,
                 title = "Project",
-                navId = R.id.action_projectsFragment_to_projectListFragment
+                navId = R.id.action_global_projectListFragment
             ),HomeScreenOption(
                 icon = R.drawable.ic_device,
                 title = "Device",

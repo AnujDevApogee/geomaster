@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/action_layout"
+                layout="@layout/action_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/project_nm_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/nm_project"
+                android:textColorHint="@color/md_theme_light_scrim"
+                app:boxStrokeColor="@color/md_theme_light_scrim"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/md_theme_light_scrim"
+                app:hintTextColor="@color/md_theme_light_scrim"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/action_layout"
+                app:startIconDrawable="@drawable/ic_folder">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_nme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/operator_name_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/op_project"
+                android:textColorHint="@color/md_theme_light_scrim"
+                app:boxStrokeColor="@color/md_theme_light_scrim"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/md_theme_light_scrim"
+                app:hintTextColor="@color/md_theme_light_scrim"
+                app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                app:layout_constraintTop_toBottomOf="@id/project_nm_layout"
+                app:startIconDrawable="@drawable/ic_person">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/operator_nm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/datum_nm_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/datum_nm"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/operator_name_layout"
+                app:layout_constraintRight_toRightOf="@id/operator_name_layout"
+                app:layout_constraintTop_toBottomOf="@id/operator_name_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/datum_conn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="@string/datum_nm" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/elevation_key_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/elv_ky_data"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/datum_nm_layout"
+                app:layout_constraintRight_toRightOf="@id/datum_nm_layout"
+                app:layout_constraintTop_toBottomOf="@id/datum_nm_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/elevation_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="@string/elv_ky_data" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/zone_data_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/zn_data"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/elevation_key_layout"
+                app:layout_constraintRight_toRightOf="@id/elevation_key_layout"
+                app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/zone_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="@string/zn_data" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/distance_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/distance_unit"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/zone_data_layout"
+                app:layout_constraintRight_toRightOf="@id/zone_data_layout"
+                app:layout_constraintTop_toBottomOf="@id/zone_data_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/distance_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="@string/distance_unit" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/angle_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/angle_nm"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/distance_layout"
+                app:layout_constraintRight_toRightOf="@id/distance_layout"
+                app:layout_constraintTop_toBottomOf="@id/distance_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/angle_unit_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="@string/angle_nm" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/comment_ed_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/md_theme_light_scrim"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/md_theme_light_scrim"
+                app:hintTextColor="@color/md_theme_light_scrim"
+                app:layout_constraintLeft_toLeftOf="@id/angle_layout"
+                app:layout_constraintRight_toRightOf="@id/angle_layout"
+                app:layout_constraintTop_toBottomOf="@id/angle_layout">
+
+                <EditText
+                    android:id="@+id/comment_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:drawableStart="@drawable/ic_comment"
+                    android:gravity="top"
+                    android:hint="@string/project_comment_data"
+                    app:layout_constraintLeft_toLeftOf="@id/comment_ed_layout"
+                    app:layout_constraintTop_toBottomOf="@id/comment_ed_layout" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_submit"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
+                android:text="@string/sbm_btn"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/comment_ed_layout"
+                app:layout_constraintRight_toRightOf="@id/comment_ed_layout"
+                app:layout_constraintTop_toBottomOf="@id/comment_ed_layout" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
