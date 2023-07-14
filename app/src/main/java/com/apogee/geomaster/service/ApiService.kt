@@ -24,7 +24,6 @@ import retrofit2.Response
 class ApiService : Service(), CustomCallback {
     var count=0
     val TAG = "ApiService"
-    //val dbControl= DatabaseRepsoitory(context)
     private lateinit var dbControl:DatabaseRepsoitory
 
 
@@ -49,7 +48,7 @@ class ApiService : Service(), CustomCallback {
         val REQUEST_CODE = 1
         ApiCall().postDataWithoutBody(
             this,
-            "http://192.168.1.17:8082/BLE_ProjectV6_2/resources/getCommonData/",
+            "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getCommonData/",
             REQUEST_CODE
         )
         return START_STICKY

@@ -31,6 +31,7 @@
 
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/newPrj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -38,7 +39,7 @@
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/md_theme_light_scrim"
             android:text="Create Projects"
-            app:icon="@drawable/ic_help" />
+            app:icon="@drawable/baseline_library_add_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

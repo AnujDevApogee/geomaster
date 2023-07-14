@@ -2,6 +2,7 @@ package com.apogee.geomaster.repository
 
 import android.content.ContentValues
 import android.content.Context
+import android.os.FileObserver.CREATE
 import android.util.Log
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
@@ -25,7 +26,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("zonedata_id", "INTEGER", true),
             TableCreator.ColumnDetails("zone", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING"),
-            TableCreator.ColumnDetails("zoneHemisphere", "STRING"))
+            TableCreator.ColumnDetails("zoneHemisphere", "STRING")
+        )
         val zonedataTable = tableCreator.createMainTableIfNeeded(zonedata, zonedataColumn)
 
 
@@ -160,19 +162,21 @@ class DatabaseRepsoitory(context: Context) {
             && autocad_file_typeTable.equals("Table Created Successfully...")
             && autocad_file_mapTable.equals("Table Created Successfully...")
             && elevationtypeTable.equals("Table Created Successfully...")
-            && distanceunitTable.equals("Table Created Successfully...")){
+            && distanceunitTable.equals("Table Created Successfully...")
+        ) {
             Log.d(TAG, "CommonApiTablesCreation1: All table created")
             insertCommonData(apiResponse)
-        }else{
+            projectManagementData()
+        } else {
             Log.d(TAG, "CommonApiTablesCreation1: Error table ")
         }
 
 
     }
 
-    fun insertCommonData(resp:String) {
+    fun insertCommonData(resp: String): String {
         Log.d(TAG, "insertCommonData: $resp")
-
+        var result = ""
         val jsonObject = JSONObject(resp)
         for (key in jsonObject.keys()) {
             val dataList: MutableList<ContentValues> = ArrayList()
@@ -194,19 +198,197 @@ class DatabaseRepsoitory(context: Context) {
                         }
                     }
                     dataList.add(values1)
-                    val result=tableCreator.insertDataIntoTable(key.toString(), dataList)
+                    result = tableCreator.insertDataIntoTable(key.toString(), dataList)
+
+
                     Log.d(TAG, "onCreate: result:--$result")
                 }
+
             } catch (e: Exception) {
                 Log.d(TAG, "onCreate: Exception " + e.message)
             }
         }
+        return result
+    }
 
 
+    fun projectManagementData() {
+
+
+        val projectionParameters = "projectionParameters"
+        val projectionParametersColumn = arrayOf(
+            TableCreator.ColumnDetails("projectionParam_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("zone_name", "STRING", unique = true),
+            TableCreator.ColumnDetails("origin_lat", "STRING"),
+            TableCreator.ColumnDetails("origin_lng", "STRING"),
+            TableCreator.ColumnDetails("false_easting", "STRING"),
+            TableCreator.ColumnDetails("false_northing", "STRING"),
+            TableCreator.ColumnDetails("paralell_1", "STRING"),
+            TableCreator.ColumnDetails("paralell_2", "STRING"),
+            TableCreator.ColumnDetails("misc1", "STRING"),
+            TableCreator.ColumnDetails("misc2", "STRING"),
+            TableCreator.ColumnDetails("misc3", "STRING"),
+            TableCreator.ColumnDetails("misc4", "STRING"),
+            TableCreator.ColumnDetails(
+                "projectiontype_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "projectiontype(projectiontype_id)"
+            ),
+            TableCreator.ColumnDetails("created_at", "STRING")
+        )
+        val projectionParametersTable =
+            tableCreator.createMainTableIfNeeded(projectionParameters, projectionParametersColumn)
+
+
+        if(projectionParametersTable.equals("Table Created Successfully...")){
+            Log.d(TAG, "projectManagementData: sfsdf")
+            val paramValues = "Zone-1,45.000,0.0,0.0,0.0,40.0000,50.0000"
+
+            val dataList: MutableList<ContentValues> = ArrayList()
+            val values1=ContentValues()
+
+            values1.put("zone_name",paramValues.split(",")[0].trim())
+            values1.put("origin_lat",paramValues.split(",")[1].trim())
+            values1.put("origin_lng",paramValues.split(",")[2].trim())
+            values1.put("false_easting",paramValues.split(",")[3].trim())
+            values1.put("false_northing",paramValues.split(",")[4].trim())
+            values1.put("paralell_1",paramValues.split(",")[5].trim())
+            values1.put("paralell_2",paramValues.split(",")[6].trim())
+            dataList.add(values1)
+
+            var result = tableCreator.insertDataIntoTable(projectionParameters, dataList)
+            Log.d(TAG, "projectionParametersTable: $result")
+        }
+
+
+
+        val project_configuration = "project_configuration"
+        val project_configurationColumn = arrayOf(
+            TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("config_name", "STRING"),
+            TableCreator.ColumnDetails("datum_id","INTEGER",foreignKey = true,foreignKeyReference = "datum_data(datum_id)"),
+            TableCreator.ColumnDetails("zone_id","INTEGER",foreignKey = true,foreignKeyReference = "zonedata(zonedata_id)"),
+            TableCreator.ColumnDetails("datumType_id","INTEGER",foreignKey = true,foreignKeyReference = "datumtype(datumtype_id)"),
+            TableCreator.ColumnDetails(
+                "elev_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "elevationtype(elevationtype_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "disUnit_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "distanceunit(distanceunit_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "angUnit_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "angleunit(angleunit_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "projectionParam_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "projectionParameters(projectionParam_id)"
+            ),
+            TableCreator.ColumnDetails("config_time", "STRING")
+        )
+        val project_configurationTable =
+            tableCreator.createMainTableIfNeeded(project_configuration, project_configurationColumn)
+
+
+        val project_status = "project_status"
+        val project_statusColumn = arrayOf(
+            TableCreator.ColumnDetails("status_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("status_types", "STRING"),)
+        val project_statusTable =
+            tableCreator.createMainTableIfNeeded(project_status, project_statusColumn)
+
+        if(project_statusTable.equals("Table Created Successfully...")){
+            val dataList: MutableList<ContentValues> = ArrayList()
+            val values1=ContentValues()
+            values1.put("status_types","Active")
+            dataList.add(values1)
+            var result = tableCreator.insertDataIntoTable(project_status, dataList)
+            dataList.clear()
+            values1.put("status_types","Inactive")
+            Log.d(TAG, "projectManagementData:result $result")
+
+            dataList.add(values1)
+
+             result = tableCreator.insertDataIntoTable(project_status, dataList)
+            Log.d(TAG, "projectManagementData:result $result")
+
+
+        }
+
+
+        val shortNameTable = "shortNameTable"
+        val shortNameTableColumn = arrayOf(
+            TableCreator.ColumnDetails("shortName_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("shortName", "STRING"),
+            TableCreator.ColumnDetails("project_id", "INTEGER"),)
+        val shortNameTableData =
+            tableCreator.createMainTableIfNeeded(shortNameTable, shortNameTableColumn)
+
+
+        val siteCalibration = "siteCalibration"
+        val siteCalibrationColumn = arrayOf(
+            TableCreator.ColumnDetails("siteCal_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("scale", "STRING"),
+            TableCreator.ColumnDetails("angle", "STRING"),
+            TableCreator.ColumnDetails("Tx", "STRING"),
+            TableCreator.ColumnDetails("Ty", "STRING"),
+            TableCreator.ColumnDetails("Fixed_Easting", "STRING"),
+            TableCreator.ColumnDetails("Fixed_Northing", "STRING"),
+            TableCreator.ColumnDetails("sigmaZ", "STRING"),
+            TableCreator.ColumnDetails("siteCal_createdAt", "STRING"),
+            TableCreator.ColumnDetails("project_id", "INTEGER"),)
+        val siteCalibrationTable =
+            tableCreator.createMainTableIfNeeded(siteCalibration, siteCalibrationColumn)
+
+
+       val project_folder = "project_folder"
+        val project_folderColumn = arrayOf(
+            TableCreator.ColumnDetails("folder_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("folderName", "STRING"),
+            TableCreator.ColumnDetails("folderPath", "STRING"),
+            TableCreator.ColumnDetails("fileTypes", "STRING"),
+            TableCreator.ColumnDetails("folderCreatedAt", "STRING"))
+        val project_folderTable =
+            tableCreator.createMainTableIfNeeded(project_folder, project_folderColumn)
+
+
+
+        val project_table = "project_table"
+        val project_tableColumn = arrayOf(
+            TableCreator.ColumnDetails("project_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("project_name", "STRING"),
+            TableCreator.ColumnDetails("operator", "STRING"),
+            TableCreator.ColumnDetails("comment", "STRING"),
+            TableCreator.ColumnDetails("folder_id", "INTEGER",foreignKey = true,foreignKeyReference = "project_folder(folder_id)"),
+            TableCreator.ColumnDetails("siteCal_id", "INTEGER",foreignKey = true,foreignKeyReference = "siteCalibration(siteCal_id)"),
+            TableCreator.ColumnDetails("status_id", "INTEGER",foreignKey = true,foreignKeyReference = "project_status(status_id)"),
+            TableCreator.ColumnDetails("config_id", "INTEGER",foreignKey = true,foreignKeyReference = "project_configuration(config_id)"),
+            TableCreator.ColumnDetails("projectCreated_at", "STRING")
+        )
+        val project_tableData =
+            tableCreator.createMainTableIfNeeded(project_table, project_tableColumn)
 
 
     }
 
+
 }
+
+
+
+
+
+
+
 
 
