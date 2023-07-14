@@ -28,10 +28,19 @@
         android:id="@+id/projectListFragment"
         android:name="com.apogee.geomaster.ui.projects.projectlist.ProjectListFragment"
         android:label="project_item_fragment"
-        tools:layout="@layout/project_item_fragment" />
+        tools:layout="@layout/project_item_fragment" >
+        <action
+            android:id="@+id/action_projectListFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeScreenMainFragment"
         android:name="com.apogee.geomaster.ui.HomeScreenMainFragment"
         android:label="home_screen_main_fragment_layout"
         tools:layout="@layout/home_screen_main_fragment_layout" /><action android:id="@+id/action_global_projectListFragment" app:destination="@id/projectListFragment"/>
+    <fragment
+        android:id="@+id/createProjectFragment"
+        android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
+        android:label="create_projects_fragment"
+        tools:layout="@layout/create_projects_fragment" />
 </navigation>

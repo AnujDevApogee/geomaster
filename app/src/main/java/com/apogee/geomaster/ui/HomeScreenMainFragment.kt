@@ -13,6 +13,7 @@ import com.apogee.geomaster.ui.device.DeviceFragment
 import com.apogee.geomaster.ui.projects.ProjectsFragment
 import com.apogee.geomaster.ui.survey.SurveyFragment
 import com.apogee.geomaster.ui.tools.ToolsFragment
+import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.toastMsg
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.lang.Exception
@@ -77,7 +78,7 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
     fun <T> onChildFragmentResponse(response: T) {
         activity?.toastMsg("$response")
         if (response is HomeScreenOption && response.navId != -1) {
-            findNavController().navigate(response.navId)
+            findNavController().safeNavigate(response.navId)
         }
     }
 

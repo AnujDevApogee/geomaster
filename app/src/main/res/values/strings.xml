@@ -6,5 +6,6 @@
         <string name="ok">Ok</string>
         <string name="unKnow_value">N/A</string>
         <string name="disconnect_value">Disconnect</string>
+        <string name="create_project">Create Projects</string>
 
 </resources>

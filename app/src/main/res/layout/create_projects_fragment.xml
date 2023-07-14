@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/action_layout"
+                layout="@layout/action_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/projects"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="projects"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/action_layout"
+                app:layout_constraintRight_toRightOf="@id/action_layout"
+                app:layout_constraintTop_toBottomOf="@id/action_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/Autocom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="projects" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
