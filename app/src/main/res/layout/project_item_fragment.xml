@@ -35,11 +35,11 @@
 
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/add_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="20dp"
-            android:id="@+id/add_project"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/create_project"
             android:textColor="@color/md_theme_light_scrim"

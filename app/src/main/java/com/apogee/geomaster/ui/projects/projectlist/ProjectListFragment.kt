@@ -11,6 +11,7 @@ import com.apogee.geomaster.model.Project
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.getEmojiByUnicode
 import com.apogee.geomaster.utils.safeNavigate
 import com.google.android.material.transition.MaterialFadeThrough
 
@@ -46,7 +47,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ProjectItemFragmentBinding.bind(view)
-        displayActionBar("Projects", binding.actionLayout, R.menu.info_mnu, menuCallback)
+        displayActionBar("Projects ${getEmojiByUnicode( 0x1F4C1)}", binding.actionLayout, R.menu.info_mnu, menuCallback)
         (activity as HomeScreen?)?.hideActionBar()
         setUpRecycleView()
         projectListAdaptor.submitList(Project.list)
