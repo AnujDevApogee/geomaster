@@ -22,6 +22,7 @@
                 android:id="@+id/recycle_view_project"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:overScrollMode="never"
                 android:padding="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +43,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/create_project"
             android:textColor="@color/md_theme_light_scrim"
-            app:icon="@drawable/ic_help" />
+            app:icon="@drawable/ic_add" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

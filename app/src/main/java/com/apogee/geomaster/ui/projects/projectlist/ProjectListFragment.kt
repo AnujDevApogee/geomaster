@@ -36,7 +36,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fadeThrough = MaterialFadeThrough().apply {
-            duration = 300
+            duration = 1000
         }
 
         enterTransition = fadeThrough

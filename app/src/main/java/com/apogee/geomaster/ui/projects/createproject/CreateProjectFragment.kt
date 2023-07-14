@@ -8,6 +8,7 @@ import com.apogee.geomaster.databinding.CreateProjectsFragmentBinding
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
+import com.google.android.material.transition.MaterialFadeThrough
 
 class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
@@ -18,6 +19,17 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val fadeThrough = MaterialFadeThrough().apply {
+            duration = 1000
+        }
+
+        enterTransition = fadeThrough
+        reenterTransition = fadeThrough
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

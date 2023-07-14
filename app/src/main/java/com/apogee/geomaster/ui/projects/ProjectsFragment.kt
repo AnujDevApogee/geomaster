@@ -25,6 +25,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment_layout), OnItemClic
         homeScreenAdaptor.submitList(HomeScreenOption.list)
     }
 
+
     private fun recycleView() {
         binding.projectRecycle.apply {
             homeScreenAdaptor = HomeScreenAdaptor(this@ProjectsFragment)
