@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never">
@@ -182,18 +183,20 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/distance_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/distance_unit"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintLeft_toLeftOf="@id/elevation_key_layout"
-                app:layout_constraintRight_toRightOf="@id/elevation_key_layout"
+                app:layout_constraintEnd_toStartOf="@+id/angle_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/elevation_key_layout"
                 app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
 
                 <AutoCompleteTextView
@@ -212,11 +215,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
                 android:hint="@string/angle_nm"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintLeft_toLeftOf="@id/distance_layout"
-                app:layout_constraintRight_toRightOf="@id/distance_layout"
-                app:layout_constraintTop_toBottomOf="@id/distance_layout">
+                app:layout_constraintEnd_toEndOf="@id/elevation_key_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/distance_layout"
+                app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/angle_unit_txt"
@@ -241,8 +247,8 @@
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/md_theme_light_scrim"
                 app:hintTextColor="@color/md_theme_light_scrim"
-                app:layout_constraintLeft_toLeftOf="@id/angle_layout"
-                app:layout_constraintRight_toRightOf="@id/angle_layout"
+                app:layout_constraintLeft_toLeftOf="@id/elevation_key_layout"
+                app:layout_constraintRight_toRightOf="@id/elevation_key_layout"
                 app:layout_constraintTop_toBottomOf="@id/angle_layout">
 
                 <EditText
