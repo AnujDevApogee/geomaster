@@ -101,13 +101,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
                 android:hint="@string/zn_datum_type"
-                android:layout_marginStart="5dp"
-                app:layout_constraintHorizontal_weight=".65"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintEnd_toEndOf="@id/datum_nm_layout"
+                app:layout_constraintEnd_toStartOf="@+id/projection_type_layout"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/projection_type_layout"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/datum_nm_layout"
                 app:layout_constraintTop_toBottomOf="@id/datum_nm_layout">
 
                 <AutoCompleteTextView
@@ -115,9 +115,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:inputType="none"
                     android:maxLines="1"
-                    android:ellipsize="end"
                     android:text="@string/datum_type" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -128,14 +128,14 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintHorizontal_weight="1"
-                android:layout_marginEnd="5dp"
                 android:hint="@string/projection_data"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintEnd_toStartOf="@+id/datum_type_layout"
+                app:layout_constraintEnd_toEndOf="@id/datum_nm_layout"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@id/datum_nm_layout"
+                app:layout_constraintHorizontal_weight=".65"
+                app:layout_constraintStart_toEndOf="@+id/datum_type_layout"
                 app:layout_constraintTop_toBottomOf="@id/datum_nm_layout">
 
                 <AutoCompleteTextView
@@ -144,7 +144,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:inputType="none"
-                    android:text="@string/projection_data" />
+                    android:text="@string/projection_data_type" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
