@@ -72,40 +72,18 @@
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/datum_type_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/datum_type"
-                app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintLeft_toLeftOf="@id/operator_name_layout"
-                app:layout_constraintRight_toRightOf="@id/operator_name_layout"
-                app:layout_constraintTop_toBottomOf="@id/operator_name_layout">
-
-                <AutoCompleteTextView
-                    android:id="@+id/datum_type_conn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:inputType="none"
-                    android:text="@string/datum_type" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/datum_nm_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
                 android:hint="@string/datum_nm"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintLeft_toLeftOf="@id/datum_type_layout"
-                app:layout_constraintRight_toRightOf="@id/datum_type_layout"
-                app:layout_constraintTop_toBottomOf="@id/datum_type_layout">
+                app:layout_constraintLeft_toLeftOf="@id/operator_name_layout"
+                app:layout_constraintRight_toRightOf="@id/operator_name_layout"
+                app:layout_constraintTop_toBottomOf="@id/operator_name_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/datum_conn"
@@ -118,15 +96,46 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/datum_type_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/zn_datum_type"
+                android:layout_marginStart="5dp"
+                app:layout_constraintHorizontal_weight=".65"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintEnd_toEndOf="@id/datum_nm_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/projection_type_layout"
+                app:layout_constraintTop_toBottomOf="@id/datum_nm_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/datum_type_conn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/datum_type" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/projection_type_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                app:layout_constraintHorizontal_weight="1"
+                android:layout_marginEnd="5dp"
                 android:hint="@string/projection_data"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintLeft_toLeftOf="@id/datum_nm_layout"
-                app:layout_constraintRight_toRightOf="@id/datum_nm_layout"
+                app:layout_constraintEnd_toStartOf="@+id/datum_type_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/datum_nm_layout"
                 app:layout_constraintTop_toBottomOf="@id/datum_nm_layout">
 
                 <AutoCompleteTextView
@@ -145,10 +154,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:hint="@string/zn_data"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintLeft_toLeftOf="@id/projection_type_layout"
-                app:layout_constraintRight_toRightOf="@id/projection_type_layout"
+                app:layout_constraintEnd_toStartOf="@+id/zone_hemisphere_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/datum_nm_layout"
                 app:layout_constraintTop_toBottomOf="@id/projection_type_layout">
 
                 <AutoCompleteTextView
@@ -162,6 +174,30 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/zone_hemisphere_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/zn_hemisphere_data"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintEnd_toEndOf="@id/datum_nm_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight=".65"
+                app:layout_constraintStart_toEndOf="@+id/zone_data_layout"
+                app:layout_constraintTop_toBottomOf="@id/projection_type_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/zone_hemisphere_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="@string/hemisphere_data" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/elevation_key_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
@@ -170,7 +206,7 @@
                 android:hint="@string/elv_ky_data"
                 app:boxStrokeColor="@color/md_theme_light_primary"
                 app:layout_constraintLeft_toLeftOf="@id/zone_data_layout"
-                app:layout_constraintRight_toRightOf="@id/zone_data_layout"
+                app:layout_constraintRight_toRightOf="@id/zone_hemisphere_layout"
                 app:layout_constraintTop_toBottomOf="@id/zone_data_layout">
 
                 <AutoCompleteTextView
@@ -188,8 +224,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
                 android:hint="@string/distance_unit"
                 app:boxStrokeColor="@color/md_theme_light_primary"
                 app:layout_constraintEnd_toStartOf="@+id/angle_layout"
@@ -214,8 +250,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
                 android:hint="@string/angle_nm"
                 app:boxStrokeColor="@color/md_theme_light_primary"
                 app:layout_constraintEnd_toEndOf="@id/elevation_key_layout"
@@ -255,7 +291,6 @@
                     android:id="@+id/comment_ed"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:drawableStart="@drawable/ic_comment"
                     android:gravity="top"
                     android:hint="@string/project_comment_data"
                     app:layout_constraintLeft_toLeftOf="@id/comment_ed_layout"
