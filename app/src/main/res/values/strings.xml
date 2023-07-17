@@ -11,8 +11,10 @@
     <string name="op_project">Operator Name (Optional)</string>
     <string name="distance_unit">Distance Unit</string>
     <string name="datum_nm">Datum Name</string>
+    <string name="datum_type">Datum Type</string>
     <string name="angle_nm">Angle Unit</string>
     <string name="zn_data">Zone Data</string>
+    <string name="projection_data">Projection Type</string>
     <string name="elv_ky_data">Elevation Key</string>
     <string name="sbm_btn">Submit</string>
     <string name="project_comment_data">Project Comment (Optional)</string>
