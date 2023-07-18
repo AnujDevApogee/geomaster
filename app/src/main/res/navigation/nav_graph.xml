@@ -48,4 +48,9 @@
         android:name="com.apogee.geomaster.ui.base.BaseProfileFragment"
         android:label="base_profile_layout"
         tools:layout="@layout/base_profile_layout" /><action android:id="@+id/action_global_baseProfileFragment" app:destination="@id/baseProfileFragment"/>
+    <fragment
+        android:id="@+id/connectionFragment"
+        android:name="com.apogee.geomaster.ui.connection.ConnectionFragment"
+        android:label="connection_layout_fragment"
+        tools:layout="@layout/connection_layout_fragment" /><action android:id="@+id/action_global_connectionFragment" app:destination="@id/connectionFragment"/>
 </navigation>

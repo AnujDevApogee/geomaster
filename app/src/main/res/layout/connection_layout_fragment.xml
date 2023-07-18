@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.apogee.geomaster.ui.connection.ConnectionFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/action_layout"
+            layout="@layout/action_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/option_demo_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="true"
+            app:layout_constraintLeft_toLeftOf="@id/action_layout"
+            app:layout_constraintRight_toRightOf="@id/action_layout"
+            app:layout_constraintTop_toBottomOf="@id/action_layout"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/radio_clip"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/rtk_by_radio" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/internet"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/rtk_by_internet" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/wifi_clip"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="@string/rtk_by_wifIn" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <RadioGroup
+            android:id="@+id/radio_grp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/option_demo_txt">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/internal_radio_btn"
+                style="@style/Widget.Material3.CompoundButton.RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/internal_radio_txt" />
+
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/external_radio_btn"
+                style="@style/Widget.Material3.CompoundButton.RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/external_radio_txt" />
+
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/set_comm_btn"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/md_theme_dark_inversePrimary"
+            android:text="@string/set_up_comm"
+            android:textColor="@color/md_theme_light_onSecondary"
+            app:layout_constraintLeft_toLeftOf="@id/radio_grp"
+            app:layout_constraintRight_toRightOf="@id/radio_grp"
+            app:layout_constraintTop_toBottomOf="@id/radio_grp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_view_ls"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/done_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/set_comm_btn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/done_btn"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-4dp"
+            android:backgroundTint="@color/md_theme_dark_inversePrimary"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:textColor="@color/md_theme_light_onSecondary"
+            android:text="DONE"
+            app:cornerRadius="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

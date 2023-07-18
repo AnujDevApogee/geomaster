@@ -3,11 +3,13 @@ package com.apogee.geomaster.ui.base
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
 
 class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
@@ -40,6 +42,9 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         binding.deviceInfo.append("\t")
         binding.deviceInfo.append("xxxxxxxx")
         binding.deviceInfo.append("\n")
+        binding.setConnBtn.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_global_connectionFragment)
+        }
     }
 
 }
