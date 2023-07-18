@@ -173,30 +173,31 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                 } else {
                     val configtable = dbControl.addConfigurationData(idList)
                     Log.d(TAG, "onViewCreated:configtable $configtable --")
-                  if(configtable.equals("Data inserted successfully")){
+                    if (configtable.equals("Data inserted successfully")) {
                         prjDataList.clear()
-                        val configId=dbControl.getproject_configurationID(binding.projectNme.text.toString())
+                        val configId =
+                            dbControl.getproject_configurationID(binding.projectNme.text.toString())
                         prjDataList.add(binding.projectNme.text.toString())
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
                         prjDataList.add(binding.commentEd.text.toString())
                         prjDataList.add("sdfsdf")
 
-                        val result=dbControl.addProjectData(prjDataList)
+                        val result = dbControl.addProjectData(prjDataList)
                         Log.d(TAG, "onViewCreated:aaa idList --$idList")
                         Log.d(TAG, "onViewCreated:aaa configtable --$configtable")
                         Log.d(TAG, "onViewCreated:aaa projectTable --$result")
-                          Toast.makeText(
-                              this.requireContext(),"Data inserted successfully",
-                              Toast.LENGTH_SHORT
-                          ).show()
+                        Toast.makeText(
+                            this.requireContext(), "Data inserted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    }else{
-                      Toast.makeText(
-                          this.requireContext(),
-                          "Error Occured",
-                          Toast.LENGTH_SHORT
-                      ).show()
+                    } else {
+                        Toast.makeText(
+                            this.requireContext(),
+                            "Error Occured",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 }
@@ -212,11 +213,11 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         activity?.closeKeyboard(binding.projectNme)
     }
 
-    fun setDropdownAdapters() {
+    private fun setDropdownAdapters() {
         val datumNameView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 datumName
             )
         binding.datums.threshold = 1
@@ -226,7 +227,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val angleUnitView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 angleUnit
             )
         binding.angleUnitTxt.threshold = 1
@@ -236,7 +237,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val distanceUnitView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 distanceUnit
             )
         binding.distanceTxt.threshold = 1
@@ -246,7 +247,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val zoneDataView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 zoneData
             )
         binding.zoneData.threshold = 1
@@ -256,7 +257,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val zoneHemisView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 zoneHemis
             )
         binding.zoneHemisphereData.threshold = 1
@@ -266,7 +267,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val projectionTypesView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 projectionTypes
             )
         binding.projectionTypeConn.threshold = 1
@@ -276,7 +277,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val datumTypesView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 datumTypes
             )
         binding.datumTypeConn.threshold = 1
@@ -286,7 +287,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val elevationTypeView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                android.R.layout.select_dialog_item,
+                R.layout.dropdown_layout,
                 elevationType
             )
         binding.elevationKey.threshold = 1
