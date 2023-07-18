@@ -1,6 +1,7 @@
 package com.apogee.geomaster.ui.projects.projectlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -8,6 +9,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ProjectListAdaptor
 import com.apogee.geomaster.databinding.ProjectItemFragmentBinding
 import com.apogee.geomaster.model.Project
+import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
@@ -18,8 +20,13 @@ import com.google.android.material.transition.MaterialFadeThrough
 class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
 
     private lateinit var binding: ProjectItemFragmentBinding
+    var projectListData : ArrayList<String> = ArrayList()
+
+    val TAG= "ProjectListFragment"
 
     private lateinit var projectListAdaptor: ProjectListAdaptor
+    private lateinit var dbControl: DatabaseRepsoitory
+
 
     private val recycleAdaptorCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
@@ -47,10 +54,15 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ProjectItemFragmentBinding.bind(view)
+        dbControl = DatabaseRepsoitory(this.requireContext())
+
         displayActionBar("Projects ${getEmojiByUnicode( 0x1F4C1)}", binding.actionLayout, R.menu.info_mnu, menuCallback)
         (activity as HomeScreen?)?.hideActionBar()
         setUpRecycleView()
+
         projectListAdaptor.submitList(Project.list)
+        projectListData= dbControl.getProjectList() as ArrayList<String>
+        Log.d(TAG, "onViewCreated: projectListData $projectListData")
 
         binding.addProject.setOnClickListener {
             findNavController()
