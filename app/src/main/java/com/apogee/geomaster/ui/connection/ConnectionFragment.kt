@@ -8,6 +8,7 @@ import com.apogee.geomaster.databinding.ConnectionLayoutFragmentBinding
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
+import com.google.android.material.transition.MaterialFadeThrough
 
 class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
 
@@ -16,6 +17,17 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
         override fun <T> onClickListener(response: T) {
 
         }
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val fadeThrough = MaterialFadeThrough().apply {
+            duration = 1000
+        }
+
+        enterTransition = fadeThrough
+        reenterTransition = fadeThrough
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,5 +39,6 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
             menuCallback
         )
         (activity as HomeScreen?)?.hideActionBar()
+
     }
 }

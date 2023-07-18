@@ -74,7 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:text="@string/internal_radio_txt" />
+                android:text="@string/internal_radio_txt"
+                android:textStyle="bold" />
 
 
             <com.google.android.material.radiobutton.MaterialRadioButton
@@ -82,7 +83,8 @@
                 style="@style/Widget.Material3.CompoundButton.RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/external_radio_txt" />
+                android:text="@string/external_radio_txt"
+                android:textStyle="bold" />
 
         </RadioGroup>
 
@@ -118,9 +120,9 @@
             android:layout_marginBottom="-4dp"
             android:backgroundTint="@color/md_theme_dark_inversePrimary"
             android:padding="15dp"
-            android:textSize="15sp"
-            android:textColor="@color/md_theme_light_onSecondary"
             android:text="DONE"
+            android:textColor="@color/md_theme_light_onSecondary"
+            android:textSize="15sp"
             app:cornerRadius="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

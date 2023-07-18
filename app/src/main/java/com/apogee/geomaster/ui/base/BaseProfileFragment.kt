@@ -11,6 +11,7 @@ import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
+import com.google.android.material.transition.MaterialFadeThrough
 
 class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     private lateinit var binding: BaseProfileLayoutBinding
@@ -18,6 +19,16 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         override fun <T> onClickListener(response: T) {
 
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val fadeThrough = MaterialFadeThrough().apply {
+            duration = 1000
+        }
+
+        enterTransition = fadeThrough
+        reenterTransition = fadeThrough
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
