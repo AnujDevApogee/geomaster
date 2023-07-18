@@ -47,7 +47,7 @@ class StartActivity : AppCompatActivity() {
 
 
 
-        /*SAving package name for check first time installation*/
+        /*Saving package name for check first time installation*/
         responseString = sharedPreferences!!.getString(Constants.RESPONSE_STRING, null)
         Log.d(TAG, "onCreate:responseString $responseString")
         /*Button click event*/
@@ -90,12 +90,6 @@ class StartActivity : AppCompatActivity() {
             binding!!.btnLetstart.isClickable = false
 
         }
-
-
-
-
-
-
     }
 
     /*Check first run in onResume*/

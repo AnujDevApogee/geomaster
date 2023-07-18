@@ -49,7 +49,7 @@ class HomeScreen : AppCompatActivity() {
             }
 
             R.id.battery_icon -> {
-                toastMsg("Blue Tooth Icon")
+                toastMsg("Bluetooth Icon")
             }
 
             R.id.blue_tooth_icon -> {

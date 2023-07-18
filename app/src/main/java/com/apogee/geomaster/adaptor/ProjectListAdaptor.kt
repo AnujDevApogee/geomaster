@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ProjectListItemBinding
 import com.apogee.geomaster.model.Project
+import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.utils.OnItemClickListener
 
 
 class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
     ListAdapter<Project, ProjectListAdaptor.ProjectViewModel>(diffUtils) {
+
 
 
     companion object {
