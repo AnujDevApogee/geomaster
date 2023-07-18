@@ -70,11 +70,11 @@ fun setHtmlTxt(txt: String, color: String): Spanned {
     )
 }
 
-fun setHtmlBoldTxt(txt: String): SpannableStringBuilder {
-    val span = SpannableStringBuilder(txt)
-    val bss = StyleSpan(Typeface.BOLD); // Span to make text bold
-    span.setSpan(bss, 0, 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-    return span
+fun setHtmlBoldTxt(txt: String): SpannableString {
+    val ss = SpannableString(txt)
+    val boldSpan = StyleSpan(Typeface.BOLD)
+    ss.setSpan(boldSpan, 0, txt.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return ss
 }
 
 

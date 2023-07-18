@@ -82,7 +82,7 @@
                     android:gravity="start"
                     android:textAlignment="textStart"
                     android:textColor="@color/md_theme_light_onSurfaceVariant"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     app:layout_constraintLeft_toLeftOf="@id/br_1"
                     app:layout_constraintRight_toRightOf="@id/br_1"
                     app:layout_constraintTop_toBottomOf="@id/br_1"
