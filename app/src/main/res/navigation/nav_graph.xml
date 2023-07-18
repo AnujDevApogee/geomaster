@@ -43,4 +43,9 @@
         android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
         android:label="create_projects_fragment"
         tools:layout="@layout/create_projects_fragment" />
+    <fragment
+        android:id="@+id/baseProfileFragment"
+        android:name="com.apogee.geomaster.ui.base.BaseProfileFragment"
+        android:label="base_profile_layout"
+        tools:layout="@layout/base_profile_layout" /><action android:id="@+id/action_global_baseProfileFragment" app:destination="@id/baseProfileFragment"/>
 </navigation>

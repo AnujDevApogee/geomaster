@@ -13,27 +13,27 @@ data class HomeScreenOption(
                 icon = R.drawable.ic_folder,
                 title = "Project",
                 navId = R.id.action_global_projectListFragment
-            ),HomeScreenOption(
+            ), HomeScreenOption(
                 icon = R.drawable.ic_device,
-                title = "Device",
+                title = "Base",
+                navId = R.id.action_global_baseProfileFragment
+            ), HomeScreenOption(
+                icon = R.drawable.ic_device,
+                title = "Rover",
                 navId = -1
-            ),HomeScreenOption(
-                icon = R.drawable.ic_survey,
-                title = "Survey",
-                navId = -1
-            ),HomeScreenOption(
+            ), HomeScreenOption(
                 icon = R.drawable.ic_setting,
                 title = "Setting",
                 navId = -1
-            ),HomeScreenOption(
+            ), HomeScreenOption(
                 icon = R.drawable.ic_notifications,
                 title = "Notify",
                 navId = -1
-            ),HomeScreenOption(
+            ), HomeScreenOption(
                 icon = R.drawable.ic_notifications,
                 title = "Notify",
                 navId = -1
-            ),HomeScreenOption(
+            ), HomeScreenOption(
                 icon = R.drawable.ic_notifications,
                 title = "Notify",
                 navId = -1

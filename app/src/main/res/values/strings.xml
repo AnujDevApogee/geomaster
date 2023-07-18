@@ -21,6 +21,11 @@
     <string name="hemisphere_data">H</string>
     <string name="zn_hemisphere_data">Hemisphere</string>
     <string name="sbm_btn">Submit</string>
+    <string name="set_up_conn">Set Up Connections</string>
+    <string name="set_up_auto">Set Up AutoBase</string>
+    <string name="set_up_manny">Set Up ManualBase</string>
+    <string name="device_info">Device Info</string>
+    <string name="gnss_base_profile">GNSS Base Profile</string>
     <string name="project_comment_data">Project Comment (Optional)</string>
 
 
