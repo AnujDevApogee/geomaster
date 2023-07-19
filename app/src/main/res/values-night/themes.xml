@@ -33,5 +33,10 @@
     <style name="text_theme" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/md_theme_light_onPrimary</item>
     </style>
-
+    <style name="customTabLayout" parent="Widget.Design.TabLayout">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
 </resources>

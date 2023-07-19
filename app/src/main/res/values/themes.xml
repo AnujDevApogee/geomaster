@@ -36,5 +36,11 @@
     <style name="MyToolbarStyle" parent="Widget.Material3.Toolbar">
         <item name="android:textColorSecondary">#FFFFFF</item>
     </style>
+    <style name="customTabLayout" parent="Widget.Design.TabLayout">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
 
 </resources>
