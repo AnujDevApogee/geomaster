@@ -2,18 +2,24 @@ package com.apogee.geomaster.utils
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
+import android.graphics.Typeface
 import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.StyleSpan
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
+import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.gson.Gson
+
 
 fun Context.toastMsg(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
@@ -59,9 +65,16 @@ fun View.invisible() {
 
 
 fun setHtmlTxt(txt: String, color: String): Spanned {
-   return Html.fromHtml(
+    return Html.fromHtml(
         "<font color=$color>$txt</font>", HtmlCompat.FROM_HTML_MODE_COMPACT
     )
+}
+
+fun setHtmlBoldTxt(txt: String): SpannableString {
+    val ss = SpannableString(txt)
+    val boldSpan = StyleSpan(Typeface.BOLD)
+    ss.setSpan(boldSpan, 0, txt.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return ss
 }
 
 

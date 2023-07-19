@@ -42,7 +42,7 @@ class SplashScreen : AppCompatActivity() {
         val resp = sharedPreferences!!.getString(Constants.RESPONSE_STRING,null)
         Log.d(TAG, "onCreate: Constant${sharedPreferences!!.getString(Constants.RESPONSE_STRING, null)}")
 
-        Log.d(TAG, "onCreate: "+resp)
+        Log.d(TAG, "onCreate: $resp")
         if (resp == null) {
             Log.d(
                 TAG,

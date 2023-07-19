@@ -21,8 +21,8 @@ class HomeScreenAdaptor(private val listener: OnItemClickListener) :
 
         fun getItem(data: HomeScreenOption, listener: OnItemClickListener) {
             binding.imgTxt.setImageResource(data.icon)
-            binding.profileTxt.text=data.title
-            binding.iconCard.setOnClickListener{
+            binding.profileTxt.text = data.title
+            binding.iconCard.setOnClickListener {
                 listener.onClickListener(data)
             }
         }
@@ -58,7 +58,7 @@ class HomeScreenAdaptor(private val listener: OnItemClickListener) :
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.enter_anim_layout)
         holder.itemView.startAnimation(animation)
         item?.let {
-           holder.getItem(it,listener)
+            holder.getItem(it, listener)
         }
 
     }

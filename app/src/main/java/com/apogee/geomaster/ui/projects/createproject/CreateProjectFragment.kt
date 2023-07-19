@@ -181,7 +181,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.zoneProjection.setOnItemClickListener { adapterView, view, position, l ->
             val name = binding.zoneProjection.text.toString().trim()
             if(name.equals("Add Custom Projection")){
-                findNavController().safeNavigate(ProjectListFragmentDirections.actionProjectListFragmentToCreateProjectFragment())
+                findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToAddProjectionParamsFragment())
 
             }else{
                 projectionParamsID = dbControl.getprojectionParamDataID(name)

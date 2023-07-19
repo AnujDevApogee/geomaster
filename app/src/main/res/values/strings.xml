@@ -22,7 +22,25 @@
     <string name="hemisphere_data">H</string>
     <string name="zn_hemisphere_data">Hemisphere</string>
     <string name="sbm_btn">Submit</string>
+    <string name="set_up_conn">Set Up Connections</string>
+    <string name="set_up_comm">Set Up Communication</string>
+    <string name="set_up_auto">Set Up AutoBase</string>
+    <string name="set_up_manny">Set Up ManualBase</string>
+    <string name="device_info">Device Info</string>
+    <string name="gnss_base_profile">GNSS Base Profile</string>
+    <string name="corr_txt">Correction</string>
+    <string name="new_corr_source">New Correction Source</string>
     <string name="project_comment_data">Project Comment (Optional)</string>
+    <string name="rtk_by_radio">RTK by Radio</string>
+    <string name="rtk_by_internet">RTK by Internet</string>
+    <string name="rtk_by_wifIn">RTK by WiFi</string>
+    <string name="internal_radio_txt">Internal Radio</string>
+    <string name="external_radio_txt">External Radio</string>
+    <string name="togle_pre_conn">Toggle Previous Connection</string>
+    <string name="ip_connection">IP</string>
+    <string name="port_connection">Port</string>
+    <string name="mount_point">Mount-Point</string>
+    <string name="ntrip_conn">NTRIP Connection</string>
 
 
 </resources>

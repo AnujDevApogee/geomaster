@@ -49,7 +49,7 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewModel {
-        val binding = ProjectListItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ProjectListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ProjectViewModel(binding)
     }
 
