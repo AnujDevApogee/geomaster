@@ -28,7 +28,7 @@
         android:id="@+id/projectListFragment"
         android:name="com.apogee.geomaster.ui.projects.projectlist.ProjectListFragment"
         android:label="project_item_fragment"
-        tools:layout="@layout/project_item_fragment" >
+        tools:layout="@layout/project_item_fragment">
         <action
             android:id="@+id/action_projectListFragment_to_createProjectFragment"
             app:destination="@id/createProjectFragment" />
@@ -37,29 +37,42 @@
         android:id="@+id/homeScreenMainFragment"
         android:name="com.apogee.geomaster.ui.HomeScreenMainFragment"
         android:label="home_screen_main_fragment_layout"
-        tools:layout="@layout/home_screen_main_fragment_layout" /><action android:id="@+id/action_global_projectListFragment" app:destination="@id/projectListFragment"/>
+        tools:layout="@layout/home_screen_main_fragment_layout" />
+    <action
+        android:id="@+id/action_global_projectListFragment"
+        app:destination="@id/projectListFragment" />
     <fragment
         android:id="@+id/createProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
         android:label="create_projects_fragment"
-        tools:layout="@layout/create_projects_fragment" />
+        tools:layout="@layout/create_projects_fragment">
+        <action
+            android:id="@+id/action_createProjectFragment_to_addProjectionParamsFragment"
+            app:destination="@id/addProjectionParamsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/baseProfileFragment"
         android:name="com.apogee.geomaster.ui.base.BaseProfileFragment"
         android:label="base_profile_layout"
-        tools:layout="@layout/base_profile_layout" /><action android:id="@+id/action_global_baseProfileFragment" app:destination="@id/baseProfileFragment"/>
+        tools:layout="@layout/base_profile_layout" />
+    <action
+        android:id="@+id/action_global_baseProfileFragment"
+        app:destination="@id/baseProfileFragment" />
     <fragment
         android:id="@+id/connectionFragment"
         android:name="com.apogee.geomaster.ui.connection.ConnectionFragment"
         android:label="connection_layout_fragment"
-        tools:layout="@layout/connection_layout_fragment" >
+        tools:layout="@layout/connection_layout_fragment">
         <action
             android:id="@+id/action_connectionFragment_to_createConnectionFragment"
             app:destination="@id/createConnectionFragment" />
         <action
             android:id="@+id/action_connectionFragment_to_createRadioConnectionFragment"
             app:destination="@id/createRadioConnectionFragment" />
-    </fragment><action android:id="@+id/action_global_connectionFragment" app:destination="@id/connectionFragment"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_connectionFragment"
+        app:destination="@id/connectionFragment" />
     <fragment
         android:id="@+id/createConnectionFragment"
         android:name="com.apogee.geomaster.ui.connection.setupconnection.CreateConnectionFragment"
@@ -70,4 +83,9 @@
         android:name="com.apogee.geomaster.ui.connection.setupradio.CreateRadioConnectionFragment"
         android:label="create_radio_conn_layout_fragment"
         tools:layout="@layout/create_radio_conn_layout_fragment" />
+    <fragment
+        android:id="@+id/addProjectionParamsFragment"
+        android:name="com.apogee.geomaster.ui.projects.createproject.projection.AddProjectionParamsFragment"
+        android:label="AddProjectionParamsFragment"
+        tools:layout="@layout/create_projects_fragment" />
 </navigation>
