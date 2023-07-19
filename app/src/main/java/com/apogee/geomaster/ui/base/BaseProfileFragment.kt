@@ -54,7 +54,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         binding.deviceInfo.append("xxxxxxxx")
         binding.deviceInfo.append("\n")
         binding.setConnBtn.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_global_connectionFragment)
+            findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment())
         }
     }
 

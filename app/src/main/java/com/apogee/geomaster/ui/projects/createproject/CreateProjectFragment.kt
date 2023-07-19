@@ -3,11 +3,9 @@ package com.apogee.geomaster.ui.projects.createproject
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.CreateProjectsFragmentBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory

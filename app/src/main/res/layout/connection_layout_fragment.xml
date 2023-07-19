@@ -15,102 +15,38 @@
             android:layout_height="wrap_content" />
 
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/option_demo_txt"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:clipToPadding="true"
-            app:layout_constraintLeft_toLeftOf="@id/action_layout"
-            app:layout_constraintRight_toRightOf="@id/action_layout"
-            app:layout_constraintTop_toBottomOf="@id/action_layout"
-            app:selectionRequired="true"
-            app:singleSelection="true">
-
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/radio_clip"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="@string/rtk_by_radio" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/internet"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:text="@string/rtk_by_internet" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/wifi_clip"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:gravity="center"
-                android:text="@string/rtk_by_wifIn" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-
-        <RadioGroup
-            android:id="@+id/radio_grp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:background="@color/md_theme_light_onSecondary"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/option_demo_txt">
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/internal_radio_btn"
-                style="@style/Widget.Material3.CompoundButton.RadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:text="@string/internal_radio_txt"
-                android:textStyle="bold" />
+            app:layout_constraintTop_toBottomOf="@id/action_layout"
+            app:tabIndicatorColor="#3E89FA"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="auto"
+            app:tabSelectedTextColor="#3E89FA"
+            app:tabTextAppearance="@style/customTabLayout"
+            app:tabTextColor="#717069" />
 
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/external_radio_btn"
-                style="@style/Widget.Material3.CompoundButton.RadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/external_radio_txt"
-                android:textStyle="bold" />
-
-        </RadioGroup>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/set_comm_btn"
-            style="@style/Widget.Material3.Button.ElevatedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/md_theme_dark_inversePrimary"
-            android:text="@string/set_up_comm"
-            android:textColor="@color/md_theme_light_onSecondary"
-            app:layout_constraintLeft_toLeftOf="@id/radio_grp"
-            app:layout_constraintRight_toRightOf="@id/radio_grp"
-            app:layout_constraintTop_toBottomOf="@id/radio_grp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle_view_ls"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/md_theme_light_onSecondary"
             app:layout_constraintBottom_toTopOf="@id/done_btn"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/set_comm_btn" />
+            app:layout_constraintTop_toBottomOf="@id/tabs" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/done_btn"
