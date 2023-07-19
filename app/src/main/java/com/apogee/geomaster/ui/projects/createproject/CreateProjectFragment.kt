@@ -6,15 +6,20 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.CreateProjectsFragmentBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.ui.projects.projectlist.ProjectListFragmentDirections
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.closeKeyboard
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
+import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.openKeyBoard
+import com.apogee.geomaster.utils.safeNavigate
+import com.apogee.geomaster.utils.show
 import com.google.android.material.transition.MaterialFadeThrough
 
 
@@ -29,12 +34,16 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     var distanceUnitID: String = ""
     var zoneData: ArrayList<String> = ArrayList()
     var zoneDataID: String = ""
+    var projectionParamsData: ArrayList<String> = ArrayList()
+    var projectionParamsID: String = ""
     var zoneHemis: ArrayList<String> = ArrayList()
     var zoneHemisID: String = ""
     var projectionTypes: ArrayList<String> = ArrayList()
     var projectionTypesID: String = ""
     var datumTypes: ArrayList<String> = ArrayList()
-    var idList: ArrayList<String> = ArrayList()
+//    var idList: ArrayList<String> = ArrayList()
+    var idList : HashMap<String, String> = HashMap<String, String> ()
+
     var prjDataList: ArrayList<String> = ArrayList()
     var datumTypesID: String = ""
     var elevationType: ArrayList<String> = ArrayList()
@@ -54,11 +63,16 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val fadeThrough = MaterialFadeThrough().apply {
             duration = 1000
         }
-
         enterTransition = fadeThrough
         reenterTransition = fadeThrough
         dbControl = DatabaseRepsoitory(this.requireContext())
         datumName = dbControl.getDatumName() as ArrayList<String>
+
+        projectionParamsData=dbControl.getprojectionParamData() as ArrayList<String>
+        projectionParamsData.add(0,"Add Custom Projection") // Add the new element at the 0th index
+        Log.d(TAG, "onCreate:projectionParamsData $projectionParamsData")
+
+
         angleUnit = dbControl.angleUnitdata() as ArrayList<String>
         distanceUnit = dbControl.getDistanceUnit() as ArrayList<String>
         zoneData = dbControl.getZoneData() as ArrayList<String>
@@ -74,8 +88,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         Log.d(TAG, "onCreate:datumName $projectionTypes")
         Log.d(TAG, "onCreate:datumName $datumTypes")
         Log.d(TAG, "onCreate:datumName $elevationType")
-
-
     }
 
 
@@ -93,18 +105,12 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         setDropdownAdapters()
         idList.clear()
 
-        binding.datums.setOnItemClickListener { adapterView, view, position, l ->
 
-            var name = binding.datums.text.toString().trim();
-            datumNameID = dbControl.getDatumId(name)
-            idList.add(datumNameID.trim())
-
-        }
         binding.angleUnitTxt.setOnItemClickListener { adapterView, view, position, l ->
 
-            var name = binding.angleUnitTxt.text.toString().trim();
+            var name = binding.angleUnitTxt.text.toString().trim()
             angleUnitID = dbControl.angleUnitID(name)
-            idList.add(angleUnitID.trim())
+            idList.put("angleUnit",angleUnitID.trim())
 
         }
 
@@ -112,7 +118,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.distanceTxt.text.toString().trim()
             distanceUnitID = dbControl.getDistanceUnitID(name)
-            idList.add(distanceUnitID.trim())
+            idList.put("distanceUnit",distanceUnitID.trim())
 
         }
 
@@ -120,7 +126,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.zoneHemisphereData.text.toString().trim()
             zoneHemisID = dbControl.getZoneHemisphereID(name)
-            idList.add(zoneHemisID.trim())
+            idList.put("zoneHemi",zoneHemisID.trim())
 
         }
 
@@ -128,7 +134,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.zoneData.text.toString().trim()
             zoneDataID = dbControl.getZoneDataID(name)
-            idList.add(zoneDataID.trim())
+            idList.put("zoneData",zoneDataID.trim())
 
         }
 
@@ -136,33 +142,61 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.projectionTypeConn.text.toString().trim()
             projectionTypesID = dbControl.getProjectionTypeID(name)
-            idList.add(projectionTypesID.trim())
+            if(name.equals("LCC")){
+               binding.zoneDataLayout.hide()
+               binding.zoneHemisphereLayout.hide()
+            }else{
+                binding.zoneDataLayout.show()
+                binding.zoneHemisphereLayout.show()
+            }
+            idList.put("projectionType",projectionTypesID.trim())
 
         }
 
         binding.datumTypeConn.setOnItemClickListener { adapterView, view, position, l ->
             var name = binding.datumTypeConn.text.toString().trim()
             datumTypesID = dbControl.getdatumtypeID(name)
-            idList.add(datumTypesID.trim())
+            if(name.equals("User Defined")){
+
+            }
+            idList.put("datumType",datumTypesID.trim())
+
+        }
+
+
+        binding.datums.setOnItemClickListener { adapterView, view, position, l ->
+
+            var name = binding.datums.text.toString().trim();
+            datumNameID = dbControl.getDatumId(name)
+            idList.put("datumName",datumNameID.trim())
 
         }
         binding.elevationKey.setOnItemClickListener { adapterView, view, position, l ->
             var name = binding.elevationKey.text.toString().trim()
             elevationTypeID = dbControl.getelevationTypeID(name)
-            idList.add(elevationTypeID.trim())
+            idList.put("elevation",elevationTypeID.trim())
 
         }
 
+        binding.zoneProjection.setOnItemClickListener { adapterView, view, position, l ->
+            val name = binding.zoneProjection.text.toString().trim()
+            if(name.equals("Add Custom Projection")){
+                findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToAddProjectionParamsFragment())
 
+            }else{
+                projectionParamsID = dbControl.getprojectionParamDataID(name)
+                idList.put("zoneProjection",projectionParamsID.trim())
+            }
 
+        }
 
         binding.btnSubmit.setOnClickListener {
             if (binding.projectNme.text!!.equals("")) {
                 Toast.makeText(this.requireContext(), "Add project name", Toast.LENGTH_SHORT).show()
 
             } else {
-                idList.add(binding.projectNme.text.toString().trim())
-                if (idList.size < 9) {
+                idList.put("projectName",binding.projectNme.text.toString().trim())
+                if (idList.size < 10) {
                     Toast.makeText(
                         this.requireContext(),
                         "Select All necessary values",
@@ -171,31 +205,30 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                 } else {
                     val configtable = dbControl.addConfigurationData(idList)
                     Log.d(TAG, "onViewCreated:configtable $configtable --")
-                    if (configtable.equals("Data inserted successfully")) {
+                  if(configtable.equals("Data inserted successfully")){
                         prjDataList.clear()
-                        val configId =
-                            dbControl.getproject_configurationID(binding.projectNme.text.toString())
+                        val configId=dbControl.getproject_configurationID(binding.projectNme.text.toString())
                         prjDataList.add(binding.projectNme.text.toString())
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
                         prjDataList.add(binding.commentEd.text.toString())
                         prjDataList.add("sdfsdf")
 
-                        val result = dbControl.addProjectData(prjDataList)
+                        val result=dbControl.addProjectData(prjDataList)
                         Log.d(TAG, "onViewCreated:aaa idList --$idList")
                         Log.d(TAG, "onViewCreated:aaa configtable --$configtable")
                         Log.d(TAG, "onViewCreated:aaa projectTable --$result")
-                        Toast.makeText(
-                            this.requireContext(), "Data inserted successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                          Toast.makeText(
+                              this.requireContext(),"Data inserted successfully",
+                              Toast.LENGTH_SHORT
+                          ).show()
 
-                    } else {
-                        Toast.makeText(
-                            this.requireContext(),
-                            "Error Occured",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    }else{
+                      Toast.makeText(
+                          this.requireContext(),
+                          "Error Occured",
+                          Toast.LENGTH_SHORT
+                      ).show()
                     }
 
                 }
@@ -211,11 +244,11 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         activity?.closeKeyboard(binding.projectNme)
     }
 
-    private fun setDropdownAdapters() {
+    fun setDropdownAdapters() {
         val datumNameView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 datumName
             )
         binding.datums.threshold = 1
@@ -225,7 +258,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val angleUnitView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 angleUnit
             )
         binding.angleUnitTxt.threshold = 1
@@ -235,7 +268,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val distanceUnitView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 distanceUnit
             )
         binding.distanceTxt.threshold = 1
@@ -245,7 +278,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val zoneDataView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 zoneData
             )
         binding.zoneData.threshold = 1
@@ -255,7 +288,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val zoneHemisView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 zoneHemis
             )
         binding.zoneHemisphereData.threshold = 1
@@ -265,7 +298,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val projectionTypesView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 projectionTypes
             )
         binding.projectionTypeConn.threshold = 1
@@ -275,7 +308,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val datumTypesView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 datumTypes
             )
         binding.datumTypeConn.threshold = 1
@@ -285,11 +318,20 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         val elevationTypeView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
-                R.layout.dropdown_layout,
+                android.R.layout.select_dialog_item,
                 elevationType
             )
         binding.elevationKey.threshold = 1
         binding.elevationKey.setAdapter(elevationTypeView)
+
+   val projectionParamView: ArrayAdapter<String> =
+            ArrayAdapter<String>(
+                this.requireContext(),
+                android.R.layout.select_dialog_item,
+                projectionParamsData
+            )
+        binding.zoneProjection.threshold = 1
+        binding.zoneProjection.setAdapter(projectionParamView)
 
 
     }
