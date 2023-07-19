@@ -9,11 +9,13 @@
         android:name="com.apogee.geomaster.ui.projects.ProjectsFragment"
         android:label="projects_fragment_layout"
         tools:layout="@layout/projects_fragment_layout" />
+
     <fragment
         android:id="@+id/deviceFragment"
         android:name="com.apogee.geomaster.ui.device.DeviceFragment"
         android:label="device_layout_fragment"
         tools:layout="@layout/device_layout_fragment" />
+
     <fragment
         android:id="@+id/toolsFragment"
         android:name="com.apogee.geomaster.ui.tools.ToolsFragment"
@@ -37,7 +39,9 @@
         android:id="@+id/homeScreenMainFragment"
         android:name="com.apogee.geomaster.ui.HomeScreenMainFragment"
         android:label="home_screen_main_fragment_layout"
-        tools:layout="@layout/home_screen_main_fragment_layout" /><action android:id="@+id/action_global_projectListFragment" app:destination="@id/projectListFragment"/>
+        tools:layout="@layout/home_screen_main_fragment_layout" >
+
+    </fragment><action android:id="@+id/action_global_projectListFragment" app:destination="@id/projectListFragment"/>
     <fragment
         android:id="@+id/createProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
