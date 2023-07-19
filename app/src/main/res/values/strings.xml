@@ -28,6 +28,7 @@
     <string name="device_info">Device Info</string>
     <string name="gnss_base_profile">GNSS Base Profile</string>
     <string name="corr_txt">Correction</string>
+    <string name="new_corr_source">New Correction Source</string>
     <string name="project_comment_data">Project Comment (Optional)</string>
     <string name="rtk_by_radio">RTK by Radio</string>
     <string name="rtk_by_internet">RTK by Internet</string>

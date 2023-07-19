@@ -7,6 +7,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ConnectionAdaptor
 import com.apogee.geomaster.databinding.RadioConnectionLayoutBinding
 import com.apogee.geomaster.model.RadioConnection
+import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.toastMsg
 
@@ -20,6 +21,10 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
         super.onViewCreated(view, savedInstanceState)
         binding = RadioConnectionLayoutBinding.bind(view)
         setupRecycle()
+
+        binding.setCommBtn.setOnClickListener {
+            (parentFragment as ConnectionFragment).goToCreateConnection()
+        }
     }
 
     private fun setupRecycle() {

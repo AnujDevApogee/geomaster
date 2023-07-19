@@ -3,6 +3,7 @@ package com.apogee.geomaster.ui.connection
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ViewPagerAdapter
 import com.apogee.geomaster.databinding.ConnectionLayoutFragmentBinding
@@ -12,6 +13,7 @@ import com.apogee.geomaster.ui.connection.radio.RadioFragment
 import com.apogee.geomaster.ui.connection.wifi.WifiFragment
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.safeNavigate
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
 
@@ -60,8 +62,15 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
 
     }
 
+    fun goToCreateConnection() {
+        findNavController().safeNavigate(
+            ConnectionFragmentDirections
+                .actionConnectionFragmentToCreateConnectionFragment()
+        )
+    }
+
     private fun setupViewPagerAdaptor() {
-        viewPagerAdapter = ViewPagerAdapter(parentFragmentManager, lifecycle)
+        viewPagerAdapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = viewPagerAdapter
         viewPagerAdapter.setFragment(RadioFragment())
         viewPagerAdapter.setFragment(InternetFragment())

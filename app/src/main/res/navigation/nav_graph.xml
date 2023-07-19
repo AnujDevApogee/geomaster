@@ -52,5 +52,14 @@
         android:id="@+id/connectionFragment"
         android:name="com.apogee.geomaster.ui.connection.ConnectionFragment"
         android:label="connection_layout_fragment"
-        tools:layout="@layout/connection_layout_fragment" /><action android:id="@+id/action_global_connectionFragment" app:destination="@id/connectionFragment"/>
+        tools:layout="@layout/connection_layout_fragment" >
+        <action
+            android:id="@+id/action_connectionFragment_to_createConnectionFragment"
+            app:destination="@id/createConnectionFragment" />
+    </fragment><action android:id="@+id/action_global_connectionFragment" app:destination="@id/connectionFragment"/>
+    <fragment
+        android:id="@+id/createConnectionFragment"
+        android:name="com.apogee.geomaster.ui.connection.setupconnection.CreateConnectionFragment"
+        android:label="create_connection_layout"
+        tools:layout="@layout/create_connection_layout" />
 </navigation>
