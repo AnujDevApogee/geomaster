@@ -114,7 +114,6 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="gone"
             app:cardBackgroundColor="@color/md_theme_light_onPrimary"
             app:cardCornerRadius="0dp"
             app:layout_constraintLeft_toLeftOf="@id/device_crd_view"
@@ -131,7 +130,7 @@
                 android:gravity="center"
                 android:textColor="@color/md_theme_dark_scrim"
                 android:textSize="14sp"
-                tools:text="Connected RTK via Radio Peaked" />
+                android:text="Connected RTK via Radio Peaked" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -159,7 +158,7 @@
                 android:textSize="14sp"
                 app:drawableEndCompat="@drawable/ic_arrow"
                 app:drawableStartCompat="@drawable/ic_height"
-                tools:text="Antenna 2m" />
+                android:text="Antenna 2m" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -171,7 +170,6 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="gone"
             app:cardCornerRadius="0dp"
             app:layout_constraintLeft_toLeftOf="@id/antenna_card"
             app:layout_constraintRight_toRightOf="@id/antenna_card"
@@ -187,7 +185,7 @@
                 android:textColor="@color/md_theme_dark_scrim"
                 android:textSize="14sp"
                 app:drawableEndCompat="@drawable/ic_arrow"
-                tools:text="gklhgflh" />
+                android:text="Basic Parameter" />
 
         </com.google.android.material.card.MaterialCardView>
 

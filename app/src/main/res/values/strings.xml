@@ -32,9 +32,14 @@
     <string name="project_comment_data">Project Comment (Optional)</string>
     <string name="rtk_by_radio">RTK by Radio</string>
     <string name="rtk_by_internet">RTK by Internet</string>
-    <string name="rtk_by_wifIn">RTK by WIfI</string>
+    <string name="rtk_by_wifIn">RTK by WiFi</string>
     <string name="internal_radio_txt">Internal Radio</string>
     <string name="external_radio_txt">External Radio</string>
+    <string name="togle_pre_conn">Toggle Previous Connection</string>
+    <string name="ip_connection">IP</string>
+    <string name="port_connection">Port</string>
+    <string name="mount_point">Mount-Point</string>
+    <string name="ntrip_conn">NTRIP Connection</string>
 
 
 </resources>

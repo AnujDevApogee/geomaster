@@ -29,7 +29,134 @@
                 android:layout_height="match_parent">
 
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tgle_point"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:hint="@string/togle_pre_conn"
+                    app:boxStrokeColor="@color/md_theme_light_primary"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
+                    <AutoCompleteTextView
+                        android:id="@+id/datums"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:text="@string/togle_pre_conn" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ip_ed_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:hint="@string/ip_connection"
+                    android:textColorHint="@color/md_theme_light_scrim"
+                    app:boxStrokeColor="@color/md_theme_light_scrim"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/md_theme_light_scrim"
+                    app:hintTextColor="@color/md_theme_light_scrim"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tgle_point">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ip_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/port_ed_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:hint="@string/port_connection"
+                    android:textColorHint="@color/md_theme_light_scrim"
+                    app:boxStrokeColor="@color/md_theme_light_scrim"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/md_theme_light_scrim"
+                    app:hintTextColor="@color/md_theme_light_scrim"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ip_ed_layout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/port_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mount_point_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:hint="@string/mount_point"
+                    android:textColorHint="@color/md_theme_light_scrim"
+                    app:boxStrokeColor="@color/md_theme_light_scrim"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/md_theme_light_scrim"
+                    app:hintTextColor="@color/md_theme_light_scrim"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/port_ed_layout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mount_point_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ntrip_conn_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:hint="@string/ntrip_conn"
+                    android:textColorHint="@color/md_theme_light_scrim"
+                    app:boxStrokeColor="@color/md_theme_light_scrim"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/md_theme_light_scrim"
+                    app:hintTextColor="@color/md_theme_light_scrim"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mount_point_layout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ntrip_conn_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
