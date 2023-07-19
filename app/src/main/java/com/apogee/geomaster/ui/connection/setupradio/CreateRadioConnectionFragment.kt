@@ -9,7 +9,7 @@ import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
 import com.google.android.material.transition.MaterialFadeThrough
 
-class CreateRadioConnectionFragment : Fragment() {
+class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout_fragment) {
 
     private lateinit var binding: CreateRadioConnLayoutFragmentBinding
     private val menuCallback = object : OnItemClickListener {

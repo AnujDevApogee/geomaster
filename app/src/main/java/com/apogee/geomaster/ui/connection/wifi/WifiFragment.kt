@@ -8,6 +8,7 @@ import com.apogee.geomaster.adaptor.ConnectionAdaptor
 import com.apogee.geomaster.databinding.WifiConnectionLayoutBinding
 import com.apogee.geomaster.model.WifiConnection
 import com.apogee.geomaster.ui.connection.ConnectionFragment
+import com.apogee.geomaster.ui.connection.ConnectionFragmentDirections
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.toastMsg
 
@@ -22,7 +23,9 @@ class WifiFragment : Fragment(R.layout.wifi_connection_layout) {
         binding = WifiConnectionLayoutBinding.bind(view)
         setupRecycle()
         binding.setCommBtn.setOnClickListener {
-            (parentFragment as ConnectionFragment).goToCreateConnection()
+     /*       (parentFragment as ConnectionFragment).goToNxtScr(
+                ConnectionFragmentDirections
+                .actionConnectionFragmentToCreateConnectionFragment())*/
         }
     }
 
