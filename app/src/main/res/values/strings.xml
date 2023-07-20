@@ -40,6 +40,19 @@
     <string name="port_connection">Port</string>
     <string name="mount_point">Mount-Point</string>
     <string name="ntrip_conn">NTRIP Connection</string>
+    <string name="connection_type">Connection Type:</string>
+    <string name="bluetooth_device">Bluetooth Device:</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="refreshlist">RefreshList</string>
+
+
+
+    <string-array name="business_location_type">
+        <!--  <item>Select</item>-->
+        <item>Bluetooth</item>
+        <item>Serial Port</item>
+    </string-array>
 
 
 </resources>
