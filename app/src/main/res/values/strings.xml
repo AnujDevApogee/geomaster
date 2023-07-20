@@ -45,6 +45,8 @@
     <string name="mount_point">Mount-Point</string>
     <string name="radio_comm">Radio Communication</string>
     <string name="ntrip_conn">NTRIP Connection</string>
+    <string name="ssid_conn">SSID</string>
+    <string name="ssid_pass_conn">SSID Password</string>
 
 
 </resources>

@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_connectionFragment_to_createRadioConnectionFragment"
             app:destination="@id/createRadioConnectionFragment" />
+        <action
+            android:id="@+id/action_connectionFragment_to_createWifiConnection"
+            app:destination="@id/createWifiConnection" />
     </fragment>
     <action
         android:id="@+id/action_global_connectionFragment"
@@ -88,4 +91,9 @@
         android:name="com.apogee.geomaster.ui.projects.createproject.projection.AddProjectionParamsFragment"
         android:label="AddProjectionParamsFragment"
         tools:layout="@layout/create_projects_fragment" />
+    <fragment
+        android:id="@+id/createWifiConnection"
+        android:name="com.apogee.geomaster.ui.connection.setwifi.CreateWifiConnection"
+        android:label="create_wifi_connection_layout"
+        tools:layout="@layout/create_wifi_connection_layout" />
 </navigation>
