@@ -93,7 +93,7 @@
         tools:layout="@layout/create_projects_fragment" />
     <fragment
         android:id="@+id/createWifiConnection"
-        android:name="com.apogee.geomaster.ui.connection.setwifi.CreateWifiConnection"
+        android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
         android:label="create_wifi_connection_layout"
         tools:layout="@layout/create_wifi_connection_layout" />
 </navigation>

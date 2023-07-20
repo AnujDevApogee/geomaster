@@ -60,8 +60,6 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, pos ->
             tab.text = tabArr[pos]
         }.attach()
-
-
     }
 
     fun goToNxtScr(action: NavDirections) {

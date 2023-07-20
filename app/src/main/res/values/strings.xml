@@ -43,6 +43,7 @@
     <string name="fegquency_txt">Frequency</string>
     <string name="port_connection">Port</string>
     <string name="mount_point">Mount-Point</string>
+    <string name="wift_setup">Wifi Setup</string>
     <string name="radio_comm">Radio Communication</string>
     <string name="ntrip_conn">NTRIP Connection</string>
     <string name="ssid_conn">SSID</string>

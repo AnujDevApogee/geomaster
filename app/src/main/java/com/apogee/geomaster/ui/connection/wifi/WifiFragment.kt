@@ -23,9 +23,10 @@ class WifiFragment : Fragment(R.layout.wifi_connection_layout) {
         binding = WifiConnectionLayoutBinding.bind(view)
         setupRecycle()
         binding.setCommBtn.setOnClickListener {
-     /*       (parentFragment as ConnectionFragment).goToNxtScr(
+            (parentFragment as ConnectionFragment).goToNxtScr(
                 ConnectionFragmentDirections
-                .actionConnectionFragmentToCreateConnectionFragment())*/
+                    .actionConnectionFragmentToCreateWifiConnection()
+            )
         }
     }
 
