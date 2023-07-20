@@ -3,6 +3,7 @@ package com.apogee.geomaster.ui.connection
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ViewPagerAdapter
@@ -53,20 +54,16 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
             R.menu.info_mnu,
             menuCallback
         )
+
         (activity as HomeScreen?)?.hideActionBar()
         setupViewPagerAdaptor()
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, pos ->
             tab.text = tabArr[pos]
         }.attach()
-
-
     }
 
-    fun goToCreateConnection() {
-        findNavController().safeNavigate(
-            ConnectionFragmentDirections
-                .actionConnectionFragmentToCreateConnectionFragment()
-        )
+    fun goToNxtScr(action: NavDirections) {
+        findNavController().safeNavigate(action)
     }
 
     private fun setupViewPagerAdaptor() {

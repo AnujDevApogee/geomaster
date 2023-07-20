@@ -55,6 +55,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("rot_x_axis", "STRING"),
             TableCreator.ColumnDetails("rot_y_axis", "STRING"),
             TableCreator.ColumnDetails("rot_z_axis", "STRING"),
+            TableCreator.ColumnDetails("datumType", "STRING", defaultValue = "predefined"),
             TableCreator.ColumnDetails("active", "STRING")
         )
         val datum_dataTable = tableCreator.createMainTableIfNeeded(datum_data, datum_dataColumn)
@@ -234,7 +235,7 @@ class DatabaseRepsoitory(context: Context) {
     fun projectManagementData() {
 
 
-  val projectionParameters = "projectionParameters"
+        val projectionParameters = "projectionParameters"
         val projectionParametersColumn = arrayOf(
             TableCreator.ColumnDetails("projectionParam_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("zone_name", "STRING", unique = true),
@@ -390,6 +391,15 @@ class DatabaseRepsoitory(context: Context) {
         var data = tableCreator.executeStaticQuery("SELECT datum_id FROM datum_data where datum_name='"+datum_name+"'")
         return data?.get(0) ?: ""
     }
+    fun getprojectionParamData(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT zone_name FROM projectionParameters ")
+        return data
+    }
+    fun getprojectionParamDataID(zone_name : String): String {
+        var data = tableCreator.executeStaticQuery("SELECT projectionParam_id FROM projectionParameters where zone_name='"+zone_name+"'")
+        return data?.get(0) ?: ""
+    }
     fun angleUnitdata(): List<String>? {
         val data =
             tableCreator.executeStaticQuery("SELECT angUnit_name FROM angleunit where active = 'Y' ")
@@ -458,7 +468,7 @@ class DatabaseRepsoitory(context: Context) {
         var data = tableCreator.executeStaticQuery("SELECT config_id FROM project_configuration where config_name='"+config_name+"'")
         return data?.get(0) ?: ""
     }
-    fun addConfigurationData(list: List<String>): String {
+    fun addConfigurationData(map: HashMap<String, String>): String {
 
         val result = tableCreator.getTableSchema("project_configuration")
         var insertResult= ""
@@ -488,17 +498,17 @@ class DatabaseRepsoitory(context: Context) {
 
             val dataList: MutableList<ContentValues> = ArrayList()
             val values1 = ContentValues()
-
-            values1.put("config_name", list.get(8))
-            values1.put("datum_id",  list.get(0))
-            values1.put("zonedata_id",  list.get(4))
-            values1.put("datumtype_id",  list.get(6))
-            values1.put("elevationtype_id",  list.get(7))
-            values1.put("distanceunit_id",  list.get(2))
-            values1.put("angleunit_id",  list.get(1))
-            values1.put("projectionParam_id",  list.get(5))
-            values1.put("hemisphere_id",  list.get(3))
-            values1.put("config_time", "CurrentTime")
+            Log.d(TAG, "addConfigurationData:projectName ${map.get("projectName")}")
+            values1.put("config_name", map.get("projectName") )
+            values1.put("datum_id",  map.get("datumName"))
+            values1.put("zonedata_id",  map.get("zoneData"))
+            values1.put("datumtype_id",  map.get("datumType"))
+            values1.put("elevationtype_id",  map.get("elevation"))
+            values1.put("distanceunit_id",  map.get("distanceUnit"))
+            values1.put("angleunit_id",  map.get("angleUnit"))
+            values1.put("projectionParam_id",  map.get("zoneProjection"))
+            values1.put("hemisphere_id",  map.get("zoneHemi"))
+            values1.put("config_time", "Created")
             dataList.add(values1)
 
             insertResult= tableCreator.insertDataIntoTable("project_configuration",dataList)
@@ -523,13 +533,12 @@ class DatabaseRepsoitory(context: Context) {
     }
 
     fun getProjectList(): List<String>? {
-        var data = tableCreator.executeStaticQuery("SELECT   conf.config_name ,dd.datum_name, z.zone" +
-                "FROM project_table AS prj  ,project_configuration AS conf,datum_data as dd, zonedata as z " +
-                " where prj. config_id=conf.config_id and conf.datum_id=dd.datum_id and " +
+        var data = tableCreator.executeStaticQuery("SELECT   conf.config_name ,dd.datum_name, z.zone\n" +
+                "FROM project_table AS prj  ,project_configuration AS conf,datum_data as dd, zonedata as z\n" +
+                " where prj. config_id=conf.config_id and conf.datum_id=dd.datum_id and \n" +
                 " conf.zonedata_id = z.zonedata_id")
-    return data}
-
-
+        return data
+    }
 }
 
 

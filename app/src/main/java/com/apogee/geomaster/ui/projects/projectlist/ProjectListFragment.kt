@@ -40,7 +40,6 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
 
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fadeThrough = MaterialFadeThrough().apply {
@@ -60,13 +59,21 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         (activity as HomeScreen?)?.hideActionBar()
         setUpRecycleView()
 
-        projectListAdaptor.submitList(Project.list)
         projectListData= dbControl.getProjectList() as ArrayList<String>
+        var projectDetails : ArrayList<Project> = ArrayList()
+
+        for(i in projectListData){
+            var  title=i.split(",")[0]
+            var  datum=i.split(",")[1]
+            var  zone=i.split(",")[2]
+            projectDetails.add(Project(title,datum,zone))
+        }
+        projectListAdaptor.submitList(projectDetails)
+
         Log.d(TAG, "onViewCreated: projectListData $projectListData")
 
         binding.addProject.setOnClickListener {
-            findNavController()
-                .safeNavigate(ProjectListFragmentDirections.actionProjectListFragmentToCreateProjectFragment())
+            findNavController().safeNavigate(ProjectListFragmentDirections.actionProjectListFragmentToCreateProjectFragment())
         }
     }
 
