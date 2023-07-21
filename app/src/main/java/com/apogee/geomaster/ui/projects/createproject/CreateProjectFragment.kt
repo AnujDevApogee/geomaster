@@ -11,7 +11,6 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.CreateProjectsFragmentBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
-import com.apogee.geomaster.ui.projects.projectlist.ProjectListFragmentDirections
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.closeKeyboard
 import com.apogee.geomaster.utils.displayActionBar
@@ -27,6 +26,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
     private lateinit var binding: CreateProjectsFragmentBinding
     var datumName: ArrayList<String> = ArrayList()
+    var userDefinedDatumName: ArrayList<String> = ArrayList()
     var datumNameID: String = ""
     var angleUnit: ArrayList<String> = ArrayList()
     var angleUnitID: String = ""
@@ -41,7 +41,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     var projectionTypes: ArrayList<String> = ArrayList()
     var projectionTypesID: String = ""
     var datumTypes: ArrayList<String> = ArrayList()
-//    var idList: ArrayList<String> = ArrayList()
     var idList : HashMap<String, String> = HashMap<String, String> ()
 
     var prjDataList: ArrayList<String> = ArrayList()
@@ -66,7 +65,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         enterTransition = fadeThrough
         reenterTransition = fadeThrough
         dbControl = DatabaseRepsoitory(this.requireContext())
-        datumName = dbControl.getDatumName() as ArrayList<String>
 
         projectionParamsData=dbControl.getprojectionParamData() as ArrayList<String>
         projectionParamsData.add(0,"Add Custom Projection") // Add the new element at the 0th index
@@ -81,13 +79,13 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         datumTypes = dbControl.getdatumtype() as ArrayList<String>
         elevationType = dbControl.getelevationType() as ArrayList<String>
         Log.d(TAG, "onCreate:datumName $datumName")
-        Log.d(TAG, "onCreate:datumName $angleUnit")
-        Log.d(TAG, "onCreate:datumName $distanceUnit")
-        Log.d(TAG, "onCreate:datumName $zoneData")
-        Log.d(TAG, "onCreate:datumName $zoneHemis")
-        Log.d(TAG, "onCreate:datumName $projectionTypes")
-        Log.d(TAG, "onCreate:datumName $datumTypes")
-        Log.d(TAG, "onCreate:datumName $elevationType")
+        Log.d(TAG, "onCreate:angleUnit $angleUnit")
+        Log.d(TAG, "onCreate:distanceUnit $distanceUnit")
+        Log.d(TAG, "onCreate:zoneData $zoneData")
+        Log.d(TAG, "onCreate:zoneHemis $zoneHemis")
+        Log.d(TAG, "onCreate:projectionTypes $projectionTypes")
+        Log.d(TAG, "onCreate:datumTypes $datumTypes")
+        Log.d(TAG, "onCreate:elevationType $elevationType")
     }
 
 
@@ -155,9 +153,32 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
         binding.datumTypeConn.setOnItemClickListener { adapterView, view, position, l ->
             var name = binding.datumTypeConn.text.toString().trim()
-            datumTypesID = dbControl.getdatumtypeID(name)
             if(name.equals("User Defined")){
+                userDefinedDatumName  = dbControl.getUserDefinedDatumName() as ArrayList<String>
+                userDefinedDatumName.add(0,"+Create Custom Datum")
+                Log.d(TAG, "onViewCreated:userDefinedDatumName $userDefinedDatumName")
+                val datumNameView: ArrayAdapter<String> =
+                    ArrayAdapter<String>(
+                        this.requireContext(),
+                        android.R.layout.select_dialog_item,
+                        userDefinedDatumName
+                    )
+                binding.datums.threshold = 1
+                binding.datums.setAdapter(datumNameView)
+                datumTypesID = dbControl.getdatumtypeID(name)
 
+            }
+            else{
+                datumName  = dbControl.getPredefinedDatumName() as ArrayList<String>
+                val datumNameView: ArrayAdapter<String> =
+                    ArrayAdapter<String>(
+                        this.requireContext(),
+                        android.R.layout.select_dialog_item,
+                        datumName
+                    )
+                binding.datums.threshold = 1
+                binding.datums.setAdapter(datumNameView)
+                datumTypesID = dbControl.getdatumtypeID(name)
             }
             idList.put("datumType",datumTypesID.trim())
 
@@ -167,8 +188,13 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.datums.setOnItemClickListener { adapterView, view, position, l ->
 
             var name = binding.datums.text.toString().trim();
-            datumNameID = dbControl.getDatumId(name)
-            idList.put("datumName",datumNameID.trim())
+            if(name.equals("+Create Custom Datum")){
+                findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToCustomDatumCreationFragment())
+            }else{
+                datumNameID = dbControl.getDatumId(name)
+                idList.put("datumName",datumNameID.trim())
+
+            }
 
         }
         binding.elevationKey.setOnItemClickListener { adapterView, view, position, l ->
@@ -239,13 +265,19 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        setDropdownAdapters()
+
+    }
+
     override fun onPause() {
         super.onPause()
         activity?.closeKeyboard(binding.projectNme)
     }
 
     fun setDropdownAdapters() {
-        val datumNameView: ArrayAdapter<String> =
+    /*    val datumNameView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
                 android.R.layout.select_dialog_item,
@@ -254,7 +286,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.datums.threshold = 1
         binding.datums.setAdapter(datumNameView)
 
-
+*/
         val angleUnitView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),

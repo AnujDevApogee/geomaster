@@ -237,6 +237,28 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/geoid_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/geoid_data"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/elevation_key_layout"
+                app:layout_constraintRight_toRightOf="@id/elevation_key_layout"
+                app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/geoid_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    android:text="@string/geoid_data" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/distance_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -250,8 +272,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="@id/elevation_key_layout"
-                app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
+                app:layout_constraintStart_toStartOf="@id/geoid_layout"
+                app:layout_constraintTop_toBottomOf="@id/geoid_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/distance_txt"
@@ -275,7 +297,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/distance_layout"
-                app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
+                app:layout_constraintTop_toBottomOf="@id/geoid_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/angle_unit_txt"

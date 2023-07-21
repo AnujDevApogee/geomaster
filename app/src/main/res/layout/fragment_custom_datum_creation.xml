@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.projects.createproject.datum.CustomDatumCreationFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/lcc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lccZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Zone Name"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:paddingStart="6dp"
+                    >
+
+                    <EditText
+                        android:id="@+id/etLccZone"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:inputType="text"
+                        android:paddingLeft="8dp"
+                         />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lcc_orig"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:text="Origin Lat"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/lcc_orig1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:paddingLeft="8dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="30dp"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/deg_ogLat"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="degree"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"
+             />
+
+                        <EditText
+                            android:id="@+id/minsOgLat"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="minute"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"/>
+
+                        <EditText
+                            android:id="@+id/secOgLat"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:hint="seconds"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lcc_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Origin Long"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/lcc_centralMeri"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:paddingLeft="8dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="30dp"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/degOgLng"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="degree"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"/>
+
+                        <EditText
+                            android:id="@+id/minOgLng"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="minute"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp" />
+
+                        <EditText
+                            android:id="@+id/secOgLng"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:hint="seconds"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Parallel-1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/lcc_parallel_1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="8dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="30dp"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/degPar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="degree"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp" />
+
+                        <EditText
+                            android:id="@+id/minPar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="minute"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp" />
+
+                        <EditText
+                            android:id="@+id/secPar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:hint="seconds"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Parallel-2"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/lcc_parallel_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="8dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="30dp"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/degPar2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="degree"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="5dp" />
+
+                        <EditText
+                            android:id="@+id/minPar2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:hint="minute"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"/>
+
+                        <EditText
+                            android:id="@+id/secPar2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:hint="seconds"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp"
+                            android:paddingLeft="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="False Easting"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="10dp">
+
+                    <EditText
+                        android:id="@+id/lcc_false_easting"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:text="0.0"
+                        android:hint="Input in Meters"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:paddingLeft="8dp"/>
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="False Northing"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="10dp">
+
+                    <EditText
+                        android:id="@+id/lcc_False_northing"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="5dp"
+                        android:hint="Input in Meters"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:text="0.0"
+                        android:paddingStart="8dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/lcc_button"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Save"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</layout>

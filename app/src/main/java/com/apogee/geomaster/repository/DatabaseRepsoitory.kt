@@ -2,7 +2,6 @@ package com.apogee.geomaster.repository
 
 import android.content.ContentValues
 import android.content.Context
-import android.os.FileObserver.CREATE
 import android.util.Log
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
@@ -55,7 +54,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("rot_x_axis", "STRING"),
             TableCreator.ColumnDetails("rot_y_axis", "STRING"),
             TableCreator.ColumnDetails("rot_z_axis", "STRING"),
-            TableCreator.ColumnDetails("datumType", "STRING", defaultValue = "predefined"),
+            TableCreator.ColumnDetails("datumType", "STRING", default = true, defaultValue = "Predefined"),
             TableCreator.ColumnDetails("active", "STRING")
         )
         val datum_dataTable = tableCreator.createMainTableIfNeeded(datum_data, datum_dataColumn)
@@ -322,8 +321,6 @@ class DatabaseRepsoitory(context: Context) {
 
             result = tableCreator.insertDataIntoTable(project_status, dataList)
             Log.d(TAG, "projectManagementData:result $result")
-
-
         }
 
 
@@ -382,9 +379,14 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(project_table, project_tableColumn)
     }
 
-    fun getDatumName(): List<String>? {
+    fun getUserDefinedDatumName(): List<String>? {
         val data =
-            tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where active = 'Y' ")
+            tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where datumType = 'User_defined' and active = 'Y' ")
+        return data
+    }
+    fun getPredefinedDatumName(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where datumType = 'Predefined' and active = 'Y' ")
         return data
     }
     fun getDatumId(datum_name : String): String {

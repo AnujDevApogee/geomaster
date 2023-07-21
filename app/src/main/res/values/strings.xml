@@ -12,13 +12,14 @@
     <string name="distance_unit">Distance Unit</string>
     <string name="datum_nm">Datum Name</string>
     <string name="zn_datum_type">Datum Type</string>
-    <string name="datum_type">Type</string>
+    <string name="datum_type">Datum Type</string>
     <string name="angle_nm">Angle Unit</string>
     <string name="zn_data">Zone Data</string>
     <string name="projection_data">Projection Type</string>
     <string name="zone_projection">Zone Projection</string>
     <string name="projection_data_type">Type</string>
-    <string name="elv_ky_data">Elevation Key</string>
+    <string name="elv_ky_data">Elevation</string>
+    <string name="geoid_data">Geoid Values</string>
     <string name="hemisphere_data">H</string>
     <string name="zn_hemisphere_data">Hemisphere</string>
     <string name="sbm_btn">Submit</string>

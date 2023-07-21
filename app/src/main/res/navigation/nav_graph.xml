@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_createProjectFragment_to_addProjectionParamsFragment"
             app:destination="@id/addProjectionParamsFragment" />
+        <action
+            android:id="@+id/action_createProjectFragment_to_customDatumCreationFragment"
+            app:destination="@id/customDatumCreationFragment" />
     </fragment>
     <fragment
         android:id="@+id/baseProfileFragment"
@@ -75,4 +78,9 @@
         android:name="com.apogee.geomaster.ui.projects.createproject.projection.AddProjectionParamsFragment"
         android:label="add_projection_params"
         tools:layout="@layout/add_projection_params" />
+    <fragment
+        android:id="@+id/customDatumCreationFragment"
+        android:name="com.apogee.geomaster.ui.projects.createproject.datum.CustomDatumCreationFragment"
+        android:label="CustomDatumCreationFragment"
+        tools:layout="@layout/fragment_custom_datum_creation"/>
 </navigation>
