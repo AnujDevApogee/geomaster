@@ -31,8 +31,8 @@
         android:label="project_item_fragment"
         tools:layout="@layout/project_item_fragment">
         <action
-            android:id="@+id/action_projectListFragment_to_createProjectFragment"
-            app:destination="@id/createProjectFragment" />
+            android:id="@+id/action_projectListFragment_to_defaultCreateProjectFragment"
+            app:destination="@id/defaultCreateProjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeScreenMainFragment"
@@ -118,5 +118,14 @@
         android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
         android:label="create_wifi_connection_layout"
         tools:layout="@layout/create_wifi_connection_layout" />
+    <fragment
+        android:id="@+id/defaultCreateProjectFragment"
+        android:name="com.apogee.geomaster.ui.projects.createproject.DefaultCreateProjectFragment"
+        android:label="default_project_layout"
+        tools:layout="@layout/default_project_layout" >
+        <action
+            android:id="@+id/action_defaultCreateProjectFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
+    </fragment>
 
 </navigation>

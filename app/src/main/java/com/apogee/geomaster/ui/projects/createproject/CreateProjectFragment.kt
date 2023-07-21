@@ -41,8 +41,9 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     var projectionTypes: ArrayList<String> = ArrayList()
     var projectionTypesID: String = ""
     var datumTypes: ArrayList<String> = ArrayList()
-//    var idList: ArrayList<String> = ArrayList()
-    var idList : HashMap<String, String> = HashMap<String, String> ()
+
+    //    var idList: ArrayList<String> = ArrayList()
+    var idList: HashMap<String, String> = HashMap<String, String>()
 
     var prjDataList: ArrayList<String> = ArrayList()
     var datumTypesID: String = ""
@@ -68,8 +69,8 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         dbControl = DatabaseRepsoitory(this.requireContext())
         datumName = dbControl.getDatumName() as ArrayList<String>
 
-        projectionParamsData=dbControl.getprojectionParamData() as ArrayList<String>
-        projectionParamsData.add(0,"Add Custom Projection") // Add the new element at the 0th index
+        projectionParamsData = dbControl.getprojectionParamData() as ArrayList<String>
+        projectionParamsData.add(0, "Add Custom Projection") // Add the new element at the 0th index
         Log.d(TAG, "onCreate:projectionParamsData $projectionParamsData")
 
 
@@ -95,7 +96,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding = CreateProjectsFragmentBinding.bind(view)
         displayActionBar(
-            "Create Project ${getEmojiByUnicode(0x1F4DD)}",
+            "New Project ${getEmojiByUnicode(0x1F4DD)}",
             binding.actionLayout,
             R.menu.info_mnu,
             menuCallback
@@ -110,7 +111,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.angleUnitTxt.text.toString().trim()
             angleUnitID = dbControl.angleUnitID(name)
-            idList.put("angleUnit",angleUnitID.trim())
+            idList.put("angleUnit", angleUnitID.trim())
 
         }
 
@@ -118,7 +119,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.distanceTxt.text.toString().trim()
             distanceUnitID = dbControl.getDistanceUnitID(name)
-            idList.put("distanceUnit",distanceUnitID.trim())
+            idList.put("distanceUnit", distanceUnitID.trim())
 
         }
 
@@ -126,7 +127,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.zoneHemisphereData.text.toString().trim()
             zoneHemisID = dbControl.getZoneHemisphereID(name)
-            idList.put("zoneHemi",zoneHemisID.trim())
+            idList.put("zoneHemi", zoneHemisID.trim())
 
         }
 
@@ -134,7 +135,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.zoneData.text.toString().trim()
             zoneDataID = dbControl.getZoneDataID(name)
-            idList.put("zoneData",zoneDataID.trim())
+            idList.put("zoneData", zoneDataID.trim())
 
         }
 
@@ -142,24 +143,24 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.projectionTypeConn.text.toString().trim()
             projectionTypesID = dbControl.getProjectionTypeID(name)
-            if(name.equals("LCC")){
-               binding.zoneDataLayout.hide()
-               binding.zoneHemisphereLayout.hide()
-            }else{
+            if (name.equals("LCC")) {
+                binding.zoneDataLayout.hide()
+                binding.zoneHemisphereLayout.hide()
+            } else {
                 binding.zoneDataLayout.show()
                 binding.zoneHemisphereLayout.show()
             }
-            idList.put("projectionType",projectionTypesID.trim())
+            idList.put("projectionType", projectionTypesID.trim())
 
         }
 
         binding.datumTypeConn.setOnItemClickListener { adapterView, view, position, l ->
             var name = binding.datumTypeConn.text.toString().trim()
             datumTypesID = dbControl.getdatumtypeID(name)
-            if(name.equals("User Defined")){
+            if (name.equals("User Defined")) {
 
             }
-            idList.put("datumType",datumTypesID.trim())
+            idList.put("datumType", datumTypesID.trim())
 
         }
 
@@ -168,24 +169,24 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             var name = binding.datums.text.toString().trim();
             datumNameID = dbControl.getDatumId(name)
-            idList.put("datumName",datumNameID.trim())
+            idList.put("datumName", datumNameID.trim())
 
         }
         binding.elevationKey.setOnItemClickListener { adapterView, view, position, l ->
             var name = binding.elevationKey.text.toString().trim()
             elevationTypeID = dbControl.getelevationTypeID(name)
-            idList.put("elevation",elevationTypeID.trim())
+            idList.put("elevation", elevationTypeID.trim())
 
         }
 
         binding.zoneProjection.setOnItemClickListener { adapterView, view, position, l ->
             val name = binding.zoneProjection.text.toString().trim()
-            if(name.equals("Add Custom Projection")){
+            if (name.equals("Add Custom Projection")) {
                 findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToAddProjectionParamsFragment())
 
-            }else{
+            } else {
                 projectionParamsID = dbControl.getprojectionParamDataID(name)
-                idList.put("zoneProjection",projectionParamsID.trim())
+                idList.put("zoneProjection", projectionParamsID.trim())
             }
 
         }
@@ -195,7 +196,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                 Toast.makeText(this.requireContext(), "Add project name", Toast.LENGTH_SHORT).show()
 
             } else {
-                idList.put("projectName",binding.projectNme.text.toString().trim())
+                idList.put("projectName", binding.projectNme.text.toString().trim())
                 if (idList.size < 10) {
                     Toast.makeText(
                         this.requireContext(),
@@ -205,30 +206,31 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                 } else {
                     val configtable = dbControl.addConfigurationData(idList)
                     Log.d(TAG, "onViewCreated:configtable $configtable --")
-                  if(configtable.equals("Data inserted successfully")){
+                    if (configtable.equals("Data inserted successfully")) {
                         prjDataList.clear()
-                        val configId=dbControl.getproject_configurationID(binding.projectNme.text.toString())
+                        val configId =
+                            dbControl.getproject_configurationID(binding.projectNme.text.toString())
                         prjDataList.add(binding.projectNme.text.toString())
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
                         prjDataList.add(binding.commentEd.text.toString())
                         prjDataList.add("sdfsdf")
 
-                        val result=dbControl.addProjectData(prjDataList)
+                        val result = dbControl.addProjectData(prjDataList)
                         Log.d(TAG, "onViewCreated:aaa idList --$idList")
                         Log.d(TAG, "onViewCreated:aaa configtable --$configtable")
                         Log.d(TAG, "onViewCreated:aaa projectTable --$result")
-                          Toast.makeText(
-                              this.requireContext(),"Data inserted successfully",
-                              Toast.LENGTH_SHORT
-                          ).show()
+                        Toast.makeText(
+                            this.requireContext(), "Data inserted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    }else{
-                      Toast.makeText(
-                          this.requireContext(),
-                          "Error Occured",
-                          Toast.LENGTH_SHORT
-                      ).show()
+                    } else {
+                        Toast.makeText(
+                            this.requireContext(),
+                            "Error Occured",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 }
@@ -324,7 +326,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.elevationKey.threshold = 1
         binding.elevationKey.setAdapter(elevationTypeView)
 
-   val projectionParamView: ArrayAdapter<String> =
+        val projectionParamView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
                 android.R.layout.select_dialog_item,

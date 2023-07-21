@@ -22,6 +22,7 @@
     <string name="hemisphere_data">H</string>
     <string name="zn_hemisphere_data">Hemisphere</string>
     <string name="sbm_btn">Submit</string>
+    <string name="create_custom_project">Create Custom Project</string>
     <string name="set_up_conn">Set Up Connections</string>
     <string name="set_up_comm">Set Up Communication</string>
     <string name="set_up_auto">Set Up AutoBase</string>

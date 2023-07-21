@@ -73,7 +73,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         Log.d(TAG, "onViewCreated: projectListData $projectListData")
 
         binding.addProject.setOnClickListener {
-            findNavController().safeNavigate(ProjectListFragmentDirections.actionProjectListFragmentToCreateProjectFragment())
+            findNavController().navigate(ProjectListFragmentDirections.actionProjectListFragmentToDefaultCreateProjectFragment())
         }
     }
 
