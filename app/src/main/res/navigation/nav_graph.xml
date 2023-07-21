@@ -14,6 +14,7 @@
         android:name="com.apogee.geomaster.ui.device.DeviceFragment"
         android:label="device_layout_fragment"
         tools:layout="@layout/device_layout_fragment" />
+
     <fragment
         android:id="@+id/toolsFragment"
         android:name="com.apogee.geomaster.ui.tools.ToolsFragment"
@@ -37,10 +38,11 @@
         android:id="@+id/homeScreenMainFragment"
         android:name="com.apogee.geomaster.ui.HomeScreenMainFragment"
         android:label="home_screen_main_fragment_layout"
-        tools:layout="@layout/home_screen_main_fragment_layout" />
+        tools:layout="@layout/home_screen_main_fragment_layout"  >
     <action
         android:id="@+id/action_global_projectListFragment"
         app:destination="@id/projectListFragment" />
+     </fragment>
     <fragment
         android:id="@+id/createProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
@@ -81,6 +83,26 @@
         android:name="com.apogee.geomaster.ui.connection.setupconnection.CreateConnectionFragment"
         android:label="create_connection_layout"
         tools:layout="@layout/create_connection_layout" />
+
+    <fragment
+        android:id="@+id/communicationfragment"
+        android:name="com.apogee.geomaster.ui.device.connectbluetooth.CommunicationFragment"
+        tools:layout="@layout/fragment_communication" >
+        <action
+            android:id="@+id/action_communicationfragment_to_bluetoothscandevicefragment"
+            app:destination="@id/bluetoothscandevicefragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/bluetoothscandevicefragment"
+        android:name="com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment"
+        tools:layout="@layout/fragment_bluetooth_scan_device">
+
+        <action
+            android:id="@+id/action_bluetoothscandevicefragment_to_communicationfragment"
+            app:destination="@id/communicationfragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/createRadioConnectionFragment"
         android:name="com.apogee.geomaster.ui.connection.setupradio.CreateRadioConnectionFragment"
@@ -96,4 +118,5 @@
         android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
         android:label="create_wifi_connection_layout"
         tools:layout="@layout/create_wifi_connection_layout" />
+
 </navigation>
