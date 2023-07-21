@@ -9,10 +9,12 @@ import com.apogee.geomaster.adaptor.viewholder.MultiViewHolder
 import com.apogee.geomaster.databinding.EditTextLayoutBinding
 import com.apogee.geomaster.databinding.SpinnerDropdownLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.utils.OnItemClickListener
 import java.lang.IllegalArgumentException
 
 
-class MultiRecyclerViewAdaptor : ListAdapter<DynamicViewType, MultiViewHolder>(diff) {
+class MultiRecyclerViewAdaptor(private val itemClickListener: OnItemClickListener) :
+    ListAdapter<DynamicViewType, MultiViewHolder>(diff) {
 
     companion object {
         val diff = object : DiffUtil.ItemCallback<DynamicViewType>() {
@@ -32,10 +34,10 @@ class MultiRecyclerViewAdaptor : ListAdapter<DynamicViewType, MultiViewHolder>(d
 
         }
 
-        private fun getValue(data: DynamicViewType): String {
+        private fun getValue(data: DynamicViewType): Int {
             return when (data) {
-                is DynamicViewType.EditText -> data.hint
-                is DynamicViewType.SpinnerData -> data.hint
+                is DynamicViewType.EditText -> data.id
+                is DynamicViewType.SpinnerData -> data.id
             }
         }
     }
@@ -70,11 +72,11 @@ class MultiRecyclerViewAdaptor : ListAdapter<DynamicViewType, MultiViewHolder>(d
         curr?.let {
             when (holder) {
                 is MultiViewHolder.DropDownViewHolder -> {
-                    holder.bindIt(it as DynamicViewType.SpinnerData)
+                    holder.bindIt(it as DynamicViewType.SpinnerData, itemClickListener)
                 }
 
                 is MultiViewHolder.EditTextViewHolder -> {
-                    holder.bindIt(it as DynamicViewType.EditText)
+                    holder.bindIt(it as DynamicViewType.EditText, itemClickListener)
                 }
             }
         }

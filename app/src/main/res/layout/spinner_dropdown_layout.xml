@@ -22,7 +22,7 @@
             tools:hint="@string/togle_pre_conn">
 
             <AutoCompleteTextView
-                android:id="@+id/datums"
+                android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
