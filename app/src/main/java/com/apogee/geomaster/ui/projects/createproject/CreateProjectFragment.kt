@@ -41,6 +41,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     var projectionTypes: ArrayList<String> = ArrayList()
     var projectionTypesID: String = ""
     var datumTypes: ArrayList<String> = ArrayList()
+//    var idList: ArrayList<String> = ArrayList()
     var idList : HashMap<String, String> = HashMap<String, String> ()
 
     var prjDataList: ArrayList<String> = ArrayList()
@@ -65,6 +66,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         enterTransition = fadeThrough
         reenterTransition = fadeThrough
         dbControl = DatabaseRepsoitory(this.requireContext())
+//        datumName = dbControl.getPredefinedDatumName() as ArrayList<String>
 
         projectionParamsData=dbControl.getprojectionParamData() as ArrayList<String>
         projectionParamsData.add(0,"Add Custom Projection") // Add the new element at the 0th index

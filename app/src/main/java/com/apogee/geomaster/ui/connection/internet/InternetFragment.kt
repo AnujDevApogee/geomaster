@@ -8,6 +8,7 @@ import com.apogee.geomaster.adaptor.ConnectionAdaptor
 import com.apogee.geomaster.databinding.InternetConnectionLayoutBinding
 import com.apogee.geomaster.model.NetworkConnection
 import com.apogee.geomaster.ui.connection.ConnectionFragment
+import com.apogee.geomaster.ui.connection.ConnectionFragmentDirections
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.toastMsg
 
@@ -21,7 +22,10 @@ class InternetFragment : Fragment(R.layout.internet_connection_layout) {
         binding = InternetConnectionLayoutBinding.bind(view)
         setupRecycle()
         binding.setCommBtn.setOnClickListener {
-            (parentFragment as ConnectionFragment).goToCreateConnection()
+            (parentFragment as ConnectionFragment).goToNxtScr(
+                ConnectionFragmentDirections
+                    .actionConnectionFragmentToCreateConnectionFragment()
+            )
         }
     }
 
@@ -33,7 +37,7 @@ class InternetFragment : Fragment(R.layout.internet_connection_layout) {
                         activity?.toastMsg("$response")
                     }
                 })
-            adapter=adaptor
+            adapter = adaptor
         }
     }
 }
