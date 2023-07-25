@@ -67,7 +67,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         reenterTransition = fadeThrough
         dbControl = DatabaseRepsoitory(this.requireContext())
 //        datumName = dbControl.getPredefinedDatumName() as ArrayList<String>
-
         projectionParamsData=dbControl.getprojectionParamData() as ArrayList<String>
         projectionParamsData.add(0,"Add Custom Projection") // Add the new element at the 0th index
         Log.d(TAG, "onCreate:projectionParamsData $projectionParamsData")
@@ -105,7 +104,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         setDropdownAdapters()
         idList.clear()
 
-
+        binding.zoneProjectionLayout.hide()
         binding.angleUnitTxt.setOnItemClickListener { adapterView, view, position, l ->
 
             var name = binding.angleUnitTxt.text.toString().trim()
@@ -143,13 +142,17 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             var name = binding.projectionTypeConn.text.toString().trim()
             projectionTypesID = dbControl.getProjectionTypeID(name)
             if(name.equals("LCC")){
-               binding.zoneDataLayout.hide()
+                binding.zoneProjectionLayout.show()
+                binding.zoneDataLayout.hide()
                binding.zoneHemisphereLayout.hide()
-            }else{
+
+            }else if(name.equals("UTM")){
+                binding.zoneProjectionLayout.hide()
                 binding.zoneDataLayout.show()
                 binding.zoneHemisphereLayout.show()
+                idList.put("projectionType",projectionTypesID.trim())
+
             }
-            idList.put("projectionType",projectionTypesID.trim())
 
         }
 
@@ -210,7 +213,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             val name = binding.zoneProjection.text.toString().trim()
             if(name.equals("Add Custom Projection")){
                 findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToAddProjectionParamsFragment())
-
             }else{
                 projectionParamsID = dbControl.getprojectionParamDataID(name)
                 idList.put("zoneProjection",projectionParamsID.trim())
@@ -219,50 +221,81 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         }
 
         binding.btnSubmit.setOnClickListener {
-            if (binding.projectNme.text!!.equals("")) {
-                Toast.makeText(this.requireContext(), "Add project name", Toast.LENGTH_SHORT).show()
+            idList.put("projectName",binding.projectNme.text.toString().trim())
 
-            } else {
-                idList.put("projectName",binding.projectNme.text.toString().trim())
-                if (idList.size < 10) {
+                Log.d(TAG, "onViewCreated: idList $idList")
+                // Check each condition individually using else if
+
+                if (binding.projectNme.text.toString().equals("")) {
                     Toast.makeText(
                         this.requireContext(),
-                        "Select All necessary values",
+                        "Please enter Project Name",
                         Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    val configtable = dbControl.addConfigurationData(idList)
-                    Log.d(TAG, "onViewCreated:configtable $configtable --")
-                  if(configtable.equals("Data inserted successfully")){
-                        prjDataList.clear()
-                        val configId=dbControl.getproject_configurationID(binding.projectNme.text.toString())
-                        prjDataList.add(binding.projectNme.text.toString())
-                        prjDataList.add(configId)
-                        prjDataList.add(binding.operatorNm.text.toString())
-                        prjDataList.add(binding.commentEd.text.toString())
-                        prjDataList.add("sdfsdf")
+                    ).show();
+                } else if (binding.datumTypeConn.text.toString().equals("Datum Type")) {
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Datum Type",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                } else if (binding.datums.text.toString().equals("Datum Name") || binding.datums.text.toString().equals("+Create Custom Datum") ) {
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Datum Name",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                }else if(binding.projectionTypeConn.text.toString().equals("Type") ){
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Projection Type",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                }
 
-                        val result=dbControl.addProjectData(prjDataList)
-                        Log.d(TAG, "onViewCreated:aaa idList --$idList")
-                        Log.d(TAG, "onViewCreated:aaa configtable --$configtable")
-                        Log.d(TAG, "onViewCreated:aaa projectTable --$result")
-                          Toast.makeText(
-                              this.requireContext(),"Data inserted successfully",
-                              Toast.LENGTH_SHORT
-                          ).show()
+                else if (binding.projectionTypeConn.text.toString().equals("LCC") && (binding.zoneProjection.text.toString().equals("Type")|| binding.zoneProjection.text.toString().equals("Add Custom Projection"))) {
 
-                    }else{
-                      Toast.makeText(
-                          this.requireContext(),
-                          "Error Occured",
-                          Toast.LENGTH_SHORT
-                      ).show()
+                        Toast.makeText(
+                            this.requireContext(),
+                            "Please select Projection Parameter",
+                            Toast.LENGTH_SHORT
+                        ).show();
+
+                }
+                else if (binding.projectionTypeConn.text.toString().equals("UTM") && binding.zoneData.text.toString().equals("Zone Data")) {
+
+                        Toast.makeText(
+                            this.requireContext(),
+                            "Please select a Zone ",
+                            Toast.LENGTH_SHORT
+                        ).show();
                     }
-
+                else if (binding.elevationKey.text.toString().equals("Elevation")) {
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Elevation",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                } else if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Distance Unit",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                } else if (binding.angleUnitTxt.text.toString().equals("Angle Unit")) {
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Angle Unit",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                }else{
+                    Log.d(TAG, "onViewCreated: LCC")
+                    setConfigurationPrams()
                 }
 
 
-            }
+
+
+
         }
 
     }
@@ -270,6 +303,38 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     override fun onResume() {
         super.onResume()
         setDropdownAdapters()
+
+    }
+    fun setConfigurationPrams(){
+
+        val configtable = dbControl.addConfigurationData(idList)
+        Log.d(TAG, "onViewCreated:configtable $configtable --")
+        if(configtable.equals("Data inserted successfully")){
+            prjDataList.clear()
+            val configId=dbControl.getproject_configurationID(binding.projectNme.text.toString())
+            prjDataList.add(binding.projectNme.text.toString())
+            prjDataList.add(configId)
+            prjDataList.add(binding.operatorNm.text.toString())
+            prjDataList.add(binding.commentEd.text.toString())
+            prjDataList.add("sdfsdf")
+
+            val result=dbControl.addProjectData(prjDataList)
+            Log.d(TAG, "onViewCreated:aaa idList --$idList")
+            Log.d(TAG, "onViewCreated:aaa configtable --$configtable")
+            Log.d(TAG, "onViewCreated:aaa projectTable --$result")
+            Toast.makeText(
+                this.requireContext(),"Data inserted successfully",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }else{
+            Toast.makeText(
+                this.requireContext(),
+                "Error Occured",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
 
     }
 

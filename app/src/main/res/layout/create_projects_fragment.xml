@@ -47,6 +47,7 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/operator_name_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -71,6 +72,36 @@
                     android:layout_height="match_parent"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/source_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingStart="15dp"
+                android:textSize="15sp"
+                android:text="Projection"
+                app:layout_constraintEnd_toStartOf="@+id/source_data"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/operator_name_layout"
+                app:layout_constraintTop_toBottomOf="@id/operator_name_layout" />
+
+            <TextView
+                android:id="@+id/source_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="WGS84"
+                android:paddingEnd="50dp"
+                app:layout_constraintEnd_toEndOf="@id/operator_name_layout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/source_view"
+                app:layout_constraintTop_toTopOf="@id/source_view" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/datum_nm_layout"
@@ -105,7 +136,7 @@
                 app:boxStrokeColor="@color/md_theme_light_primary"
                 app:layout_constraintLeft_toLeftOf="@id/operator_name_layout"
                 app:layout_constraintRight_toRightOf="@id/operator_name_layout"
-                app:layout_constraintTop_toBottomOf="@id/operator_name_layout">
+                app:layout_constraintTop_toBottomOf="@id/source_view">
 
                 <AutoCompleteTextView
                     android:id="@+id/datum_type_conn"
@@ -154,8 +185,7 @@
                 app:boxStrokeColor="@color/md_theme_light_primary"
                 app:layout_constraintLeft_toLeftOf="@id/projection_type_layout"
                 app:layout_constraintRight_toRightOf="@id/projection_type_layout"
-                app:layout_constraintTop_toBottomOf="@id/projection_type_layout"
-                >
+                app:layout_constraintTop_toBottomOf="@id/projection_type_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/zone_projection"

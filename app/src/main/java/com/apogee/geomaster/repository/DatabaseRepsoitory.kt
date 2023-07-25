@@ -130,8 +130,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("misc_1", "STRING"),
             TableCreator.ColumnDetails("misc_2", "STRING"),
             TableCreator.ColumnDetails("misc_3", "STRING"),
-            TableCreator.ColumnDetails("misc_4", "STRING"),
-        )
+            TableCreator.ColumnDetails("misc_4", "STRING") )
         val autocad_file_mapTable =
             tableCreator.createMainTableIfNeeded(autocad_file_map, autocad_file_mapColumn)
 
