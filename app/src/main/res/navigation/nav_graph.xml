@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeScreenMainFragment">
+    app:startDestination="@id/projectListFragment">
     <fragment
         android:id="@+id/projectsFragment"
         android:name="com.apogee.geomaster.ui.projects.ProjectsFragment"
@@ -14,6 +14,7 @@
         android:name="com.apogee.geomaster.ui.device.DeviceFragment"
         android:label="device_layout_fragment"
         tools:layout="@layout/device_layout_fragment" />
+
     <fragment
         android:id="@+id/toolsFragment"
         android:name="com.apogee.geomaster.ui.tools.ToolsFragment"
@@ -28,30 +29,38 @@
         android:id="@+id/projectListFragment"
         android:name="com.apogee.geomaster.ui.projects.projectlist.ProjectListFragment"
         android:label="project_item_fragment"
-        tools:layout="@layout/project_item_fragment" >
+        tools:layout="@layout/project_item_fragment">
         <action
-            android:id="@+id/action_projectListFragment_to_createProjectFragment"
-            app:destination="@id/createProjectFragment" />
+            android:id="@+id/action_projectListFragment_to_defaultCreateProjectFragment"
+            app:destination="@id/defaultCreateProjectFragment" />
+        <action
+            android:id="@+id/action_projectListFragment_to_communicationfragment"
+            app:destination="@id/communicationfragment" />
     </fragment>
     <fragment
         android:id="@+id/homeScreenMainFragment"
         android:name="com.apogee.geomaster.ui.HomeScreenMainFragment"
         android:label="home_screen_main_fragment_layout"
-        tools:layout="@layout/home_screen_main_fragment_layout" />
+        tools:layout="@layout/home_screen_main_fragment_layout"  >
     <action
         android:id="@+id/action_global_projectListFragment"
         app:destination="@id/projectListFragment" />
+     </fragment>
     <fragment
         android:id="@+id/createProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
         android:label="create_projects_fragment"
-        tools:layout="@layout/create_projects_fragment" >
+        tools:layout="@layout/create_projects_fragment">
         <action
             android:id="@+id/action_createProjectFragment_to_addProjectionParamsFragment"
             app:destination="@id/addProjectionParamsFragment" />
         <action
-            android:id="@+id/action_createProjectFragment_to_customDatumCreationFragment"
-            app:destination="@id/customDatumCreationFragment" />
+            android:id="@+id/action_createProjectFragment_to_addCustomDatumCreationFragment"
+            app:destination="@id/addCustomDatumCreationFragment" />
+        <action
+            android:id="@+id/action_createProjectFragment_to_homeScreenMainFragment2"
+            app:destination="@id/homeScreenMainFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/baseProfileFragment"
@@ -65,7 +74,7 @@
         android:id="@+id/connectionFragment"
         android:name="com.apogee.geomaster.ui.connection.ConnectionFragment"
         android:label="connection_layout_fragment"
-        tools:layout="@layout/connection_layout_fragment" >
+        tools:layout="@layout/connection_layout_fragment">
         <action
             android:id="@+id/action_connectionFragment_to_createConnectionFragment"
             app:destination="@id/createConnectionFragment" />
@@ -84,6 +93,26 @@
         android:name="com.apogee.geomaster.ui.connection.setupconnection.CreateConnectionFragment"
         android:label="create_connection_layout"
         tools:layout="@layout/create_connection_layout" />
+
+    <fragment
+        android:id="@+id/communicationfragment"
+        android:name="com.apogee.geomaster.ui.device.connectbluetooth.CommunicationFragment"
+        tools:layout="@layout/fragment_communication" >
+        <action
+            android:id="@+id/action_communicationfragment_to_bluetoothscandevicefragment"
+            app:destination="@id/bluetoothscandevicefragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/bluetoothscandevicefragment"
+        android:name="com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment"
+        tools:layout="@layout/fragment_bluetooth_scan_device">
+
+        <action
+            android:id="@+id/action_bluetoothscandevicefragment_to_communicationfragment"
+            app:destination="@id/communicationfragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/createRadioConnectionFragment"
         android:name="com.apogee.geomaster.ui.connection.setupradio.CreateRadioConnectionFragment"
@@ -92,19 +121,29 @@
     <fragment
         android:id="@+id/addProjectionParamsFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.projection.AddProjectionParamsFragment"
-        android:label="add_projection_params"
+        android:label="AddProjectionParamsFragment"
         tools:layout="@layout/add_projection_params" />
     <fragment
-        android:id="@+id/customDatumCreationFragment"
+        android:id="@+id/addCustomDatumCreationFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.datum.CustomDatumCreationFragment"
-        android:label="CustomDatumCreationFragment"
-        tools:layout="@layout/fragment_custom_datum_creation"/>
+        android:label="Custom Datum"
+        tools:layout="@layout/fragment_custom_datum_creation" />
     <fragment
         android:id="@+id/createWifiConnection"
         android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
         android:label="create_wifi_connection_layout"
         tools:layout="@layout/create_wifi_connection_layout" />
-
-
+    <fragment
+        android:id="@+id/defaultCreateProjectFragment"
+        android:name="com.apogee.geomaster.ui.projects.createproject.DefaultCreateProjectFragment"
+        android:label="default_project_layout"
+        tools:layout="@layout/default_project_layout" >
+        <action
+            android:id="@+id/action_defaultCreateProjectFragment_to_homeScreenMainFragment"
+            app:destination="@id/homeScreenMainFragment" />
+        <action
+            android:id="@+id/action_defaultCreateProjectFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
+    </fragment>
 
 </navigation>

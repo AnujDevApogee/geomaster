@@ -26,7 +26,7 @@ class HomeScreen : AppCompatActivity() {
             "23%",
             "Test_001",
             "Present",
-            R.menu.main_menu,
+            R.menu.info_mnu,
             binding.actionLayout,
             object :
                 OnItemClickListener {

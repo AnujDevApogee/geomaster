@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_help"
+        android:id="@+id/blue_tooth_icon"
+        android:icon="@drawable/baseline_bluetooth_24"
         android:iconTint="@color/md_theme_light_onPrimary"
-        android:title="Info"
+        android:title="Configure Bluetooth"
         app:showAsAction="ifRoom" />
 
 </menu>

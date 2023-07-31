@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.device.connectbluetooth.CommunicationFragment">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/five_dp"
+                android:text="@string/connection_type"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/five_dp">
+                <Spinner
+                    android:id="@+id/connectType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:padding="@dimen/five_dp"
+                    android:entries="@array/business_location_type"
+                    android:spinnerMode="dialog"
+                    android:minHeight="@dimen/forty_five" />
+
+                <ImageView
+                    android:layout_gravity="end|center"
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_down_24"
+                    android:padding="@dimen/five_dp" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/five_dp"
+                android:text="@string/bluetooth_device"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/five_dp"
+                    android:layout_weight="5">
+                    <Spinner
+                        android:id="@+id/btDevice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:padding="@dimen/five_dp"
+                        android:spinnerMode="dialog"
+                        android:minHeight="@dimen/forty_five" />
+
+                    <ImageView
+                        android:layout_gravity="end|center"
+                        android:contentDescription="@null"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/arrow_down_24"
+                        android:padding="@dimen/five_dp" />
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/forty_dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/searchbtn" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/fifty_five_dp"
+                android:background="@drawable/buttondesign"
+                android:minWidth="@dimen/one_hundred_twenty"
+                android:text="@string/disconnect"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/fifty_five_dp"
+                android:background="@drawable/buttondesign"
+                android:minWidth="@dimen/one_hundred_twenty"
+                android:text="@string/connect"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</layout>

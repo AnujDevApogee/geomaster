@@ -31,6 +31,21 @@ fun Fragment.displayActionBar(
     }
 }
 
+fun Fragment.displayNoMenu(
+    srcTitle: String,
+    binding: ActionBarLayoutBinding,
+
+) {
+    binding.toolBar.setNavigationIcon(R.drawable.ic_back_arrow)
+    binding.mainScreenLayout.hide()
+    binding.scrName.show()
+    binding.scrName.text = srcTitle
+
+    binding.toolBar.setNavigationOnClickListener {
+        findNavController().popBackStack()
+    }
+}
+
 
 fun Activity.displayActionBar(
     satellite: String,

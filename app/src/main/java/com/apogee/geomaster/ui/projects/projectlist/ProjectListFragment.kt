@@ -35,9 +35,8 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
     }
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
-
+            findNavController().navigate(R.id.action_projectListFragment_to_communicationfragment)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +60,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
 
         projectListData= dbControl.getProjectList() as ArrayList<String>
         var projectDetails : ArrayList<Project> = ArrayList()
-
+//        projectDetails.add(Project("Default","WGS84","44"))
         for(i in projectListData){
             var  title=i.split(",")[0]
             var  datum=i.split(",")[1]
@@ -73,7 +72,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         Log.d(TAG, "onViewCreated: projectListData $projectListData")
 
         binding.addProject.setOnClickListener {
-            findNavController().safeNavigate(ProjectListFragmentDirections.actionProjectListFragmentToCreateProjectFragment())
+            findNavController().navigate(ProjectListFragmentDirections.actionProjectListFragmentToDefaultCreateProjectFragment())
         }
     }
 
