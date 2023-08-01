@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.projects.createproject.datum.CustomDatumCreationFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/three_param"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="DX(m)"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edDx"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/border"
+                    android:inputType="numberSigned"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="DY(m)"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edDy"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/border"
+                    android:inputType="numberSigned"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="DZ(m)"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edDz"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/border"
+                    android:inputType="numberSigned"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/add_Params"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="RX(dd)"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edRX"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/border"
+                        android:paddingLeft="8dp"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="RY(dd)"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edRY"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="5dp"
+                        android:inputType="numberSigned"
+                        android:background="@drawable/border"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="RZ(dd)"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edRZ"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="5dp"
+                        android:inputType="numberSigned"
+                        android:background="@drawable/border"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="k(ppm)"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edK_ppm"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="5dp"
+                        android:inputType="numberSigned"
+                        android:background="@drawable/border"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/more_params"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="end"
+                    android:text="Show Less"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
+
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/buttondesign"
+                android:text="@string/ok"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

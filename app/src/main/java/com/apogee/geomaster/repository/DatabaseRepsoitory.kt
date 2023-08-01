@@ -620,6 +620,15 @@ class DatabaseRepsoitory(context: Context) {
 
         return data
     }
+    fun getProjectListCustomProjection(): List<String>? {
+        var data = tableCreator.executeStaticQuery("select  prj.project_name , DD.datum_name ,PP.zone_name,PT.projectionType\n" +
+                "from  project_table as PRJ JOIN project_configuration as PC ON PRJ.config_id = PC.config_id\n" +
+                "JOIN datum_data as DD ON DD.datum_id = PC.datum_id\n" +
+                "JOIN projectionParameters as PP ON PP.projectionParam_id =  PC.projectionParam_id\n" +
+                "JOIN projectiontype as PT ON PT.projectiontype_id = PP.projectiontype_id")
+
+        return data
+    }
 }
 
 

@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_createProjectFragment_to_homeScreenMainFragment2"
             app:destination="@id/homeScreenMainFragment" />
+        <action
+            android:id="@+id/action_createProjectFragment_to_addProjectionParamsFragment2"
+            app:destination="@id/addProjectionParamsFragment" />
 
     </fragment>
     <fragment

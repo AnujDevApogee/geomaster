@@ -21,6 +21,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
 
     private lateinit var binding: ProjectItemFragmentBinding
     var projectListData : ArrayList<String> = ArrayList()
+    var projectListDataCustomProjection : ArrayList<String> = ArrayList()
 
     val TAG= "ProjectListFragment"
 
@@ -59,13 +60,25 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         setUpRecycleView()
 
         projectListData= dbControl.getProjectList() as ArrayList<String>
+        projectListDataCustomProjection= dbControl.getProjectListCustomProjection() as ArrayList<String>
         var projectDetails : ArrayList<Project> = ArrayList()
 //        projectDetails.add(Project("Default","WGS84","44"))
         for(i in projectListData){
             var  title=i.split(",")[0]
             var  datum=i.split(",")[1]
             var  zone=i.split(",")[2]
-            projectDetails.add(Project(title,datum,zone))
+            var  projectionType="UTM"
+            projectDetails.add(Project(title,datum,projectionType,zone))
+        }
+        projectListAdaptor.submitList(projectDetails)
+
+        for(i in projectListDataCustomProjection){
+            var  title=i.split(",")[0]
+            var  datum=i.split(",")[1]
+            var  zone=i.split(",")[2]
+            var  projectionType=i.split(",")[3]
+
+            projectDetails.add(Project(title,datum,projectionType,zone))
         }
         projectListAdaptor.submitList(projectDetails)
 

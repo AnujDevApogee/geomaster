@@ -1,16 +1,33 @@
 package com.apogee.geomaster.ui.projects.createproject.datum
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.apogee.geomaster.R
-import com.apogee.geomaster.databinding.FragmentCustomDatumCreationBinding
+import com.apogee.geomaster.databinding.FragementCustumDatumDataBinding
 
+class CustomDatumCreationFragment : Fragment(R.layout.fragement_custum_datum_data) {
 
-class CustomDatumCreationFragment : Fragment(R.layout.fragment_custom_datum_creation) {
-    private lateinit var binding: FragmentCustomDatumCreationBinding
-     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private lateinit var binding:FragementCustumDatumDataBinding
+    var switchParams = false
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding= FragmentCustomDatumCreationBinding.bind(view)
+        binding= FragementCustumDatumDataBinding.bind(view)
+
+
+
+binding.moreParams.setOnClickListener {
+    if (!switchParams) {
+        binding.addParams.setVisibility(View.GONE)
+        binding.moreParams.setText("Show More")
+        switchParams = true
+    } else {
+        binding.addParams.setVisibility(View.VISIBLE)
+        binding.moreParams.setText("Show Less")
+        switchParams = false
+    }
+}
+
     }
 }
