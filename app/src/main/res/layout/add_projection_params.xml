@@ -400,7 +400,7 @@
                     android:layout_gravity="bottom|right"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="5dp"
-                    android:text="Save"/>
+                    android:text="Save" />
             </LinearLayout>
 
         </LinearLayout>

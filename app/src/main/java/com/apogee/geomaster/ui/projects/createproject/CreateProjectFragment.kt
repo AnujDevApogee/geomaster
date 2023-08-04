@@ -21,6 +21,7 @@ import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.openKeyBoard
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.show
+import com.apogee.geomaster.utils.toastMsg
 import com.google.android.material.transition.MaterialFadeThrough
 
 
@@ -184,6 +185,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                 binding.zoneProjectionLayout.show()
                 binding.zoneDataLayout.hide()
 //               binding.zoneHemisphereLayout.hide()
+                projectionTypesID = dbControl.getProjectionTypeID(name)
 
                     projectionParamsData = dbControl.getprojectionParamData(projectionTypesID.toInt()) as ArrayList<String>
                     projectionParamsData.add(0, "Add Custom Projection") // Add the new element at the 0th index
@@ -276,7 +278,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.zoneProjection.setOnItemClickListener { adapterView, view, position, l ->
             val name = binding.zoneProjection.text.toString().trim()
             if (name.equals("Add Custom Projection")) {
-                findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToAddProjectionParamsFragment())
+                findNavController().safeNavigate(R.id.action_createProjectFragment_to_zoneProjection)
             } else {
                 projectionParamsID = dbControl.getprojectionParamDataID(name)
                 idList.put("zoneProjection", projectionParamsID.trim())
@@ -291,71 +293,34 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             // Check each condition individually using else if
 
             if (binding.projectNme.text.toString().equals("")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please enter Project Name",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please enter Project Name")
             } else if (binding.datumTypeConn.text.toString().equals("Datum Type")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Datum Type",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg( "Please select Datum Type")
             } else if (binding.datums.text.toString()
                     .equals("Datum Name") || binding.datums.text.toString()
                     .equals("+Create Custom Datum")
             ) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Datum Name",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please select Datum Name")
             } else if (binding.projectionTypeConn.text.toString().equals("Type")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Projection Type",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg( "Please select Projection Type")
             } else if (binding.projectionTypeConn.text.toString()
                     .equals("LCC") && (binding.zoneProjection.text.toString()
                     .equals("Type") || binding.zoneProjection.text.toString()
                     .equals("Add Custom Projection"))
             ) {
 
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Projection Parameter",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please select Projection Parameter")
 
             } else if (binding.projectionTypeConn.text.toString()
                     .equals("UTM") && binding.zoneData.text.toString().equals("Zone Data")
             ) {
-
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select a Zone ",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please select a Zone ")
             } else if (binding.elevationKey.text.toString().equals("Elevation")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Elevation",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please select Elevation")
             } else if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Distance Unit",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please select Distance Unit")
             } else if (binding.angleUnitTxt.text.toString().equals("Angle Unit")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Angle Unit",
-                    Toast.LENGTH_SHORT
-                ).show();
+                activity?.toastMsg("Please select Angle Unit")
             } else {
                 Log.d(TAG, "onViewCreated: LCC")
                 setConfigurationPrams()
@@ -373,8 +338,42 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.continentLayout.hide()
         binding.countriesLayout.hide()
         binding.geoidLayout.hide()
+
+
+
+
         setDropdownAdapters()
 
+//        var name = binding.projectionTypeConn.text.toString().trim()
+//        if (name.equals("LCC") || name.equals("LTM")) {
+//            projectionTypesID = dbControl.getProjectionTypeID(name)
+//            binding.zoneProjectionLayout.show()
+//            binding.zoneDataLayout.hide()
+////               binding.zoneHemisphereLayout.hide()
+//            projectionTypesID = dbControl.getProjectionTypeID(name)
+//
+//            projectionParamsData = dbControl.getprojectionParamData(projectionTypesID.toInt()) as ArrayList<String>
+//            projectionParamsData.add(0, "Add Custom Projection") // Add the new element at the 0th index
+//
+//            val projectionParamView: ArrayAdapter<String> =
+//                ArrayAdapter<String>(
+//                    this.requireContext(),
+//                    android.R.layout.select_dialog_item,
+//                    projectionParamsData
+//                )
+//            binding.zoneProjection.threshold = 1
+//            binding.zoneProjection.setAdapter(projectionParamView)
+//
+//            idList.put("projectionType", projectionTypesID.trim())
+//
+//        } else if (name.equals("UTM")) {
+//            projectionTypesID = dbControl.getProjectionTypeID(name)
+//            binding.zoneProjectionLayout.hide()
+//            binding.zoneDataLayout.show()
+////                binding.zoneHemisphereLayout.show()
+//            idList.put("projectionType", projectionTypesID.trim())
+//
+//        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -393,19 +392,13 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
             val result = dbControl.addProjectData(prjDataList)
             if(result.equals("Data inserted successfully")){
-                Toast.makeText(this.requireContext(), "Data inserted successfully",Toast.LENGTH_SHORT ).show()
+                activity?.toastMsg("Data inserted successfully")
                 findNavController().safeNavigate(R.id.action_createProjectFragment_to_homeScreenMainFragment2)
             }else{
-                Toast.makeText(this.requireContext(), result,Toast.LENGTH_SHORT ).show()
+                activity?.toastMsg(result)
             }
-
-
         } else {
-            Toast.makeText(
-                this.requireContext(),
-                "Error Occured",
-                Toast.LENGTH_SHORT
-            ).show()
+            activity?.toastMsg("Error Occured")
         }
 
 
@@ -454,17 +447,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             )
         binding.zoneData.threshold = 1
         binding.zoneData.setAdapter(zoneDataView)
-
-
-//        val zoneHemisView: ArrayAdapter<String> =
-//            ArrayAdapter<String>(
-//                this.requireContext(),
-//                android.R.layout.select_dialog_item,
-//                zoneHemis
-//            )
-//        binding.zoneHemisphereData.threshold = 1
-//        binding.zoneHemisphereData.setAdapter(zoneHemisView)
-
 
         val projectionTypesView: ArrayAdapter<String> =
             ArrayAdapter<String>(
