@@ -55,11 +55,11 @@
             android:id="@+id/action_createProjectFragment_to_addProjectionParamsFragment"
             app:destination="@id/addProjectionParamsFragment" />
         <action
-            android:id="@+id/action_createProjectFragment_to_addCustomDatumCreationFragment"
-            app:destination="@id/addCustomDatumCreationFragment" />
-        <action
             android:id="@+id/action_createProjectFragment_to_homeScreenMainFragment2"
             app:destination="@id/homeScreenMainFragment" />
+        <action
+            android:id="@+id/action_createProjectFragment_to_addCustomDatumCreationFragment"
+            app:destination="@id/addCustomDatumCreationFragment" />
 
     </fragment>
     <fragment

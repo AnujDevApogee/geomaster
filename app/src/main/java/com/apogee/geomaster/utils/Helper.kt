@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.gson.Gson
@@ -93,6 +94,11 @@ fun Activity.openKeyBoard(view: View) {
     view.requestFocus()
 }
 
+
+
+fun Fragment.showMessage(msg:String){
+    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+}
 
 fun NavController.safeNavigate(direction: NavDirections) {
     currentDestination?.getAction(direction.actionId)?.run {
