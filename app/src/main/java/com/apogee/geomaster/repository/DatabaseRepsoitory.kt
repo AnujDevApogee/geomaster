@@ -22,6 +22,15 @@ class DatabaseRepsoitory(context: Context) {
 
 
     fun CommonApiTablesCreation(apiResponse: String) {
+        val coordinateSystem = "coordinateSystem"
+        val coordinateSystemColumn = arrayOf(
+            TableCreator.ColumnDetails("coordinateSystem_id", "INTEGER", true),
+            TableCreator.ColumnDetails("coordinateSystem_name", "STRING"),
+            TableCreator.ColumnDetails("active", "STRING")
+        )
+        val coordinateSystemTable = tableCreator.createMainTableIfNeeded(coordinateSystem, coordinateSystemColumn)
+
+
         val hemisphere = "hemisphere"
         val hemisphereColumn = arrayOf(
             TableCreator.ColumnDetails("hemisphere_id", "INTEGER", true),
@@ -241,6 +250,7 @@ class DatabaseRepsoitory(context: Context) {
         Log.d(
             TAG, "CommonApiTablesCreation: " +
                     "\n hemisphereTable:--$hemisphereTable" +
+                    "\n coordinateSystemTable:--$coordinateSystemTable" +
                     "\n continentsTable:--$continentsTable" +
                     "\n projectionParametersTable:--$projectionParametersTable" +
                     "\n zonedataTable:--$zonedataTable" +
@@ -255,6 +265,7 @@ class DatabaseRepsoitory(context: Context) {
                     "\n distanceunitTable:--$distanceunitTable"
         )
         if (hemisphereTable.equals("Table Created Successfully...")
+            && coordinateSystemTable.equals("Table Created Successfully...")
             && continentsTable.equals("Table Created Successfully...")
             && projectionParametersTable.equals("Table Created Successfully...")
             && zonedataTable.equals("Table Created Successfully...")
@@ -805,15 +816,13 @@ class DatabaseRepsoitory(context: Context) {
         val modal_typeTable = tableCreator.createMainTableIfNeeded(modal_type, modal_typeColumn)
 
 
-
-
         val sub_division_selection = "sub_division_selection"
         val sub_division_selectionColumn = arrayOf(
             TableCreator.ColumnDetails("sub_division_selection_id", "INTEGER", primaryKey = true),
             TableCreator.ColumnDetails("remark", "STRING")
         )
         val sub_division_selectionTable = tableCreator.createMainTableIfNeeded(
-            sub_division_selection,sub_division_selectionColumn
+            sub_division_selection, sub_division_selectionColumn
         )
 
 
@@ -859,7 +868,6 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(parameter_type, parameter_typeColumn)
 
 
-
         val parameter = "parameter"
         val parameterColumn = arrayOf(
             TableCreator.ColumnDetails("parameter_id", "INTEGER", true),
@@ -894,7 +902,6 @@ class DatabaseRepsoitory(context: Context) {
         val selectionTable = tableCreator.createMainTableIfNeeded(selection, selectionColumn)
 
 
-
         val selection_value = "selection_value"
         val selection_valueColumn = arrayOf(
             TableCreator.ColumnDetails("selection_value_id", "INTEGER", true),
@@ -913,14 +920,15 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(selection_value, selection_valueColumn)
 
 
-
         val fixed_response = "fixed_response"
         val fixed_responseColumn = arrayOf(
             TableCreator.ColumnDetails("fixed_response_id", "INTEGER", true),
             TableCreator.ColumnDetails("fixed_response_value_no", "INTEGER"),
-            TableCreator.ColumnDetails("parameter_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "parameter_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "parameter (parameter_id)"),
+                foreignKeyReference = "parameter (parameter_id)"
+            ),
             TableCreator.ColumnDetails("no_of_byte", "STRING"),
             TableCreator.ColumnDetails("created_by", "STRING"),
             TableCreator.ColumnDetails("start_pos", "STRING"),
@@ -979,12 +987,16 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("starting_del", "STRING"),
             TableCreator.ColumnDetails("end_del", "STRING"),
             TableCreator.ColumnDetails("created_at", "STRING"),
-            TableCreator.ColumnDetails("response_type_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "response_type_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "response_type (response_type_id)"),
-            TableCreator.ColumnDetails("command_id", "INTEGER",
+                foreignKeyReference = "response_type (response_type_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "command_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "command (command_id)"),
+                foreignKeyReference = "command (command_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("remark", "STRING")
@@ -998,9 +1010,11 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("type", "STRING"),
             TableCreator.ColumnDetails("validation_value", "STRING"),
             TableCreator.ColumnDetails("validation_index", "INTEGER"),
-            TableCreator.ColumnDetails("response_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "response_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "response (response_id)"),
+                foreignKeyReference = "response (response_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("created_at", "STRING"),
@@ -1023,24 +1037,33 @@ class DatabaseRepsoitory(context: Context) {
         val response_param_map = "response_param_map"
         val response_param_mapColumn = arrayOf(
             TableCreator.ColumnDetails("response_param_map_id", "INTEGER", true),
-            TableCreator.ColumnDetails("selection_value_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "selection_value_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "selection_value (selection_value_id)"),
-            TableCreator.ColumnDetails("response_id", "INTEGER",
+                foreignKeyReference = "selection_value (selection_value_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "response_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "response (response_id)"),
-            TableCreator.ColumnDetails("parameter_id", "INTEGER",
+                foreignKeyReference = "response (response_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "parameter_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "parameter (parameter_id)"),
-            TableCreator.ColumnDetails("sub_division_selection_id", "INTEGER",
+                foreignKeyReference = "parameter (parameter_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "sub_division_selection_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "sub_division_selection(sub_division_selection_id)"),
+                foreignKeyReference = "sub_division_selection(sub_division_selection_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("created_at", "STRING"),
             TableCreator.ColumnDetails("remark", "STRING")
         )
-        val response_param_mapTable = tableCreator.createMainTableIfNeeded(response_param_map, response_param_mapColumn)
+        val response_param_mapTable =
+            tableCreator.createMainTableIfNeeded(response_param_map, response_param_mapColumn)
 
 
         val variable_response = "variable_response"
@@ -1048,12 +1071,16 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("variable_response_id", "INTEGER", true),
             TableCreator.ColumnDetails("no_of_byte", "STRING"),
             TableCreator.ColumnDetails("start_pos", "STRING"),
-            TableCreator.ColumnDetails("response_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "response_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "response (response_id)"),
-            TableCreator.ColumnDetails("parameter_id", "INTEGER",
+                foreignKeyReference = "response (response_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "parameter_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "parameter (parameter_id)"),
+                foreignKeyReference = "parameter (parameter_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("created_at", "STRING"),
@@ -1063,22 +1090,25 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(variable_response, variable_responseColumn)
 
 
-
         val parameter_default_value = "parameter_default_value"
         val parameter_default_valueColumn = arrayOf(
             TableCreator.ColumnDetails("parameter_default_value_id", "INTEGER", true),
             TableCreator.ColumnDetails("selection_default_value", "STRING"),
-            TableCreator.ColumnDetails("selection_value_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "selection_value_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "selection_value (selection_value_id)"),
+                foreignKeyReference = "selection_value (selection_value_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("created_at", "STRING"),
             TableCreator.ColumnDetails("remark", "STRING"),
             TableCreator.ColumnDetails("sub_division_default_value", "STRING"),
-            TableCreator.ColumnDetails("sub_division_selection_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "sub_division_selection_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "sub_division_selection (sub_division_selection_id)")
+                foreignKeyReference = "sub_division_selection (sub_division_selection_id)"
+            )
         )
         val parameter_default_valueTable = tableCreator.createMainTableIfNeeded(
             parameter_default_value,
@@ -1135,18 +1165,26 @@ class DatabaseRepsoitory(context: Context) {
         val command_param_map = "command_param_map"
         val command_param_mapColumn = arrayOf(
             TableCreator.ColumnDetails("command_param_map_id", "INTEGER", true),
-            TableCreator.ColumnDetails("command_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "command_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "command (command_id)"),
-            TableCreator.ColumnDetails("selection_value_id", "INTEGER",
+                foreignKeyReference = "command (command_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "selection_value_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "selection_value (selection_value_id)"),
-            TableCreator.ColumnDetails("parameter_id", "INTEGER",
+                foreignKeyReference = "selection_value (selection_value_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "parameter_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "parameter (parameter_id)"),
-            TableCreator.ColumnDetails("sub_division_selection_id", "INTEGER",
+                foreignKeyReference = "parameter (parameter_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "sub_division_selection_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "sub_division_selection (sub_division_selection_id)"),
+                foreignKeyReference = "sub_division_selection (sub_division_selection_id)"
+            ),
         )
         val command_param_mapTable =
             tableCreator.createMainTableIfNeeded(command_param_map, command_param_mapColumn)
@@ -1156,14 +1194,15 @@ class DatabaseRepsoitory(context: Context) {
         val operationColumn = arrayOf(
             TableCreator.ColumnDetails("operation_id", "INTEGER", true),
             TableCreator.ColumnDetails("operation_name", "STRING"),
-            TableCreator.ColumnDetails("parent_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "parent_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "operation (operation_id)"),
+                foreignKeyReference = "operation (operation_id)"
+            ),
             TableCreator.ColumnDetails("is_super_child", "STRING"),
             TableCreator.ColumnDetails("remark", "STRING")
         )
         val operationTable = tableCreator.createMainTableIfNeeded(operation, operationColumn)
-
 
 
         val fixed_response_value = "fixed_response_value"
@@ -1171,9 +1210,11 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("fixed_response_value_id", "INTEGER", true),
             TableCreator.ColumnDetails("display_value", "STRING"),
             TableCreator.ColumnDetails("select_value", "STRING"),
-            TableCreator.ColumnDetails("fixed_response_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "fixed_response_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "fixed_response (fixed_response_id)"),
+                foreignKeyReference = "fixed_response (fixed_response_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("created_at", "STRING"),
@@ -1181,7 +1222,6 @@ class DatabaseRepsoitory(context: Context) {
         )
         val fixed_response_valueTable =
             tableCreator.createMainTableIfNeeded(fixed_response_value, fixed_response_valueColumn)
-
 
 
         val device = "device"
@@ -1264,7 +1304,6 @@ class DatabaseRepsoitory(context: Context) {
         val inputTable = tableCreator.createMainTableIfNeeded(input, inputColumn)
 
 
-
         val command_device_map = "command_device_map"
         val command_device_mapColumn = arrayOf(
             TableCreator.ColumnDetails("command_device_map_id", "INTEGER", true),
@@ -1339,8 +1378,6 @@ class DatabaseRepsoitory(context: Context) {
         val device_mapTable = tableCreator.createMainTableIfNeeded(device_map, device_mapColumn)
 
 
-
-
         val byte_data = "byte_data"
         val byte_dataColumn = arrayOf(
             TableCreator.ColumnDetails("byte_data_id", "INTEGER", primaryKey = true),
@@ -1349,14 +1386,15 @@ class DatabaseRepsoitory(context: Context) {
         val byte_dataTable = tableCreator.createMainTableIfNeeded(byte_data, byte_dataColumn)
 
 
-
         val constellation_model_map = "constellation_model_map"
         val constellation_model_mapColumn = arrayOf(
             TableCreator.ColumnDetails("constellation_model_map_id", "INTEGER", primaryKey = true),
             TableCreator.ColumnDetails("constellation_id", "INTEGER"),
-            TableCreator.ColumnDetails("model_id", "INTEGER",
+            TableCreator.ColumnDetails(
+                "model_id", "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "model (model_id)"),
+                foreignKeyReference = "model (model_id)"
+            ),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("created_at", "STRING"),
