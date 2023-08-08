@@ -4,6 +4,7 @@ package com.apogee.geomaster.service
 
 internal object Constants {
     const val RESPONSE_STRING: String="responseString"
+    const val BLUTOOTH_RESPONSE_STRING: String="bluetoothResponseString"
     const val FIRSTRUN: Boolean=false
     const val INTENT_ACTION_DISCONNECT = /*BuildConfig.APPLICATION_ID +*/ "com.example.pda.Disconnect"
     const val NOTIFICATION_CHANNEL = /*BuildConfig.APPLICATION_ID +*/ "com.example.pda.Channel"

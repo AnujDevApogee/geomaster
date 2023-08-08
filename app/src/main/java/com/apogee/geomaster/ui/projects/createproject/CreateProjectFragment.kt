@@ -20,7 +20,6 @@ import com.apogee.geomaster.utils.getEmojiByUnicode
 import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.show
-import com.apogee.geomaster.utils.showMessage
 import com.google.android.material.transition.MaterialFadeThrough
 
 
@@ -280,7 +279,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.zoneProjection.setOnItemClickListener { _, _, _, _ ->
             val name = binding.zoneProjection.text.toString().trim()
             if (name.equals("Add Custom Projection", true)) {
-                findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToAddProjectionParamsFragment())
+                findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToZoneProjection())
             } else {
                 projectionParamsID = dbControl.getprojectionParamDataID(name)
                 idList["zoneProjection"] = projectionParamsID.trim()
@@ -294,56 +293,76 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             Log.d(tag, "onViewCreated: idList $idList")
             // Check each condition individually using else if
 
-            if (binding.projectNme.text.toString().equals("", true)) {
-                showMessage("Please enter Project Name")
-                return@setOnClickListener
-            }
-
-            if (binding.datumTypeConn.text.toString().equals("Datum Type", true)) {
-                showMessage("Please select Datum Type")
-                return@setOnClickListener
-            }
-            if (binding.datums.text.toString()
-                    .equals("Datum Name", true) || binding.datums.text.toString()
-                    .equals("+Create Custom Datum", true)
+            if (binding.projectNme.text.toString().equals("")) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please enter Project Name",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.datumTypeConn.text.toString().equals("Datum Type")) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Datum Type",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.datums.text.toString()
+                    .equals("Datum Name") || binding.datums.text.toString()
+                    .equals("+Create Custom Datum")
             ) {
-                showMessage("Please select Datum Name")
-                return@setOnClickListener
-            }
-
-            if (binding.projectionTypeConn.text.toString().equals("Type", true)) {
-                showMessage("Please select Projection Type")
-                return@setOnClickListener
-            }
-            if (binding.projectionTypeConn.text.toString()
-                    .equals("LCC", true) && (binding.zoneProjection.text.toString()
-                    .equals("Type", true) || binding.zoneProjection.text.toString()
-                    .equals("Add Custom Projection", true))
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Datum Name",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.projectionTypeConn.text.toString().equals("Type")) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Projection Type",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.projectionTypeConn.text.toString()
+                    .equals("LCC") && (binding.zoneProjection.text.toString()
+                    .equals("Type") || binding.zoneProjection.text.toString()
+                    .equals("Add Custom Projection"))
             ) {
-                showMessage("Please select Projection Parameter")
-                return@setOnClickListener
-            }
-            if (binding.projectionTypeConn.text.toString()
-                    .equals("UTM", true) && binding.zoneData.text.toString()
-                    .equals("Zone Data", true)
-            ) {
-                showMessage("Please select a Zone ")
-                return@setOnClickListener
-            }
-            if (binding.elevationKey.text.toString().equals("Elevation",true)) {
-                showMessage("Please select Elevation")
-                return@setOnClickListener
-            }
-            if (binding.distanceTxt.text.toString().equals("Distance Unit",true)) {
-                showMessage("Please select Distance Unit")
-                return@setOnClickListener
-            }
-            if (binding.angleUnitTxt.text.toString().equals("Angle Unit",true)) {
-                showMessage("Please select Angle Unit")
-                return@setOnClickListener
-            }
 
-            setConfigurationPrams()
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Projection Parameter",
+                    Toast.LENGTH_SHORT
+                ).show();
+
+            } else if (binding.projectionTypeConn.text.toString()
+                    .equals("UTM") && binding.zoneData.text.toString().equals("Zone Data")
+            ) {
+
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select a Zone ",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.elevationKey.text.toString().equals("Elevation")) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Elevation",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Distance Unit",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else if (binding.angleUnitTxt.text.toString().equals("Angle Unit")) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please select Angle Unit",
+                    Toast.LENGTH_SHORT
+                ).show();
+            } else {
+                Log.d(tag, "onViewCreated: LCC")
+                setConfigurationPrams()
+            }
 
 
         }
@@ -376,7 +395,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             prjDataList.add("sdfsdf")
 
             val result = dbControl.addProjectData(prjDataList)
-            if(result.equals("Data inserted successfully",true)){
+            if(result.equals("Data inserted successfully")){
                 Toast.makeText(this.requireContext(), "Data inserted successfully",Toast.LENGTH_SHORT ).show()
                 findNavController().safeNavigate(R.id.action_createProjectFragment_to_homeScreenMainFragment2)
             }else{

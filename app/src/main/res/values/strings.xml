@@ -57,7 +57,6 @@
     <string name="refreshlist">RefreshList</string>
 
 
-
     <string-array name="business_location_type">
         <!--  <item>Select</item>-->
         <item>Bluetooth</item>
@@ -66,7 +65,6 @@
 
     <string name="ssid_conn">SSID</string>
     <string name="ssid_pass_conn">SSID Password</string>
-
 
 
 </resources>

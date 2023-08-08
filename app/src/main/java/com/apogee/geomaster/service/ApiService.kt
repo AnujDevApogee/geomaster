@@ -88,7 +88,6 @@ class ApiService : Service(), CustomCallback {
     override fun onResponse(call: Call<*>?, response: Response<*>?, requestCode: Int) {
         val responseBody = response?.body() as ResponseBody?
 
-
         if (response!!.isSuccessful) {
             if (responseBody != null) {
                 try {

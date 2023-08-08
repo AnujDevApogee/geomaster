@@ -42,24 +42,24 @@
         android:name="com.apogee.geomaster.ui.HomeScreenMainFragment"
         android:label="home_screen_main_fragment_layout"
         tools:layout="@layout/home_screen_main_fragment_layout"  >
-    <action
-        android:id="@+id/action_global_projectListFragment"
-        app:destination="@id/projectListFragment" />
-     </fragment>
+        <action
+            android:id="@+id/action_global_projectListFragment"
+            app:destination="@id/projectListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.CreateProjectFragment"
         android:label="create_projects_fragment"
         tools:layout="@layout/create_projects_fragment">
         <action
-            android:id="@+id/action_createProjectFragment_to_addProjectionParamsFragment"
-            app:destination="@id/addProjectionParamsFragment" />
+            android:id="@+id/action_createProjectFragment_to_addCustomDatumCreationFragment"
+            app:destination="@id/addCustomDatumCreationFragment" />
         <action
             android:id="@+id/action_createProjectFragment_to_homeScreenMainFragment2"
             app:destination="@id/homeScreenMainFragment" />
         <action
-            android:id="@+id/action_createProjectFragment_to_addCustomDatumCreationFragment"
-            app:destination="@id/addCustomDatumCreationFragment" />
+            android:id="@+id/action_createProjectFragment_to_zoneProjection"
+            app:destination="@id/zoneProjection" />
 
     </fragment>
     <fragment
@@ -122,12 +122,16 @@
         android:id="@+id/addProjectionParamsFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.projection.AddProjectionParamsFragment"
         android:label="AddProjectionParamsFragment"
-        tools:layout="@layout/add_projection_params" />
+        tools:layout="@layout/add_projection_params" >
+        <action
+            android:id="@+id/action_addProjectionParamsFragment_to_zoneProjection"
+            app:destination="@id/zoneProjection" />
+    </fragment>
     <fragment
         android:id="@+id/addCustomDatumCreationFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.datum.CustomDatumCreationFragment"
         android:label="Custom Datum"
-        tools:layout="@layout/fragment_custom_datum_creation" />
+        tools:layout="@layout/fragement_custum_datum_data" />
     <fragment
         android:id="@+id/createWifiConnection"
         android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
@@ -143,6 +147,18 @@
             app:destination="@id/homeScreenMainFragment" />
         <action
             android:id="@+id/action_defaultCreateProjectFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zoneProjection"
+        android:name="com.apogee.geomaster.ui.projects.createproject.projection.ZoneProjectionFragment"
+        android:label="zone_projection_fragment_layout"
+        tools:layout="@layout/fragment_zone_projection" >
+        <action
+            android:id="@+id/action_zoneProjection_to_addProjectionParamsFragment"
+            app:destination="@id/addProjectionParamsFragment" />
+        <action
+            android:id="@+id/action_zoneProjection_to_createProjectFragment"
             app:destination="@id/createProjectFragment" />
     </fragment>
 
