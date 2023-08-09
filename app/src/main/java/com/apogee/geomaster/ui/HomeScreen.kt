@@ -22,10 +22,10 @@ class HomeScreen : AppCompatActivity() {
         binding = HomeScreenLayoutBinding.inflate(layoutInflater)
         changeStatusBarColor(R.color.md_theme_light_primary)
         displayActionBar(
-            "12",
-            "23%",
-            "Test_001",
-            "Present",
+            "N/A",
+            "N/A",
+            "Disconnect",
+            "N/A",
             R.menu.info_mnu,
             binding.actionLayout,
             object :

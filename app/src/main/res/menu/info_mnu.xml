@@ -7,6 +7,6 @@
         android:icon="@drawable/baseline_bluetooth_24"
         android:iconTint="@color/md_theme_light_onPrimary"
         android:title="Configure Bluetooth"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
 </menu>
