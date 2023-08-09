@@ -13,6 +13,7 @@ import com.apogee.geomaster.ui.device.DeviceFragment
 import com.apogee.geomaster.ui.projects.ProjectsFragment
 import com.apogee.geomaster.ui.survey.SurveyFragment
 import com.apogee.geomaster.ui.tools.ToolsFragment
+import com.apogee.geomaster.utils.RotateDownPageTransformer
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.toastMsg
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
@@ -97,5 +98,6 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
         viewPagerAdaptor.setFragment(SurveyFragment())
         viewPagerAdaptor.setFragment(ToolsFragment())
         binding.mainFragmentViewPager.adapter = viewPagerAdaptor
+       binding.mainFragmentViewPager.setPageTransformer(RotateDownPageTransformer())
     }
 }

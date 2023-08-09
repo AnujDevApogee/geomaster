@@ -106,11 +106,10 @@
     <fragment
         android:id="@+id/bluetoothscandevicefragment"
         android:name="com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment"
-        tools:layout="@layout/fragment_bluetooth_scan_device">
-
+        tools:layout="@layout/fragment_communication">
         <action
-            android:id="@+id/action_bluetoothscandevicefragment_to_communicationfragment"
-            app:destination="@id/communicationfragment" />
+            android:id="@+id/action_bluetoothscandevicefragment_to_homeScreenMainFragment"
+            app:destination="@id/homeScreenMainFragment" />
     </fragment>
 
     <fragment

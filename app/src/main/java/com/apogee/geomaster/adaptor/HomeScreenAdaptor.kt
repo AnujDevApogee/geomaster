@@ -54,9 +54,6 @@ class HomeScreenAdaptor(private val listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = getItem(position)
-        val animation: Animation =
-            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.enter_anim_layout)
-        holder.itemView.startAnimation(animation)
         item?.let {
             holder.getItem(it, listener)
         }

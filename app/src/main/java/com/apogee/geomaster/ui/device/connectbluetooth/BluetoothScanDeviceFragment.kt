@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.FragmentCommunicationBinding
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
 import com.apogee.geomaster.utils.hide
+import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.showDeviceAdd
 import com.apogee.geomaster.utils.showMessage
 import com.google.android.material.transition.MaterialFadeThrough
@@ -54,6 +56,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     private fun getDeviceSerialNumber() {
         showDeviceAdd(success = {
             showMessage(it)
+            findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
         }, cancel = {
 
         })
