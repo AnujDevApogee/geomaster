@@ -12,9 +12,12 @@ fun Fragment.displayActionBar(
     srcTitle: String,
     binding: ActionBarLayoutBinding,
     menu: Int = -1,
-    onMenuItem: OnItemClickListener? = null
+    onMenuItem: OnItemClickListener? = null,
+    navIcon: Int = R.drawable.ic_back_arrow
 ) {
-    binding.toolBar.setNavigationIcon(R.drawable.ic_back_arrow)
+    if (navIcon != -1)
+        binding.toolBar.setNavigationIcon(navIcon)
+
     if (menu != -1) {
         binding.toolBar.inflateMenu(menu)
         binding.toolBar.setOnMenuItemClickListener {

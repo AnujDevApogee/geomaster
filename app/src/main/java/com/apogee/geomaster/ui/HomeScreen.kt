@@ -71,6 +71,7 @@ class HomeScreen : AppCompatActivity() {
 
 
     fun hideActionBar(){
+
         binding.actionLayout.root.hide()
     }
 

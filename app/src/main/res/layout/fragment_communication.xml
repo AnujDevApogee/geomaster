@@ -1,133 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.device.connectbluetooth.CommunicationFragment">
 
-    <RelativeLayout
-        android:layout_height="match_parent"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <include
+            android:id="@+id/action_layout"
+            layout="@layout/action_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/action_layout">
 
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/five_dp"
-                android:text="@string/connection_type"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twenty_sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/five_dp">
-                <Spinner
-                    android:id="@+id/connectType"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycle_view_ble"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/pb_ble"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:padding="@dimen/five_dp"
-                    android:entries="@array/business_location_type"
-                    android:spinnerMode="dialog"
-                    android:minHeight="@dimen/forty_five" />
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20dp"
+                    android:indeterminate="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackCornerRadius="20dp" />
 
-                <ImageView
-                    android:layout_gravity="end|center"
-                    android:contentDescription="@null"
+
+                <TextView
+                    android:id="@+id/msg_pb"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/md_theme_dark_scrim"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="@id/pb_ble"
+                    app:layout_constraintRight_toRightOf="@id/pb_ble"
+                    app:layout_constraintTop_toBottomOf="@id/pb_ble"
+                    tools:text="dgflk khlfdhdl fhklgfl fhlhlkfhkldfhlfhkldfhlk" />
+
+
+
+
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/add_device_manually"
+                    style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/arrow_down_24"
-                    android:padding="@dimen/five_dp" />
-            </FrameLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/five_dp"
-                android:text="@string/bluetooth_device"
-                android:textColor="@color/black"
-                android:textSize="@dimen/twenty_sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/five_dp"
-                    android:layout_weight="5">
-                    <Spinner
-                        android:id="@+id/btDevice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border"
-                        android:padding="@dimen/five_dp"
-                        android:spinnerMode="dialog"
-                        android:minHeight="@dimen/forty_five" />
-
-                    <ImageView
-                        android:layout_gravity="end|center"
-                        android:contentDescription="@null"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_down_24"
-                        android:padding="@dimen/five_dp" />
-                </FrameLayout>
-
-                <ImageView
-                    android:id="@+id/search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/searchbtn" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true">
-
-            <Button
-                android:id="@+id/disconnect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/ten_dp"
-                android:layout_marginBottom="@dimen/fifty_five_dp"
-                android:background="@drawable/buttondesign"
-                android:minWidth="@dimen/one_hundred_twenty"
-                android:text="@string/disconnect"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/connect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/ten_dp"
-                android:layout_marginBottom="@dimen/fifty_five_dp"
-                android:background="@drawable/buttondesign"
-                android:minWidth="@dimen/one_hundred_twenty"
-                android:text="@string/connect"
-                android:textColor="@color/white" />
-        </LinearLayout>
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:backgroundTint="#c2e7ff"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/poppins_bold"
+                    android:maxLines="1"
+                    android:text="@string/add_manually"
+                    android:textAllCaps="false"
+                    android:textColor="#223f58"
+                    app:collapsedSize="50dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconTint="#223f58"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:shapeAppearanceOverlay="@style/shape_for_fab"
+                    app:strokeColor="#c2e7ff" />
 
 
 
-    </RelativeLayout>
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

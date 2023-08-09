@@ -15,6 +15,7 @@
     <string name="rem_me">Remember Me</string>
     <string name="user_pass">Password</string>
     <string name="login_btn">Login</string>
+    <string name="add_manually">Add Manually</string>
     <string name="zn_datum_type">Datum Type</string>
     <string name="datum_type">Datum Type</string>
     <string name="continent">Continent</string>

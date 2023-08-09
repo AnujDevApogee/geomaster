@@ -50,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding.cardLyt.startAnimation(anim)
 
-
         binding.loginBtn.setOnClickListener {
             myViewModel.onLoginClicked()
         }
