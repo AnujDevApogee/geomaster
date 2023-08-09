@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E7EFF6"
+        android:background="@color/cardview_light_background"
         android:padding="10dp">
 
 
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:textColorHint="#838383"
-            app:boxBackgroundColor="#f2f2f2"
+            app:boxBackgroundColor="@color/cardview_light_background"
             app:boxStrokeColor="@android:color/transparent"
             app:endIconMode="clear_text"
             app:boxCornerRadiusBottomEnd="20dp"
