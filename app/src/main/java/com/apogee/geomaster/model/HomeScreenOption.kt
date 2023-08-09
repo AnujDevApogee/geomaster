@@ -44,6 +44,10 @@ data class HomeScreenOption(
                 icon = R.drawable.wizard,
                 "Work Mode",
                 navId = -1
+            ),HomeScreenOption(
+                icon = R.drawable.ic_folder,
+                "Configuration",
+                navId = -1
             )
         )
 
