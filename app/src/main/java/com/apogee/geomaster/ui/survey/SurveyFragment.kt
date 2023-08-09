@@ -20,7 +20,7 @@ class SurveyFragment : Fragment(R.layout.survey_fragment_layout), OnItemClickLis
         (activity as  HomeScreen?)?.showActionBar()
         binding = SurveyFragmentLayoutBinding.bind(view)
         recycleView()
-        homeScreenAdaptor.submitList(HomeScreenOption.list)
+        homeScreenAdaptor.submitList(HomeScreenOption.surveyScreenList)
     }
     private fun recycleView() {
         binding.surveyRecycleView.apply {

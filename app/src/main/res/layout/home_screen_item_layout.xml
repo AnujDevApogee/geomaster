@@ -34,8 +34,7 @@
                 android:minHeight="85dp"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_device"
-                />
+                android:src="@drawable/ic_device" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -48,6 +47,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_bold"
             android:padding="5dp"
+            android:textAlignment="center"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

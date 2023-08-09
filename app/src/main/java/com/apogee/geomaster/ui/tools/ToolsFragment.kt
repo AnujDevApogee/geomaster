@@ -24,7 +24,7 @@ class ToolsFragment : Fragment(R.layout.tools_fragment_layout), OnItemClickListe
         (activity as HomeScreen?)?.showActionBar()
         binding = ToolsFragmentLayoutBinding.bind(view)
         recycleView()
-        homeScreenAdaptor.submitList(HomeScreenOption.list)
+        homeScreenAdaptor.submitList(HomeScreenOption.toolsList)
     }
 
     private fun recycleView() {
