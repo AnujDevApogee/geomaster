@@ -22,7 +22,7 @@ class DeviceFragment : Fragment(R.layout.device_layout_fragment), OnItemClickLis
         (activity as  HomeScreen?)?.showActionBar()
         binding = DeviceLayoutFragmentBinding.bind(view)
         recycleView()
-        homeScreenAdaptor.submitList(HomeScreenOption.list)
+        homeScreenAdaptor.submitList(HomeScreenOption.deviceList)
     }
 
     private fun recycleView() {

@@ -22,7 +22,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment_layout), OnItemClic
         (activity as HomeScreen?)?.showActionBar()
         binding = ProjectsFragmentLayoutBinding.bind(view)
         recycleView()
-        homeScreenAdaptor.submitList(HomeScreenOption.list)
+        homeScreenAdaptor.submitList(HomeScreenOption.projectList)
     }
 
 
