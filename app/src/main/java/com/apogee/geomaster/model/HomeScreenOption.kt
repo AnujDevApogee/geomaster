@@ -119,7 +119,6 @@ data class HomeScreenOption(
             )
         )
 
-
         val toolsList = listOf(
             HomeScreenOption(
                 icon = R.drawable.sitecaliberation,
