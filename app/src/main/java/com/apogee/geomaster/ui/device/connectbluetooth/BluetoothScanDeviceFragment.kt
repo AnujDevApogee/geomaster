@@ -10,6 +10,8 @@ import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
 import com.apogee.geomaster.utils.hide
+import com.apogee.geomaster.utils.showDeviceAdd
+import com.apogee.geomaster.utils.showMessage
 import com.google.android.material.transition.MaterialFadeThrough
 
 class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
@@ -38,14 +40,24 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             navIcon = -1
         )
         (activity as HomeScreen?)?.hideActionBar()
-        binding.pbBle.isVisible=false
+        binding.pbBle.isVisible = false
         binding.msgPb.hide()
 
 
+        binding.addDeviceManually.setOnClickListener {
+            getDeviceSerialNumber()
+        }
 
 
     }
 
+    private fun getDeviceSerialNumber() {
+        showDeviceAdd(success = {
+            showMessage(it)
+        }, cancel = {
+
+        })
+    }
 
 
 }
