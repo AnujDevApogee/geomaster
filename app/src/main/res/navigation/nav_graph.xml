@@ -183,6 +183,15 @@
         android:id="@+id/satelliteConfigurationFragment"
         android:name="com.apogee.geomaster.ui.configuration.satellite.SatelliteConfigurationFragment"
         android:label="satellite_configuration_fragment"
-        tools:layout="@layout/satellite_configuration_fragment" />
+        tools:layout="@layout/satellite_configuration_fragment" >
+        <action
+            android:id="@+id/action_satelliteConfigurationFragment_to_deviceConfiguration"
+            app:destination="@id/deviceConfiguration" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceConfiguration"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.DeviceConfiguration"
+        android:label="device_config_layout"
+        tools:layout="@layout/device_config_layout" />
 
 </navigation>
