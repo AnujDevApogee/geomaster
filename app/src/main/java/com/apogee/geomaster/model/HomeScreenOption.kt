@@ -47,7 +47,7 @@ data class HomeScreenOption(
             ),HomeScreenOption(
                 icon = R.drawable.ic_folder,
                 "Configuration",
-                navId = -1
+                navId = R.id.action_global_configurationFragment
             )
         )
 

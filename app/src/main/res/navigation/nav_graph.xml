@@ -160,5 +160,10 @@
             android:id="@+id/action_zoneProjection_to_createProjectFragment"
             app:destination="@id/createProjectFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/configurationFragment"
+        android:name="com.apogee.geomaster.ui.configuration.ConfigurationFragment"
+        android:label="configuration_fragment_layout"
+        tools:layout="@layout/configuration_fragment_layout" /><action android:id="@+id/action_global_configurationFragment" app:destination="@id/configurationFragment"/>
 
 </navigation>
