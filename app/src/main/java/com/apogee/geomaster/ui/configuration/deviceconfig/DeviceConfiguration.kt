@@ -3,11 +3,14 @@ package com.apogee.geomaster.ui.configuration.deviceconfig
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.DeviceConfigurationAdaptor
 import com.apogee.geomaster.databinding.DeviceConfigLayoutBinding
 import com.apogee.geomaster.model.DeviceWorkMode
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.safeNavigate
+import com.apogee.geomaster.utils.setUpDialogBox
 
 class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
 
@@ -18,8 +21,20 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DeviceConfigLayoutBinding.bind(view)
-        displayActionBar("Device Configuration",binding.actionLayout)
+        displayActionBar("Device Configuration", binding.actionLayout)
         setAdaptor()
+        binding.doneBtn.setOnClickListener {
+            activity?.setUpDialogBox("Modify Project",
+                "Are you sure to modify the project or create a New One",
+                "Update",
+                "Create",
+                success = {
+                          findNavController().safeNavigate(R.id.action_deviceConfiguration_to_homeScreenMainFragment)
+                },
+                cancelListener = {
+
+                })
+        }
     }
 
     private fun setAdaptor() {

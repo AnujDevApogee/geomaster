@@ -109,7 +109,10 @@
         tools:layout="@layout/fragment_communication">
         <action
             android:id="@+id/action_bluetoothscandevicefragment_to_homeScreenMainFragment"
-            app:destination="@id/homeScreenMainFragment" />
+            app:destination="@id/homeScreenMainFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -192,6 +195,13 @@
         android:id="@+id/deviceConfiguration"
         android:name="com.apogee.geomaster.ui.configuration.deviceconfig.DeviceConfiguration"
         android:label="device_config_layout"
-        tools:layout="@layout/device_config_layout" />
+        tools:layout="@layout/device_config_layout" >
+        <action
+            android:id="@+id/action_deviceConfiguration_to_homeScreenMainFragment"
+            app:destination="@id/homeScreenMainFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>
