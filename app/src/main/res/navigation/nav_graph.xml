@@ -164,6 +164,16 @@
         android:id="@+id/configurationFragment"
         android:name="com.apogee.geomaster.ui.configuration.ConfigurationFragment"
         android:label="configuration_fragment_layout"
-        tools:layout="@layout/configuration_fragment_layout" /><action android:id="@+id/action_global_configurationFragment" app:destination="@id/configurationFragment"/>
+        tools:layout="@layout/configuration_fragment_layout" >
+        <action
+            android:id="@+id/action_configurationFragment_to_createConfigurationFragment"
+            app:destination="@id/createConfigurationFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_configurationFragment" app:destination="@id/configurationFragment" />
+    <fragment
+        android:id="@+id/createConfigurationFragment"
+        android:name="com.apogee.geomaster.ui.configuration.addconfig.CreateConfigurationFragment"
+        android:label="create_configuration_fragment"
+        tools:layout="@layout/create_configuration_fragment" />
 
 </navigation>
