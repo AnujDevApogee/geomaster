@@ -63,7 +63,7 @@ data class HomeScreenOption(
             ), HomeScreenOption(
                 icon = R.drawable.base,
                 "Base",
-                navId = -1
+                navId = R.id.action_global_baseProfileFragment
             ), HomeScreenOption(
                 icon = R.drawable.antenna,
                 "Antenna",
