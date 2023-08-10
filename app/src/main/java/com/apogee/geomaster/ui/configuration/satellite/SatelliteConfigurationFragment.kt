@@ -8,6 +8,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.SatelliteScreenAdaptor
 import com.apogee.geomaster.databinding.SatelliteConfigurationFragmentBinding
 import com.apogee.geomaster.model.SatelliteModel
+import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 
@@ -21,6 +22,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
         super.onViewCreated(view, savedInstanceState)
         binding = SatelliteConfigurationFragmentBinding.bind(view)
         displayActionBar("Satellite Configuration", binding.actionLayout)
+        (activity as HomeScreen?)?.hideActionBar()
         setRecycleView()
         binding.doneBtn.setOnClickListener {
             findNavController().safeNavigate(R.id.action_satelliteConfigurationFragment_to_deviceConfiguration)
