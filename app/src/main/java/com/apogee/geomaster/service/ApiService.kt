@@ -46,6 +46,7 @@ class ApiService : Service(), CustomCallback {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Handle your service logic here
         val REQUEST_CODE = 1
+
         ApiCall().postDataWithoutBody(
             this,
             "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getCommonData/",

@@ -338,8 +338,8 @@ class DatabaseRepsoitory(context: Context) {
 
     fun projectManagementData() {
 
-        val project_configuration = "project_configuration"
-        val project_configurationColumn = arrayOf(
+        val survey_configuration = "survey_configuration"
+        val survey_configurationColumn = arrayOf(
             TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("config_name", "STRING", unique = true),
             TableCreator.ColumnDetails(
@@ -381,8 +381,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("config_time", "STRING")
 
         )
-        val project_configurationTable =
-            tableCreator.createMainTableIfNeeded(project_configuration, project_configurationColumn)
+        val survey_configurationTable =
+            tableCreator.createMainTableIfNeeded(survey_configuration, survey_configurationColumn)
 
 
         val project_status = "project_status"
@@ -1465,6 +1465,124 @@ class DatabaseRepsoitory(context: Context) {
 
 
         )
+
+
+
+
+        val device_configHierarchy = "device_configHierarchy"
+        val device_configHierarchyColumn = arrayOf(
+            TableCreator.ColumnDetails("device_configHierarchy_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails(
+                "device_configHierarchy_name",
+                "STRING"),
+            TableCreator.ColumnDetails("parent_id", "INTEGER", foreignKey = true, foreignKeyReference = "device_configHierarchy(device_configHierarchy_id)"),
+            TableCreator.ColumnDetails("is_super_child", "STRING"),
+            TableCreator.ColumnDetails("generation", "INTEGER"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val device_configHierarchyTable =
+            tableCreator.createMainTableIfNeeded(device_configHierarchy, device_configHierarchyColumn)
+
+   val wifiparams = "wifiparams"
+        val wifiparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("wifiparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails(
+                "IP",
+                "STRING"),
+            TableCreator.ColumnDetails("portNo", "STRING"),
+            TableCreator.ColumnDetails("url", "STRING"),
+            TableCreator.ColumnDetails("apn", "STRING"),
+            TableCreator.ColumnDetails("username", "STRING"),
+            TableCreator.ColumnDetails("passwd", "STRING"),
+            TableCreator.ColumnDetails("mountPoint", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val wifiparamsTable =
+            tableCreator.createMainTableIfNeeded(wifiparams, wifiparamsColumn)
+
+  val via4gparams = "via4gparams"
+        val via4gparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("via4gparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("IP","STRING"),
+            TableCreator.ColumnDetails("portNo", "STRING"),
+            TableCreator.ColumnDetails("url", "STRING"),
+            TableCreator.ColumnDetails("ssid", "STRING"),
+            TableCreator.ColumnDetails("ssid_password", "STRING"),
+            TableCreator.ColumnDetails("username", "STRING"),
+            TableCreator.ColumnDetails("passwd", "STRING"),
+            TableCreator.ColumnDetails("mountPoint", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val via4gparamsTable =
+            tableCreator.createMainTableIfNeeded(via4gparams, via4gparamsColumn)
+
+  val pdaparams = "pdaparams"
+        val pdaparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("pdaparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("IP","STRING"),
+            TableCreator.ColumnDetails("portNo", "STRING"),
+            TableCreator.ColumnDetails("url", "STRING"),
+            TableCreator.ColumnDetails("username", "STRING"),
+            TableCreator.ColumnDetails("passwd", "STRING"),
+            TableCreator.ColumnDetails("mountPoint", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val pdaparamsTable =
+            tableCreator.createMainTableIfNeeded(pdaparams, pdaparamsColumn)
+
+
+
+  val radiointernalparams = "radiointernalparams"
+        val radiointernalparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("radiointernalparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("datarate","STRING"),
+            TableCreator.ColumnDetails("baudrate", "STRING"),
+            TableCreator.ColumnDetails("power", "STRING"),
+            TableCreator.ColumnDetails("frequency", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val radiointernalparamsTable =
+            tableCreator.createMainTableIfNeeded(radiointernalparams, radiointernalparamsColumn)
+
+
+ val radioexternalparams = "radioexternalparams"
+        val radioexternalparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("radioexternalparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("power","STRING"),
+            TableCreator.ColumnDetails("protocol", "STRING"),
+            TableCreator.ColumnDetails("frequency", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val radioexternalparamsTable =
+            tableCreator.createMainTableIfNeeded(radioexternalparams, radioexternalparamsColumn)
+
+
+ val type_of_communication = "type_of_communication"
+        val type_of_communicationColumn = arrayOf(
+            TableCreator.ColumnDetails("type_of_communication_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("communicationTypes","STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val type_of_communicationTable =
+            tableCreator.createMainTableIfNeeded(type_of_communication, type_of_communicationColumn)
+
+ val communication_type_mapping = "communication_type_mapping"
+        val communication_type_mappingColumn = arrayOf(
+            TableCreator.ColumnDetails("communication_type_mapping_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("type_of_communication_id","INTEGER", foreignKey = true, foreignKeyReference = "type_of_communication(communication_type_mapping_id)"),
+            TableCreator.ColumnDetails("via4gparams_id","INTEGER", foreignKey = true, foreignKeyReference = "via4gParams(via4gparams_id)"),
+            TableCreator.ColumnDetails("wifiparams_id","INTEGER", foreignKey = true, foreignKeyReference = "wifiparams(wifiparams_id)"),
+            TableCreator.ColumnDetails("pdaparams_id","INTEGER", foreignKey = true, foreignKeyReference = "pdaparams(pdaparams_id)"),
+            TableCreator.ColumnDetails("radiointernalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radiointernalparams(radiointernalparams_id)"),
+            TableCreator.ColumnDetails("radioexternalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radioexternalparams (radioexternalparams_id)"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val communication_type_mappingTable =
+            tableCreator.createMainTableIfNeeded(communication_type_mapping, communication_type_mappingColumn)
+
+
+
+
         if (fixed_responseTable.equals("Table Created Successfully...")
             && response_sub_division_selectionTable.equals("Table Created Successfully...")
             && response_typeTable.equals("Table Created Successfully...")
@@ -1501,6 +1619,14 @@ class DatabaseRepsoitory(context: Context) {
             && responseTable.equals("Table Created Successfully...")
             && constellation_model_mapTable.equals("Table Created Successfully...")
             && device_registrationTable.equals("Table Created Successfully...")
+            && device_configHierarchyTable.equals("Table Created Successfully...")
+            && wifiparamsTable.equals("Table Created Successfully...")
+            && via4gparamsTable.equals("Table Created Successfully...")
+            && pdaparamsTable.equals("Table Created Successfully...")
+            && radiointernalparamsTable.equals("Table Created Successfully...")
+            && radioexternalparamsTable.equals("Table Created Successfully...")
+            && type_of_communicationTable.equals("Table Created Successfully...")
+            && communication_type_mappingTable.equals("Table Created Successfully...")
 
 
         ) {
