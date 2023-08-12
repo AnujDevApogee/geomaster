@@ -55,52 +55,6 @@ class SplashScreen : AppCompatActivity() {
             )
             isNetworkConnectionAvailable
 
-            val intent = Intent(this, ApiService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(intent)
-            } else {
-                startService(intent)
-            }
-        }
-        if (sharedPreferences!!.getBoolean("firstrun", true)) {
-            Glide.with(this).asGif().load(R.raw.survey).listener(object :
-                RequestListener<GifDrawable?> {
-                override fun onLoadFailed(
-                    @Nullable e: GlideException?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: GifDrawable?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
-                    dataSource: com.bumptech.glide.load.DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    resource!!.setLoopCount(1)
-                    resource.registerAnimationCallback(object :
-                        Animatable2Compat.AnimationCallback() {
-                        override fun onAnimationEnd(drawable: Drawable?) {
-                            //do whatever after specified number of loops complete
-                            Log.d("checkkk==", false.toString())
-                            val intents = Intent(this@SplashScreen, StartActivity::class.java)
-                            startActivity(intents)
-                            finish()
-                        }
-                    })
-                    return false
-                }
-            }).into(binding.ivGif)
-            sharedPreferences!!.edit().putBoolean("firstrun", false).apply()
-
-        } else {
-            val intents = Intent(this@SplashScreen, StartActivity::class.java)
-            startActivity(intents)
-            finish()
         }
 
 
@@ -121,6 +75,54 @@ class SplashScreen : AppCompatActivity() {
             val isConnected = activeNetwork != null &&
                     activeNetwork.isConnected
             if (isConnected) {
+                if (sharedPreferences!!.getBoolean("firstrun", true)) {
+                    Glide.with(this).asGif().load(R.raw.survey).listener(object :
+                        RequestListener<GifDrawable?> {
+                        override fun onLoadFailed(
+                            @Nullable e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: GifDrawable?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                            dataSource: com.bumptech.glide.load.DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            resource!!.setLoopCount(1)
+                            resource.registerAnimationCallback(object :
+                                Animatable2Compat.AnimationCallback() {
+                                override fun onAnimationEnd(drawable: Drawable?) {
+                                    //do whatever after specified number of loops complete
+                                    Log.d("checkkk==", false.toString())
+                                    val intents = Intent(this@SplashScreen, StartActivity::class.java)
+                                    startActivity(intents)
+                                    finish()
+                                }
+                            })
+                            return false
+                        }
+                    }).into(binding.ivGif)
+                    sharedPreferences!!.edit().putBoolean("firstrun", false).apply()
+
+                    val intent = Intent(this, ApiService::class.java)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent)
+                    } else {
+                        startService(intent)
+                    }
+
+                }
+                else {
+                    val intents = Intent(this@SplashScreen, StartActivity::class.java)
+                    startActivity(intents)
+                    finish()
+                }
                 Log.d("Network", "Connected")
             } else {
                 checkNetworkConnection()
@@ -133,8 +135,12 @@ class SplashScreen : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setIcon(R.drawable.noconnection)
         builder.setTitle(getText(R.string.no_internet_connection))
-        builder.setMessage(getText(R.string.please_turn_on_internet_connection_to_continue))
-        builder.setNegativeButton(getText(R.string.ok)) { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+        builder.setMessage("App will be closed.\nTurn On Internet & Try Again")
+        builder.setNegativeButton(getText(R.string.ok)) {
+                dialog: DialogInterface, which: Int ->
+            System.exit(0)
+            finish()
+            dialog.dismiss() }
         val alertDialog = builder.create()
         alertDialog.show()
     }
