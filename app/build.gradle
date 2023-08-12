@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation files('libs\\DatabaseModule1.5.jar')
+    implementation files('libs\\BleModule.jar')
     def fragment_version = "1.5.7"
     def activity_version = "1.7.2"
     def nav_version = "2.6.0"
@@ -51,6 +52,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation files('libs\\ApiLibrary.jar')
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -103,5 +105,9 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.3'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+
+    // Permission
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
 
 }

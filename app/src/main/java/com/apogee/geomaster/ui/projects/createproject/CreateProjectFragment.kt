@@ -1,5 +1,6 @@
 package com.apogee.geomaster.ui.projects.createproject
 
+import android.content.ContentValues.TAG
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -66,6 +67,10 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
+
         val fadeThrough = MaterialFadeThrough().apply {
             duration = 1000
         }
@@ -103,13 +108,19 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
         (activity as HomeScreen?)?.hideActionBar()
 //        activity?.openKeyBoard(binding.projectNme)
-        setDropdownAdapters()
+
         idList.clear()
+
+
+
 
         binding.zoneProjectionLayout.hide()
         binding.continentLayout.hide()
         binding.countriesLayout.hide()
         binding.geoidLayout.hide()
+        setDropdownAdapters()
+
+
         binding.angleUnitTxt.setOnItemClickListener { _, _, _, _ ->
 
             val name = binding.angleUnitTxt.text.toString().trim()
@@ -125,7 +136,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
         }
 
-
         binding.zoneData.setOnItemClickListener { _, _, _, _ ->
 
             val name = binding.zoneData.text.toString().trim()
@@ -134,7 +144,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
 
         }
-
 
         binding.continentView.setOnItemClickListener { _, _, _, _ ->
             val name = binding.continentView.text.toString().trim()
@@ -154,7 +163,6 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             }
 
         }
-
 
         binding.countriesView.setOnItemClickListener { _, _, _, _ ->
             val name = binding.countriesView.text.toString().trim()
@@ -250,19 +258,21 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
         }
 
-
         binding.datums.setOnItemClickListener { _, _, _, _ ->
 
             val name = binding.datums.text.toString().trim()
+
             if (name.equals("+Create Custom Datum",true)) {
                 findNavController().safeNavigate(R.id.action_createProjectFragment_to_addCustomDatumCreationFragment)
             } else {
+                Log.d(TAG, "onViewCreated: "+name)
                 datumNameID = dbControl.getDatumId(name)
                 idList["datumName"] = datumNameID.trim()
 
             }
 
         }
+
         binding.elevationKey.setOnItemClickListener { _, _, _, _ ->
 
             if (binding.elevationKey.text.toString().equals("Ellipsoid Height",true)) {
@@ -369,18 +379,19 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        binding.zoneProjectionLayout.hide()
-        binding.continentLayout.hide()
-        binding.countriesLayout.hide()
-        binding.geoidLayout.hide()
-        setDropdownAdapters()
-
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        binding.zoneProjectionLayout.hide()
+//        binding.continentLayout.hide()
+//        binding.countriesLayout.hide()
+//        binding.geoidLayout.hide()
+//        setDropdownAdapters()
+//
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
+
     fun setConfigurationPrams() {
 
         val configtable = dbControl.addConfigurationData(idList)
@@ -404,11 +415,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
 
         } else {
-            Toast.makeText(
-                this.requireContext(),
-                "Error Occured",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this.requireContext(), "Error Occured", Toast.LENGTH_SHORT).show()
         }
 
 

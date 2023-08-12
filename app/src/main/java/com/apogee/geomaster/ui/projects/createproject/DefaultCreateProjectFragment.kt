@@ -112,8 +112,7 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
                     Log.d("TAG", "onViewCreated:result $result")
                     if (result.equals("Data inserted successfully")) {
                         prjDataList.clear()
-                        val configId =
-                            dbControl.getproject_configurationID(binding.projectNme.text.toString() + "Config")
+                        val configId = dbControl.getproject_configurationID(binding.projectNme.text.toString() + "Config")
                         prjDataList.add(binding.projectNme.text.toString())
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
