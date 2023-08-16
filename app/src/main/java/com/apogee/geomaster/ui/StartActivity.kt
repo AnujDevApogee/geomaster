@@ -21,16 +21,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ActivityStartBinding
 import com.apogee.geomaster.service.ApiService
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.login.LoginActivity
+import com.apogee.geomaster.utils.PermissionUtils
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.permissionx.guolindev.PermissionX
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class StartActivity : AppCompatActivity() {
     var TAG: String = StartActivity::class.java.simpleName
@@ -61,7 +66,26 @@ class StartActivity : AppCompatActivity() {
             binding!!.btnLetstart.isEnabled = true
             binding!!.view.visibility = View.GONE
         }
-
+        lifecycleScope.launch {
+            delay(2000)
+            PermissionX.init(this@StartActivity)
+                .permissions(PermissionUtils.permissions)
+                .request { allGranted, grantedList, deniedList ->
+                    if (allGranted) {
+                        Toast.makeText(
+                            this@StartActivity,
+                            "All permissions are granted",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this@StartActivity,
+                            "These permissions are denied: $deniedList",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+        }
         binding?.btnLetstart?.setOnClickListener {
             if (responseString != null) {
                 Log.d(TAG, "onCreate:APISERVICE StartElse")

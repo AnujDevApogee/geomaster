@@ -53,11 +53,11 @@ class SplashScreen : AppCompatActivity() {
                     )
                 }"
             )
-            isNetworkConnectionAvailable
+
 
         }
 
-
+        isNetworkConnectionAvailable
     }
 
     override fun onResume() {

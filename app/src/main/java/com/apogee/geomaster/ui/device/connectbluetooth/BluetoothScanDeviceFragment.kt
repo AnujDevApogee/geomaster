@@ -42,6 +42,7 @@ import com.apogee.updatedblelibrary.Utils.BleResponseListener
 import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import com.google.android.material.transition.MaterialFadeThrough
 import com.permissionx.guolindev.PermissionX
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
@@ -118,6 +119,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
 
         lifecycleScope.launch {
+            delay(2000)
             PermissionX.init(requireActivity())
                 .permissions(PermissionUtils.permissions)
                 .request { allGranted, grantedList, deniedList ->
