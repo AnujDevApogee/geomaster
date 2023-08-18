@@ -1,31 +1,20 @@
 package com.apogee.geomaster.ui.device.connectbluetooth
 
 import android.annotation.SuppressLint
-import android.bluetooth.le.ScanResult
-import android.content.ComponentName
-import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.BleDeviceAdaptor
-import com.apogee.geomaster.adaptor.ProjectListAdaptor
 import com.apogee.geomaster.databinding.FragmentCommunicationBinding
 import com.apogee.geomaster.ui.HomeScreen
-import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.PermissionUtils
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
@@ -34,12 +23,9 @@ import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.showDeviceAdd
 import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
-import com.apogee.updatedblelibrary.BleConnector
+import com.apogee.geomaster.viewmodel.BleGetConfigDataViewModel
 import com.apogee.updatedblelibrary.BleDeviceScanner
-import com.apogee.updatedblelibrary.BleService
 import com.apogee.updatedblelibrary.Utils.BleResponse
-import com.apogee.updatedblelibrary.Utils.BleResponseListener
-import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import com.google.android.material.transition.MaterialFadeThrough
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.delay
@@ -51,14 +37,15 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     private lateinit var bleDeviceAdaptor: BleDeviceAdaptor
     private var bleDeviceScanner: BleDeviceScanner? = null
     private val bleConnectionViewModel: BleConnectionViewModel by viewModels()
+    private val bleGetConfigDataViewModel: BleGetConfigDataViewModel by viewModels()
     var scanTime: Long = 3000
 
 
     // for Nordic
     private val descriptorId = "00002902-0000-1000-8000-00805f9b34fb"
-    private val serviceId = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
-    private val writeCharId = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
-    private val readCharId = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
+    private var serviceId = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+    private var writeCharId = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+    private var readCharId = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,11 +61,35 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentCommunicationBinding.bind(view)
+
+        if (!bleGetConfigDataViewModel.getServiceId().isNullOrEmpty()) {
+
+            serviceId = bleGetConfigDataViewModel.getServiceId()!!.first()
+
+
+        } else if (!bleGetConfigDataViewModel.getCharacteristicId().isNullOrEmpty()) {
+            bleGetConfigDataViewModel.getCharacteristicId()!!.forEach {
+
+
+                if (it.contains("read")) {
+
+                    readCharId = it.split(",".toRegex()).first()
+                } else if (it.contains("write")) {
+
+                    writeCharId = it.split(",".toRegex()).first()
+                }
+
+
+                Log.d(TAG, "onViewCreatedit: " + it)
+
+
+            }
+        }
 
         displayActionBar(
             "\t\t\tAdd Device ${getEmojiByUnicode(0x1F4F6)}",
@@ -91,24 +102,28 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
         getResponse()
 
+        getObserverData()
+
+
+
 
         binding.recycleViewBle.apply {
             bleDeviceAdaptor = BleDeviceAdaptor {
 
 
                 val deviceAddress = it.device.address
+                val deviceName = it.device.name.split("_".toRegex()).first()
+                Log.d(TAG, "onViewCreateddevice_id: " + deviceName)
+                bleGetConfigDataViewModel.getConfigData(deviceName)
 
 
-                lifecycleScope.launch {
-                    bleConnectionViewModel.onConnect(
-                        deviceAddress = deviceAddress,
-                        readCharacteristic = readCharId,
-                        writeCharacteristic = writeCharId,
-                        serviceUUIDId = serviceId,
-                        descriptorId = descriptorId
-                    )
-                }
-
+                bleConnectionViewModel.onConnect(
+                    deviceAddress,
+                    readCharId,
+                    writeCharId,
+                    serviceId,
+                    descriptorId,
+                )
 
             }
             adapter = bleDeviceAdaptor
@@ -168,6 +183,24 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
     }
 
+    private fun getObserverData() {
+
+        lifecycleScope.launch {
+
+            bleGetConfigDataViewModel.getBlutoothData.collect {
+
+                if (it is String) {
+
+
+                }
+
+            }
+
+        }
+
+
+    }
+
     private fun getResponse() {
 
         lifecycleScope.launch {
@@ -178,6 +211,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                         is BleResponse.OnConnected ->
                             binding.pbBle.isVisible = false
 
+
                         is BleResponse.OnConnectionClose -> Log.d(TAG, "getResponse: " + it.message)
                         is BleResponse.OnDisconnected -> Log.d(TAG, "getResponse: " + it.message)
                         is BleResponse.OnError -> Log.d(TAG, "getResponse: " + it.message)
@@ -186,10 +220,16 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
 
                         is BleResponse.OnReconnect -> Log.d(TAG, "getResponse: " + it.message)
-                        is BleResponse.OnResponseRead -> Log.d(
-                            TAG,
-                            "getResponse: " + it.response.data
-                        )
+                        is BleResponse.OnResponseRead -> {
+                            Log.d(
+                                TAG,
+                                "getResponse: " + it.response
+                            )
+                            findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
+
+
+                        }
+
 
                         is BleResponse.OnResponseWrite -> Log.d(
                             TAG,

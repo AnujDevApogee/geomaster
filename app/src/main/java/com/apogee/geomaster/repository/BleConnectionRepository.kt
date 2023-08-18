@@ -96,6 +96,8 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
             _bleResponse.value = BleResponse.OnConnected("Service Connected Successfully...")
 
+
+
         }
 
     }
