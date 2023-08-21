@@ -3,6 +3,7 @@ package com.apogee.geomaster.ui
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.HomeScreenLayoutBinding
 import com.apogee.geomaster.utils.OnItemClickListener
@@ -20,6 +21,22 @@ class HomeScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = HomeScreenLayoutBinding.inflate(layoutInflater)
+        val value = intent.extras?.getBoolean("loggedIn")
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.nav_graph)
+
+
+        if (value==true){
+            graph.setStartDestination(R.id.homeScreenMainFragment)
+        }
+
+        val navController = navHostFragment.navController
+        navController.setGraph(graph, intent.extras)
+
+
+
         changeStatusBarColor(R.color.md_theme_light_primary)
         displayActionBar(
             "N/A",
@@ -73,6 +90,12 @@ class HomeScreen : AppCompatActivity() {
     fun hideActionBar(){
 
         binding.actionLayout.root.hide()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val value = getIntent().getExtras()?.getBoolean("loggedIn")
+
     }
 
 }

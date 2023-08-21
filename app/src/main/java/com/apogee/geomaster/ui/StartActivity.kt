@@ -24,6 +24,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ActivityStartBinding
+import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.service.ApiService
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.login.LoginActivity
@@ -41,6 +42,7 @@ class StartActivity : AppCompatActivity() {
     var TAG: String = StartActivity::class.java.simpleName
     var binding: ActivityStartBinding? = null
     var sharedPreferences: SharedPreferences? = null
+    private lateinit var dbControl: DatabaseRepsoitory
     var responseString: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +51,7 @@ class StartActivity : AppCompatActivity() {
         RequestMultiplePermission()
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@StartActivity)
 
-
-
+        dbControl = DatabaseRepsoitory(this@StartActivity)
 
         /*Saving package name for check first time installation*/
         responseString = sharedPreferences!!.getString(Constants.RESPONSE_STRING, null)
@@ -89,9 +90,22 @@ class StartActivity : AppCompatActivity() {
         binding?.btnLetstart?.setOnClickListener {
             if (responseString != null) {
                 Log.d(TAG, "onCreate:APISERVICE StartElse")
-                val intents = Intent(this@StartActivity, LoginActivity::class.java)
-                startActivity(intents)
-                finish()
+
+                val deviceData=dbControl.getdeviceTabledata()
+                Log.d(TAG, "onCreate: deviceData --$deviceData")
+                if(deviceData.contains("Error")||deviceData.isEmpty()){
+                    Log.d(TAG, "onCreate:deviceData  empty ")
+                    val intents = Intent(this@StartActivity, LoginActivity::class.java)
+                    startActivity(intents)
+                    finish()
+                }else{
+                    Log.d(TAG, "onCreate:deviceData not empty ")
+                    val intents = Intent(this@StartActivity, HomeScreen::class.java)
+                    intents.putExtra("loggedIn", true)
+                    startActivity(intents)
+                    finish()
+                }
+
             } else {
                 Log.d(TAG, "onCreate:APISERVICE StartElse")
                 AlertDialog.Builder(this@StartActivity)

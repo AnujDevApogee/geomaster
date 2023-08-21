@@ -477,7 +477,7 @@ class DatabaseRepsoitory(context: Context) {
                 "config_id",
                 "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "project_configuration(config_id)"
+                foreignKeyReference = "survey_configuration(config_id)"
             ),
             TableCreator.ColumnDetails("projectCreated_at", "STRING")
         )
@@ -659,23 +659,35 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.executeStaticQuery("SELECT elevationtype_id FROM elevationtype where elevationType='" + elevationtype + "'")
         return data?.get(0) ?: ""
     }
+    fun getdeviceTabledata(): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT * from device ")
+        return data?.get(0) ?: ""
+    }
+
 
     fun getproject_configurationID(config_name: String): String {
         var data =
-            tableCreator.executeStaticQuery("SELECT config_id FROM project_configuration where config_name='" + config_name + "'")
+            tableCreator.executeStaticQuery("SELECT config_id FROM survey_configuration where config_name='" + config_name + "'")
         return data?.get(0) ?: ""
+    }
+
+    fun getSatelliteDataList(): List<String>?{
+        var data =
+            tableCreator.executeStaticQuery("SELECT constellation_name FROM constellation where active = 'Y' ")
+        return data
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun addConfigurationData(map: HashMap<String, String>): String {
 
-        val result = tableCreator.getTableSchema("project_configuration")
+        val result = tableCreator.getTableSchema("survey_configuration")
         var insertResult = ""
 
         if (result.equals("")) {
 
-            val project_configuration = "project_configuration"
-            val project_configurationColumn = arrayOf(
+            val survey_configuration = "survey_configuration"
+            val survey_configurationColumn = arrayOf(
                 TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
                 TableCreator.ColumnDetails("config_name", "STRING", unique = true),
                 TableCreator.ColumnDetails(
@@ -716,14 +728,15 @@ class DatabaseRepsoitory(context: Context) {
                 ),
                 TableCreator.ColumnDetails("config_time", "STRING")
             )
-            val project_configurationTable =
+            val survey_configurationTable =
                 tableCreator.createMainTableIfNeeded(
-                    project_configuration,
-                    project_configurationColumn
+                    survey_configuration,
+                    survey_configurationColumn
                 )
 
 
-        } else {
+        }
+        else {
             Log.d(TAG, "addConfigurationData: Else")
 
             val dataList: MutableList<ContentValues> = ArrayList()
@@ -739,7 +752,7 @@ class DatabaseRepsoitory(context: Context) {
             values1.put("config_time", "${LocalDateTime.now()}")
             dataList.add(values1)
 
-            insertResult = tableCreator.insertDataIntoTable("project_configuration", dataList)
+            insertResult = tableCreator.insertDataIntoTable("survey_configuration", dataList)
         }
         return insertResult
     }
@@ -759,7 +772,7 @@ class DatabaseRepsoitory(context: Context) {
         values1.put("config_time", "${LocalDateTime.now()}")
         dataList.add(values1)
 
-        result = tableCreator.insertDataIntoTable("project_configuration", dataList)
+        result = tableCreator.insertDataIntoTable("survey_configuration", dataList)
         return result
     }
 
@@ -784,10 +797,11 @@ class DatabaseRepsoitory(context: Context) {
     fun getProjectList(): List<String>? {
         var data = tableCreator.executeStaticQuery(
             "SELECT   prj.project_name ,dd.datum_name, z.zone\n" +
-                    "FROM project_table AS prj  ,project_configuration AS conf,datum_data as dd, zonedata as z\n" +
+                    "FROM project_table AS prj  ,survey_configuration AS conf,datum_data as dd, zonedata as z\n" +
                     " where prj. config_id=conf.config_id and conf.datum_id=dd.datum_id and \n" +
                     " conf.zonedata_id = z.zonedata_id"
         )
+        Log.d(TAG, "getProjectList: data--$data")
 
         return data
     }
@@ -795,7 +809,7 @@ class DatabaseRepsoitory(context: Context) {
     fun getProjectListCustomProjection(): List<String>? {
         var data = tableCreator.executeStaticQuery(
             "select  prj.project_name , DD.datum_name ,PP.zone_name,PT.projectionType\n" +
-                    "from  project_table as PRJ JOIN project_configuration as PC ON PRJ.config_id = PC.config_id\n" +
+                    "from  project_table as PRJ JOIN survey_configuration as PC ON PRJ.config_id = PC.config_id\n" +
                     "JOIN datum_data as DD ON DD.datum_id = PC.datum_id\n" +
                     "JOIN projectionParameters as PP ON PP.projectionParam_id =  PC.projectionParam_id\n" +
                     "JOIN projectiontype as PT ON PT.projectiontype_id = PP.projectiontype_id"
@@ -1246,6 +1260,7 @@ class DatabaseRepsoitory(context: Context) {
                 foreignKeyReference = "model (model_id)"
             ),
             TableCreator.ColumnDetails("remark", "STRING"),
+            TableCreator.ColumnDetails("created_by", "STRING"),
         )
         val deviceTable = tableCreator.createMainTableIfNeeded(device, deviceColumn)
 
