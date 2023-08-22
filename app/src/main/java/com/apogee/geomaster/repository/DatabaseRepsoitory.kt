@@ -21,7 +21,8 @@ class DatabaseRepsoitory(context: Context) {
     val tableCreator = TableCreator(database)
 
 
-    fun CommonApiTablesCreation(apiResponse: String) {
+    fun CommonApi_TablesCreation(apiResponse: String) {
+
         val coordinateSystem = "coordinateSystem"
         val coordinateSystemColumn = arrayOf(
             TableCreator.ColumnDetails("coordinateSystem_id", "INTEGER", true),
@@ -83,7 +84,6 @@ class DatabaseRepsoitory(context: Context) {
 
 
         val datumtype = "datumtype"
-
         val datumtypeColumn = arrayOf(
             TableCreator.ColumnDetails("datumType_id", "INTEGER", true),
             TableCreator.ColumnDetails("datumType_name", "STRING", unique = true),
@@ -127,7 +127,6 @@ class DatabaseRepsoitory(context: Context) {
 
 
         val angleunit = "angleunit"
-
         val angleunitColumn = arrayOf(
             TableCreator.ColumnDetails("angleunit_id", "INTEGER", true),
             TableCreator.ColumnDetails("angUnit_name", "STRING", unique = true),
@@ -142,8 +141,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("projectionType", "STRING", unique = true),
             TableCreator.ColumnDetails("active", "STRING")
         )
-        val projectiontypeTable =
-            tableCreator.createMainTableIfNeeded(projectiontype, projectiontypeColumn)
+        val projectiontypeTable =tableCreator.createMainTableIfNeeded(projectiontype, projectiontypeColumn)
         Log.d(TAG, "CommonApiTablesCreation: projectiontypeTable $projectiontypeTable")
 
 
@@ -174,8 +172,7 @@ class DatabaseRepsoitory(context: Context) {
                 foreignKeyReference = "projectiontype(projectiontype_id)"
             )
         )
-        val projectionParametersTable =
-            tableCreator.createMainTableIfNeeded(projectionParameters, projectionParametersColumn)
+        val projectionParametersTable =tableCreator.createMainTableIfNeeded(projectionParameters, projectionParametersColumn)
         Log.d(TAG, "CommonApiTablesCreation: projectionParametersTable $projectionParametersTable")
 
 
@@ -193,8 +190,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("created_at", "STRING"),
             TableCreator.ColumnDetails("active", "STRING")
         )
-        val autocad_file_typeTable =
-            tableCreator.createMainTableIfNeeded(autocad_file_type, autocad_file_typeColumn)
+        val autocad_file_typeTable =tableCreator.createMainTableIfNeeded(autocad_file_type, autocad_file_typeColumn)
 
 
         val autocad_file_map = "autocad_file_map"
@@ -221,12 +217,10 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("misc_3", "STRING"),
             TableCreator.ColumnDetails("misc_4", "STRING")
         )
-        val autocad_file_mapTable =
-            tableCreator.createMainTableIfNeeded(autocad_file_map, autocad_file_mapColumn)
+        val autocad_file_mapTable =tableCreator.createMainTableIfNeeded(autocad_file_map, autocad_file_mapColumn)
 
 
         val elevationtype = "elevationtype"
-
         val elevationtypeColumn = arrayOf(
             TableCreator.ColumnDetails("elevationtype_id", "INTEGER", true),
             TableCreator.ColumnDetails("elevationType", "STRING", unique = true),
@@ -237,8 +231,6 @@ class DatabaseRepsoitory(context: Context) {
 
 
         val distanceunit = "distanceunit"
-
-
         val distanceunitColumn = arrayOf(
             TableCreator.ColumnDetails("distanceunit_id", "INTEGER", true),
             TableCreator.ColumnDetails("disUnit_name", "STRING", unique = true),
@@ -247,594 +239,12 @@ class DatabaseRepsoitory(context: Context) {
         val distanceunitTable =
             tableCreator.createMainTableIfNeeded(distanceunit, distanceunitColumn)
 
-        Log.d(
-            TAG, "CommonApiTablesCreation: " +
-                    "\n hemisphereTable:--$hemisphereTable" +
-                    "\n coordinateSystemTable:--$coordinateSystemTable" +
-                    "\n continentsTable:--$continentsTable" +
-                    "\n projectionParametersTable:--$projectionParametersTable" +
-                    "\n zonedataTable:--$zonedataTable" +
-                    "\n countriesTable:--$countriesTable" +
-                    "\n datum_dataTable:--$datum_dataTable" +
-                    "\n datumtypeTable:--$datumtypeTable" +
-                    "\n angleunitTable:--$angleunitTable" +
-                    "\n projectiontypeTable:--$projectiontypeTable" +
-                    "\n autocad_file_typeTable:--$autocad_file_typeTable" +
-                    "\n autocad_file_mapTable:--$autocad_file_mapTable" +
-                    "\n elevationtypeTable:--$elevationtypeTable" +
-                    "\n distanceunitTable:--$distanceunitTable"
-        )
-        if (hemisphereTable.equals("Table Created Successfully...")
-            && coordinateSystemTable.equals("Table Created Successfully...")
-            && continentsTable.equals("Table Created Successfully...")
-            && projectionParametersTable.equals("Table Created Successfully...")
-            && zonedataTable.equals("Table Created Successfully...")
-            && countriesTable.equals("Table Created Successfully...")
-            && datum_dataTable.equals("Table Created Successfully...")
-            && datumtypeTable.equals("Table Created Successfully...")
-            && angleunitTable.equals("Table Created Successfully...")
-            && projectiontypeTable.equals("Table Created Successfully...")
-            && autocad_file_typeTable.equals("Table Created Successfully...")
-            && autocad_file_mapTable.equals("Table Created Successfully...")
-            && elevationtypeTable.equals("Table Created Successfully...")
-            && distanceunitTable.equals("Table Created Successfully...")
-        ) {
-            Log.d(TAG, "CommonApiTablesCreation1: All table created")
-            insertDBData(apiResponse)
-            projectManagementData()
-        } else {
-            Log.d(TAG, "CommonApiTablesCreation1: Error while table creation ")
-        }
-
-
-    }
-
-
-    fun insertDBData(resp: String): String {
-        Log.d(TAG, "insertCommonData: $resp")
-        var result = ""
-        val jsonObject = JSONObject(resp)
-        for (key in jsonObject.keys()) {
-
-            val dataList: MutableList<ContentValues> = ArrayList()
-            val jsonArray = jsonObject.getJSONArray(key)
-            try {
-                for (i in 0 until jsonArray.length()) {
-                    if (key.equals("datum_data")) {
-                        Log.d(
-                            TAG,
-                            "insertCommonData: datum_data $key--${jsonArray.getJSONObject(i)}  "
-                        )
-                    }
-                    dataList.clear()
-                    val jsonObject1: JSONObject = jsonArray.getJSONObject(i)
-
-                    val iter: Iterator<String> = jsonObject1.keys()
-                    val values1 = ContentValues()
-                    while (iter.hasNext()) {
-                        val keyss = iter.next()
-                        try {
-                            val valueddd: Any = jsonObject1.get(keyss)
-                            values1.put(keyss, valueddd.toString())
-                        } catch (e: JSONException) {
-                            Log.d(TAG, "onCreate:JSONException ${e.message}")
-                        }
-                    }
-                    dataList.add(values1)
-                    result = tableCreator.insertDataIntoTable(key.toString(), dataList)
-
-
-                    Log.d(TAG, "onCreate: resultinsertData:--$result---$key")
-                }
-
-            } catch (e: Exception) {
-                Log.d(TAG, "onCreate: Exception " + e.message)
-            }
-            Log.d(TAG, "insertDBData: $key")
-        }
-        return result
-    }
-
-
-    fun projectManagementData() {
-
-        val survey_configuration = "survey_configuration"
-        val survey_configurationColumn = arrayOf(
-            TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails("config_name", "STRING", unique = true),
-            TableCreator.ColumnDetails(
-                "zonedata_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "zonedata(zonedata_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "datum_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "datum_data(datum_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "elevationtype_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "elevationtype(elevationtype_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "distanceunit_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "distanceunit(distanceunit_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "angleunit_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "angleunit(angleunit_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "projectionParam_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "projectionParameters(projectionParam_id)"
-            ),
-            TableCreator.ColumnDetails("config_time", "STRING")
-
-        )
-        val survey_configurationTable =
-            tableCreator.createMainTableIfNeeded(survey_configuration, survey_configurationColumn)
-
-
-        val project_status = "project_status"
-        val project_statusColumn = arrayOf(
-            TableCreator.ColumnDetails("status_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails("status_types", "STRING"),
-        )
-        val project_statusTable =
-            tableCreator.createMainTableIfNeeded(project_status, project_statusColumn)
-
-        if (project_statusTable.equals("Table Created Successfully...")) {
-            val dataList: MutableList<ContentValues> = ArrayList()
-            val values1 = ContentValues()
-            values1.put("status_types", "Active")
-            dataList.add(values1)
-            var result = tableCreator.insertDataIntoTable(project_status, dataList)
-            dataList.clear()
-            values1.put("status_types", "Inactive")
-            Log.d(TAG, "projectManagementData:result $result")
-
-            dataList.add(values1)
-
-            result = tableCreator.insertDataIntoTable(project_status, dataList)
-            Log.d(TAG, "projectManagementData:result $result")
-        }
-
-
-        val shortNameTable = "shortNameTable"
-        val shortNameTableColumn = arrayOf(
-            TableCreator.ColumnDetails("shortName_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails("shortName", "STRING"),
-            TableCreator.ColumnDetails("project_id", "INTEGER"),
-        )
-        val shortNameTableData =
-            tableCreator.createMainTableIfNeeded(shortNameTable, shortNameTableColumn)
-
-
-        val siteCalibration = "siteCalibration"
-        val siteCalibrationColumn = arrayOf(
-            TableCreator.ColumnDetails("siteCal_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails("scale", "STRING"),
-            TableCreator.ColumnDetails("angle", "STRING"),
-            TableCreator.ColumnDetails("Tx", "STRING"),
-            TableCreator.ColumnDetails("Ty", "STRING"),
-            TableCreator.ColumnDetails("Fixed_Easting", "STRING"),
-            TableCreator.ColumnDetails("Fixed_Northing", "STRING"),
-            TableCreator.ColumnDetails("sigmaZ", "STRING"),
-            TableCreator.ColumnDetails("siteCal_createdAt", "STRING"),
-            TableCreator.ColumnDetails("project_id", "INTEGER"),
-        )
-        val siteCalibrationTable =
-            tableCreator.createMainTableIfNeeded(siteCalibration, siteCalibrationColumn)
-
-
-        val project_folder = "project_folder"
-        val project_folderColumn = arrayOf(
-            TableCreator.ColumnDetails("folder_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails("folderName", "STRING"),
-            TableCreator.ColumnDetails("folderPath", "STRING"),
-            TableCreator.ColumnDetails("fileTypes", "STRING"),
-            TableCreator.ColumnDetails("folderCreatedAt", "STRING")
-        )
-        val project_folderTable =
-            tableCreator.createMainTableIfNeeded(project_folder, project_folderColumn)
-
-
-        val project_table = "project_table"
-        val project_tableColumn = arrayOf(
-            TableCreator.ColumnDetails("project_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails("project_name", "STRING", unique = true),
-            TableCreator.ColumnDetails("operator", "STRING"),
-            TableCreator.ColumnDetails("comment", "STRING"),
-            TableCreator.ColumnDetails(
-                "folder_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "project_folder(folder_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "siteCal_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "siteCalibration(siteCal_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "status_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "project_status(status_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "config_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "survey_configuration(config_id)"
-            ),
-            TableCreator.ColumnDetails("projectCreated_at", "STRING")
-        )
-        val project_tableData =
-            tableCreator.createMainTableIfNeeded(project_table, project_tableColumn)
-    }
-
-    fun insertProjectionPrameters(paramValues: String): String {
-        var result = ""
-        Log.d(TAG, "insertProjectionPrameters: paramValues $paramValues")
-        val dataList: MutableList<ContentValues> = ArrayList()
-        val values1 = ContentValues()
-        values1.put("zone_name", paramValues.split(",")[0].trim())
-        values1.put("origin_lat", paramValues.split(",")[1].trim())
-        values1.put("origin_lng", paramValues.split(",")[2].trim())
-        values1.put("false_easting", paramValues.split(",")[3].trim())
-        values1.put("false_northing", paramValues.split(",")[4].trim())
-        values1.put("paralell_1", paramValues.split(",")[5].trim())
-        values1.put("paralell_2", paramValues.split(",")[6].trim())
-        values1.put("projectiontype_id", paramValues.split(",")[7].trim())
-        dataList.add(values1)
-        result = tableCreator.insertDataIntoTable("projectionParameters", dataList)
-        Log.d(TAG, "insertProjectionPrameters: $result")
-
-        return result
-    }
-
-    fun getUserDefinedDatumName(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where datumType_id = '2' and active = 'Y' ")
-
-        return data
-    }
-
-    fun getContinentName(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT continent_name FROM continents where active = 'Y' ")
-
-        return data
-    }
-
-    fun getContinentId(continent_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT continent_id FROM continents where continent_name='" + continent_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getCountryName(continentId: Int): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT country_name FROM countries where continent_id = " + continentId + "")
-        Log.d(TAG, "getCountryName: $data")
-        return data
-    }
-
-    fun getCountryId(country_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT country_id FROM countries where country_name='" + country_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getPredefinedDatumName(country_id: Int): List<String>? {
-        var data: List<String> = ArrayList()
-
-        try {
-
-            data =
-                tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where country_id = " + country_id + "")!!
-            Log.d(TAG, "getPredefinedDatumName:  $data")
-        } catch (e: Exception) {
-            Log.d(TAG, "getPredefinedDatumName:Exception ${e.message} ")
-        }
-        return data
-    }
-
-    fun getDatumId(datum_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT datum_id FROM datum_data where datum_name='" + datum_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getprojectionParamData(projectiontype_id: Int): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT zone_name FROM projectionParameters where projectiontype_id=" + projectiontype_id + "")
-        return data
-    }
-
-    fun getprojectionParamDataID(zone_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT projectionParam_id FROM projectionParameters where zone_name='" + zone_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun deleteProjectionParamData(zone_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("DELETE FROM projectionParameters WHERE  zone_name ='" + zone_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun angleUnitdata(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT angUnit_name FROM angleunit where active = 'Y' ")
-        return data
-    }
-
-    fun angleUnitID(angUnit_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT angleunit_id FROM angleunit where angUnit_name='" + angUnit_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getDistanceUnit(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT disUnit_name FROM distanceunit where active = 'Y' ")
-        return data
-    }
-
-    fun getDistanceUnitID(disUnit_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT distanceunit_id FROM distanceunit where disUnit_name='" + disUnit_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getZoneHemisphereData(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT zoneHemisphere FROM hemisphere where active = 'Y' ")
-
-        return data
-    }
-
-    fun getZoneHemisphereID(zoneHemisphere: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT hemisphere_id FROM hemisphere where zoneHemisphere='" + zoneHemisphere + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getZoneData(): List<String>? {
-        val data = tableCreator.executeStaticQuery("SELECT zone FROM zonedata where active = 'Y' ")
-        return data
-    }
-
-    fun getZoneDataID(zone: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT zonedata_id FROM zonedata where zone='" + zone + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getProjectionType(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT projectionType FROM projectiontype where active = 'Y'")
-        return data
-    }
-
-    fun getProjectionTypeID(projectionType: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT projectiontype_id FROM projectiontype where projectionType='" + projectionType + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getdatumtype(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT datumType_name FROM datumtype where active = 'Y' ")
-        return data
-    }
-
-    fun getdatumtypeID(datumType_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT datumType_id FROM datumtype where datumType_name='" + datumType_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getelevationType(): List<String>? {
-        val data =
-            tableCreator.executeStaticQuery("SELECT elevationType FROM elevationtype  where active = 'Y' ")
-        return data
-    }
-
-    fun getelevationTypeID(elevationtype: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT elevationtype_id FROM elevationtype where elevationType='" + elevationtype + "'")
-        return data?.get(0) ?: ""
-    }
-    fun getdeviceTabledata(): List<String>? {
-        var data =
-            tableCreator.executeStaticQuery("SELECT * from device ")
-        return data
-    }
-
-
-    fun getproject_configurationID(config_name: String): String {
-        var data =
-            tableCreator.executeStaticQuery("SELECT config_id FROM survey_configuration where config_name='" + config_name + "'")
-        return data?.get(0) ?: ""
-    }
-
-    fun getSatelliteDataList(): List<String>?{
-        var data =
-            tableCreator.executeStaticQuery("SELECT constellation_name,active FROM constellation ")
-        return data
-    }
-    fun insertSatelliteDataList(data:String):String{
-
-        var query=" UPDATE constellation SET active = '"+ data.split(",")[1]+ "' WHERE constellation_name = '"+data.split(",")[0]+"'"
-        Log.d(TAG, "insertSatelliteDataList: $query")
-        var result = tableCreator.executeStaticQuery(query)
-        Log.d(TAG, "insertSatelliteDataList: $result")
-        return result.toString()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun addConfigurationData(map: HashMap<String, String>): String {
-
-        val result = tableCreator.getTableSchema("survey_configuration")
-        var insertResult = ""
-
-        if (result.equals("")) {
-
-            val survey_configuration = "survey_configuration"
-            val survey_configurationColumn = arrayOf(
-                TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
-                TableCreator.ColumnDetails("config_name", "STRING", unique = true),
-                TableCreator.ColumnDetails(
-                    "zonedata_id",
-                    "INTEGER",
-                    foreignKey = true,
-                    foreignKeyReference = "zonedata(zonedata_id)"
-                ),
-                TableCreator.ColumnDetails(
-                    "datum_id",
-                    "INTEGER",
-                    foreignKey = true,
-                    foreignKeyReference = "datum_data(datum_id)"
-                ),
-                TableCreator.ColumnDetails(
-                    "elevationtype_id",
-                    "INTEGER",
-                    foreignKey = true,
-                    foreignKeyReference = "elevationtype(elevationtype_id)"
-                ),
-                TableCreator.ColumnDetails(
-                    "distanceunit_id",
-                    "INTEGER",
-                    foreignKey = true,
-                    foreignKeyReference = "distanceunit(distanceunit_id)"
-                ),
-                TableCreator.ColumnDetails(
-                    "angleunit_id",
-                    "INTEGER",
-                    foreignKey = true,
-                    foreignKeyReference = "angleunit(angleunit_id)"
-                ),
-                TableCreator.ColumnDetails(
-                    "projectionParam_id",
-                    "INTEGER",
-                    foreignKey = true,
-                    foreignKeyReference = "projectionParameters(projectionParam_id)"
-                ),
-                TableCreator.ColumnDetails("config_time", "STRING")
-            )
-            val survey_configurationTable =
-                tableCreator.createMainTableIfNeeded(
-                    survey_configuration,
-                    survey_configurationColumn
-                )
-
-
-        }
-        else {
-            Log.d(TAG, "addConfigurationData: Else")
-
-            val dataList: MutableList<ContentValues> = ArrayList()
-            val values1 = ContentValues()
-            Log.d(TAG, "addConfigurationData:projectName ${map.get("projectName")}")
-            values1.put("config_name", map.get("projectName"))
-            values1.put("datum_id", map.get("datumName"))
-            values1.put("zonedata_id", map.get("zoneData"))
-            values1.put("elevationtype_id", map.get("elevation"))
-            values1.put("distanceunit_id", map.get("distanceUnit"))
-            values1.put("angleunit_id", map.get("angleUnit"))
-            values1.put("projectionParam_id", map.get("zoneProjection"))
-            values1.put("config_time", "${LocalDateTime.now()}")
-            dataList.add(values1)
-
-            insertResult = tableCreator.insertDataIntoTable("survey_configuration", dataList)
-        }
-        return insertResult
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun defaultProjectConfig(map: HashMap<String, String>): String {
-        var result = ""
-        val dataList: MutableList<ContentValues> = ArrayList()
-        val values1 = ContentValues()
-        values1.put("config_name", map.get("config_name"))
-        values1.put("datum_id", map.get("datumName"))
-        values1.put("zonedata_id", map.get("zoneData"))
-        values1.put("elevationtype_id", map.get("elevation"))
-        values1.put("distanceunit_id", map.get("distanceUnit"))
-        values1.put("angleunit_id", map.get("angleUnit"))
-        values1.put("projectionParam_id", "")
-        values1.put("config_time", "${LocalDateTime.now()}")
-        dataList.add(values1)
-
-        result = tableCreator.insertDataIntoTable("survey_configuration", dataList)
-        return result
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun addProjectData(list: List<String>): String {
-
-        val dataList: MutableList<ContentValues> = ArrayList()
-        val values1 = ContentValues()
-
-        values1.put("project_name", list.get(0))
-        values1.put("operator", list.get(2))
-        values1.put("comment", list.get(3))
-        values1.put("config_id", list.get(1))
-        values1.put("projectCreated_at", "${LocalDateTime.now()}")
-        values1.put("status_id", "1")
-        dataList.add(values1)
-
-        val result = tableCreator.insertDataIntoTable("project_table", dataList)
-        return result
-    }
-
-    fun getProjectList(): List<String>? {
-        var data = tableCreator.executeStaticQuery(
-            "SELECT   prj.project_name ,dd.datum_name, z.zone\n" +
-                    "FROM project_table AS prj  ,survey_configuration AS conf,datum_data as dd, zonedata as z\n" +
-                    " where prj. config_id=conf.config_id and conf.datum_id=dd.datum_id and \n" +
-                    " conf.zonedata_id = z.zonedata_id"
-        )
-        Log.d(TAG, "getProjectList: data--$data")
-
-        return data
-    }
-
-    fun getProjectListCustomProjection(): List<String>? {
-        var data = tableCreator.executeStaticQuery(
-            "select  prj.project_name , DD.datum_name ,PP.zone_name,PT.projectionType\n" +
-                    "from  project_table as PRJ JOIN survey_configuration as PC ON PRJ.config_id = PC.config_id\n" +
-                    "JOIN datum_data as DD ON DD.datum_id = PC.datum_id\n" +
-                    "JOIN projectionParameters as PP ON PP.projectionParam_id =  PC.projectionParam_id\n" +
-                    "JOIN projectiontype as PT ON PT.projectiontype_id = PP.projectiontype_id"
-        )
-
-        return data
-    }
-
-    fun BluetoothConfigurationData(apiResponse: String) {
-
         val modal_type = "modal_type"
         val modal_typeColumn = arrayOf(
             TableCreator.ColumnDetails("modal_type_id", "INTEGER", true),
             TableCreator.ColumnDetails("type", "STRING"),
             TableCreator.ColumnDetails("remark", "STRING")
         )
-
         val modal_typeTable = tableCreator.createMainTableIfNeeded(modal_type, modal_typeColumn)
 
 
@@ -844,8 +254,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("remark", "STRING")
         )
         val sub_division_selectionTable = tableCreator.createMainTableIfNeeded(
-            sub_division_selection, sub_division_selectionColumn
-        )
+            sub_division_selection, sub_division_selectionColumn)
 
 
         val command_type = "command_type"
@@ -856,6 +265,7 @@ class DatabaseRepsoitory(context: Context) {
         )
         val command_typeTable =
             tableCreator.createMainTableIfNeeded(command_type, command_typeColumn)
+
 
         val command = "command"
         val commandColumn = arrayOf(
@@ -962,6 +372,7 @@ class DatabaseRepsoitory(context: Context) {
         val fixed_responseTable =
             tableCreator.createMainTableIfNeeded(fixed_response, fixed_responseColumn)
 
+
         val response_sub_division_selection = "response_sub_division_selection"
         val response_sub_division_selectionColumn = arrayOf(
             TableCreator.ColumnDetails("response_sub_division_selection_id", "INTEGER", true),
@@ -972,8 +383,8 @@ class DatabaseRepsoitory(context: Context) {
         )
         val response_sub_division_selectionTable = tableCreator.createMainTableIfNeeded(
             response_sub_division_selection,
-            response_sub_division_selectionColumn
-        )
+            response_sub_division_selectionColumn)
+
 
         val response_type = "response_type"
         val response_typeColumn = arrayOf(
@@ -986,6 +397,7 @@ class DatabaseRepsoitory(context: Context) {
         )
         val response_typeTable =
             tableCreator.createMainTableIfNeeded(response_type, response_typeColumn)
+
 
         val device_type = "device_type"
         val device_typeColumn = arrayOf(
@@ -1383,13 +795,7 @@ class DatabaseRepsoitory(context: Context) {
                 "INTEGER",
                 foreignKey = true,
                 foreignKeyReference = "device(device_id)"
-            )
-            /* ,
-             TableCreator.ColumnDetails(
-                 "ble_device_id",
-                 "INTEGER",
-                 foreignKey = true,
-                 foreignKeyReference = "device(id)")*/,
+            ),
             TableCreator.ColumnDetails(
                 "module_device_id",
                 "INTEGER",
@@ -1448,6 +854,269 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(device_registration, device_registrationColumn)
 
 
+        val device_configHierarchy = "device_configHierarchy"
+        val device_configHierarchyColumn = arrayOf(
+            TableCreator.ColumnDetails("device_configHierarchy_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails(
+                "device_configHierarchy_name",
+                "STRING"),
+            TableCreator.ColumnDetails("parent_id", "INTEGER", foreignKey = true, foreignKeyReference = "device_configHierarchy(device_configHierarchy_id)"),
+            TableCreator.ColumnDetails("is_super_child", "STRING"),
+            TableCreator.ColumnDetails("generation", "INTEGER"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val device_configHierarchyTable =
+            tableCreator.createMainTableIfNeeded(device_configHierarchy, device_configHierarchyColumn)
+
+        val wifiparams = "wifiparams"
+        val wifiparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("wifiparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails(
+                "IP",
+                "STRING"),
+            TableCreator.ColumnDetails("portNo", "STRING"),
+            TableCreator.ColumnDetails("url", "STRING"),
+            TableCreator.ColumnDetails("apn", "STRING"),
+            TableCreator.ColumnDetails("username", "STRING"),
+            TableCreator.ColumnDetails("passwd", "STRING"),
+            TableCreator.ColumnDetails("mountPoint", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val wifiparamsTable =
+            tableCreator.createMainTableIfNeeded(wifiparams, wifiparamsColumn)
+
+        val via4gparams = "via4gparams"
+        val via4gparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("via4gparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("IP","STRING"),
+            TableCreator.ColumnDetails("portNo", "STRING"),
+            TableCreator.ColumnDetails("url", "STRING"),
+            TableCreator.ColumnDetails("ssid", "STRING"),
+            TableCreator.ColumnDetails("ssid_password", "STRING"),
+            TableCreator.ColumnDetails("username", "STRING"),
+            TableCreator.ColumnDetails("passwd", "STRING"),
+            TableCreator.ColumnDetails("mountPoint", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val via4gparamsTable =
+            tableCreator.createMainTableIfNeeded(via4gparams, via4gparamsColumn)
+
+        val pdaparams = "pdaparams"
+        val pdaparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("pdaparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("IP","STRING"),
+            TableCreator.ColumnDetails("portNo", "STRING"),
+            TableCreator.ColumnDetails("url", "STRING"),
+            TableCreator.ColumnDetails("username", "STRING"),
+            TableCreator.ColumnDetails("passwd", "STRING"),
+            TableCreator.ColumnDetails("mountPoint", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val pdaparamsTable =
+            tableCreator.createMainTableIfNeeded(pdaparams, pdaparamsColumn)
+
+
+
+        val radiointernalparams = "radiointernalparams"
+        val radiointernalparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("radiointernalparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("datarate","STRING"),
+            TableCreator.ColumnDetails("baudrate", "STRING"),
+            TableCreator.ColumnDetails("power", "STRING"),
+            TableCreator.ColumnDetails("frequency", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val radiointernalparamsTable =
+            tableCreator.createMainTableIfNeeded(radiointernalparams, radiointernalparamsColumn)
+
+
+        val radioexternalparams = "radioexternalparams"
+        val radioexternalparamsColumn = arrayOf(
+            TableCreator.ColumnDetails("radioexternalparams_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("power","STRING"),
+            TableCreator.ColumnDetails("protocol", "STRING"),
+            TableCreator.ColumnDetails("frequency", "STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val radioexternalparamsTable =
+            tableCreator.createMainTableIfNeeded(radioexternalparams, radioexternalparamsColumn)
+
+
+        val type_of_communication = "type_of_communication"
+        val type_of_communicationColumn = arrayOf(
+            TableCreator.ColumnDetails("type_of_communication_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("communicationTypes","STRING"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val type_of_communicationTable =
+            tableCreator.createMainTableIfNeeded(type_of_communication, type_of_communicationColumn)
+
+
+        val communication_type_mapping = "communication_type_mapping"
+        val communication_type_mappingColumn = arrayOf(
+            TableCreator.ColumnDetails("communication_type_mapping_id", "INTEGER", primaryKey = true),
+            TableCreator.ColumnDetails("type_of_communication_id","INTEGER", foreignKey = true, foreignKeyReference = "type_of_communication(communication_type_mapping_id)"),
+            TableCreator.ColumnDetails("via4gparams_id","INTEGER", foreignKey = true, foreignKeyReference = "via4gParams(via4gparams_id)"),
+            TableCreator.ColumnDetails("wifiparams_id","INTEGER", foreignKey = true, foreignKeyReference = "wifiparams(wifiparams_id)"),
+            TableCreator.ColumnDetails("pdaparams_id","INTEGER", foreignKey = true, foreignKeyReference = "pdaparams(pdaparams_id)"),
+            TableCreator.ColumnDetails("radiointernalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radiointernalparams(radiointernalparams_id)"),
+            TableCreator.ColumnDetails("radioexternalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radioexternalparams (radioexternalparams_id)"),
+            TableCreator.ColumnDetails("createdAt", "STRING")
+        )
+        val communication_type_mappingTable =
+            tableCreator.createMainTableIfNeeded(communication_type_mapping, communication_type_mappingColumn)
+
+
+
+        val survey_configuration = "survey_configuration"
+        val survey_configurationColumn = arrayOf(
+            TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("config_name", "STRING", unique = true),
+            TableCreator.ColumnDetails(
+                "zonedata_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "zonedata(zonedata_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "datum_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "datum_data(datum_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "elevationtype_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "elevationtype(elevationtype_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "distanceunit_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "distanceunit(distanceunit_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "angleunit_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "angleunit(angleunit_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "projectionParam_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "projectionParameters(projectionParam_id)"
+            ),
+            TableCreator.ColumnDetails("config_time", "STRING")
+
+        )
+        val survey_configurationTable =
+            tableCreator.createMainTableIfNeeded(survey_configuration, survey_configurationColumn)
+
+
+        val project_status = "project_status"
+        val project_statusColumn = arrayOf(
+            TableCreator.ColumnDetails("status_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("status_types", "STRING"),
+        )
+        val project_statusTable =
+            tableCreator.createMainTableIfNeeded(project_status, project_statusColumn)
+
+        if (project_statusTable.equals("Table Created Successfully...")) {
+            val dataList: MutableList<ContentValues> = ArrayList()
+            val values1 = ContentValues()
+            values1.put("status_types", "Active")
+            dataList.add(values1)
+            var result = tableCreator.insertDataIntoTable(project_status, dataList)
+            dataList.clear()
+            values1.put("status_types", "Inactive")
+            Log.d(TAG, "projectManagementData:result $result")
+
+            dataList.add(values1)
+
+            result = tableCreator.insertDataIntoTable(project_status, dataList)
+            Log.d(TAG, "projectManagementData:result $result")
+        }
+
+
+        val shortNameTable = "shortNameTable"
+        val shortNameTableColumn = arrayOf(
+            TableCreator.ColumnDetails("shortName_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("shortName", "STRING"),
+            TableCreator.ColumnDetails("project_id", "INTEGER"),
+        )
+        val shortNameTableData =
+            tableCreator.createMainTableIfNeeded(shortNameTable, shortNameTableColumn)
+
+
+        val siteCalibration = "siteCalibration"
+        val siteCalibrationColumn = arrayOf(
+            TableCreator.ColumnDetails("siteCal_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("scale", "STRING"),
+            TableCreator.ColumnDetails("angle", "STRING"),
+            TableCreator.ColumnDetails("Tx", "STRING"),
+            TableCreator.ColumnDetails("Ty", "STRING"),
+            TableCreator.ColumnDetails("Fixed_Easting", "STRING"),
+            TableCreator.ColumnDetails("Fixed_Northing", "STRING"),
+            TableCreator.ColumnDetails("sigmaZ", "STRING"),
+            TableCreator.ColumnDetails("siteCal_createdAt", "STRING"),
+            TableCreator.ColumnDetails("project_id", "INTEGER"),
+        )
+        val siteCalibrationTable =
+            tableCreator.createMainTableIfNeeded(siteCalibration, siteCalibrationColumn)
+
+
+        val project_folder = "project_folder"
+        val project_folderColumn = arrayOf(
+            TableCreator.ColumnDetails("folder_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("folderName", "STRING"),
+            TableCreator.ColumnDetails("folderPath", "STRING"),
+            TableCreator.ColumnDetails("fileTypes", "STRING"),
+            TableCreator.ColumnDetails("folderCreatedAt", "STRING")
+        )
+        val project_folderTable =
+            tableCreator.createMainTableIfNeeded(project_folder, project_folderColumn)
+
+
+        val project_table = "project_table"
+        val project_tableColumn = arrayOf(
+            TableCreator.ColumnDetails("project_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("project_name", "STRING", unique = true),
+            TableCreator.ColumnDetails("operator", "STRING"),
+            TableCreator.ColumnDetails("comment", "STRING"),
+            TableCreator.ColumnDetails(
+                "folder_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "project_folder(folder_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "siteCal_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "siteCalibration(siteCal_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "status_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "project_status(status_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "config_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "survey_configuration(config_id)"
+            ),
+            TableCreator.ColumnDetails("projectCreated_at", "STRING")
+        )
+        val project_tableData =
+            tableCreator.createMainTableIfNeeded(project_table, project_tableColumn)
+
+
+
+
         Log.d(
             TAG, "BluetoothConfigurationData1: " +
                     "\n fixed_responseTable:--$fixed_responseTable" +
@@ -1484,124 +1153,23 @@ class DatabaseRepsoitory(context: Context) {
                     "\n byte_dataTable:--$byte_dataTable" +
                     "\n responseTable:--$responseTable" +
                     "\n constellation_model_mapTable:--$constellation_model_mapTable" +
-                    "\n device_registrationTable:--$device_registrationTable"
-
+                    "\n device_registrationTable:--$device_registrationTable"+
+                    "\n hemisphereTable:--$hemisphereTable" +
+                    "\n coordinateSystemTable:--$coordinateSystemTable" +
+                    "\n continentsTable:--$continentsTable" +
+                    "\n projectionParametersTable:--$projectionParametersTable" +
+                    "\n zonedataTable:--$zonedataTable" +
+                    "\n countriesTable:--$countriesTable" +
+                    "\n datum_dataTable:--$datum_dataTable" +
+                    "\n datumtypeTable:--$datumtypeTable" +
+                    "\n angleunitTable:--$angleunitTable" +
+                    "\n projectiontypeTable:--$projectiontypeTable" +
+                    "\n autocad_file_typeTable:--$autocad_file_typeTable" +
+                    "\n autocad_file_mapTable:--$autocad_file_mapTable" +
+                    "\n elevationtypeTable:--$elevationtypeTable" +
+                    "\n distanceunitTable:--$distanceunitTable"
 
         )
-
-
-
-
-        val device_configHierarchy = "device_configHierarchy"
-        val device_configHierarchyColumn = arrayOf(
-            TableCreator.ColumnDetails("device_configHierarchy_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails(
-                "device_configHierarchy_name",
-                "STRING"),
-            TableCreator.ColumnDetails("parent_id", "INTEGER", foreignKey = true, foreignKeyReference = "device_configHierarchy(device_configHierarchy_id)"),
-            TableCreator.ColumnDetails("is_super_child", "STRING"),
-            TableCreator.ColumnDetails("generation", "INTEGER"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val device_configHierarchyTable =
-            tableCreator.createMainTableIfNeeded(device_configHierarchy, device_configHierarchyColumn)
-
-   val wifiparams = "wifiparams"
-        val wifiparamsColumn = arrayOf(
-            TableCreator.ColumnDetails("wifiparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails(
-                "IP",
-                "STRING"),
-            TableCreator.ColumnDetails("portNo", "STRING"),
-            TableCreator.ColumnDetails("url", "STRING"),
-            TableCreator.ColumnDetails("apn", "STRING"),
-            TableCreator.ColumnDetails("username", "STRING"),
-            TableCreator.ColumnDetails("passwd", "STRING"),
-            TableCreator.ColumnDetails("mountPoint", "STRING"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val wifiparamsTable =
-            tableCreator.createMainTableIfNeeded(wifiparams, wifiparamsColumn)
-
-  val via4gparams = "via4gparams"
-        val via4gparamsColumn = arrayOf(
-            TableCreator.ColumnDetails("via4gparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("IP","STRING"),
-            TableCreator.ColumnDetails("portNo", "STRING"),
-            TableCreator.ColumnDetails("url", "STRING"),
-            TableCreator.ColumnDetails("ssid", "STRING"),
-            TableCreator.ColumnDetails("ssid_password", "STRING"),
-            TableCreator.ColumnDetails("username", "STRING"),
-            TableCreator.ColumnDetails("passwd", "STRING"),
-            TableCreator.ColumnDetails("mountPoint", "STRING"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val via4gparamsTable =
-            tableCreator.createMainTableIfNeeded(via4gparams, via4gparamsColumn)
-
-  val pdaparams = "pdaparams"
-        val pdaparamsColumn = arrayOf(
-            TableCreator.ColumnDetails("pdaparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("IP","STRING"),
-            TableCreator.ColumnDetails("portNo", "STRING"),
-            TableCreator.ColumnDetails("url", "STRING"),
-            TableCreator.ColumnDetails("username", "STRING"),
-            TableCreator.ColumnDetails("passwd", "STRING"),
-            TableCreator.ColumnDetails("mountPoint", "STRING"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val pdaparamsTable =
-            tableCreator.createMainTableIfNeeded(pdaparams, pdaparamsColumn)
-
-
-
-  val radiointernalparams = "radiointernalparams"
-        val radiointernalparamsColumn = arrayOf(
-            TableCreator.ColumnDetails("radiointernalparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("datarate","STRING"),
-            TableCreator.ColumnDetails("baudrate", "STRING"),
-            TableCreator.ColumnDetails("power", "STRING"),
-            TableCreator.ColumnDetails("frequency", "STRING"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val radiointernalparamsTable =
-            tableCreator.createMainTableIfNeeded(radiointernalparams, radiointernalparamsColumn)
-
-
- val radioexternalparams = "radioexternalparams"
-        val radioexternalparamsColumn = arrayOf(
-            TableCreator.ColumnDetails("radioexternalparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("power","STRING"),
-            TableCreator.ColumnDetails("protocol", "STRING"),
-            TableCreator.ColumnDetails("frequency", "STRING"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val radioexternalparamsTable =
-            tableCreator.createMainTableIfNeeded(radioexternalparams, radioexternalparamsColumn)
-
-
- val type_of_communication = "type_of_communication"
-        val type_of_communicationColumn = arrayOf(
-            TableCreator.ColumnDetails("type_of_communication_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("communicationTypes","STRING"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val type_of_communicationTable =
-            tableCreator.createMainTableIfNeeded(type_of_communication, type_of_communicationColumn)
-
- val communication_type_mapping = "communication_type_mapping"
-        val communication_type_mappingColumn = arrayOf(
-            TableCreator.ColumnDetails("communication_type_mapping_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("type_of_communication_id","INTEGER", foreignKey = true, foreignKeyReference = "type_of_communication(communication_type_mapping_id)"),
-            TableCreator.ColumnDetails("via4gparams_id","INTEGER", foreignKey = true, foreignKeyReference = "via4gParams(via4gparams_id)"),
-            TableCreator.ColumnDetails("wifiparams_id","INTEGER", foreignKey = true, foreignKeyReference = "wifiparams(wifiparams_id)"),
-            TableCreator.ColumnDetails("pdaparams_id","INTEGER", foreignKey = true, foreignKeyReference = "pdaparams(pdaparams_id)"),
-            TableCreator.ColumnDetails("radiointernalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radiointernalparams(radiointernalparams_id)"),
-            TableCreator.ColumnDetails("radioexternalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radioexternalparams (radioexternalparams_id)"),
-            TableCreator.ColumnDetails("createdAt", "STRING")
-        )
-        val communication_type_mappingTable =
-            tableCreator.createMainTableIfNeeded(communication_type_mapping, communication_type_mappingColumn)
 
 
 
@@ -1650,15 +1218,435 @@ class DatabaseRepsoitory(context: Context) {
             && radioexternalparamsTable.equals("Table Created Successfully...")
             && type_of_communicationTable.equals("Table Created Successfully...")
             && communication_type_mappingTable.equals("Table Created Successfully...")
+            && hemisphereTable.equals("Table Created Successfully...")
+            && coordinateSystemTable.equals("Table Created Successfully...")
+            && continentsTable.equals("Table Created Successfully...")
+            && projectionParametersTable.equals("Table Created Successfully...")
+            && zonedataTable.equals("Table Created Successfully...")
+            && countriesTable.equals("Table Created Successfully...")
+            && datum_dataTable.equals("Table Created Successfully...")
+            && datumtypeTable.equals("Table Created Successfully...")
+            && angleunitTable.equals("Table Created Successfully...")
+            && projectiontypeTable.equals("Table Created Successfully...")
+            && autocad_file_typeTable.equals("Table Created Successfully...")
+            && autocad_file_mapTable.equals("Table Created Successfully...")
+            && elevationtypeTable.equals("Table Created Successfully...")
+            && distanceunitTable.equals("Table Created Successfully...")
+            && survey_configurationTable.equals("Table Created Successfully...")
+            && project_statusTable.equals("Table Created Successfully...")
+            && shortNameTableData.equals("Table Created Successfully...")
+            && siteCalibrationTable.equals("Table Created Successfully...")
+            && project_folderTable.equals("Table Created Successfully...")
+            && project_tableData.equals("Table Created Successfully...")
 
 
-        ) {
-            Log.d(TAG, "BluetoothConfigurationData1: All table created")
-            val result = insertDBData(apiResponse)
-            Log.d(TAG, "BluetoothConfigurationData: result $result")
+        )
+        {
+            Log.d(TAG, "CommonApiTablesCreation1: All table created")
+            insertDBData(apiResponse)
+            projectManagementData()
         } else {
-            Log.d(TAG, "BluetoothConfigurationData1: Error while table creation ")
+            Log.d(TAG, "CommonApiTablesCreation1: Error while table creation ")
         }
+
+
+    }
+
+
+    fun insertDBData(resp: String): String {
+        Log.d(TAG, "insertCommonData: $resp")
+        var result = ""
+        val jsonObject = JSONObject(resp)
+        for (key in jsonObject.keys()) {
+
+            val dataList: MutableList<ContentValues> = ArrayList()
+            val jsonArray = jsonObject.getJSONArray(key)
+            try {
+                for (i in 0 until jsonArray.length()) {
+                    if (key.equals("datum_data")) {
+                        Log.d(
+                            TAG,
+                            "insertCommonData: datum_data $key--${jsonArray.getJSONObject(i)}  "
+                        )
+                    }
+                    dataList.clear()
+                    val jsonObject1: JSONObject = jsonArray.getJSONObject(i)
+
+                    val iter: Iterator<String> = jsonObject1.keys()
+                    val values1 = ContentValues()
+                    while (iter.hasNext()) {
+                        val keyss = iter.next()
+                        try {
+                            val valueddd: Any = jsonObject1.get(keyss)
+                            values1.put(keyss, valueddd.toString())
+                        } catch (e: JSONException) {
+                            Log.d(TAG, "onCreate:JSONException ${e.message}")
+                        }
+                    }
+                    dataList.add(values1)
+                    result = tableCreator.insertDataIntoTable(key.toString(), dataList)
+
+
+                    Log.d(TAG, "onCreate: resultinsertData:--$result---$key")
+                }
+
+            } catch (e: Exception) {
+                Log.d(TAG, "onCreate: Exception " + e.message)
+            }
+            Log.d(TAG, "insertDBData: $key")
+        }
+        return result
+    }
+
+
+    fun projectManagementData() {
+
+
+    }
+
+    fun insertProjectionPrameters(paramValues: String): String {
+        var result = ""
+        Log.d(TAG, "insertProjectionPrameters: paramValues $paramValues")
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val values1 = ContentValues()
+        values1.put("zone_name", paramValues.split(",")[0].trim())
+        values1.put("origin_lat", paramValues.split(",")[1].trim())
+        values1.put("origin_lng", paramValues.split(",")[2].trim())
+        values1.put("false_easting", paramValues.split(",")[3].trim())
+        values1.put("false_northing", paramValues.split(",")[4].trim())
+        values1.put("paralell_1", paramValues.split(",")[5].trim())
+        values1.put("paralell_2", paramValues.split(",")[6].trim())
+        values1.put("projectiontype_id", paramValues.split(",")[7].trim())
+        dataList.add(values1)
+        result = tableCreator.insertDataIntoTable("projectionParameters", dataList)
+        Log.d(TAG, "insertProjectionPrameters: $result")
+
+        return result
+    }
+
+    fun getUserDefinedDatumName(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where datumType_id = '2' and active = 'Y' ")
+
+        return data
+    }
+
+    fun getContinentName(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT continent_name FROM continents where active = 'Y' ")
+
+        return data
+    }
+
+    fun getContinentId(continent_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT continent_id FROM continents where continent_name='" + continent_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getCountryName(continentId: Int): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT country_name FROM countries where continent_id = " + continentId + "")
+        Log.d(TAG, "getCountryName: $data")
+        return data
+    }
+
+    fun getCountryId(country_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT country_id FROM countries where country_name='" + country_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getPredefinedDatumName(country_id: Int): List<String>? {
+        var data: List<String> = ArrayList()
+
+        try {
+
+            data =
+                tableCreator.executeStaticQuery("SELECT datum_name FROM datum_data where country_id = " + country_id + "")!!
+            Log.d(TAG, "getPredefinedDatumName:  $data")
+        } catch (e: Exception) {
+            Log.d(TAG, "getPredefinedDatumName:Exception ${e.message} ")
+        }
+        return data
+    }
+
+    fun getDatumId(datum_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT datum_id FROM datum_data where datum_name='" + datum_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getprojectionParamData(projectiontype_id: Int): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT zone_name FROM projectionParameters where projectiontype_id=" + projectiontype_id + "")
+        return data
+    }
+
+    fun getprojectionParamDataID(zone_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT projectionParam_id FROM projectionParameters where zone_name='" + zone_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun deleteProjectionParamData(zone_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("DELETE FROM projectionParameters WHERE  zone_name ='" + zone_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun angleUnitdata(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT angUnit_name FROM angleunit where active = 'Y' ")
+        return data
+    }
+
+    fun angleUnitID(angUnit_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT angleunit_id FROM angleunit where angUnit_name='" + angUnit_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getDistanceUnit(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT disUnit_name FROM distanceunit where active = 'Y' ")
+        return data
+    }
+
+    fun getDistanceUnitID(disUnit_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT distanceunit_id FROM distanceunit where disUnit_name='" + disUnit_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getZoneHemisphereData(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT zoneHemisphere FROM hemisphere where active = 'Y' ")
+
+        return data
+    }
+
+    fun getZoneHemisphereID(zoneHemisphere: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT hemisphere_id FROM hemisphere where zoneHemisphere='" + zoneHemisphere + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getZoneData(): List<String>? {
+        val data = tableCreator.executeStaticQuery("SELECT zone FROM zonedata where active = 'Y' ")
+        return data
+    }
+
+    fun getZoneDataID(zone: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT zonedata_id FROM zonedata where zone='" + zone + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getProjectionType(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT projectionType FROM projectiontype where active = 'Y'")
+        return data
+    }
+
+    fun getProjectionTypeID(projectionType: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT projectiontype_id FROM projectiontype where projectionType='" + projectionType + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getdatumtype(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT datumType_name FROM datumtype where active = 'Y' ")
+        return data
+    }
+
+    fun getdatumtypeID(datumType_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT datumType_id FROM datumtype where datumType_name='" + datumType_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getelevationType(): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT elevationType FROM elevationtype  where active = 'Y' ")
+        return data
+    }
+
+    fun getelevationTypeID(elevationtype: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT elevationtype_id FROM elevationtype where elevationType='" + elevationtype + "'")
+        return data?.get(0) ?: ""
+    }
+    fun getdeviceTabledata(): List<String>? {
+        var data =
+            tableCreator.executeStaticQuery("SELECT * from device ")
+        return data
+    }
+
+
+    fun getproject_configurationID(config_name: String): String {
+        var data =
+            tableCreator.executeStaticQuery("SELECT config_id FROM survey_configuration where config_name='" + config_name + "'")
+        return data?.get(0) ?: ""
+    }
+
+    fun getSatelliteDataList(): List<String>?{
+        var data =
+            tableCreator.executeStaticQuery("SELECT constellation_name,active FROM constellation ")
+        return data
+    }
+    fun insertSatelliteDataList(data:String):String{
+
+        var query=" UPDATE constellation SET active = '"+ data.split(",")[1]+ "' WHERE constellation_name = '"+data.split(",")[0]+"'"
+        Log.d(TAG, "insertSatelliteDataList: $query")
+        var result = tableCreator.executeStaticQuery(query)
+        Log.d(TAG, "insertSatelliteDataList: $result")
+        return result.toString()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun addConfigurationData(map: HashMap<String, String>): String {
+
+        val result = tableCreator.getTableSchema("survey_configuration")
+        var insertResult = ""
+
+        if (result.equals("")) {
+
+            val survey_configuration = "survey_configuration"
+            val survey_configurationColumn = arrayOf(
+                TableCreator.ColumnDetails("config_id", "INTEGER", true, true),
+                TableCreator.ColumnDetails("config_name", "STRING", unique = true),
+                TableCreator.ColumnDetails(
+                    "zonedata_id",
+                    "INTEGER",
+                    foreignKey = true,
+                    foreignKeyReference = "zonedata(zonedata_id)"
+                ),
+                TableCreator.ColumnDetails(
+                    "datum_id",
+                    "INTEGER",
+                    foreignKey = true,
+                    foreignKeyReference = "datum_data(datum_id)"
+                ),
+                TableCreator.ColumnDetails(
+                    "elevationtype_id",
+                    "INTEGER",
+                    foreignKey = true,
+                    foreignKeyReference = "elevationtype(elevationtype_id)"
+                ),
+                TableCreator.ColumnDetails(
+                    "distanceunit_id",
+                    "INTEGER",
+                    foreignKey = true,
+                    foreignKeyReference = "distanceunit(distanceunit_id)"
+                ),
+                TableCreator.ColumnDetails(
+                    "angleunit_id",
+                    "INTEGER",
+                    foreignKey = true,
+                    foreignKeyReference = "angleunit(angleunit_id)"
+                ),
+                TableCreator.ColumnDetails(
+                    "projectionParam_id",
+                    "INTEGER",
+                    foreignKey = true,
+                    foreignKeyReference = "projectionParameters(projectionParam_id)"
+                ),
+                TableCreator.ColumnDetails("config_time", "STRING")
+            )
+            val survey_configurationTable =
+                tableCreator.createMainTableIfNeeded(
+                    survey_configuration,
+                    survey_configurationColumn
+                )
+
+
+        }
+        else {
+            Log.d(TAG, "addConfigurationData: Else")
+
+            val dataList: MutableList<ContentValues> = ArrayList()
+            val values1 = ContentValues()
+            Log.d(TAG, "addConfigurationData:projectName ${map.get("projectName")}")
+            values1.put("config_name", map.get("projectName"))
+            values1.put("datum_id", map.get("datumName"))
+            values1.put("zonedata_id", map.get("zoneData"))
+            values1.put("elevationtype_id", map.get("elevation"))
+            values1.put("distanceunit_id", map.get("distanceUnit"))
+            values1.put("angleunit_id", map.get("angleUnit"))
+            values1.put("projectionParam_id", map.get("zoneProjection"))
+            values1.put("config_time", "${LocalDateTime.now()}")
+            dataList.add(values1)
+
+            insertResult = tableCreator.insertDataIntoTable("survey_configuration", dataList)
+        }
+        return insertResult
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun defaultProjectConfig(map: HashMap<String, String>): String {
+        var result = ""
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val values1 = ContentValues()
+        values1.put("config_name", map.get("config_name"))
+        values1.put("datum_id", map.get("datumName"))
+        values1.put("zonedata_id", map.get("zoneData"))
+        values1.put("elevationtype_id", map.get("elevation"))
+        values1.put("distanceunit_id", map.get("distanceUnit"))
+        values1.put("angleunit_id", map.get("angleUnit"))
+        values1.put("projectionParam_id", "")
+        values1.put("config_time", "${LocalDateTime.now()}")
+        dataList.add(values1)
+
+        result = tableCreator.insertDataIntoTable("survey_configuration", dataList)
+        return result
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun addProjectData(list: List<String>): String {
+
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val values1 = ContentValues()
+
+        values1.put("project_name", list.get(0))
+        values1.put("operator", list.get(2))
+        values1.put("comment", list.get(3))
+        values1.put("config_id", list.get(1))
+        values1.put("projectCreated_at", "${LocalDateTime.now()}")
+        values1.put("status_id", "1")
+        dataList.add(values1)
+
+        val result = tableCreator.insertDataIntoTable("project_table", dataList)
+        return result
+    }
+
+    fun getProjectList(): List<String>? {
+        var data = tableCreator.executeStaticQuery(
+            "SELECT   prj.project_name ,dd.datum_name, z.zone\n" +
+                    "FROM project_table AS prj  ,survey_configuration AS conf,datum_data as dd, zonedata as z\n" +
+                    " where prj. config_id=conf.config_id and conf.datum_id=dd.datum_id and \n" +
+                    " conf.zonedata_id = z.zonedata_id"
+        )
+        Log.d(TAG, "getProjectList: data--$data")
+
+        return data
+    }
+
+    fun getProjectListCustomProjection(): List<String>? {
+        var data = tableCreator.executeStaticQuery(
+            "select  prj.project_name , DD.datum_name ,PP.zone_name,PT.projectionType\n" +
+                    "from  project_table as PRJ JOIN survey_configuration as PC ON PRJ.config_id = PC.config_id\n" +
+                    "JOIN datum_data as DD ON DD.datum_id = PC.datum_id\n" +
+                    "JOIN projectionParameters as PP ON PP.projectionParam_id =  PC.projectionParam_id\n" +
+                    "JOIN projectiontype as PT ON PT.projectiontype_id = PP.projectiontype_id"
+        )
+
+        return data
+    }
+
+    fun BluetoothConfigurationData(apiResponse: String) {
+        insertDBData(apiResponse)
     }
 
 

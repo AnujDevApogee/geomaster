@@ -90,23 +90,22 @@ class StartActivity : AppCompatActivity() {
         }
         binding?.btnLetstart?.setOnClickListener {
             if (responseString != null) {
-                Log.d(TAG, "onCreate:APISERVICE StartElse")
+                Log.d(TAG, "onCreate:APISERVICE StartIF")
 
                 val deviceData=dbControl.getdeviceTabledata()
                 if(deviceData!!.size==1){
-                    val deviceValue =deviceData[0]
-                    if(deviceValue!!.contains("Error")||deviceValue!!.isEmpty()){
-                        Log.d(TAG, "onCreate:deviceData  empty ")
-                        val intents = Intent(this@StartActivity, LoginActivity::class.java)
-                        startActivity(intents)
-                        finish()
-                    }else{
                         Log.d(TAG, "onCreate:deviceData not empty ")
                         val intents = Intent(this@StartActivity, HomeScreen::class.java)
                         intents.putExtra("loggedIn", true)
                         startActivity(intents)
                         finish()
-                    }
+                }
+                else
+                {
+                    Log.d(TAG, "onCreate:deviceData  empty ")
+                    val intents = Intent(this@StartActivity, LoginActivity::class.java)
+                    startActivity(intents)
+                    finish()
                 }
                 Log.d(TAG, "onCreate: deviceData --$deviceData")
 

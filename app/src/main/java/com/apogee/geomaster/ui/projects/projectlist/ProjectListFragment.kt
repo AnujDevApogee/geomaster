@@ -58,7 +58,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         displayActionBar("Projects ${getEmojiByUnicode( 0x1F4C1)}", binding.actionLayout, R.menu.info_mnu, menuCallback)
         (activity as HomeScreen?)?.hideActionBar()
         setUpRecycleView()
-
+/*
         projectListData= dbControl.getProjectList() as ArrayList<String>
         projectListDataCustomProjection= dbControl.getProjectListCustomProjection() as ArrayList<String>
         var projectDetails : ArrayList<Project> = ArrayList()
@@ -83,7 +83,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         }
         projectListAdaptor.submitList(projectDetails)
 
-        Log.d(TAG, "onViewCreated: projectListData $projectListData")
+        Log.d(TAG, "onViewCreated: projectListData $projectListData")*/
 
         binding.addProject.setOnClickListener {
             findNavController().navigate(R.id.action_projectListFragment_to_configurationFragment)

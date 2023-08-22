@@ -6,10 +6,8 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.IBinder
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.apogee.apilibrary.ApiCall
@@ -96,7 +94,7 @@ class ApiService : Service(), CustomCallback {
                     count++
                     val responseString = responseBody.string()
                     Log.d(TAG, "onResponse$count: $responseString")
-                    dbControl.CommonApiTablesCreation(responseString)
+                    dbControl.CommonApi_TablesCreation(responseString)
                     val sharedPreferences = MyPreference.getInstance(this)
                     sharedPreferences.putStringData(Constants.RESPONSE_STRING, responseString)
                     stopService( Intent(this, ApiService::class.java))
