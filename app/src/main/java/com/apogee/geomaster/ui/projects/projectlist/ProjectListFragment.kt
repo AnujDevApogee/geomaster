@@ -36,7 +36,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
     }
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
-            findNavController().navigate(R.id.action_projectListFragment_to_communicationfragment)
+            findNavController().navigate(R.id.action_projectListFragment_to_configurationFragment)
         }
     }
 
@@ -70,6 +70,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
             var  projectionType="UTM"
             projectDetails.add(Project(title,datum,projectionType,zone))
         }
+
         projectListAdaptor.submitList(projectDetails)
 
         for(i in projectListDataCustomProjection){
@@ -85,7 +86,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         Log.d(TAG, "onViewCreated: projectListData $projectListData")
 
         binding.addProject.setOnClickListener {
-            findNavController().navigate(ProjectListFragmentDirections.actionProjectListFragmentToDefaultCreateProjectFragment())
+            findNavController().navigate(R.id.action_projectListFragment_to_configurationFragment)
         }
     }
 

@@ -62,10 +62,8 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
      fun setupConnection() {
 
         coroutineScope.launch {
-
             _bleResponse.value =
                 BleResponse.OnLoading("Please wait \n Connecting with Service...")
-
             context.bindService(
                 Intent(context, BleService::class.java),
                 this@BleConnectionRepository,

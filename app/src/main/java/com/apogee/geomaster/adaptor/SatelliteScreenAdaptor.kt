@@ -1,5 +1,6 @@
 package com.apogee.geomaster.adaptor
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -10,19 +11,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SatelliteItemLayoutBinding
 import com.apogee.geomaster.model.SatelliteModel
+import com.apogee.geomaster.repository.DatabaseRepsoitory
 
-typealias listener = (data: SatelliteModel) -> Unit
+typealias listener = (position:Int,data: SatelliteModel) -> Unit
+
 
 class SatelliteScreenAdaptor(private val itemClicked: listener) :
     ListAdapter<SatelliteModel, SatelliteScreenAdaptor.SatelliteViewHolder>(diffUtil) {
+
     inner class SatelliteViewHolder(private val binding: SatelliteItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var isCheck = true
-        fun setData(data: SatelliteModel, itemClicked: listener) {
+        fun setData(data: SatelliteModel, itemClicked: listener,position: Int) {
+            isCheck=data.satelliteStatus.equals("Y",true)
+            binding.checkInfo.isVisible=isCheck
             binding.cardView.setOnClickListener {
-                itemClicked.invoke(data)
-                binding.checkInfo.isVisible = isCheck
                 isCheck = !isCheck
+                if(isCheck){
+                    data.satelliteStatus="Y"
+                }else{
+                    data.satelliteStatus="N"
+                }
+                itemClicked.invoke(position, data)
+                binding.checkInfo.isVisible = isCheck
+
             }
             binding.satelliteInfo.text = data.satelliteName
         }
@@ -53,7 +65,7 @@ class SatelliteScreenAdaptor(private val itemClicked: listener) :
         val animation=AnimationUtils.loadAnimation(holder.itemView.context, R.anim.enter_anim_layout)
         holder.itemView.startAnimation(animation)
         currItem?.let {
-            holder.setData(it, itemClicked)
+            holder.setData(it, itemClicked,position)
         }
     }
 

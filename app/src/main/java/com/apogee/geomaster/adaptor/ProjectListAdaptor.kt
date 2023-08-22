@@ -39,6 +39,7 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
         fun bind(project: Project, itemOnClickListener: OnItemClickListener) {
             binding.projectName.text=project.title
 //            binding.projectInfo.text="Datum Name ${project.title}\n"
+            binding.projectInfo.text=""
             binding.projectInfo.append("Datum Name:-- ${project.dataumName}\n")
             binding.projectInfo.append("Projection Type:-- ${project.projectionType}\n")
             binding.projectInfo.append("Zone:--${project.zone}\n")

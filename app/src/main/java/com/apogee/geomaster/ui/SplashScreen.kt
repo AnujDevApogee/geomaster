@@ -35,7 +35,6 @@ class SplashScreen : AppCompatActivity() {
     private lateinit var database: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@SplashScreen)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -116,7 +115,6 @@ class SplashScreen : AppCompatActivity() {
                     } else {
                         startService(intent)
                     }
-
                 }
                 else {
                     val intents = Intent(this@SplashScreen, StartActivity::class.java)

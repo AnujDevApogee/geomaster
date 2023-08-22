@@ -16,27 +16,27 @@
             android:layout_height="wrap_content" />
 
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/done_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/action_layout"
+            app:layout_constraintRight_toRightOf="@id/action_layout"
             app:layout_constraintTop_toBottomOf="@id/action_layout">
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/survey_nm_layout"
+                    android:id="@+id/project_nm_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:hint="Survey Name"
+                    android:hint="@string/nm_project"
                     android:textColorHint="@color/md_theme_light_scrim"
                     app:boxStrokeColor="@color/md_theme_light_scrim"
                     app:boxStrokeWidthFocused="2dp"
@@ -49,136 +49,153 @@
                     app:startIconDrawable="@drawable/ic_folder">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/survey_nm"
+                        android:id="@+id/project_nme"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/datum_nm_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:id="@+id/operator_name_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="@string/datum_nm"
-                    app:boxStrokeColor="@color/md_theme_light_primary"
-                    app:layout_constraintLeft_toLeftOf="@id/survey_nm_layout"
-                    app:layout_constraintRight_toRightOf="@id/survey_nm_layout"
-                    app:layout_constraintTop_toBottomOf="@id/survey_nm_layout">
+                    android:hint="@string/op_project"
+                    android:textColorHint="@color/md_theme_light_scrim"
+                    app:boxStrokeColor="@color/md_theme_light_scrim"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/md_theme_light_scrim"
+                    app:hintTextColor="@color/md_theme_light_scrim"
+                    app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                    app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                    app:layout_constraintTop_toBottomOf="@id/project_nm_layout"
+                    app:startIconDrawable="@drawable/ic_person">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/datums"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/operator_nm"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="none"
-                        android:text="@string/datum_nm" />
-
+                        android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/elevation_key_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/default_project_card"
+                    style="@style/Widget.Material3.CardView.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="@string/elv_ky_data"
-                    app:boxStrokeColor="@color/md_theme_light_primary"
-                    app:layout_constraintLeft_toLeftOf="@id/datum_nm_layout"
-                    app:layout_constraintRight_toRightOf="@id/datum_nm_layout"
-                    app:layout_constraintTop_toBottomOf="@id/datum_nm_layout">
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="0dp"
+                    app:layout_constraintLeft_toLeftOf="@id/operator_name_layout"
+                    app:layout_constraintRight_toRightOf="@id/operator_name_layout"
+                    app:layout_constraintTop_toBottomOf="@id/operator_name_layout"
+                    app:strokeColor="@color/md_theme_dark_scrim">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/elevation_key"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="none"
-                        android:text="@string/elv_ky_data" />
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:id="@+id/project_detail_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/md_theme_dark_scrim"
+                            android:textSize="15sp"
+                            tools:text="gdfkjhd djhlkgfhlj dfhjlkdgfhlkdfjlh djflkhdlhfk dfhjlkdf\ngkdfgd\ndjdg\ndfgjdfhkgf\n" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/distance_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:hint="@string/distance_unit"
-                    app:boxStrokeColor="@color/md_theme_light_primary"
-                    app:layout_constraintEnd_toStartOf="@+id/angle_layout"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="@id/elevation_key_layout"
-                    app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/distance_txt"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="none"
-                        android:text="@string/distance_unit" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/angle_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/angle_nm"
-                    app:boxStrokeColor="@color/md_theme_light_primary"
-                    app:layout_constraintEnd_toEndOf="@id/elevation_key_layout"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/distance_layout"
-                    app:layout_constraintTop_toBottomOf="@id/elevation_key_layout">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/angle_unit_txt"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="none"
-                        android:text="@string/angle_nm" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/projection_type_layout"
+                    android:id="@+id/zone_data_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
-                    android:hint="@string/projection_data"
+                    android:hint="@string/zn_data"
                     app:boxStrokeColor="@color/md_theme_light_primary"
-                    app:layout_constraintLeft_toLeftOf="@id/distance_layout"
-                    app:layout_constraintRight_toRightOf="@id/angle_layout"
-                    app:layout_constraintTop_toBottomOf="@id/distance_layout">
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"                    app:layout_constraintTop_toBottomOf="@id/default_project_card">
 
                     <AutoCompleteTextView
-                        android:id="@+id/projection_type_conn"
+                        android:id="@+id/zone_data"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:inputType="none"
-                        android:text="@string/projection_data_type" />
+                        android:text="@string/zn_data" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/comment_ed_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="@color/md_theme_light_scrim"
+                    app:boxStrokeColor="@color/md_theme_light_primary"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/md_theme_light_scrim"
+                    app:hintTextColor="@color/md_theme_light_scrim"
+                    app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                    app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                    app:layout_constraintTop_toBottomOf="@id/zone_data_layout">
+
+                    <EditText
+                        android:id="@+id/comment_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:gravity="top"
+                        android:hint="@string/project_comment_data"
+                        app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                        app:layout_constraintTop_toBottomOf="@id/comment_ed_layout" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_submit"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/sbm_btn"
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                    app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                    app:layout_constraintTop_toBottomOf="@id/comment_ed_layout" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/create_new_project"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:text="@string/create_custom_project"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                    app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                    app:layout_constraintTop_toBottomOf="@id/btn_submit" />
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
 
-        <com.google.android.material.button.MaterialButton
+     <!--   <com.google.android.material.button.MaterialButton
             android:id="@+id/done_btn"
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="match_parent"
@@ -196,7 +213,7 @@
             app:cornerRadius="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

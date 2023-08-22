@@ -408,7 +408,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             val result = dbControl.addProjectData(prjDataList)
             if(result.equals("Data inserted successfully")){
                 Toast.makeText(this.requireContext(), "Data inserted successfully",Toast.LENGTH_SHORT ).show()
-                findNavController().safeNavigate(R.id.action_createProjectFragment_to_homeScreenMainFragment2)
+                findNavController().safeNavigate(R.id.action_createProjectFragment_to_satelliteConfigurationFragment)
             }else{
                 Toast.makeText(this.requireContext(), result,Toast.LENGTH_SHORT ).show()
             }

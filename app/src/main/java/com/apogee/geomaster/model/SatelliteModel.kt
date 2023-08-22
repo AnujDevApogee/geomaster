@@ -1,8 +1,10 @@
 package com.apogee.geomaster.model
 
 data class SatelliteModel(
-    val satelliteName: String
+    val satelliteName: String,
+    var satelliteStatus: String
 )
+
 /*{
     companion object {
         val list = listOf(

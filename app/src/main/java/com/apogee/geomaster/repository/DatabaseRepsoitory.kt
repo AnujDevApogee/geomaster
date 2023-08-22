@@ -659,10 +659,10 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.executeStaticQuery("SELECT elevationtype_id FROM elevationtype where elevationType='" + elevationtype + "'")
         return data?.get(0) ?: ""
     }
-    fun getdeviceTabledata(): String {
+    fun getdeviceTabledata(): List<String>? {
         var data =
             tableCreator.executeStaticQuery("SELECT * from device ")
-        return data?.get(0) ?: ""
+        return data
     }
 
 
@@ -674,8 +674,16 @@ class DatabaseRepsoitory(context: Context) {
 
     fun getSatelliteDataList(): List<String>?{
         var data =
-            tableCreator.executeStaticQuery("SELECT constellation_name FROM constellation where active = 'Y' ")
+            tableCreator.executeStaticQuery("SELECT constellation_name,active FROM constellation ")
         return data
+    }
+    fun insertSatelliteDataList(data:String):String{
+
+        var query=" UPDATE constellation SET active = '"+ data.split(",")[1]+ "' WHERE constellation_name = '"+data.split(",")[0]+"'"
+        Log.d(TAG, "insertSatelliteDataList: $query")
+        var result = tableCreator.executeStaticQuery(query)
+        Log.d(TAG, "insertSatelliteDataList: $result")
+        return result.toString()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -31,11 +31,8 @@
         android:label="project_item_fragment"
         tools:layout="@layout/project_item_fragment">
         <action
-            android:id="@+id/action_projectListFragment_to_defaultCreateProjectFragment"
-            app:destination="@id/defaultCreateProjectFragment" />
-        <action
-            android:id="@+id/action_projectListFragment_to_communicationfragment"
-            app:destination="@id/communicationfragment" />
+            android:id="@+id/action_projectListFragment_to_configurationFragment"
+            app:destination="@id/configurationFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeScreenMainFragment"
@@ -55,11 +52,11 @@
             android:id="@+id/action_createProjectFragment_to_addCustomDatumCreationFragment"
             app:destination="@id/addCustomDatumCreationFragment" />
         <action
-            android:id="@+id/action_createProjectFragment_to_homeScreenMainFragment2"
-            app:destination="@id/homeScreenMainFragment" />
-        <action
             android:id="@+id/action_createProjectFragment_to_zoneProjection"
             app:destination="@id/zoneProjection" />
+        <action
+            android:id="@+id/action_createProjectFragment_to_satelliteConfigurationFragment"
+            app:destination="@id/satelliteConfigurationFragment" />
 
     </fragment>
     <fragment
@@ -133,7 +130,11 @@
         android:id="@+id/addCustomDatumCreationFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.datum.CustomDatumCreationFragment"
         android:label="Custom Datum"
-        tools:layout="@layout/fragement_custum_datum_data" />
+        tools:layout="@layout/fragement_custum_datum_data" >
+        <action
+            android:id="@+id/action_addCustomDatumCreationFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createWifiConnection"
         android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
@@ -143,14 +144,7 @@
         android:id="@+id/defaultCreateProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.DefaultCreateProjectFragment"
         android:label="default_project_layout"
-        tools:layout="@layout/default_project_layout" >
-        <action
-            android:id="@+id/action_defaultCreateProjectFragment_to_homeScreenMainFragment"
-            app:destination="@id/homeScreenMainFragment" />
-        <action
-            android:id="@+id/action_defaultCreateProjectFragment_to_createProjectFragment"
-            app:destination="@id/createProjectFragment" />
-    </fragment>
+        tools:layout="@layout/default_project_layout" />
     <fragment
         android:id="@+id/zoneProjection"
         android:name="com.apogee.geomaster.ui.projects.createproject.projection.ZoneProjectionFragment"
@@ -181,6 +175,9 @@
         <action
             android:id="@+id/action_createConfigurationFragment_to_satelliteConfigurationFragment"
             app:destination="@id/satelliteConfigurationFragment" />
+        <action
+            android:id="@+id/action_createConfigurationFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/satelliteConfigurationFragment"

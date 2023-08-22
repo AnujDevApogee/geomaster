@@ -92,19 +92,23 @@ class StartActivity : AppCompatActivity() {
                 Log.d(TAG, "onCreate:APISERVICE StartElse")
 
                 val deviceData=dbControl.getdeviceTabledata()
-                Log.d(TAG, "onCreate: deviceData --$deviceData")
-                if(deviceData.contains("Error")||deviceData.isEmpty()){
-                    Log.d(TAG, "onCreate:deviceData  empty ")
-                    val intents = Intent(this@StartActivity, LoginActivity::class.java)
-                    startActivity(intents)
-                    finish()
-                }else{
-                    Log.d(TAG, "onCreate:deviceData not empty ")
-                    val intents = Intent(this@StartActivity, HomeScreen::class.java)
-                    intents.putExtra("loggedIn", true)
-                    startActivity(intents)
-                    finish()
+                if(deviceData!!.size==1){
+                    val deviceValue =deviceData[0]
+                    if(deviceValue!!.contains("Error")||deviceValue!!.isEmpty()){
+                        Log.d(TAG, "onCreate:deviceData  empty ")
+                        val intents = Intent(this@StartActivity, LoginActivity::class.java)
+                        startActivity(intents)
+                        finish()
+                    }else{
+                        Log.d(TAG, "onCreate:deviceData not empty ")
+                        val intents = Intent(this@StartActivity, HomeScreen::class.java)
+                        intents.putExtra("loggedIn", true)
+                        startActivity(intents)
+                        finish()
+                    }
                 }
+                Log.d(TAG, "onCreate: deviceData --$deviceData")
+
 
             } else {
                 Log.d(TAG, "onCreate:APISERVICE StartElse")
@@ -164,7 +168,6 @@ class StartActivity : AppCompatActivity() {
                         // permission is denied permenantly, navigate user to app settings
                     }
                 }
-
                 override fun onPermissionRationaleShouldBeShown(
                     permissions: List<PermissionRequest>,
                     token: PermissionToken

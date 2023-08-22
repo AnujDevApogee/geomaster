@@ -92,8 +92,6 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
             idList.put("zoneData", zoneDataID.trim())
 
         }
-
-
         binding.btnSubmit.setOnClickListener {
             idList.put("config_name", binding.projectNme.text.toString() + "Config")
             if (binding.projectNme.text.toString().equals("")) {
@@ -125,7 +123,7 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
                                 "Data inserted successfully",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            findNavController().safeNavigate(R.id.action_defaultCreateProjectFragment_to_homeScreenMainFragment)
+//                            findNavController().safeNavigate(R.id.action_defaultCreateProjectFragment_to_homeScreenMainFragment)
                         } else {
                             Toast.makeText(this.requireContext(), result, Toast.LENGTH_SHORT).show()
                         }
@@ -139,7 +137,7 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
         }
         binding.createNewProject.setOnClickListener {
             Log.d("TAG", "onViewCreated: newPrj")
-            findNavController().navigate(R.id.action_defaultCreateProjectFragment_to_createProjectFragment)
+//            findNavController().navigate(R.id.action_defaultCreateProjectFragment_to_createProjectFragment)
         }
 
     }
