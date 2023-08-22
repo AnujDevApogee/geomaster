@@ -16,6 +16,7 @@ import com.apogee.apilibrary.ApiCall
 import com.apogee.apilibrary.Interfaces.CustomCallback
 import com.apogee.geomaster.R
 import com.apogee.geomaster.repository.DatabaseRepsoitory
+import com.apogee.geomaster.utils.MyPreference
 
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -96,10 +97,8 @@ class ApiService : Service(), CustomCallback {
                     val responseString = responseBody.string()
                     Log.d(TAG, "onResponse$count: $responseString")
                     dbControl.CommonApiTablesCreation(responseString)
-                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-                    val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-                    editor.putString(Constants.RESPONSE_STRING, responseString)
-                    editor.apply()
+                    val sharedPreferences = MyPreference.getInstance(this)
+                    sharedPreferences.putStringData(Constants.RESPONSE_STRING, responseString)
                     stopService( Intent(this, ApiService::class.java))
 
                 } catch (e: Exception) {

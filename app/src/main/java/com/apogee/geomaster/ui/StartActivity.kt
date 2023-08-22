@@ -28,6 +28,7 @@ import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.service.ApiService
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.login.LoginActivity
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.PermissionUtils
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -41,7 +42,7 @@ import kotlinx.coroutines.launch
 class StartActivity : AppCompatActivity() {
     var TAG: String = StartActivity::class.java.simpleName
     var binding: ActivityStartBinding? = null
-    var sharedPreferences: SharedPreferences? = null
+    lateinit var sharedPreferences: MyPreference
     private lateinit var dbControl: DatabaseRepsoitory
     var responseString: String? = null
 
@@ -49,12 +50,12 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_start)
         RequestMultiplePermission()
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@StartActivity)
+        sharedPreferences =MyPreference.getInstance(this)
 
         dbControl = DatabaseRepsoitory(this@StartActivity)
 
         /*Saving package name for check first time installation*/
-        responseString = sharedPreferences!!.getString(Constants.RESPONSE_STRING, null)
+        responseString = sharedPreferences.getStringData(Constants.RESPONSE_STRING)
         Log.d(TAG, "onCreate:responseString $responseString")
         /*Button click event*/
         if (responseString.equals("")) {
@@ -141,7 +142,7 @@ class StartActivity : AppCompatActivity() {
         if (responseString == null) {
             val intentService = Intent(this@StartActivity, ApiService::class.java)
             startService(intentService)
-            responseString = sharedPreferences!!.getString(Constants.RESPONSE_STRING, "").toString()
+            responseString = sharedPreferences.getStringData(Constants.RESPONSE_STRING)
         }
     }
 

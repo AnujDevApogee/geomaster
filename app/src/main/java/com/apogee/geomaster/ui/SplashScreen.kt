@@ -21,6 +21,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SplashActivityBinding
 import com.apogee.geomaster.service.ApiService
 import com.apogee.geomaster.service.Constants
+import com.apogee.geomaster.utils.MyPreference
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
@@ -28,7 +29,7 @@ import com.bumptech.glide.request.RequestListener
 
 class SplashScreen : AppCompatActivity() {
     private val TAG: String? = SplashScreen::class.java.simpleName
-    var sharedPreferences: SharedPreferences? = null
+    lateinit var sharedPreferences: MyPreference
 
     lateinit var binding: SplashActivityBinding
 
@@ -37,18 +38,19 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val resp = sharedPreferences!!.getString(Constants.RESPONSE_STRING,null)
-        Log.d(TAG, "onCreate: Constant${sharedPreferences!!.getString(Constants.RESPONSE_STRING, null)}")
+         sharedPreferences=MyPreference.getInstance(this)
+
+
+        val resp = sharedPreferences.getStringData(Constants.RESPONSE_STRING)
+//        val resp = sharedPreferences.getString(Constants.RESPONSE_STRING,null)
 
         Log.d(TAG, "onCreate: $resp")
         if (resp == null) {
             Log.d(
                 TAG,
                 "onCreate:APISERVICE Splash Oncreate ${
-                    sharedPreferences!!.getString(
-                        Constants.RESPONSE_STRING,
-                        null
+                    sharedPreferences!!.getStringData(
+                        Constants.RESPONSE_STRING
                     )
                 }"
             )
@@ -74,7 +76,7 @@ class SplashScreen : AppCompatActivity() {
             val isConnected = activeNetwork != null &&
                     activeNetwork.isConnected
             if (isConnected) {
-                if (sharedPreferences!!.getBoolean("firstrun", true)) {
+                if (!sharedPreferences.getBooleanData("firstrun")) {
                     Glide.with(this).asGif().load(R.raw.survey).listener(object :
                         RequestListener<GifDrawable?> {
                         override fun onLoadFailed(
@@ -107,8 +109,7 @@ class SplashScreen : AppCompatActivity() {
                             return false
                         }
                     }).into(binding.ivGif)
-                    sharedPreferences!!.edit().putBoolean("firstrun", false).apply()
-
+                    sharedPreferences.putBooleanData("firstrun", false)
                     val intent = Intent(this, ApiService::class.java)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         startForegroundService(intent)
