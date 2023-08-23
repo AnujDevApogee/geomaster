@@ -109,7 +109,7 @@ class SplashScreen : AppCompatActivity() {
                             return false
                         }
                     }).into(binding.ivGif)
-                    sharedPreferences.putBooleanData("firstrun", false)
+                    sharedPreferences.putBooleanData("firstrun", true)
                     val intent = Intent(this, ApiService::class.java)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         startForegroundService(intent)
