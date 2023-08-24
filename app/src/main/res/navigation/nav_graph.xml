@@ -185,8 +185,8 @@
         android:label="satellite_configuration_fragment"
         tools:layout="@layout/satellite_configuration_fragment" >
         <action
-            android:id="@+id/action_satelliteConfigurationFragment_to_deviceConfiguration"
-            app:destination="@id/deviceConfiguration" />
+            android:id="@+id/action_satelliteConfigurationFragment_to_miscellaneousFragment"
+            app:destination="@id/miscellaneousFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceConfiguration"
@@ -199,6 +199,15 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/miscellaneousFragment"
+        android:name="com.apogee.geomaster.ui.configuration.miscellaneous.MiscellaneousFragment"
+        android:label="miscellaneous_layout"
+        tools:layout="@layout/miscellaneous_layout" >
+        <action
+            android:id="@+id/action_miscellaneousFragment_to_deviceConfiguration"
+            app:destination="@id/deviceConfiguration" />
     </fragment>
 
 </navigation>
