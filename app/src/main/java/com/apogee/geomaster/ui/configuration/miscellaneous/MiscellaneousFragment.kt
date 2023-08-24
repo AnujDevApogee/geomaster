@@ -18,6 +18,8 @@ class MiscellaneousFragment : Fragment(R.layout.miscellaneous_layout) {
         super.onViewCreated(view, savedInstanceState)
         binding = MiscellaneousLayoutBinding.bind(view)
         displayActionBar("Miscellaneous Configuration", binding.actionLayout)
+
+
         binding.doneBtn.setOnClickListener {
             findNavController().safeNavigate(R.id.action_miscellaneousFragment_to_deviceConfiguration)
         }

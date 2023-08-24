@@ -134,7 +134,7 @@ data class HomeScreenOption(
                 navId = -1
             ), HomeScreenOption(
                 icon = R.drawable.cogo,
-                "CaCo",
+                "CaGo",
                 navId = -1
             ), HomeScreenOption(
                 icon = R.drawable.ftp,

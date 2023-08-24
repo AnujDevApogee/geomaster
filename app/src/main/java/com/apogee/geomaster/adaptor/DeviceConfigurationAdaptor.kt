@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.databinding.DeviceConfigItemLayoutBinding
 import com.apogee.geomaster.model.DeviceWorkMode
+import com.apogee.geomaster.utils.setHtmlTxt
 
 typealias DeviceWorkModeListener = (data: DeviceWorkMode) -> Unit
 
@@ -15,11 +16,25 @@ class DeviceConfigurationAdaptor(private val itemClicked: DeviceWorkModeListener
     inner class DeviceWorkModeViewHolder(private val binding: DeviceConfigItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setData(data: DeviceWorkMode, itemClicked: DeviceWorkModeListener) {
-            binding.projectName.text = data.type
-            binding.projectName.append("\n\nWork Mode")
-            data.information.forEach {
-                binding.projectInfo.append("$it\n\n")
+
+            "WorK Mode".apply {
+                binding.projectName.text =this
             }
+            binding.projectName.append("\t\t")
+            binding.projectName.append(setHtmlTxt(data.type, "'#0E4A88'"))
+
+            binding.projectInfo.append("Communication Type")
+            binding.projectInfo.append("\t\t")
+            binding.projectInfo.append(setHtmlTxt(data.communicationType, "'#0E4A88'"))
+            binding.projectInfo.append("\n\n")
+
+
+            binding.projectInfo.append("Mask Angle")
+            binding.projectInfo.append("\t\t")
+            binding.projectInfo.append(setHtmlTxt(data.maskAngle, "'#0E4A88'"))
+            binding.projectInfo.append("\n")
+
+
             binding.cardView.setOnClickListener {
                 itemClicked.invoke(data)
             }
