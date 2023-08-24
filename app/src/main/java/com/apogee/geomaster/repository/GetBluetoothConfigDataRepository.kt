@@ -11,6 +11,7 @@ import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.service.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -64,9 +65,12 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
         if (response!!.isSuccessful) {
             if (responseBody != null) {
                 try {
+                    coroutineScope.launch {
                     val responseString = responseBody.string()
                     Log.d(TAG, "onResponse:Bluetooth $responseString")
-                    dbControl.BluetoothConfigurationData(responseString)
+                    async(Dispatchers.IO) {
+                        dbControl.BluetoothConfigurationData(responseString)
+                    }.await()
 
 
                     val sharedPreferences =
@@ -75,7 +79,6 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
                     editor.putString(Constants.BLUTOOTH_RESPONSE_STRING, responseString)
                     editor.apply()
 
-                    coroutineScope.launch {
 
                         _getBlutoothData.value = "Data Inserted Successfully"
 

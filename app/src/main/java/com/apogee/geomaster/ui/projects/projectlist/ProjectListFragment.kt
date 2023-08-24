@@ -123,7 +123,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
             projectDetails.remove(obj)
         }
         ls.addAll(projectDetails)
-        projectListAdaptor.submitList(Project.list)
+        projectListAdaptor.submitList(ls)
 
   /*      for(i in projectListDataCustomProjection){
             var  title=i.split(",")[0]
