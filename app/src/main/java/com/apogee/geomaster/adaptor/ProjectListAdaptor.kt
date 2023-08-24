@@ -1,6 +1,8 @@
 package com.apogee.geomaster.adaptor
 
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -13,6 +15,7 @@ import com.apogee.geomaster.databinding.ProjectListItemBinding
 import com.apogee.geomaster.model.Project
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.setHtmlTxt
 
 
 class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
@@ -36,14 +39,19 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
     inner class ProjectViewModel(private val binding: ProjectListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(project: Project, itemOnClickListener: OnItemClickListener) {
-            binding.projectName.text=project.title
+        fun bind(project: Project, itemOnClickListener: OnItemClickListener,position: Int) {
+             if (position==0){
+                 binding.projectName.text= setHtmlTxt(project.title,"'#FFB4AB'")
+            }else{
+                 binding.projectName.text=project.title
+            }
 //            binding.projectInfo.text="Datum Name ${project.title}\n"
             binding.projectInfo.text=""
             binding.projectInfo.append("Datum Name:-- ${project.dataumName}\n")
             binding.projectInfo.append("Projection Type:-- ${project.projectionType}\n")
             binding.projectInfo.append("Zone:--${project.zone}\n")
-            binding.root.setOnClickListener {
+            Log.i(TAG, "bind: FromPROJECT")
+            binding.cardView.setOnClickListener {
                 itemOnClickListener.onClickListener(project)
             }
         }
@@ -61,7 +69,7 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.enter_anim_layout)
         holder.itemView.startAnimation(animation)
         item?.let {
-            holder.bind(it,itemOnClickListener)
+            holder.bind(it,itemOnClickListener,position)
         }
     }
 

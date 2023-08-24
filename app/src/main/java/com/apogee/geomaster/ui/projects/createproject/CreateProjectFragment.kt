@@ -404,14 +404,15 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             prjDataList.add(binding.operatorNm.text.toString())
             prjDataList.add(binding.commentEd.text.toString())
             prjDataList.add("sdfsdf")
+            findNavController().safeNavigate(R.id.action_createProjectFragment_to_satelliteConfigurationFragment)
 
-            val result = dbControl.addProjectData(prjDataList)
+          /*  val result = dbControl.addProjectData(prjDataList)
             if(result.equals("Data inserted successfully")){
                 Toast.makeText(this.requireContext(), "Data inserted successfully",Toast.LENGTH_SHORT ).show()
                 findNavController().safeNavigate(R.id.action_createProjectFragment_to_satelliteConfigurationFragment)
             }else{
                 Toast.makeText(this.requireContext(), result,Toast.LENGTH_SHORT ).show()
-            }
+            }*/
 
 
         } else {

@@ -67,7 +67,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
                 )
                 val result =
                     dbControl.insertSatelliteDataList(i.satelliteName + "," + i.satelliteStatus)
-                if (result.equals("")) {
+                if (result.equals("[]")) {
                     count++
                 }
                 Log.d("TAG", "onViewCreated:Result $result ")

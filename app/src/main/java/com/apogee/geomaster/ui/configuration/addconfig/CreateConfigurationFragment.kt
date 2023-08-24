@@ -148,7 +148,10 @@ class CreateConfigurationFragment : Fragment(R.layout.create_configuration_fragm
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
                         prjDataList.add(binding.commentEd.text.toString())
-                        val result = dbControl.addProjectData(prjDataList)
+                        findNavController().safeNavigate(R.id.action_createConfigurationFragment_to_satelliteConfigurationFragment)
+
+
+                       /* val result = dbControl.addProjectData(prjDataList)
 
                         if (result.equals("Data inserted successfully")) {
                             Toast.makeText(
@@ -159,7 +162,8 @@ class CreateConfigurationFragment : Fragment(R.layout.create_configuration_fragm
                             findNavController().safeNavigate(R.id.action_createConfigurationFragment_to_satelliteConfigurationFragment)
                         } else {
                             Toast.makeText(this.requireContext(), result, Toast.LENGTH_SHORT).show()
-                        }
+                        }*/
+
                     } else {
                         Toast.makeText(this.requireContext(), result, Toast.LENGTH_SHORT).show()
 
