@@ -1,6 +1,5 @@
 package com.apogee.geomaster.adaptor
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SatelliteItemLayoutBinding
 import com.apogee.geomaster.model.SatelliteModel
-import com.apogee.geomaster.repository.DatabaseRepsoitory
 
 typealias listener = (position:Int,data: SatelliteModel) -> Unit
 

@@ -73,7 +73,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
                 Log.d("TAG", "onViewCreated:Result $result ")
             }
             if (count == 4) {
-                findNavController().safeNavigate(R.id.action_satelliteConfigurationFragment_to_deviceConfiguration)
+                findNavController().safeNavigate(R.id.action_satelliteConfigurationFragment_to_miscellaneousFragment)
             } else {
                 Log.d("TAG", "onViewCreated:count $count ")
 

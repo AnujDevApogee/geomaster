@@ -2,6 +2,7 @@ package com.apogee.geomaster.ui.projects.projectlist
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -15,8 +16,8 @@ import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
-import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setUpDialogBox
+import com.apogee.geomaster.utils.toastMsg
 import com.google.android.material.transition.MaterialFadeThrough
 
 class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
@@ -36,15 +37,36 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
     private val recycleAdaptorCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
             Log.i(TAG, "onClickListener: itemclick_project")
-            if (response is Project){
-                activity?.setUpDialogBox("Information","Continue with ${response.title}","Continue","Cancel", success = {
-                    myPreference.putStringData("Last_Used",response.title)
-                    Log.i(TAG, "onClickListener: LastUsed_saved -> ${myPreference.getStringData("Last_Used")}")
-                    findNavController().navigate(R.id.action_projectListFragment_to_homeScreenMainFragment)
-                }, cancelListener = {
+            if (response is Project) {
+                activity?.setUpDialogBox(
+                    "Information",
+                    "Continue with ${response.title}",
+                    "Continue",
+                    "Cancel",
+                    success = {
+                        myPreference.putStringData("Last_Used", response.title)
+                        Log.i(
+                            TAG,
+                            "onClickListener: LastUsed_saved -> ${myPreference.getStringData("Last_Used")}"
+                        )
+                    },
+                    cancelListener = {
 
-                })
+                    })
+            }
+            if (response is MenuItem) { // Menu Item Click
+                when (response.itemId) {
+                    R.id.info_mnu_btn -> {
+                        activity?.toastMsg("information clicked")
+                    }
 
+                    R.id.edit_mnu_click -> {
+                        activity?.toastMsg("Edit Item")
+                    }
+                    else -> {
+                        activity?.toastMsg("Item Clicked")
+                    }
+                }
             }
         }
     }
@@ -122,7 +144,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
 
     private fun setUpRecycleView() {
         binding.recycleViewProject.apply {
-            projectListAdaptor = ProjectListAdaptor(recycleAdaptorCallback)
+            projectListAdaptor = ProjectListAdaptor(recycleAdaptorCallback, requireActivity())
             adapter = projectListAdaptor
         }
     }

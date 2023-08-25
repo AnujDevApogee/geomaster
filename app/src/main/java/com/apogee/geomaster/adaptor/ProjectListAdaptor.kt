@@ -1,12 +1,14 @@
 package com.apogee.geomaster.adaptor
 
 
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +18,13 @@ import com.apogee.geomaster.model.Project
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.setHtmlTxt
+import com.apogee.geomaster.utils.toastMsg
 
 
-class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
+class ProjectListAdaptor(
+    private val itemOnClickListener: OnItemClickListener,
+    private val context: Activity
+) :
     ListAdapter<Project, ProjectListAdaptor.ProjectViewModel>(diffUtils) {
 
 
@@ -53,6 +59,20 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
             Log.i(TAG, "bind: FromPROJECT")
             binding.cardView.setOnClickListener {
                 itemOnClickListener.onClickListener(project)
+            }
+
+            binding.imgBtn.setOnClickListener {
+                    popUpMenu()
+            }
+        }
+
+        private fun popUpMenu() {
+            val popUpMenu = PopupMenu(context,binding.imgBtn)
+            popUpMenu.menuInflater.inflate(R.menu.project_mnu_selection,popUpMenu.menu)
+            popUpMenu.show()
+            popUpMenu.setOnMenuItemClickListener {
+                itemOnClickListener.onClickListener(it)
+                return@setOnMenuItemClickListener true
             }
         }
 
