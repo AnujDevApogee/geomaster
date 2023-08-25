@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_projectListFragment_to_configurationFragment"
             app:destination="@id/configurationFragment" />
+        <action
+            android:id="@+id/action_projectListFragment_to_homeScreenMainFragment"
+            app:destination="@id/homeScreenMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeScreenMainFragment"

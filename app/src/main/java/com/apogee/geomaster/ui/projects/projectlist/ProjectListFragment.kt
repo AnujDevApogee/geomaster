@@ -40,6 +40,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
                 activity?.setUpDialogBox("Information","Continue with ${response.title}","Continue","Cancel", success = {
                     myPreference.putStringData("Last_Used",response.title)
                     Log.i(TAG, "onClickListener: LastUsed_saved -> ${myPreference.getStringData("Last_Used")}")
+                    findNavController().navigate(R.id.action_projectListFragment_to_homeScreenMainFragment)
                 }, cancelListener = {
 
                 })
@@ -83,11 +84,11 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
         var projectDetails : ArrayList<Project> = ArrayList()
 //        projectDetails.add(Project("Default","WGS84","44"))
         for(i in projectListData){
-            var  title=i
-            var  datum= "KalianPur"
-            var  zone="44"
-            var  projectionType="UTM"
-            projectDetails.add(Project(title,datum,projectionType,zone))
+            var  title=i.split(",")[0]
+            var  configurationName= i.split(",")[1]
+     /*       var  zone="44"
+            var  projectionType="UTM"*/
+            projectDetails.add(Project(title,configurationName))
         }
 
         

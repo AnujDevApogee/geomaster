@@ -1,7 +1,6 @@
 package com.apogee.geomaster.adaptor
 
-
-import android.content.ContentValues.TAG
+import android.content.ContentValues
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,15 +11,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ProjectListItemBinding
+import com.apogee.geomaster.model.ConfigSetup
 import com.apogee.geomaster.model.Project
-import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.setHtmlTxt
 
-
-class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
-    ListAdapter<Project, ProjectListAdaptor.ProjectViewModel>(diffUtils) {
-
+class ConfigurationListAdapter (private val itemOnClickListener: OnItemClickListener) :
+ListAdapter<ConfigSetup, ConfigurationListAdapter.ConfigurationViewModel>(diffUtils) {
 
 
     companion object {
@@ -36,21 +33,21 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
         }
     }
 
-    inner class ProjectViewModel(private val binding: ProjectListItemBinding) :
+    inner class ConfigurationViewModel(private val binding: ProjectListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(project: Project, itemOnClickListener: OnItemClickListener,position: Int) {
-             if (position==0){
-                 binding.projectName.text= setHtmlTxt(project.title,"'#FFB4AB'")
+        fun bind(project: Project, itemOnClickListener: OnItemClickListener, position: Int) {
+            if (position==0){
+                binding.projectName.text= setHtmlTxt(project.title,"'#FFB4AB'")
             }else{
-                 binding.projectName.text=project.title
+                binding.projectName.text=project.title
             }
 //            binding.projectInfo.text="Datum Name ${project.title}\n"
             binding.projectInfo.text=""
             binding.projectInfo.append("Configuration Name:-- ${project.configurationName}\n")
-/*            binding.projectInfo.append("Projection Type:-- ${project.projectionType}\n")
-            binding.projectInfo.append("Zone:--${project.zone}\n")*/
-            Log.i(TAG, "bind: FromPROJECT")
+            /*            binding.projectInfo.append("Projection Type:-- ${project.projectionType}\n")
+                        binding.projectInfo.append("Zone:--${project.zone}\n")*/
+            Log.i(ContentValues.TAG, "bind: FromPROJECT")
             binding.cardView.setOnClickListener {
                 itemOnClickListener.onClickListener(project)
             }
@@ -58,12 +55,13 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewModel {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConfigurationViewModel {
         val binding = ProjectListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return ProjectViewModel(binding)
+        return ConfigurationViewModel(binding)
     }
 
-    override fun onBindViewHolder(holder: ProjectViewModel, position: Int) {
+    override fun onBindViewHolder(holder: ConfigurationViewModel, position: Int) {
         val item = getItem(position)
         val animation: Animation =
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.enter_anim_layout)
@@ -72,6 +70,7 @@ class ProjectListAdaptor(private val itemOnClickListener: OnItemClickListener) :
             holder.bind(it,itemOnClickListener,position)
         }
     }
+
 
 
 }

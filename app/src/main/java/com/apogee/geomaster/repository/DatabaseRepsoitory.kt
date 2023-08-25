@@ -29,7 +29,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("coordinateSystem_name", "STRING"),
             TableCreator.ColumnDetails("active", "STRING")
         )
-        val coordinateSystemTable = tableCreator.createMainTableIfNeeded(coordinateSystem, coordinateSystemColumn)
+        val coordinateSystemTable =
+            tableCreator.createMainTableIfNeeded(coordinateSystem, coordinateSystemColumn)
 
 
         val hemisphere = "hemisphere"
@@ -141,7 +142,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("projectionType", "STRING", unique = true),
             TableCreator.ColumnDetails("active", "STRING")
         )
-        val projectiontypeTable =tableCreator.createMainTableIfNeeded(projectiontype, projectiontypeColumn)
+        val projectiontypeTable =
+            tableCreator.createMainTableIfNeeded(projectiontype, projectiontypeColumn)
 
 
         val projectionParameters = "projectionParameters"
@@ -171,7 +173,8 @@ class DatabaseRepsoitory(context: Context) {
                 foreignKeyReference = "projectiontype(projectiontype_id)"
             )
         )
-        val projectionParametersTable =tableCreator.createMainTableIfNeeded(projectionParameters, projectionParametersColumn)
+        val projectionParametersTable =
+            tableCreator.createMainTableIfNeeded(projectionParameters, projectionParametersColumn)
 
 
         val autocad_file_type = "autocad_file_type"
@@ -188,7 +191,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("created_at", "STRING"),
             TableCreator.ColumnDetails("active", "STRING")
         )
-        val autocad_file_typeTable =tableCreator.createMainTableIfNeeded(autocad_file_type, autocad_file_typeColumn)
+        val autocad_file_typeTable =
+            tableCreator.createMainTableIfNeeded(autocad_file_type, autocad_file_typeColumn)
 
 
         val autocad_file_map = "autocad_file_map"
@@ -215,7 +219,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("misc_3", "STRING"),
             TableCreator.ColumnDetails("misc_4", "STRING")
         )
-        val autocad_file_mapTable =tableCreator.createMainTableIfNeeded(autocad_file_map, autocad_file_mapColumn)
+        val autocad_file_mapTable =
+            tableCreator.createMainTableIfNeeded(autocad_file_map, autocad_file_mapColumn)
 
 
         val elevationtype = "elevationtype"
@@ -252,7 +257,8 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("remark", "STRING")
         )
         val sub_division_selectionTable = tableCreator.createMainTableIfNeeded(
-            sub_division_selection, sub_division_selectionColumn)
+            sub_division_selection, sub_division_selectionColumn
+        )
 
 
         val command_type = "command_type"
@@ -381,7 +387,8 @@ class DatabaseRepsoitory(context: Context) {
         )
         val response_sub_division_selectionTable = tableCreator.createMainTableIfNeeded(
             response_sub_division_selection,
-            response_sub_division_selectionColumn)
+            response_sub_division_selectionColumn
+        )
 
 
         val response_type = "response_type"
@@ -545,9 +552,9 @@ class DatabaseRepsoitory(context: Context) {
         )
         val parameter_default_valueTable =
             tableCreator.createMainTableIfNeeded(
-            parameter_default_value,
-            parameter_default_valueColumn
-        )
+                parameter_default_value,
+                parameter_default_valueColumn
+            )
 
         val constellation = "constellation"
         val constellationColumn = arrayOf(
@@ -571,14 +578,23 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("remark", "STRING"),
         )
         val satelliteConfigurationTable =
-            tableCreator.createMainTableIfNeeded(satelliteConfiguration, satelliteConfigurationColumn)
+            tableCreator.createMainTableIfNeeded(
+                satelliteConfiguration,
+                satelliteConfigurationColumn
+            )
 
 
-        if(satelliteConfigurationTable.equals("Table Created Successfully...")){
-          val status=  tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (constellation_name,active) VALUES ('GPS','Y')")
-          val status1=  tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (constellation_name,active) VALUES ('GLONASS','Y')")
-          val status2=  tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (constellation_name,active) VALUES ('GALILEO','Y')")
-            Log.d(TAG, "CommonApi_TablesCreation: INSERTsatelliteConfiguration--$status--$status1--$status2")
+        if (satelliteConfigurationTable.equals("Table Created Successfully...")) {
+            val status =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (constellation_name,active) VALUES ('GPS','Y')")
+            val status1 =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (constellation_name,active) VALUES ('GLONASS','Y')")
+            val status2 =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (constellation_name,active) VALUES ('GALILEO','Y')")
+            Log.d(
+                TAG,
+                "CommonApi_TablesCreation: INSERTsatelliteConfiguration--$status--$status1--$status2"
+            )
         }
 
 
@@ -796,9 +812,9 @@ class DatabaseRepsoitory(context: Context) {
         )
         val response_sub_byte_divisionTable =
             tableCreator.createMainTableIfNeeded(
-            response_sub_byte_division,
-            response_sub_byte_divisionColumn
-        )
+                response_sub_byte_division,
+                response_sub_byte_divisionColumn
+            )
 
 
         val sub_byte_division = "sub_byte_division"
@@ -857,9 +873,9 @@ class DatabaseRepsoitory(context: Context) {
         )
         val constellation_model_mapTable =
             tableCreator.createMainTableIfNeeded(
-            constellation_model_map,
-            constellation_model_mapColumn
-        )
+                constellation_model_map,
+                constellation_model_mapColumn
+            )
 
 
         val device_registration = "device_registration"
@@ -885,21 +901,31 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("device_configHierarchy_id", "INTEGER", primaryKey = true),
             TableCreator.ColumnDetails(
                 "device_configHierarchy_name",
-                "STRING"),
-            TableCreator.ColumnDetails("parent_id", "INTEGER", foreignKey = true, foreignKeyReference = "device_configHierarchy(device_configHierarchy_id)"),
+                "STRING"
+            ),
+            TableCreator.ColumnDetails(
+                "parent_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "device_configHierarchy(device_configHierarchy_id)"
+            ),
             TableCreator.ColumnDetails("is_super_child", "STRING"),
             TableCreator.ColumnDetails("generation", "INTEGER"),
             TableCreator.ColumnDetails("createdAt", "STRING")
         )
         val device_configHierarchyTable =
-            tableCreator.createMainTableIfNeeded(device_configHierarchy, device_configHierarchyColumn)
+            tableCreator.createMainTableIfNeeded(
+                device_configHierarchy,
+                device_configHierarchyColumn
+            )
 
         val wifiparams = "wifiparams"
         val wifiparamsColumn = arrayOf(
             TableCreator.ColumnDetails("wifiparams_id", "INTEGER", primaryKey = true),
             TableCreator.ColumnDetails(
                 "IP",
-                "STRING"),
+                "STRING"
+            ),
             TableCreator.ColumnDetails("portNo", "STRING"),
             TableCreator.ColumnDetails("url", "STRING"),
             TableCreator.ColumnDetails("apn", "STRING"),
@@ -914,7 +940,7 @@ class DatabaseRepsoitory(context: Context) {
         val via4gparams = "via4gparams"
         val via4gparamsColumn = arrayOf(
             TableCreator.ColumnDetails("via4gparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("IP","STRING"),
+            TableCreator.ColumnDetails("IP", "STRING"),
             TableCreator.ColumnDetails("portNo", "STRING"),
             TableCreator.ColumnDetails("url", "STRING"),
             TableCreator.ColumnDetails("ssid", "STRING"),
@@ -930,7 +956,7 @@ class DatabaseRepsoitory(context: Context) {
         val pdaparams = "pdaparams"
         val pdaparamsColumn = arrayOf(
             TableCreator.ColumnDetails("pdaparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("IP","STRING"),
+            TableCreator.ColumnDetails("IP", "STRING"),
             TableCreator.ColumnDetails("portNo", "STRING"),
             TableCreator.ColumnDetails("url", "STRING"),
             TableCreator.ColumnDetails("username", "STRING"),
@@ -945,7 +971,7 @@ class DatabaseRepsoitory(context: Context) {
         val radiointernalparams = "radiointernalparams"
         val radiointernalparamsColumn = arrayOf(
             TableCreator.ColumnDetails("radiointernalparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("datarate","STRING"),
+            TableCreator.ColumnDetails("datarate", "STRING"),
             TableCreator.ColumnDetails("baudrate", "STRING"),
             TableCreator.ColumnDetails("power", "STRING"),
             TableCreator.ColumnDetails("frequency", "STRING"),
@@ -958,7 +984,7 @@ class DatabaseRepsoitory(context: Context) {
         val radioexternalparams = "radioexternalparams"
         val radioexternalparamsColumn = arrayOf(
             TableCreator.ColumnDetails("radioexternalparams_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("power","STRING"),
+            TableCreator.ColumnDetails("power", "STRING"),
             TableCreator.ColumnDetails("protocol", "STRING"),
             TableCreator.ColumnDetails("frequency", "STRING"),
             TableCreator.ColumnDetails("createdAt", "STRING")
@@ -970,7 +996,7 @@ class DatabaseRepsoitory(context: Context) {
         val type_of_communication = "type_of_communication"
         val type_of_communicationColumn = arrayOf(
             TableCreator.ColumnDetails("type_of_communication_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("communicationTypes","STRING"),
+            TableCreator.ColumnDetails("communicationTypes", "STRING"),
             TableCreator.ColumnDetails("createdAt", "STRING")
         )
         val type_of_communicationTable =
@@ -979,18 +1005,54 @@ class DatabaseRepsoitory(context: Context) {
 
         val communication_type_mapping = "communication_type_mapping"
         val communication_type_mappingColumn = arrayOf(
-            TableCreator.ColumnDetails("communication_type_mapping_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("type_of_communication_id","INTEGER", foreignKey = true, foreignKeyReference = "type_of_communication(communication_type_mapping_id)"),
-            TableCreator.ColumnDetails("via4gparams_id","INTEGER", foreignKey = true, foreignKeyReference = "via4gParams(via4gparams_id)"),
-            TableCreator.ColumnDetails("wifiparams_id","INTEGER", foreignKey = true, foreignKeyReference = "wifiparams(wifiparams_id)"),
-            TableCreator.ColumnDetails("pdaparams_id","INTEGER", foreignKey = true, foreignKeyReference = "pdaparams(pdaparams_id)"),
-            TableCreator.ColumnDetails("radiointernalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radiointernalparams(radiointernalparams_id)"),
-            TableCreator.ColumnDetails("radioexternalparams_id","INTEGER", foreignKey = true, foreignKeyReference = "radioexternalparams (radioexternalparams_id)"),
+            TableCreator.ColumnDetails(
+                "communication_type_mapping_id",
+                "INTEGER",
+                primaryKey = true
+            ),
+            TableCreator.ColumnDetails(
+                "type_of_communication_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "type_of_communication(communication_type_mapping_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "via4gparams_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "via4gParams(via4gparams_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "wifiparams_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "wifiparams(wifiparams_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "pdaparams_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "pdaparams(pdaparams_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "radiointernalparams_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "radiointernalparams(radiointernalparams_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "radioexternalparams_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "radioexternalparams (radioexternalparams_id)"
+            ),
             TableCreator.ColumnDetails("createdAt", "STRING")
         )
         val communication_type_mappingTable =
-            tableCreator.createMainTableIfNeeded(communication_type_mapping, communication_type_mappingColumn)
-
+            tableCreator.createMainTableIfNeeded(
+                communication_type_mapping,
+                communication_type_mappingColumn
+            )
 
 
         val survey_configuration = "survey_configuration"
@@ -1040,6 +1102,11 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(survey_configuration, survey_configurationColumn)
 
 
+        if (survey_configurationTable.equals("Table Created Successfully...")) {
+            val status =
+                tableCreator.executeStaticQuery("INSERT INTO survey_configuration (zonedata_id,datum_id,elevationtype_id,distanceunit_id,angleunit_id) VALUES (3,43,1,1,2)")
+            Log.d(TAG, "CommonApi_TablesCreation: INSERTsurvey_configurationTable--$status-")
+        }
 
         val device_configuration = "device_configuration"
         val device_configurationColumn = arrayOf(
@@ -1063,15 +1130,18 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(device_configuration, device_configurationColumn)
 
 
-        if(device_configurationTable.equals("Table Created Successfully...")){
-            val status=  tableCreator.executeStaticQuery("INSERT INTO device_configuration (communication_type_mapping_id,device_configHierarchy_id) VALUES (1,2)")
-            val status1=  tableCreator.executeStaticQuery("INSERT INTO device_configuration (communication_type_mapping_id,device_configHierarchy_id) VALUES (2,1)")
-            val status2=  tableCreator.executeStaticQuery("INSERT INTO device_configuration (communication_type_mapping_id,device_configHierarchy_id) VALUES (3,2)")
-            Log.d(TAG, "CommonApi_TablesCreation: INSERTsatelliteConfiguration--$status--$status1--$status2")
+        if (device_configurationTable.equals("Table Created Successfully...")) {
+            val status =
+                tableCreator.executeStaticQuery("INSERT INTO device_configuration (communication_type_mapping_id,device_configHierarchy_id) VALUES (1,2)")
+            val status1 =
+                tableCreator.executeStaticQuery("INSERT INTO device_configuration (communication_type_mapping_id,device_configHierarchy_id) VALUES (2,1)")
+            val status2 =
+                tableCreator.executeStaticQuery("INSERT INTO device_configuration (communication_type_mapping_id,device_configHierarchy_id) VALUES (3,2)")
+            Log.d(
+                TAG,
+                "CommonApi_TablesCreation: INSERTdevice_configurationTable--$status--$status1--$status2"
+            )
         }
-
-
-
 
 
         val miscellaneous_configuration = "miscellaneous_configuration"
@@ -1081,17 +1151,17 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails(
                 "point_name_visibility",
                 "STRING",
-            ),   TableCreator.ColumnDetails(
+            ), TableCreator.ColumnDetails(
                 "LRF",
                 "STRING",
-            ),   TableCreator.ColumnDetails(
+            ), TableCreator.ColumnDetails(
                 "code_name",
                 "STRING",
             ),
             TableCreator.ColumnDetails(
                 "osm_view",
                 "STRING",
-            ),   TableCreator.ColumnDetails(
+            ), TableCreator.ColumnDetails(
                 "satellite_view",
                 "STRING",
             ),
@@ -1099,15 +1169,23 @@ class DatabaseRepsoitory(context: Context) {
 
         )
         val miscellaneous_configurationTable =
-            tableCreator.createMainTableIfNeeded(miscellaneous_configuration, miscellaneous_configurationColumn)
+            tableCreator.createMainTableIfNeeded(
+                miscellaneous_configuration,
+                miscellaneous_configurationColumn
+            )
 
+        if (miscellaneous_configurationTable.equals("Table Created Successfully...")) {
+            val status =
+                tableCreator.executeStaticQuery("INSERT INTO miscellaneous_configuration (point_name_visibility,LRF,code_name,osm_view) VALUES ('Y','N','N','N')")
+            Log.d(TAG, "CommonApi_TablesCreation: INSERTmiscellaneous_configurationTable--$status")
 
+        }
 
         val maskangletable = "maskangletable"
         val maskangletableColumn = arrayOf(
             TableCreator.ColumnDetails("maskAngleTable_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("byteValue", "STRING"),
-            TableCreator.ColumnDetails("displayValue","STRING",)
+            TableCreator.ColumnDetails("displayValue", "STRING")
         )
         val maskangleTable =
             tableCreator.createMainTableIfNeeded(maskangletable, maskangletableColumn)
@@ -1117,8 +1195,8 @@ class DatabaseRepsoitory(context: Context) {
         val manualbasetableColumn = arrayOf(
             TableCreator.ColumnDetails("manualBaseTable_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("latitude", "STRING"),
-            TableCreator.ColumnDetails("longitude","STRING")
-            ,TableCreator.ColumnDetails("altitude","STRING",)
+            TableCreator.ColumnDetails("longitude", "STRING"),
+            TableCreator.ColumnDetails("altitude", "STRING")
         )
         val manualbaseTable =
             tableCreator.createMainTableIfNeeded(manualbasetable, manualbasetableColumn)
@@ -1127,7 +1205,7 @@ class DatabaseRepsoitory(context: Context) {
         val dynamicModeDataColumn = arrayOf(
             TableCreator.ColumnDetails("dynamicModeData_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("deviceWorkModeName", "STRING"),
-            TableCreator.ColumnDetails("modevalue","STRING")
+            TableCreator.ColumnDetails("modevalue", "STRING")
         )
         val dynamicModeDataTable =
             tableCreator.createMainTableIfNeeded(dynamicModeData, dynamicModeDataColumn)
@@ -1137,8 +1215,8 @@ class DatabaseRepsoitory(context: Context) {
         val staticParamsColumn = arrayOf(
             TableCreator.ColumnDetails("staticParams_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("fileName", "STRING"),
-            TableCreator.ColumnDetails("totalTime","STRING")
-            ,TableCreator.ColumnDetails("samplingRate","STRING",)
+            TableCreator.ColumnDetails("totalTime", "STRING"),
+            TableCreator.ColumnDetails("samplingRate", "STRING")
         )
         val staticParamsTable =
             tableCreator.createMainTableIfNeeded(staticParams, staticParamsColumn)
@@ -1148,7 +1226,7 @@ class DatabaseRepsoitory(context: Context) {
         val ppkParamsColumn = arrayOf(
             TableCreator.ColumnDetails("ppkParams_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("fileName", "STRING"),
-            TableCreator.ColumnDetails("totalTime","STRING")
+            TableCreator.ColumnDetails("totalTime", "STRING")
         )
         val ppkParamsTable =
             tableCreator.createMainTableIfNeeded(ppkParams, ppkParamsColumn)
@@ -1218,7 +1296,6 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(project_folder, project_folderColumn)
 
 
-
         val dynamic_project_config = "dynamic_project_config"
         val dynamic_project_configColumn = arrayOf(
             TableCreator.ColumnDetails("dynamic_project_config_id", "INTEGER", true, true),
@@ -1256,11 +1333,13 @@ class DatabaseRepsoitory(context: Context) {
 
         )
         val dynamic_project_configTable =
-            tableCreator.createMainTableIfNeeded(dynamic_project_config, dynamic_project_configColumn)
+            tableCreator.createMainTableIfNeeded(
+                dynamic_project_config,
+                dynamic_project_configColumn
+            )
 
 
-
-  val project_configuration_mapping = "project_configuration_mapping"
+        val project_configuration_mapping = "project_configuration_mapping"
         val project_configuration_mappingColumn = arrayOf(
             TableCreator.ColumnDetails("project_configuration_id", "INTEGER", true, true),
             TableCreator.ColumnDetails("project_configuration_Name", "STRING"),
@@ -1298,16 +1377,24 @@ class DatabaseRepsoitory(context: Context) {
 
         )
         val project_configuration_mappingTable =
-            tableCreator.createMainTableIfNeeded(project_configuration_mapping, project_configuration_mappingColumn)
+            tableCreator.createMainTableIfNeeded(
+                project_configuration_mapping,
+                project_configuration_mappingColumn
+            )
 
 
-        if(project_configuration_mappingTable.equals("Table Created Successfully...")){
-            val status=  tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping (config_id,deviceConfig_id,satelliteConfig_id) VALUES (2,2,3)")
-            val status1=  tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping (config_id,deviceConfig_id,satelliteConfig_id) VALUES (1,1,2)")
-            val status2=  tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping (config_id,deviceConfig_id,satelliteConfig_id) VALUES (3,2,3)")
-            Log.d(TAG, "CommonApi_TablesCreation: INSERTproject_configuration_mappingTable--$status--$status1--$status2")
+        if (project_configuration_mappingTable.equals("Table Created Successfully...")) {
+            val status =
+                tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping (project_configuration_Name,config_id,deviceConfig_id,satelliteConfig_id) VALUES ('DefaultConfig',2,2,3)")
+            val status1 =
+                tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping (project_configuration_Name,config_id,deviceConfig_id,satelliteConfig_id) VALUES ('Abc',1,1,2)")
+            val status2 =
+                tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping (project_configuration_Name,config_id,deviceConfig_id,satelliteConfig_id) VALUES ('Xyz',3,2,3)")
+            Log.d(
+                TAG,
+                "CommonApi_TablesCreation: INSERTproject_configuration_mappingTable--$status--$status1--$status2"
+            )
         }
-
 
 
         val project_table = "project_table"
@@ -1345,11 +1432,17 @@ class DatabaseRepsoitory(context: Context) {
         val project_tableData =
             tableCreator.createMainTableIfNeeded(project_table, project_tableColumn)
 
-        if(project_tableData.equals("Table Created Successfully...")){
-            val status=  tableCreator.executeStaticQuery("INSERT INTO project_table (project_name,project_configuration_id) VALUES ('First',1)")
-            val status1=  tableCreator.executeStaticQuery("INSERT INTO project_table (project_name,project_configuration_id) VALUES ('Second',2)")
-            val status2=  tableCreator.executeStaticQuery("INSERT INTO project_table (project_name,project_configuration_id) VALUES ('Third',3)")
-            Log.d(TAG, "CommonApi_TablesCreation: INSERTproject_configuration_mappingTable--$status--$status1--$status2")
+        if (project_tableData.equals("Table Created Successfully...")) {
+            val status =
+                tableCreator.executeStaticQuery("INSERT INTO project_table (project_name,project_configuration_id) VALUES ('Default',1)")
+            val status1 =
+                tableCreator.executeStaticQuery("INSERT INTO project_table (project_name,project_configuration_id) VALUES ('Second',2)")
+            val status2 =
+                tableCreator.executeStaticQuery("INSERT INTO project_table (project_name,project_configuration_id) VALUES ('Third',3)")
+            Log.d(
+                TAG,
+                "CommonApi_TablesCreation: INSERTproject_configuration_mappingTable--$status--$status1--$status2"
+            )
         }
 
 
@@ -1390,7 +1483,7 @@ class DatabaseRepsoitory(context: Context) {
                     "\n servicesTable:--$servicesTable" +
                     "\n byte_dataTable:--$byte_dataTable" +
                     "\n device_mapTable:--$device_mapTable" +
-                    "\n responseTable:--$responseTable"+
+                    "\n responseTable:--$responseTable" +
                     "\n constellation_model_mapTable:--$constellation_model_mapTable" +
                     "\n device_registrationTable:--$device_registrationTable" +
                     "\n device_configHierarchyTable:--$device_configHierarchyTable" +
@@ -1414,22 +1507,22 @@ class DatabaseRepsoitory(context: Context) {
                     "\n autocad_file_typeTable:--$autocad_file_typeTable" +
                     "\n autocad_file_mapTable:--$autocad_file_mapTable" +
                     "\n elevationtypeTable:--$elevationtypeTable" +
-                    "\n distanceunitTable:--$distanceunitTable"+
-                    "\n survey_configurationTable:--$survey_configurationTable"+
-                    "\n device_configurationTable:--$device_configurationTable"+
-                    "\n miscellaneous_configurationTable:--$miscellaneous_configurationTable"+
-                    "\n maskangleTable:--$maskangleTable"+
-                    "\n manualbaseTable:--$manualbaseTable"+
-                    "\n dynamicModeDataTable:--$dynamicModeDataTable"+
-                    "\n staticParamsTable:--$staticParamsTable"+
-                    "\n ppkParamsTable:--$ppkParamsTable"+
-                    "\n dynamic_project_configTable:--$dynamic_project_configTable"+
-                    "\n project_configuration_mapping:--$project_configuration_mapping"+
-                    "\n project_statusTable:--$project_statusTable"+
-                    "\n shortNameTableData:--$shortNameTableData"+
-                    "\n siteCalibrationTable:--$siteCalibrationTable"+
-                    "\n project_folderTable:--$project_folderTable"+
-                    "\n project_tableData:--$project_tableData"+
+                    "\n distanceunitTable:--$distanceunitTable" +
+                    "\n survey_configurationTable:--$survey_configurationTable" +
+                    "\n device_configurationTable:--$device_configurationTable" +
+                    "\n miscellaneous_configurationTable:--$miscellaneous_configurationTable" +
+                    "\n maskangleTable:--$maskangleTable" +
+                    "\n manualbaseTable:--$manualbaseTable" +
+                    "\n dynamicModeDataTable:--$dynamicModeDataTable" +
+                    "\n staticParamsTable:--$staticParamsTable" +
+                    "\n ppkParamsTable:--$ppkParamsTable" +
+                    "\n dynamic_project_configTable:--$dynamic_project_configTable" +
+                    "\n project_configuration_mapping:--$project_configuration_mapping" +
+                    "\n project_statusTable:--$project_statusTable" +
+                    "\n shortNameTableData:--$shortNameTableData" +
+                    "\n siteCalibrationTable:--$siteCalibrationTable" +
+                    "\n project_folderTable:--$project_folderTable" +
+                    "\n project_tableData:--$project_tableData" +
                     "\n project_configuration_mappingTable:--$project_configuration_mappingTable"
 
         )
@@ -1513,8 +1606,7 @@ class DatabaseRepsoitory(context: Context) {
             && project_configuration_mappingTable.equals("Table Created Successfully...")
 
 
-        )
-        {
+        ) {
             Log.d(TAG, "CommonApiTablesCreation1: All table created")
             insertDBData(apiResponse)
             projectManagementData()
@@ -1751,6 +1843,7 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.executeStaticQuery("SELECT elevationtype_id FROM elevationtype where elevationType='" + elevationtype + "'")
         return data?.get(0) ?: ""
     }
+
     fun getdeviceTabledata(): List<String>? {
         var data =
             tableCreator.executeStaticQuery("SELECT * from device ")
@@ -1764,49 +1857,32 @@ class DatabaseRepsoitory(context: Context) {
         return data?.get(0) ?: ""
     }
 
-    fun getSatelliteDataList(): List<String>?{
+    fun getSatelliteDataList(): List<String>? {
         var data =
             tableCreator.executeStaticQuery("SELECT constellation_name,active FROM constellation ")
         return data
     }
-    fun insertSatelliteDataList(data:String):String{
 
-/*        val satelliteConfiguration = "satelliteConfiguration"
-        val satelliteConfigurationColumn = arrayOf(
-            TableCreator.ColumnDetails("satelliteConfig_id", "INTEGER", true),
-            TableCreator.ColumnDetails("constellation_name", "STRING"),
-            TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
-            TableCreator.ColumnDetails("created_at", "STRING"),
-            TableCreator.ColumnDetails("remark", "STRING"),*/
+    fun insertSatelliteDataList(data: String): String {
+
+        /*        val satelliteConfiguration = "satelliteConfiguration"
+                val satelliteConfigurationColumn = arrayOf(
+                    TableCreator.ColumnDetails("satelliteConfig_id", "INTEGER", true),
+                    TableCreator.ColumnDetails("constellation_name", "STRING"),
+                    TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
+                    TableCreator.ColumnDetails("created_at", "STRING"),
+                    TableCreator.ColumnDetails("remark", "STRING"),*/
 
 
-        var query=" INSERT INTO satelliteConfiguration ( constellation_name,active) VALUES ('"+ data.split(",")[1]+ "','"+data.split(",")[0]+"')"
+        var query =
+            " INSERT INTO satelliteConfiguration ( constellation_name,active) VALUES ('" + data.split(
+                ","
+            )[1] + "','" + data.split(",")[0] + "')"
         Log.d(TAG, "insertSatelliteDataList: $query")
         var result = tableCreator.executeStaticQuery(query)
         Log.d(TAG, "insertSatelliteDataList: $result")
         return result.toString()
     }
-
-/*
-
-
-
-*/
-
-
-
-
-
-    /*
-        fun insertSatelliteDataList(data:String):String{
-
-            var query=" UPDATE constellation SET active = '"+ data.split(",")[1]+ "' WHERE constellation_name = '"+data.split(",")[0]+"'"
-            Log.d(TAG, "insertSatelliteDataList: $query")
-            var result = tableCreator.executeStaticQuery(query)
-            Log.d(TAG, "insertSatelliteDataList: $result")
-            return result.toString()
-        }
-    */
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun addConfigurationData(map: HashMap<String, String>): String {
@@ -1865,8 +1941,7 @@ class DatabaseRepsoitory(context: Context) {
                 )
 
 
-        }
-        else {
+        } else {
             Log.d(TAG, "addConfigurationData: Else")
 
             val dataList: MutableList<ContentValues> = ArrayList()
@@ -1926,8 +2001,21 @@ class DatabaseRepsoitory(context: Context) {
 
     fun getProjectList(): List<String>? {
         var data = tableCreator.executeStaticQuery(
-            "SELECT   prj.project_name " +
-                    "FROM project_table AS prj "
+            " SELECT prj.project_name ,conf.project_configuration_Name\n" +
+                    " FROM project_table AS prj JOIN project_configuration_mapping as\n" +
+                    " conf ON prj.project_configuration_id =conf.project_configuration_id "
+        )
+        Log.d(TAG, "getProjectList: data--$data")
+
+        return data
+    }
+
+
+    fun getConfigurationList(): List<String>? {
+        var data = tableCreator.executeStaticQuery(
+            " SELECT PC.project_configuration_Name ,SC.project_configuration_Name\n" +
+                    " FROM project_table AS prj JOIN project_configuration_mapping as\n" +
+                    " conf ON prj.project_configuration_id =conf.project_configuration_id "
 
         )
         Log.d(TAG, "getProjectList: data--$data")
