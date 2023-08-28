@@ -222,13 +222,8 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
                         is BleResponse.OnReconnect -> Log.d(TAG, "getResponse: " + it.message)
                         is BleResponse.OnResponseRead -> {
-                            Log.d(
-                                TAG,
-                                "getResponse: " + it.response
-                            )
+                            Log.d(TAG, "getResponse: " + it.response)
                             findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
-
-
                         }
 
 

@@ -16,8 +16,7 @@ import com.apogee.geomaster.model.ConfigSetup
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.setHtmlTxt
 
-class ConfigurationListAdapter (private val itemOnClickListener: OnItemClickListener) :
-ListAdapter<ConfigSetup, ConfigurationListAdapter.ConfigurationViewModel>(diffUtils) {
+class ConfigurationListAdapter (private val itemOnClickListener: OnItemClickListener) : ListAdapter<ConfigSetup, ConfigurationListAdapter.ConfigurationViewModel>(diffUtils) {
 
 
     companion object {
