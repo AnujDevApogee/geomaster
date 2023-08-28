@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.R
-import com.apogee.geomaster.databinding.ProjectListItemBinding
+import com.apogee.geomaster.databinding.ConfigListItemsBinding
+import com.apogee.geomaster.databinding.ConfigListItemsBindingImpl
 import com.apogee.geomaster.model.ConfigSetup
-import com.apogee.geomaster.model.Project
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.setHtmlTxt
 
@@ -21,43 +21,42 @@ ListAdapter<ConfigSetup, ConfigurationListAdapter.ConfigurationViewModel>(diffUt
 
 
     companion object {
-        val diffUtils = object : DiffUtil.ItemCallback<Project>() {
-            override fun areItemsTheSame(oldItem: Project, newItem: Project): Boolean {
-                return oldItem.title == newItem.title
+        val diffUtils = object : DiffUtil.ItemCallback<ConfigSetup>() {
+            override fun areItemsTheSame(oldItem: ConfigSetup, newItem: ConfigSetup): Boolean {
+                return oldItem.configurationName == newItem.configurationName
             }
 
-            override fun areContentsTheSame(oldItem: Project, newItem: Project): Boolean {
+            override fun areContentsTheSame(oldItem: ConfigSetup, newItem: ConfigSetup): Boolean {
                 return oldItem == newItem
             }
 
         }
     }
 
-    inner class ConfigurationViewModel(private val binding: ProjectListItemBinding) :
+    inner class ConfigurationViewModel(private val binding: ConfigListItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(project: Project, itemOnClickListener: OnItemClickListener, position: Int) {
+        fun bind(config: ConfigSetup, itemOnClickListener: OnItemClickListener, position: Int) {
             if (position==0){
-                binding.projectName.text= setHtmlTxt(project.title,"'#FFB4AB'")
+                binding.confiName.text= setHtmlTxt(config.configurationName,"'#FFB4AB'")
             }else{
-                binding.projectName.text=project.title
+                binding.confiName.text=config.configurationName
             }
 //            binding.projectInfo.text="Datum Name ${project.title}\n"
-            binding.projectInfo.text=""
-            binding.projectInfo.append("Configuration Name:-- ${project.configurationName}\n")
-            /*            binding.projectInfo.append("Projection Type:-- ${project.projectionType}\n")
-                        binding.projectInfo.append("Zone:--${project.zone}\n")*/
+            binding.configInfo.text=""
+            binding.configInfo.append("Configuration Name:-- ${config.configurationName}\n")
+            binding.configInfo.append("Datum Name:-- ${config.datumName}\n")
+                        binding.configInfo.append("Work Mode:--${config.workMode}\n")
+
             Log.i(ContentValues.TAG, "bind: FromPROJECT")
             binding.cardView.setOnClickListener {
-                itemOnClickListener.onClickListener(project)
+                itemOnClickListener.onClickListener(config)
             }
         }
-
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConfigurationViewModel {
-        val binding = ProjectListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ConfigListItemsBindingImpl.inflate(LayoutInflater.from(parent.context),parent,false)
         return ConfigurationViewModel(binding)
     }
 

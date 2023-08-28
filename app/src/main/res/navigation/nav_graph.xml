@@ -168,6 +168,9 @@
         <action
             android:id="@+id/action_configurationFragment_to_createConfigurationFragment"
             app:destination="@id/createConfigurationFragment" />
+        <action
+            android:id="@+id/action_configurationFragment_to_projectListFragment"
+            app:destination="@id/projectListFragment" />
     </fragment>
     <action android:id="@+id/action_global_configurationFragment" app:destination="@id/configurationFragment" />
     <fragment

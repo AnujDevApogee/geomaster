@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.ProjectListItemBinding
 import com.apogee.geomaster.model.Project
-import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.setHtmlTxt
-import com.apogee.geomaster.utils.toastMsg
 
 
 class ProjectListAdaptor(
@@ -32,7 +30,7 @@ class ProjectListAdaptor(
     companion object {
         val diffUtils = object : DiffUtil.ItemCallback<Project>() {
             override fun areItemsTheSame(oldItem: Project, newItem: Project): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem.projectName == newItem.projectName
             }
 
             override fun areContentsTheSame(oldItem: Project, newItem: Project): Boolean {
@@ -47,15 +45,12 @@ class ProjectListAdaptor(
 
         fun bind(project: Project, itemOnClickListener: OnItemClickListener,position: Int) {
              if (position==0){
-                 binding.projectName.text= setHtmlTxt(project.title,"'#FFB4AB'")
+                 binding.projectName.text= setHtmlTxt(project.projectName,"'#FFB4AB'")
             }else{
-                 binding.projectName.text=project.title
+                 binding.projectName.text=project.projectName
             }
-//            binding.projectInfo.text="Datum Name ${project.title}\n"
             binding.projectInfo.text=""
             binding.projectInfo.append("Configuration Name:-- ${project.configurationName}\n")
-/*            binding.projectInfo.append("Projection Type:-- ${project.projectionType}\n")
-            binding.projectInfo.append("Zone:--${project.zone}\n")*/
             Log.i(TAG, "bind: FromPROJECT")
             binding.cardView.setOnClickListener {
                 itemOnClickListener.onClickListener(project)

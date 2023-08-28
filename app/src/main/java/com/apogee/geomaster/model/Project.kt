@@ -1,7 +1,7 @@
 package com.apogee.geomaster.model
 
 data class Project(
-    var title: String,
+    var projectName: String,
     val configurationName: String,
     /*    val projectionType: String,
         val zone: String*/

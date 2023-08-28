@@ -40,15 +40,17 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
             if (response is Project) {
                 activity?.setUpDialogBox(
                     "Information",
-                    "Continue with ${response.title}",
+                    "Continue with ${response.projectName}",
                     "Continue",
                     "Cancel",
                     success = {
-                        myPreference.putStringData("Last_Used", response.title)
+                        myPreference.putStringData("Last_Used", response.projectName)
                         Log.i(
                             TAG,
                             "onClickListener: LastUsed_saved -> ${myPreference.getStringData("Last_Used")}"
                         )
+                        findNavController().navigate(R.id.action_projectListFragment_to_homeScreenMainFragment)
+
                     },
                     cancelListener = {
 
@@ -115,7 +117,7 @@ class ProjectListFragment : Fragment(R.layout.project_item_fragment) {
 
         
         val obj=projectDetails.find {
-            it.title==value
+            it.projectName==value
         }
         val ls= mutableListOf<Project>()
         obj?.let {

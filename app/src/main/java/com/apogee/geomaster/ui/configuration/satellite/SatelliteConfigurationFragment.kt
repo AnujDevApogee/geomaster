@@ -34,6 +34,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
         setRecycleView()
         val satelliteList = dbControl.getSatelliteDataList()
         satelliteDetails.clear()
+        Log.d("TAG", "onViewCreated: satelliteList --$satelliteList")
         for (i in satelliteList!!.indices) {
             satelliteDetails.add(
                 SatelliteModel(
@@ -51,9 +52,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
             }
         }
 
-        satelliteDetails.add(SatelliteModel("GLONASS", "N"))
-        satelliteDetails.add(SatelliteModel("BDS", "N"))
-        satelliteDetails.add(SatelliteModel("GPS", "N"))
+
         Log.d("TAG", "TEST: TESTsatelliteDetails--$satelliteDetails")
         adaptor.notifyDataSetChanged()
         adaptor.submitList(satelliteDetails)
