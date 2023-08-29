@@ -143,12 +143,12 @@ class CreateConfigurationFragment : Fragment(R.layout.create_configuration_fragm
                     Log.d("TAG", "onViewCreated:result $result")
                     if (result.equals("Data inserted successfully")) {
                         prjDataList.clear()
-                        val configId = dbControl.getproject_configurationID(binding.projectNme.text.toString() + "Config")
+                        val configId = dbControl.getproject_configurationID(binding.projectNme.text.toString())
                         prjDataList.add(binding.projectNme.text.toString())
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
                         prjDataList.add(binding.commentEd.text.toString())
-                        findNavController().safeNavigate(R.id.action_createConfigurationFragment_to_satelliteConfigurationFragment)
+                        findNavController().safeNavigate(CreateConfigurationFragmentDirections.actionCreateConfigurationFragmentToSatelliteConfigurationFragment(binding.projectNme.text.toString()))
 
 
                        /* val result = dbControl.addProjectData(prjDataList)

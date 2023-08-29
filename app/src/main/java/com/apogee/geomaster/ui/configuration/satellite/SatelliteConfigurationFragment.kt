@@ -6,12 +6,14 @@ import android.view.View
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.SatelliteScreenAdaptor
 import com.apogee.geomaster.databinding.SatelliteConfigurationFragmentBinding
 import com.apogee.geomaster.model.SatelliteModel
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.ui.configuration.miscellaneous.MiscellaneousFragmentArgs
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 
@@ -20,6 +22,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
     private lateinit var binding: SatelliteConfigurationFragmentBinding
     private lateinit var adaptor: SatelliteScreenAdaptor
     private lateinit var dbControl: DatabaseRepsoitory
+    private val args by navArgs<SatelliteConfigurationFragmentArgs>()
 
 
     var satelliteDetails: ArrayList<SatelliteModel> = ArrayList()
@@ -29,6 +32,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
         super.onViewCreated(view, savedInstanceState)
         dbControl = DatabaseRepsoitory(this.requireContext())
         binding = SatelliteConfigurationFragmentBinding.bind(view)
+        Log.d("TAG", "onViewCreated:Satellite args${args.surveyConfigName} ")
         displayActionBar("Satellite Configuration", binding.actionLayout)
         (activity as HomeScreen?)?.hideActionBar()
         setRecycleView()
@@ -39,14 +43,16 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
             satelliteDetails.add(
                 SatelliteModel(
                     satelliteList.get(i).split(",")[0],
-                    satelliteList.get(i).split(",")[1]
+                    satelliteList.get(i).split(",")[1],
+                    satelliteList.get(i).split(",")[2]
                 )
             )
-            if (satelliteList.get(i).split(",")[1].equals("Y")) {
+            if (satelliteList.get(i).split(",")[2].equals("Y")) {
                 satelliteStatusList.add(
                     SatelliteModel(
                         satelliteList.get(i).split(",")[0],
-                        satelliteList.get(i).split(",")[1]
+                        satelliteList.get(i).split(",")[1],
+                        satelliteList.get(i).split(",")[2]
                     )
                 )
             }
@@ -60,9 +66,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
             Log.i("LIST_DATA", "onViewCreated: $satelliteDetails")
             var count = 0
             for (i in satelliteDetails) {
-                Log.d(
-                    "TAG",
-                    "onViewCreated:satelliteName ${i.satelliteName + "," + i.satelliteStatus}"
+                Log.d("TAG","onViewCreated:satelliteName ${i.satelliteName + "," + i.satelliteStatus}"
                 )
                 val result =
                     dbControl.insertSatelliteDataList(i.satelliteName + "," + i.satelliteStatus)
@@ -72,7 +76,9 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
                 Log.d("TAG", "onViewCreated:Result $result ")
             }
             if (count == 4) {
-                findNavController().safeNavigate(R.id.action_satelliteConfigurationFragment_to_miscellaneousFragment)
+
+                //findNavController().safeNavigate(R.id.action_satelliteConfigurationFragment_to_miscellaneousFragment)
+                findNavController().safeNavigate(SatelliteConfigurationFragmentDirections.actionSatelliteConfigurationFragmentToMiscellaneousFragment(satelliteDetails.toTypedArray(),args.surveyConfigName,))
             } else {
                 Log.d("TAG", "onViewCreated:count $count ")
 
