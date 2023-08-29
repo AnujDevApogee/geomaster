@@ -1392,13 +1392,11 @@ class DatabaseRepsoitory(context: Context) {
 
 
         if (satelliteMappingTable.equals("Table Created Successfully...")) {
-            val status =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_name,active) VALUES ('GPS','Y')")
-            val status1 =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_name,active) VALUES ('GLONASS','Y')")
-            val status2 =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_name,active) VALUES ('GALILEO','Y')")
-            Log.d(TAG,"CommonApi_TablesCreation: INSERTsatelliteConfiguration--$status--$status1--$status2")
+            val status1 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (1,1)")
+            val status2 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (2,1)")
+            val status3 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (5,1)")
+            val status4 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (6,1)")
+            Log.d(TAG,"CommonApi_TablesCreation: INSERTsatelliteConfiguration--$status1--$status2--$status3--$status4")
         }
 
 
@@ -1852,16 +1850,17 @@ class DatabaseRepsoitory(context: Context) {
 
 
     fun getproject_configurationID(config_name: String): String {
+        Log.d(TAG, "getproject_configurationID: $config_name")
         var data =
             tableCreator.executeStaticQuery("SELECT config_id FROM survey_configuration where config_name='" + config_name + "'")
-        Log.d(TAG, "getproject_configurationID: $data ")
+        Log.d(TAG, "getproject_configurationID:$config_name--- $data ")
         return data?.get(0) ?: ""
     }
 
     fun getSatelliteDataList(): List<String>? {
         var data =
             tableCreator.executeStaticQuery(" select  cons.constellation_id,cons.constellation_name,cons.active \n" +
-                    "                    from  constellation as cons JOIN constellation_model_map as conMap ON conMap.constellation_id = cons.constellation_id ")
+                    "from  constellation as cons JOIN constellation_model_map as conMap ON conMap.constellation_id = cons.constellation_id ")
         return data
     }
     fun insertSatelliteMappingData(data: String): String {
@@ -2051,16 +2050,41 @@ class DatabaseRepsoitory(context: Context) {
 
         return data
     }
-    fun insertConfigMappingData(values:String){
-        tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping" +
-                " (project_configuration_Name,config_id) VALUES ('${values.split(",")[0]}',${values.split(",")[1]},)")
+    fun insertConfigMappingData(values:String):List<String>{
+        Log.d(TAG, "insertConfigMappingData: $values")
+        val data=tableCreator.executeStaticQuery("INSERT INTO project_configuration_mapping" +
+                " (project_configuration_Name,config_id) VALUES ('${values.split(",")[0]}',${values.split(",")[1]})")
 
+        return data!!
     }
     fun insertSatelliteMappingData(){
 
-        tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_name,active) VALUES ('GPS','Y')")
+        val status1 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (1,1)")
+        val status2 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (2,1)")
+        val status3 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (5,1)")
+        val status4 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (6,1)")
+
+
 
     }
+
+    fun insertSatelliteMappingDatajjj(list: List<String>): String {
+
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val values1 = ContentValues()
+
+        values1.put("project_name", list.get(0))
+        values1.put("operator", list.get(2))
+        values1.put("comment", list.get(3))
+        values1.put("config_id", list.get(1))
+        values1.put("projectCreated_at", "${LocalDateTime.now()}")
+        values1.put("status_id", "1")
+        dataList.add(values1)
+
+        val result = tableCreator.insertDataIntoTable("project_table", dataList)
+        return result
+    }
+
 
     fun BluetoothConfigurationData(apiResponse: String) {
         insertDBData(apiResponse)

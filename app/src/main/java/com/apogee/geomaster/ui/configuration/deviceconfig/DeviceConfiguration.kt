@@ -36,6 +36,7 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
         (activity as HomeScreen?)?.hideActionBar()
         Log.d("TAG", "onViewCreated:argsDevice ${args.satelliteDataValues}---${args.surveyConfigName} ")
         val surveyConfigId=dbControl.getproject_configurationID(args.surveyConfigName)
+        Log.d("TAG", "onViewCreated: surveyConfigIdDev --$surveyConfigId")
 
         setAdaptor()
         binding.doneBtn.setOnClickListener {
@@ -44,8 +45,10 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
                 "Update",
                 "Create",
                 success = {
-                    val result = dbControl.insertConfigMappingData("${args.surveyConfigName}Config,$surveyConfigId")
-                    Log.d("TAG", "onViewCreated: resultConfigInsert--$result")
+                    val result = dbControl.insertConfigMappingData("${args.surveyConfigName}Config,${surveyConfigId}")
+
+                    val resultmapping=dbControl.insertSatelliteMappingData()
+                    Log.d("TAG", "onViewCreated: resultConfigInsert--$resultmapping")
 
 //                          findNavController().safeNavigate(R.id.action_deviceConfiguration_to_homeScreenMainFragment)
                 },

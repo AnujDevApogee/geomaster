@@ -50,7 +50,7 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
     fun getConfigData(deviceName: String) {
 
         ApiCall().postDataWithBody(
-            "NAVIK200_1.1",
+            "NAVIK200-1.1",
             this,
             "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getBluetoothConfigurationData/",
             50

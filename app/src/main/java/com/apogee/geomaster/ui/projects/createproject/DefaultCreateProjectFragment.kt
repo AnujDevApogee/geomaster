@@ -123,7 +123,6 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
                                 "Data inserted successfully",
                                 Toast.LENGTH_SHORT
                             ).show()
-
 //                            findNavController().safeNavigate(R.id.action_defaultCreateProjectFragment_to_homeScreenMainFragment)
                         } else {
                             Toast.makeText(this.requireContext(), result, Toast.LENGTH_SHORT).show()
