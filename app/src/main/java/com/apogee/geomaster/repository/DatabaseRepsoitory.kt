@@ -2,6 +2,7 @@ package com.apogee.geomaster.repository
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -1641,7 +1642,6 @@ class DatabaseRepsoitory(context: Context) {
             val jsonArray = jsonObject.getJSONArray(key)
             try {
                 for (i in 0 until jsonArray.length()) {
-
                     dataList.clear()
                     val jsonObject1: JSONObject = jsonArray.getJSONObject(i)
                     if (key.equals("model")) {
@@ -2062,8 +2062,20 @@ class DatabaseRepsoitory(context: Context) {
     fun BluetoothConfigurationData(apiResponse: String) {
         insertDBData(apiResponse)
     }
-
-
+    fun getFixedResponse(param_id: String,value: String): Cursor? {
+        val qry =
+            (" select * from fixed_response fr,fixed_response_value frv where fr.active='Y' and frv.active='Y' "
+                    + " and fr.fixed_response_id=frv.fixed_response_id and fr.parameter_id='" + param_id + "'  "
+                    + " and frv.select_value='" + value + "' ")
+        return database.rawQuery(qry, null)
+    }
+    fun getParameterResponse(param: String): Cursor? {
+        val query =
+            (" select * from parameter2 p,parameter_type pt where p.active='Y' and pt.active='Y' "
+                    + " and p.parameter_type_id=pt.parameter_type_id "
+                    + " and p.parameter_name='" + param + "' and p.parameter_type_id in(8,9,10) ")
+        return database.rawQuery(query, null)
+    }
 }
 
 

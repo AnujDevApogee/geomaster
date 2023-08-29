@@ -94,8 +94,6 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
             _bleResponse.value = BleResponse.OnConnected("Service Connected Successfully...")
 
-
-
         }
 
     }
@@ -111,5 +109,10 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
         }
     }
 
+    suspend fun writeRequest(byte:ByteArray){
+        coroutineScope.launch {
+            service?.write(byte)
+        }
+    }
 
 }

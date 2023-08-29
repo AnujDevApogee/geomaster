@@ -117,7 +117,11 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                  deviceAddress = it.device.address
                  deviceName = it.device.name.split("_".toRegex()).first()
                 Log.d(TAG, "onViewCreateddevice_id: " + deviceName)
-                bleGetConfigDataViewModel.getConfigData(deviceName)
+                Log.d(TAG, "onViewCreateddevice_id: " + deviceName)
+
+                bleGetConfigDataViewModel.getConfigData("TNAVIK50")
+
+
 
 
             }

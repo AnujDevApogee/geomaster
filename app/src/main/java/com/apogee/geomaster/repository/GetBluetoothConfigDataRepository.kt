@@ -50,7 +50,7 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
     fun getConfigData(deviceName: String) {
 
         ApiCall().postDataWithBody(
-            "NAVIK200_1.1",
+            deviceName,
             this,
             "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getBluetoothConfigurationData/",
             50
@@ -98,6 +98,11 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
 
     fun getServiceIds(): List<String>? {
         val data = tableCreator.executeStaticQuery("SELECT service_uuid FROM services where services_id = '2' ")
+
+        return data
+    }
+ fun getModelName(device_name : String): List<String>? {
+        val data = tableCreator.executeStaticQuery("SELECT device_name FROM model where device_name = '"+device_name+"' ")
 
         return data
     }

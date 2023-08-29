@@ -1,5 +1,9 @@
 package com.apogee.geomaster.service
 
+import android.annotation.SuppressLint
+import com.apogee.basicble.Utils.ResponseHandlingModel
+import java.text.DecimalFormat
+import java.util.ArrayList
 
 
 internal object Constants {
@@ -24,8 +28,13 @@ internal object Constants {
     const val MODEL = "model"
     const val PROFILENAME = "profile_name"
 
-
-
-
+        val threeDecimalPlaces = DecimalFormat("0.000")
+        val twoDecimalPlaces = DecimalFormat("0.00")
+        val sevenDecimalPlaces = DecimalFormat("0.000000000")
+        val fiveDecimalPlaces = DecimalFormat("0.00000")
+        var gsvFlag = 0
+        var gsaFlag = 0
+        var gsv_res_map = ArrayList<ResponseHandlingModel>()
+        var gsa_res_map = ArrayList<ResponseHandlingModel>()
 
 }

@@ -214,6 +214,6 @@
         <action
             android:id="@+id/action_miscellaneousFragment_to_deviceConfiguration"
             app:destination="@id/deviceConfiguration" />
-    </fragment>
+    </fragment><action android:id="@+id/action_global_bluetoothscandevicefragment" app:destination="@id/bluetoothscandevicefragment"/>
 
 </navigation>
