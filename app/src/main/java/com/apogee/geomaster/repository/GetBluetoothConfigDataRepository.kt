@@ -55,8 +55,6 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
             "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getBluetoothConfigurationData/",
             50
         )
-
-
     }
 
     override fun onResponse(p0: Call<*>?, response: Response<*>?, p2: Int) {
