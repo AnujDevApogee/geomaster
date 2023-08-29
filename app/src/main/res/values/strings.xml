@@ -73,5 +73,27 @@
     <string name="ssid_conn">SSID</string>
     <string name="ssid_pass_conn">SSID Password</string>
 
+    <string name="n_new">N :</string>
+    <string name="e_new">E :</string>
+    <string name="ele_new">Elev :</string>
+    <string name="fill_n">Fill :</string>
+
+
+
+    <string name="angle">Angle :</string>
+    <string name="scale">Scale :</string>
+    <string name="h_residuals">H Residuals</string>
+    <string name="v_residuals">V Residuals</string>
+    <string name="slope_north">Slope North :</string>
+    <string name="slope_east">Slope East :</string>
+
+
+    <string name="pdop">PDOP</string>
+    <string name="stop_survey">Stop Survey</string>
+    <string name="start_survey">Start Survey</string>
+
+    <string name="antenna">Antenna</string>
+    <string name="enter_code_name">Enter Code Name</string>
+
 
 </resources>

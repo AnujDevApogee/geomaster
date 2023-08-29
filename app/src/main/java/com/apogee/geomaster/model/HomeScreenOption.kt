@@ -107,7 +107,7 @@ data class HomeScreenOption(
             ), HomeScreenOption(
                 icon = R.drawable.stakepointt,
                 "Stake Point",
-                navId = -1
+                navId = R.id.action_global_stakePointFragment
             ), HomeScreenOption(
                 icon = R.drawable.stakelinee,
                 "Stake Line",
