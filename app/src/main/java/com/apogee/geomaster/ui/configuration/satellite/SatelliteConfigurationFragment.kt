@@ -3,7 +3,6 @@ package com.apogee.geomaster.ui.configuration.satellite
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,7 +12,6 @@ import com.apogee.geomaster.databinding.SatelliteConfigurationFragmentBinding
 import com.apogee.geomaster.model.SatelliteModel
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
-import com.apogee.geomaster.ui.configuration.miscellaneous.MiscellaneousFragmentArgs
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 
@@ -25,8 +23,8 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
     private val args by navArgs<SatelliteConfigurationFragmentArgs>()
 
 
-    var satelliteDetails: ArrayList<SatelliteModel> = ArrayList()
-    var satelliteStatusList: ArrayList<SatelliteModel> = ArrayList()
+    private var satelliteDetails: ArrayList<SatelliteModel> = ArrayList()
+    private var satelliteStatusList: ArrayList<SatelliteModel> = ArrayList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
