@@ -63,11 +63,13 @@ class StartActivity : AppCompatActivity() {
             binding!!.btnLetstart.isFocusable = false
             binding!!.btnLetstart.isEnabled = false
             binding!!.view.visibility = View.VISIBLE
-        } else {
+        }
+        else {
             binding!!.btnLetstart.isClickable = true
             binding!!.btnLetstart.isEnabled = true
             binding!!.view.visibility = View.GONE
         }
+
         lifecycleScope.launch {
             delay(2000)
             PermissionX.init(this@StartActivity)
@@ -89,11 +91,13 @@ class StartActivity : AppCompatActivity() {
                 }
         }
         binding?.btnLetstart?.setOnClickListener {
+            Log.d(TAG, "onCreate:TestresponseString $responseString")
             if (responseString != null) {
                 Log.d(TAG, "onCreate:APISERVICE StartIF")
 
                 val deviceData=dbControl.getdeviceTabledata()
-                if(deviceData!!.size==1){
+                Log.d(TAG, "onCreate: deviceData--$deviceData")
+                if(deviceData!!.isNotEmpty()){
                         Log.d(TAG, "onCreate:deviceData not empty ")
                         val intents = Intent(this@StartActivity, HomeScreen::class.java)
                         intents.putExtra("loggedIn", true)
@@ -108,7 +112,6 @@ class StartActivity : AppCompatActivity() {
                     finish()
                 }
                 Log.d(TAG, "onCreate: deviceData --$deviceData")
-
 
             } else {
                 Log.d(TAG, "onCreate:APISERVICE StartElse")

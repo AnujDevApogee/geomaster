@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
+import com.apogee.geomaster.model.SatelliteModel
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
@@ -2057,14 +2058,31 @@ class DatabaseRepsoitory(context: Context) {
 
         return data!!
     }
-    fun insertSatelliteMappingData(){
+    fun getproject_configurationMappingID(project_configuration_Name: String): String {
+        Log.d(TAG, "getproject_configurationID: $project_configuration_Name")
+        var data = tableCreator.executeStaticQuery("SELECT project_configuration_id FROM project_configuration_mapping where project_configuration_Name='" + project_configuration_Name + "'")
+        Log.d(TAG, "getproject_configurationID:$project_configuration_Name--- $data ")
+        return data?.get(0) ?: ""
+    }
+    fun getindexofsatellite(constellationName:String):String {
+        var data = tableCreator.executeStaticQuery("SELECT constellation_id FROM constellation where " +
+                "constellation_name='" + constellationName + "'")
+        return data?.get(0) ?: ""
+    }
 
-        val status1 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (1,1)")
-        val status2 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (2,1)")
-        val status3 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (5,1)")
-        val status4 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (6,1)")
 
+    fun insertSatelliteMappingDataasas(configMapId:String, statusList: Array<SatelliteModel>){
+        for(i in statusList.indices){
+            val constID=getindexofsatellite(statusList.get(i).satelliteName)
+            Log.d(TAG, "insertSatelliteMappingDataasas:--statusList ${statusList.get(i).satelliteStatus}")
+            val status1 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id,active) VALUES ($constID,'$configMapId','${statusList.get(i).satelliteStatus}')")
+            Log.d(TAG, "insertSatelliteMappingDataasas: status1 $status1")
+        }
+    }
+  fun insertProjectValues(values:String){
 
+            val status1 =tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id,active) VALUES ($constID,'$configMapId','${statusList.get(i).satelliteStatus}')")
+            Log.d(TAG, "insertSatelliteMappingDataasas: status1 $status1")
 
     }
 

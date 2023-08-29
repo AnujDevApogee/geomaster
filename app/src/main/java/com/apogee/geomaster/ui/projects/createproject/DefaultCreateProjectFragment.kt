@@ -115,7 +115,8 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
                         prjDataList.add(configId)
                         prjDataList.add(binding.operatorNm.text.toString())
                         prjDataList.add(binding.commentEd.text.toString())
-                        val result = dbControl.addProjectData(prjDataList)
+
+                 /*       val result = dbControl.addProjectData(prjDataList)
 
                         if (result.equals("Data inserted successfully")) {
                             Toast.makeText(
@@ -126,7 +127,8 @@ class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
 //                            findNavController().safeNavigate(R.id.action_defaultCreateProjectFragment_to_homeScreenMainFragment)
                         } else {
                             Toast.makeText(this.requireContext(), result, Toast.LENGTH_SHORT).show()
-                        }
+                        }*/
+
                     } else {
                         Toast.makeText(this.requireContext(), result, Toast.LENGTH_SHORT).show()
 
