@@ -9,6 +9,7 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -95,8 +96,7 @@ fun Activity.openKeyBoard(view: View) {
 }
 
 
-
-fun Fragment.showMessage(msg:String){
+fun Fragment.showMessage(msg: String) {
     Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
 }
 
@@ -111,4 +111,8 @@ fun NavController.safeNavigate(direction: Int) {
     currentDestination?.getAction(direction)?.run {
         navigate(direction)
     }
+}
+
+fun createLog(tag: String, msg: String) {
+    Log.i(tag, "createLog: $msg")
 }
