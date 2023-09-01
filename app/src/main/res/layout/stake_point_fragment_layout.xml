@@ -27,16 +27,16 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/info_layout"
-                        android:background="@color/white"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
                         <TextView
                             android:id="@+id/north_ing_txt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="N: gkfld"
                             android:textSize="17sp"
                             android:textStyle="bold"
@@ -53,7 +53,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="E: gkfld"
                             android:textSize="17sp"
                             android:textStyle="bold"
@@ -67,17 +67,56 @@
 
                         <TextView
                             android:id="@+id/elevation_ky"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="Elv: gdfkl"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_elevation_item"
                             app:drawableTint="#AFAFAF"
-                            app:layout_constraintLeft_toLeftOf="@id/easting_txt"
+                            app:layout_constraintEnd_toStartOf="@+id/north_south_key"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/easting_txt" />
+
+
+                        <TextView
+                            android:id="@+id/elevation_angle"
+                            android:layout_width="0dp"
+                            app:layout_constraintHorizontal_weight="1"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:padding="5dp"
+                            android:text="Angle: gdfkl"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/ic_elevation_item"
+                            app:drawableTint="#AFAFAF"
+                            app:layout_constraintEnd_toStartOf="@+id/altiuide"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/elevation_ky" />
+
+
+                        <TextView
+                            android:id="@+id/altiuide"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:padding="5dp"
+                            android:text="Curr Elevetion"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/ic_elevation_item"
+                            app:drawableTint="#AFAFAF"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/elevation_angle"
+                            app:layout_constraintTop_toTopOf="@id/elevation_angle" />
 
 
                         <TextView
@@ -85,8 +124,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
-                            android:padding="10dp"
-                            android:text="D: gkfld"
+                            android:padding="5dp"
+                            android:text="\tD: gkfld"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -101,10 +140,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
-                            android:padding="10dp"
-                            android:text="Degree: gkfld"
+                            android:padding="5dp"
+                            android:text="East/West"
                             android:textSize="17sp"
                             android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/ic_easting"
+                            app:drawableTint="#AFAFAF"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
@@ -113,25 +154,43 @@
 
 
                         <TextView
+                            android:id="@+id/north_south_key"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:padding="5dp"
+                            android:text="North/South"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/ic_up_northing"
+                            app:drawableTint="#AFAFAF"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/elevation_ky"
+                            app:layout_constraintTop_toTopOf="@id/elevation_ky" />
+
+
+                        <TextView
                             android:id="@+id/tv_sigma_x"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
-                            android:text=" X :"
+                            android:text="σ X : "
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/tv_sigma_y"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/elevation_ky" />
+                            app:layout_constraintTop_toBottomOf="@id/elevation_angle" />
 
 
                         <TextView
                             android:id="@+id/tv_sigma_y"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text=" Y :"
+                            android:text="σ Y : "
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/tv_sigma_z"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -145,7 +204,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:text=" Z :"
+                            android:text="σ Z : "
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
