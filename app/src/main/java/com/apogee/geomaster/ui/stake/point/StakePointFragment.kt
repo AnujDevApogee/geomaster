@@ -23,13 +23,14 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
         binding = StakePointFragmentLayoutBinding.bind(view)
         (activity as HomeScreen?)?.hideActionBar()
 
-        binding.cvSliderOption.setOnTouchListener(swipeGesture(binding.infoLayout))
+        binding.cvSliderOption.setOnTouchListener(swipeGesture(binding.infoLayout,false))
+        binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop,true))
 
 
     }
 
 
-    private fun swipeGesture(view: View): OnSwipeTouchListener {
+    private fun swipeGesture(view: View,isBottomView:Boolean): OnSwipeTouchListener {
         return object: OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeRight() {
                 super.onSwipeRight()
@@ -43,13 +44,19 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
 
             override fun onSwipeTop() {
                 super.onSwipeTop()
+                if (!isBottomView)
                 view.hide()
+                else
+                    view.show()
                 createLog("TOUCH_MSG","Bottom TOP")
             }
 
             override fun onSwipeBottom() {
                 super.onSwipeBottom()
+                if (!isBottomView)
                 view.show()
+                else
+                    view.hide()
                 createLog("TOUCH_MSG","Bottom click")
             }
         }
