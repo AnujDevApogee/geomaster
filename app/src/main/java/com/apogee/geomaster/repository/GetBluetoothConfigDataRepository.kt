@@ -93,14 +93,6 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
 
     }
 
-    fun getModelId(device_name: String): List<String>?
-    {
-        var query=" select module_device_id from device_map dm,device d1,device d2,model m1,model m2" +
-                " where dm.active='Y' and d1.active='Y' and m1.active='Y' and m2.active='Y' " +
-                " and dm.finished_device_id=d1.id and dm.module_device_id=d2.id and d1.model_id=m1.id and d2.model_id=m2.id and m2.model_type_id='2'  and m1.device_no='"+device_name+"' "
-        val data = tableCreator.executeStaticQuery(query)
-        return data
-    }
 
     fun getServiceIds(device_id: String): List<String>? {
         val data = tableCreator.executeStaticQuery("SELECT service_uuid FROM services where device_id = '"+device_id+"'")
