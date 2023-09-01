@@ -31,6 +31,8 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     private var userDefinedDatumName: ArrayList<String> = ArrayList()
     private var datumNameID: String = ""
     private var angleUnit: ArrayList<String> = ArrayList()
+    var coordinateSystem: ArrayList<String> = ArrayList()
+    var coordinateSystemID: String = ""
     private var angleUnitID: String = ""
     private var countryName: ArrayList<String> = ArrayList()
     private var countryID: String = ""
@@ -83,6 +85,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         zoneHemis = dbControl.getZoneHemisphereData() as ArrayList<String>
         projectionTypes = dbControl.getProjectionType() as ArrayList<String>
         datumTypes = dbControl.getdatumtype() as ArrayList<String>
+        coordinateSystem = dbControl.getCoordinateSystem() as ArrayList<String>
         elevationType = dbControl.getelevationType() as ArrayList<String>
         Log.d(tag, "onCreate:datumName $datumName")
         Log.d(tag, "onCreate:angleUnit $angleUnit")
@@ -298,7 +301,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         }
 
         binding.btnSubmit.setOnClickListener {
-            idList["projectName"] = binding.projectNme.text.toString().trim() + "Config"
+            idList["projectName"] = binding.projectNme.text.toString().trim()
 
             Log.d(tag, "onViewCreated: idList $idList")
             // Check each condition individually using else if
@@ -398,12 +401,13 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         Log.d(tag, "onViewCreated:configtable $configtable --")
         if (configtable.equals("Data inserted successfully",true)) {
             prjDataList.clear()
-            val configId = dbControl.getproject_configurationID(binding.projectNme.text.toString()+"Config")
+            val configId = dbControl.getproject_configurationID(binding.projectNme.text.toString())
             prjDataList.add(binding.projectNme.text.toString())
             prjDataList.add(configId)
             prjDataList.add(binding.operatorNm.text.toString())
             prjDataList.add(binding.commentEd.text.toString())
             prjDataList.add("sdfsdf")
+            findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToSatelliteConfigurationFragment(binding.projectNme.text.toString()))
             findNavController().safeNavigate(R.id.action_createProjectFragment_to_satelliteConfigurationFragment)
 
           /*  val result = dbControl.addProjectData(prjDataList)
@@ -428,6 +432,15 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     }
 
     private fun setDropdownAdapters() {
+        val coordinateSystemView: ArrayAdapter<String> =
+            ArrayAdapter<String>(
+                this.requireContext(),
+                android.R.layout.select_dialog_item,
+                coordinateSystem
+            )
+        binding.coordinateSystemConn.threshold = 1
+        binding.coordinateSystemConn.setAdapter(coordinateSystemView)    
+
         val datumNameView: ArrayAdapter<String> =
             ArrayAdapter<String>(
                 this.requireContext(),
