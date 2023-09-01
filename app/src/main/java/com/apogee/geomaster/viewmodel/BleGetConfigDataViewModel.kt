@@ -1,6 +1,7 @@
 package com.apogee.geomaster.viewmodel
 
 import android.app.Application
+import android.app.Service
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.apogee.geomaster.repository.GetBluetoothConfigDataRepository
@@ -24,20 +25,29 @@ class BleGetConfigDataViewModel(application: Application) : AndroidViewModel(app
 
     }
 
-    fun getServiceId(): List<String>? {
+    fun getServiceId(model_id: String): List<String>? {
 
-        return getBluetoothConfigDataRepository.getServiceIds()
+        return getBluetoothConfigDataRepository.getServiceIds(model_id)
+
+    }
+    fun getModelId(device_name: String): List<String>? {
+
+        return getBluetoothConfigDataRepository.getModelId(device_name)
+
+    }
+    fun getModelName(deviceName: String): List<String>? {
+
+        return getBluetoothConfigDataRepository.getModelName(deviceName)
 
     }
 
-    fun getCharacteristicId(): List<String>? {
+    fun getCharacteristicId(service_id: String): List<String>? {
 
-        return getBluetoothConfigDataRepository.getCharacteristicIds()
+        return getBluetoothConfigDataRepository.getCharacteristicIds(service_id)
 
     }
 
     init {
-
         observerDataListener()
     }
 

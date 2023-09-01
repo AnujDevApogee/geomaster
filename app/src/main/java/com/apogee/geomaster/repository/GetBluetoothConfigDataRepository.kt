@@ -50,7 +50,7 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
     fun getConfigData(deviceName: String) {
 
         ApiCall().postDataWithBody(
-            "NAVIK200-1.1",
+            deviceName,
             this,
             "http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getBluetoothConfigurationData/",
             50
@@ -93,15 +93,28 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
 
     }
 
+    fun getModelId(device_name: String): List<String>?
+    {
+        var query=" select module_device_id from device_map dm,device d1,device d2,model m1,model m2" +
+                " where dm.active='Y' and d1.active='Y' and m1.active='Y' and m2.active='Y' " +
+                " and dm.finished_device_id=d1.id and dm.module_device_id=d2.id and d1.model_id=m1.id and d2.model_id=m2.id and m2.model_type_id='2'  and m1.device_no='"+device_name+"' "
+        val data = tableCreator.executeStaticQuery(query)
+        return data
+    }
 
-    fun getServiceIds(): List<String>? {
-        val data = tableCreator.executeStaticQuery("SELECT service_uuid FROM services where services_id = '2' ")
+    fun getServiceIds(device_id: String): List<String>? {
+        val data = tableCreator.executeStaticQuery("SELECT service_uuid FROM services where device_id = '"+device_id+"'")
+
+        return data
+    }
+    fun getModelName(device_name : String): List<String>? {
+        val data = tableCreator.executeStaticQuery("SELECT model_id FROM model where device_no = '"+device_name+"' ")
 
         return data
     }
 
-    fun getCharacteristicIds(): List<String>? {
-        val uuidRead = tableCreator.executeStaticQuery("SELECT uuid,char_name FROM charachtristics where service_id = '2' ")
+    fun getCharacteristicIds(device_id : String): List<String>? {
+        val uuidRead = tableCreator.executeStaticQuery("SELECT uuid,char_name FROM charachtristics where device_id = '"+device_id+"' ")
 
         return uuidRead
     }

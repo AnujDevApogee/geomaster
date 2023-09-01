@@ -1,15 +1,21 @@
 package com.apogee.geomaster.repository
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.apogee.basicble.Utils.DBResponseModel
+import com.apogee.basicble.Utils.DelimeterResponse
+import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
+
 
 class DatabaseRepsoitory(context: Context) {
     val TAG = "DBControl"
@@ -1631,7 +1637,6 @@ class DatabaseRepsoitory(context: Context) {
             val jsonArray = jsonObject.getJSONArray(key)
             try {
                 for (i in 0 until jsonArray.length()) {
-
                     dataList.clear()
                     val jsonObject1: JSONObject = jsonArray.getJSONObject(i)
                     if (key.equals("model")) {
@@ -2089,7 +2094,121 @@ class DatabaseRepsoitory(context: Context) {
     fun BluetoothConfigurationData(apiResponse: String) {
         insertDBData(apiResponse)
     }
+    fun getFixedResponse(param_id: String,value: String): Cursor? {
+        val query =
+            (" select * from fixed_response fr,fixed_response_value frv where fr.active='Y' and frv.active='Y' "
+                    + " and fr.fixed_response_id=frv.fixed_response_id and fr.parameter_id='" + param_id + "'  "
+                    + " and frv.select_value='" + value + "' ")
+        return tableCreator.executeStaticQueryForCursor(query)
+    }
+    fun getParameterResponse(param: String): Cursor? {
+        val query =
+            (" select * from parameter2 p,parameter_type pt where p.active='Y' and pt.active='Y' "
+                    + " and p.parameter_type_id=pt.parameter_type_id "
+                    + " and p.parameter_name='" + param + "' and p.parameter_type_id in(8,9,10) ")
+        return tableCreator.executeStaticQueryForCursor(query)
+    }
 
+
+    //Get All Response Data on bases of command_id from Database
+    @SuppressLint("Range")
+    fun getResponseList(id: Int): ArrayList<DBResponseModel>? {
+        val list: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
+        try {
+            var cursor = tableCreator.executeStaticQueryForCursor("SELECT * FROM response where command_id=$id order by response_type_id asc")
+            if(cursor!=null) {
+                for (i in 0 until cursor.count) {
+                    cursor.moveToPosition(i)
+                    val response_id = cursor.getString(cursor.getColumnIndex("response_id"))
+                    val response = cursor.getString(cursor.getColumnIndex("response"))
+                    val response_type_id =
+                        cursor.getString(cursor.getColumnIndex("response_type_id"))
+                    val data_extract_type =
+                        cursor.getString(cursor.getColumnIndex("data_extract_type"))
+                    val command_accepted =
+                        cursor.getString(cursor.getColumnIndex("command_accepted"))
+                    val all_param_list = ArrayList<String>()
+                    val p_query = "select * from parameter where active='Y'"
+                    val p_cursor = tableCreator.executeStaticQueryForCursor(p_query)
+                    while (p_cursor!!.moveToNext()) {
+                        all_param_list.add(p_cursor.getString(1))
+                    }
+                    val all_delimeter_list = ArrayList<DelimeterResponse>()
+                    val query = (" select * from delimeter_validation  where active='Y' "
+                            + " and response_id='" + response_id + "'")
+                    val d_cursor =  tableCreator.executeStaticQueryForCursor(query)
+                    while (d_cursor!!.moveToNext()) {
+                        val delimeter_validation_id =
+                            d_cursor.getString(d_cursor.getColumnIndex("delimeter_validation_id"))
+                        val validation_value =
+                            d_cursor.getString(d_cursor.getColumnIndex("validation_value"))
+                        val validation_index =
+                            d_cursor.getString(d_cursor.getColumnIndex("validation_index"))
+                        val remark = d_cursor.getString(d_cursor.getColumnIndex("remark"))
+                        val type = d_cursor.getString(d_cursor.getColumnIndex("type"))
+                        val sateliteTypeList = ArrayList<SateliteTypeModel>()
+                        val query1 =
+                            (" select * from satellite_type_delimeter_mapping  where active='Y' "
+                                    + " and delimeter_validation_id='" + delimeter_validation_id + "'")
+                        val cursor1 = tableCreator.executeStaticQueryForCursor(query1)
+                        while (cursor1!!.moveToNext()) {
+                            val satelite_type1 =
+                                cursor1.getString(cursor1.getColumnIndex("satellite_type"))
+                            val start_prn1 = cursor1.getString(cursor1.getColumnIndex("start_prn"))
+                            val end_prn1 = cursor1.getString(cursor1.getColumnIndex("end_prn"))
+                            sateliteTypeList.add(
+                                SateliteTypeModel(
+                                    satelite_type1,
+                                    start_prn1,
+                                    end_prn1
+                                )
+                            )
+                        }
+                        all_delimeter_list.add(
+                            DelimeterResponse(
+                                validation_value,
+                                validation_index,
+                                remark,
+                                type,
+                                sateliteTypeList
+                            )
+                        )
+                    }
+                    if (response_type_id == "1") {
+                        list.add(
+                            DBResponseModel(
+                                response,
+                                response_id,
+                                response_type_id,
+                                data_extract_type,
+                                command_accepted,
+                                1,
+                                all_param_list,
+                                all_delimeter_list
+                            )
+                        )
+                    } else {
+                        list.add(
+                            DBResponseModel(
+                                response,
+                                response_id,
+                                response_type_id,
+                                data_extract_type,
+                                command_accepted,
+                                0,
+                                all_param_list,
+                                all_delimeter_list
+                            )
+                        )
+                    }
+                    Log.d(TAG, "getResponseId: $response_id")
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG, "getResponseIdError: $e")
+        }
+        return list
+    }
 
 }
 

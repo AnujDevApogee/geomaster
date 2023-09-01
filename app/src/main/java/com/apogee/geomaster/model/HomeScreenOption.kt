@@ -55,7 +55,8 @@ data class HomeScreenOption(
             HomeScreenOption(
                 icon = R.drawable.connection,
                 "Connection",
-                navId =R.id.action_global_bluetoothscandevicefragment
+                navId = R.id.action_global_bluetoothscandevicefragment
+
             ), HomeScreenOption(
                 icon = R.drawable.rover,
                 "Rover",
