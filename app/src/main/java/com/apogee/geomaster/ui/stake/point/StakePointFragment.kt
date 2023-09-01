@@ -1,9 +1,11 @@
 package com.apogee.geomaster.ui.stake.point
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.StakePointAdaptor
@@ -12,9 +14,14 @@ import com.apogee.geomaster.model.SurveyModel
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.OnSwipeTouchListener
+import com.apogee.geomaster.utils.compassOverlay
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.hide
+import com.apogee.geomaster.utils.scaleOverlay
 import com.apogee.geomaster.utils.show
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.views.CustomZoomButtonsController
 
 
 class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
@@ -32,18 +39,32 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
         binding.cvSliderOption.setOnTouchListener(swipeGesture(binding.infoLayout, false))
         binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true))
 
+        setupMap()
         setUpAdaptor()
 
 
     }
 
+    private fun setupMap() {
+        Configuration.getInstance().load(
+            requireActivity(),
+            PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        )
+        binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+        binding.mapView.overlayManager.tilesOverlay.loadingBackgroundColor = Color.TRANSPARENT
+        binding.mapView.setMultiTouchControls(true)
+        binding.mapView.overlays.add(requireActivity().scaleOverlay(binding.mapView))
+        binding.mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
+        binding.mapView.overlays.add(requireActivity().compassOverlay(binding.mapView))
+    }
+
     private fun setUpAdaptor() {
         navStakePointAdaptor = StakePointAdaptor(object : OnItemClickListener {
             override fun <T> onClickListener(response: T) {
-
+                binding.drawerPoint.close()
             }
         })
-        binding.listSlide.adapter=navStakePointAdaptor
+        binding.listSlide.adapter = navStakePointAdaptor
         binding.listSlide.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),

@@ -112,7 +112,8 @@ dependencies {
 
     implementation 'org.osmdroid:osmdroid-android:6.1.16'
 
-
+    //Preference
+    implementation "androidx.preference:preference-ktx:1.2.1"
     // Permission
     implementation 'com.guolindev.permissionx:permissionx:1.7.1'
 
