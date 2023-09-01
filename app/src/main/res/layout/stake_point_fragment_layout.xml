@@ -259,6 +259,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
                     android:orientation="vertical">
 
                     <ImageView
@@ -348,8 +349,10 @@
                             android:background="@drawable/buttondesign1"
                             android:drawableLeft="@drawable/instrumentrovericoninactive"
                             android:padding="@dimen/three_dp"
-                            android:text="Mannual INPUT POINT"
-                            android:textColor="@color/black"
+                            android:text="Manual Input Point"
+                            android:paddingEnd="10dp"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"
                             app:layout_constraintRight_toRightOf="@id/tvstop"
                             app:layout_constraintTop_toTopOf="@id/antenna_txt" />
 
@@ -518,7 +521,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
                 <ListView
                     android:id="@+id/list_slidermenu"

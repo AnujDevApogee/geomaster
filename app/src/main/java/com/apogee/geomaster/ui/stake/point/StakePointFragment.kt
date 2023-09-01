@@ -2,6 +2,7 @@ package com.apogee.geomaster.ui.stake.point
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
@@ -57,7 +58,7 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
 
             override fun onSwipeLeft() {
                 super.onSwipeLeft()
-                createLog("TOUCH_MSG","Bottom LEFT")
+                createLog("TOUCH_MSG", "Bottom LEFT")
             }
 
             override fun onSwipeTop() {
