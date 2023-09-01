@@ -36,7 +36,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     private lateinit var binding: FragmentCommunicationBinding
     private lateinit var bleDeviceAdaptor: BleDeviceAdaptor
     private var bleDeviceScanner: BleDeviceScanner? = null
-    var deviceName = ""
+    var deviceName = "NAVIK50-1.0"
     private val bleConnectionViewModel: BleConnectionViewModel by viewModels()
     private val bleGetConfigDataViewModel: BleGetConfigDataViewModel by viewModels()
     var scanTime: Long = 3000
@@ -73,33 +73,10 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
         getResponse()
 
-        getObserverData()
 
 
-        if (!bleGetConfigDataViewModel.getServiceId().isNullOrEmpty()) {
-
-            serviceId = bleGetConfigDataViewModel.getServiceId()!!.first()
 
 
-        } else if (!bleGetConfigDataViewModel.getCharacteristicId().isNullOrEmpty()) {
-            bleGetConfigDataViewModel.getCharacteristicId()!!.forEach {
-
-
-                if (it.contains("read")) {
-
-                    readCharId = it.split(",".toRegex()).first()
-
-                } else if (it.contains("write")) {
-
-                    writeCharId = it.split(",".toRegex()).first()
-                }
-
-
-                Log.d(TAG, "onViewCreatedit: " + it)
-
-
-            }
-        }
 
         displayActionBar(
             "\t\t\tAdd Device ${getEmojiByUnicode(0x1F4F6)}",
@@ -116,13 +93,14 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
                  deviceAddress = it.device.address
                  deviceName = it.device.name.split("_".toRegex()).first()
-                Log.d(TAG, "onViewCreateddevice_id: " + deviceName)
-                Log.d(TAG, "onViewCreateddevice_id: " + deviceName)
-
-                bleGetConfigDataViewModel.getConfigData("TNAVIK50")
-
-
-
+             //   Log.d(TAG, "onViewCreated: "+bleGetConfigDataViewModel.getModelId(deviceName))
+                 if(bleGetConfigDataViewModel.getModelName(deviceName)!!.size==0)
+                    {
+                        bleGetConfigDataViewModel.getConfigData(deviceName)
+                    }else
+                     {
+                         getObserverData("2")
+                     }
 
             }
             adapter = bleDeviceAdaptor
@@ -182,22 +160,46 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
     }
 
-    private fun getObserverData() {
+    private fun getObserverData(model_id: String) {
+        if (!bleGetConfigDataViewModel.getServiceId(model_id).isNullOrEmpty()) {
+
+            serviceId = bleGetConfigDataViewModel.getServiceId(model_id)!!.first()
+
+
+        } else if (!bleGetConfigDataViewModel.getCharacteristicId(model_id).isNullOrEmpty()) {
+            bleGetConfigDataViewModel.getCharacteristicId(model_id)!!.forEach {
+
+
+                if (it.contains("read")) {
+
+                    readCharId = it.split(",".toRegex()).first()
+
+                } else if (it.contains("write")) {
+
+                    writeCharId = it.split(",".toRegex()).first()
+                }
+
+
+                Log.d(TAG, "onViewCreatedit: " + it)
+
+
+            }
+        }
 
         lifecycleScope.launch {
 
+
             bleGetConfigDataViewModel.getBlutoothData.collect {
 
-                if (it is String) {
-
-                    bleConnectionViewModel.onConnect(
+                    Log.d(TAG, "getObserverData: "+deviceAddress+"=="+serviceId)
+           bleConnectionViewModel.onConnect(
                         deviceAddress,
                         readCharId,
                         writeCharId,
                         serviceId,
                         descriptorId,
-                    )
-                }
+             )
+
 
             }
 
@@ -247,7 +249,10 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     private fun getDeviceSerialNumber() {
         showDeviceAdd(success = {
             showMessage(it)
-            bleGetConfigDataViewModel.getConfigData(deviceName)
+            if(bleGetConfigDataViewModel.getModelName(deviceName)!!.size==0)
+            {
+                bleGetConfigDataViewModel.getConfigData(deviceName)
+            }
             findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
         }, cancel = {
 
