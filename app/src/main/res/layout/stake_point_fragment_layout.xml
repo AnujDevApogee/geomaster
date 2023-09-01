@@ -289,7 +289,7 @@
                             android:background="@drawable/buttondesign1"
                             android:drawableLeft="@drawable/instrumentrovericoninactive"
                             android:padding="@dimen/three_dp"
-                            android:text="No Sol"
+                            android:text="Mannual INPUT POINT"
                             android:textColor="@color/black"
                             app:layout_constraintRight_toRightOf="@id/tvstop"
                             app:layout_constraintTop_toTopOf="@id/antenna_txt" />
@@ -347,8 +347,8 @@
 
                         <ImageView
                             android:id="@+id/home_btn"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginTop="5dp"
                             android:clickable="true"
                             android:focusable="true"
@@ -363,8 +363,8 @@
 
                         <ImageView
                             android:id="@+id/click_btn"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
@@ -377,12 +377,12 @@
 
                         <ImageView
                             android:id="@+id/ic_Cogo"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:src="@drawable/round_calculate"
+                            android:src="@drawable/code_up_down"
                             app:layout_constraintEnd_toStartOf="@+id/stake_point"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/click_btn"
@@ -391,12 +391,12 @@
 
                         <ImageView
                             android:id="@+id/stake_point"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:src="@drawable/stake_point"
+                            android:src="@drawable/triangle"
                             app:layout_constraintEnd_toStartOf="@+id/map_point"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/ic_Cogo"
@@ -406,12 +406,12 @@
 
                         <ImageView
                             android:id="@+id/map_point"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:src="@drawable/map_setting"
+                            android:src="@drawable/dir"
                             app:layout_constraintEnd_toStartOf="@+id/bubble_point"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/stake_point"
@@ -421,13 +421,13 @@
 
                         <ImageView
                             android:id="@+id/bubble_point"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginBottom="5dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
-                            android:src="@drawable/bubble_icon"
+                            android:src="@drawable/ic_setting"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
