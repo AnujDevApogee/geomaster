@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
@@ -522,14 +523,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ListView
-                    android:id="@+id/list_slidermenu"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_slide"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:choiceMode="singleChoice"
-                    android:divider="@color/black"
-                    android:dividerHeight="1dp"
-                    android:textColor="#424242" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/stake_point_item" />
 
             </LinearLayout>
 
