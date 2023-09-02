@@ -64,18 +64,18 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
             if (responseBody != null) {
                 try {
                     coroutineScope.launch {
-                    val responseString = responseBody.string()
-                    Log.d(TAG, "onResponse:Bluetooth $responseString")
-                    async(Dispatchers.IO) {
-                        dbControl.BluetoothConfigurationData(responseString)
-                    }.await()
+                        val responseString = responseBody.string()
+                        Log.d(TAG, "onResponse:Bluetooth $responseString")
+                        async(Dispatchers.IO) {
+                            dbControl.BluetoothConfigurationData(responseString)
+                        }.await()
 
 
-                    val sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context)
-                    val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-                    editor.putString(Constants.BLUTOOTH_RESPONSE_STRING, responseString)
-                    editor.apply()
+                        val sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(context)
+                        val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
+                        editor.putString(Constants.BLUTOOTH_RESPONSE_STRING, responseString)
+                        editor.apply()
 
 
                         _getBlutoothData.value = "Data Inserted Successfully"
@@ -94,24 +94,48 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
     }
 
 
-    fun getServiceIds(device_id: String): List<String>? {
-        val data = tableCreator.executeStaticQuery("SELECT service_uuid FROM services where device_id = '"+device_id+"'")
+    fun getServiceIds(deviceName: String): List<String>? {
+        var query="select module_device_id from device_map dm,device d1,device d2,model m1,model m2 where dm.finished_device_id=d1.device_id and dm.module_device_id=d2.device_id and d1.model_id=m1.model_id and d2.model_id=m2.model_id and d2.device_type_id='3'  and m1.device_no='$deviceName'"
+        Log.d(TAG, "getServiceIds: "+query)
+        var id = tableCreator.executeStaticQuery(
+            query
+        )
+        Log.d(TAG, "getServiceIds: id===$id")
+
+
+        var serviceUUID = getServiceIdFromId(id)
+
+        return serviceUUID
+    }
+
+    private fun getServiceIdFromId(id: List<String>?): List<String>? {
+
+        var serviceUUId = tableCreator.executeStaticQuery("select s.service_uuid,s.services_id from services s,device d,model m , device_map dm,device_characteristic_ble_map dcbm,charachtristics c where dcbm.device_id=d.device_id and dcbm.read_characteristic_id=c.char_id and c.service_id=s.services_id and d.model_id=m.model_id  and dm.module_device_id=d.device_id  and d.device_id='${id!!.get(0)}' ")
+
+//        var serviceId = tableCreator.executeStaticQuery("select s.services_id from services s,device d,model m , device_map dm,device_characteristic_ble_map dcbm,charachtristics c where dcbm.device_id=d.device_id and dcbm.read_characteristic_id=c.char_id and c.service_id=s.services_id and d.model_id=m.model_id  and dm.module_device_id=d.device_id  and d.device_id='${id!!.get(0)}' ")
+//
+//
+
+//        getCharacteristicIds(serviceId)
+
+
+        Log.d(TAG, "getServiceIdFromId: serviceID====$serviceUUId")
+        return serviceUUId
+    }
+
+    fun getModelName(device_name: String): List<String>? {
+        val data =
+            tableCreator.executeStaticQuery("SELECT model_id FROM model where device_no = '" + device_name + "' ")
 
         return data
     }
-    fun getModelName(device_name : String): List<String>? {
-        val data = tableCreator.executeStaticQuery("SELECT model_id FROM model where device_no = '"+device_name+"' ")
 
-        return data
-    }
-
-    fun getCharacteristicIds(device_id : String): List<String>? {
-        val uuidRead = tableCreator.executeStaticQuery("SELECT uuid,char_name FROM charachtristics where device_id = '"+device_id+"' ")
+    fun getCharacteristicIds(serviceId: String): List<String>? {
+        val uuidRead = tableCreator.executeStaticQuery("SELECT uuid,char_name FROM charachtristics where service_id = '${serviceId}' ")
+        Log.d(TAG, "getServiceIdFromId: uuidRead====$uuidRead")
 
         return uuidRead
     }
-
-
 
 
     override fun onFailure(p0: Call<*>?, p1: Throwable?, p2: Int) {

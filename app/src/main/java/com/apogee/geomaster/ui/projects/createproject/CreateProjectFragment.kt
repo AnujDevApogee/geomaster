@@ -120,9 +120,45 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
         binding.zoneProjectionLayout.hide()
         binding.continentLayout.hide()
         binding.countriesLayout.hide()
+        binding.calfilePick.hide()
         binding.geoidLayout.hide()
+        binding.pickdoc.hide()
         setDropdownAdapters()
 
+
+        binding.coordinateSystemConn.setOnItemClickListener { _, _, _, _ ->
+
+            val name = binding.coordinateSystemConn.text.toString().trim()
+            coordinateSystemID = dbControl.getCoordinateSystemID(name)
+
+
+            if (name.equals("Manual",true) || name.equals("Coordinate System",true)) {
+                binding.zoneProjectionLayout.show()
+                binding.calfilePick.hide()
+                binding.zoneProjectionLayout.show()
+                binding.datumNmLayout.show()
+                binding.datumTypeLayout.show()
+                binding.projectionTypeLayout.show()
+                binding.zoneDataLayout.show()
+                binding.zoneDataLayout.show()
+
+                idList["projectionType"] = projectionTypesID.trim()
+
+            } else if (name.equals("CAL File",true)) {
+                binding.zoneProjectionLayout.hide()
+                binding.datumNmLayout.hide()
+                binding.datumTypeLayout.hide()
+                binding.projectionTypeLayout.hide()
+                binding.zoneDataLayout.hide()
+                binding.zoneDataLayout.hide()
+                binding.pickdoc.show()
+                binding.calfilePick.show()
+//                binding.zoneHemisphereLayout.show()
+                idList["projectionType"] = projectionTypesID.trim()
+
+            }
+//            idList["angleUnit"] = angleUnitID.trim()
+        }
 
         binding.angleUnitTxt.setOnItemClickListener { _, _, _, _ ->
 
@@ -312,55 +348,121 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                     "Please enter Project Name",
                     Toast.LENGTH_SHORT
                 ).show();
-            } else if (binding.datumTypeConn.text.toString().equals("Datum Type")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Datum Type",
-                    Toast.LENGTH_SHORT
-                ).show();
-            } else if (binding.datums.text.toString()
-                    .equals("Datum Name") || binding.datums.text.toString()
-                    .equals("+Create Custom Datum")
-            ) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Datum Name",
-                    Toast.LENGTH_SHORT
-                ).show();
-            } else if (binding.projectionTypeConn.text.toString().equals("Type")) {
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Projection Type",
-                    Toast.LENGTH_SHORT
-                ).show();
-            } else if (binding.projectionTypeConn.text.toString()
-                    .equals("LCC") && (binding.zoneProjection.text.toString()
-                    .equals("Type") || binding.zoneProjection.text.toString()
-                    .equals("Add Custom Projection"))
-            ) {
+            } else{
+                if (binding.coordinateSystemConn.text.toString().equals("Coordinate System")) {
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Please select Coordinate System",
+                        Toast.LENGTH_SHORT
+                    ).show();
+                }else{
+                    if (binding.coordinateSystemConn.text.toString().equals("CAL File")) {
+                        if (binding.elevationKey.text.toString().equals("Elevation")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Elevation",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        }else  if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Distance Unit",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        } else if (binding.angleUnitTxt.text.toString().equals("Angle Unit")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Angle Unit",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        } else {
+                            Log.d(tag, "onViewCreated: LCC")
+                            setConfigurationPrams()
+                        }
+                    }
+                    else if(binding.coordinateSystemConn.text.toString().equals("Manual"))
+                    {
+                        if (binding.datumTypeConn.text.toString().equals("Datum Type")) {
 
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select Projection Parameter",
-                    Toast.LENGTH_SHORT
-                ).show();
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Datum Type",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                        else if (binding.datums.text.toString()
+                                .equals("Datum Name") || binding.datums.text.toString()
+                                .equals("+Create Custom Datum")
+                        ) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Datum Name",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        } else if (binding.projectionTypeConn.text.toString().equals("Type")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Projection Type",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                        else if (binding.projectionTypeConn.text.toString()
+                                .equals("LCC") && (binding.zoneProjection.text.toString()
+                                .equals("Type") || binding.zoneProjection.text.toString()
+                                .equals("Add Custom Projection"))
+                        ) {
 
-            } else if (binding.projectionTypeConn.text.toString()
-                    .equals("UTM") && binding.zoneData.text.toString().equals("Zone Data")
-            ) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Projection Parameter",
+                                Toast.LENGTH_SHORT
+                            ).show();
 
-                Toast.makeText(
-                    this.requireContext(),
-                    "Please select a Zone ",
-                    Toast.LENGTH_SHORT
-                ).show();
-            } else if (binding.elevationKey.text.toString().equals("Elevation")) {
+                        } else if (binding.projectionTypeConn.text.toString()
+                                .equals("UTM") && binding.zoneData.text.toString().equals("Zone Data")
+                        ) {
+
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select a Zone ",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                       else if (binding.elevationKey.text.toString().equals("Elevation")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Elevation",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        }else  if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Distance Unit",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        } else if (binding.angleUnitTxt.text.toString().equals("Angle Unit")) {
+                            Toast.makeText(
+                                this.requireContext(),
+                                "Please select Angle Unit",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        } else {
+                            Log.d(tag, "onViewCreated: LCC")
+                            setConfigurationPrams()
+                        }
+
+                    }
+                }
+            }
+
+
+             if (binding.elevationKey.text.toString().equals("Elevation")) {
                 Toast.makeText(
                     this.requireContext(),
                     "Please select Elevation",
                     Toast.LENGTH_SHORT
                 ).show();
-            } else if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
+            }else  if (binding.distanceTxt.text.toString().equals("Distance Unit")) {
                 Toast.makeText(
                     this.requireContext(),
                     "Please select Distance Unit",
@@ -409,21 +511,9 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
             prjDataList.add("sdfsdf")
             findNavController().safeNavigate(CreateProjectFragmentDirections.actionCreateProjectFragmentToSatelliteConfigurationFragment(binding.projectNme.text.toString()))
             findNavController().safeNavigate(R.id.action_createProjectFragment_to_satelliteConfigurationFragment)
-
-          /*  val result = dbControl.addProjectData(prjDataList)
-            if(result.equals("Data inserted successfully")){
-                Toast.makeText(this.requireContext(), "Data inserted successfully",Toast.LENGTH_SHORT ).show()
-                findNavController().safeNavigate(R.id.action_createProjectFragment_to_satelliteConfigurationFragment)
-            }else{
-                Toast.makeText(this.requireContext(), result,Toast.LENGTH_SHORT ).show()
-            }*/
-
-
         } else {
             Toast.makeText(this.requireContext(), "Error Occured", Toast.LENGTH_SHORT).show()
         }
-
-
     }
 
     override fun onPause() {
@@ -439,7 +529,7 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
                 coordinateSystem
             )
         binding.coordinateSystemConn.threshold = 1
-        binding.coordinateSystemConn.setAdapter(coordinateSystemView)    
+        binding.coordinateSystemConn.setAdapter(coordinateSystemView)
 
         val datumNameView: ArrayAdapter<String> =
             ArrayAdapter<String>(

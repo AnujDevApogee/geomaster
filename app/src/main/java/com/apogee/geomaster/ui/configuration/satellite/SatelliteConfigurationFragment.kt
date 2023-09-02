@@ -3,7 +3,6 @@ package com.apogee.geomaster.ui.configuration.satellite
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,7 +12,6 @@ import com.apogee.geomaster.databinding.SatelliteConfigurationFragmentBinding
 import com.apogee.geomaster.model.SatelliteModel
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
-import com.apogee.geomaster.ui.configuration.miscellaneous.MiscellaneousFragmentArgs
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 
@@ -23,7 +21,7 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
     private lateinit var adaptor: SatelliteScreenAdaptor
     private lateinit var dbControl: DatabaseRepsoitory
     private val args by navArgs<SatelliteConfigurationFragmentArgs>()
-
+    val TAG = "SatelliteConfigurationFragment"
 
     var satelliteDetails: ArrayList<SatelliteModel> = ArrayList()
     var satelliteStatusList: ArrayList<SatelliteModel> = ArrayList()
@@ -32,13 +30,13 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
         super.onViewCreated(view, savedInstanceState)
         dbControl = DatabaseRepsoitory(this.requireContext())
         binding = SatelliteConfigurationFragmentBinding.bind(view)
-        Log.d("TAG", "onViewCreated:Satellite args${args.surveyConfigName} ")
+        Log.d(TAG, "onViewCreated:Satellite args${args.surveyConfigName} ")
         displayActionBar("Satellite Configuration", binding.actionLayout)
         (activity as HomeScreen?)?.hideActionBar()
         setRecycleView()
         val satelliteList = dbControl.getSatelliteDataList()
         satelliteDetails.clear()
-        Log.d("TAG", "onViewCreated: satelliteList --$satelliteList")
+        Log.d(TAG, "onViewCreated: satelliteList --$satelliteList")
         for (i in satelliteList!!.indices) {
             satelliteDetails.add(
                 SatelliteModel(
@@ -59,42 +57,48 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
         }
 
 
-        Log.d("TAG", "TEST: TESTsatelliteDetails--$satelliteDetails")
+        Log.d(TAG, "TEST: TESTsatelliteDetails--$satelliteDetails")
         adaptor.notifyDataSetChanged()
         adaptor.submitList(satelliteDetails)
         binding.doneBtn.setOnClickListener {
-            Log.i("LIST_DATA", "onViewCreated: $satelliteDetails")
-            var count = 0
-            for (i in satelliteDetails) {
-                Log.d("TAG","onViewCreated:satelliteName ${i.satelliteName + "," + i.satelliteStatus}")
-                val result = dbControl.insertSatelliteDataList(i.satelliteName + "," + i.satelliteStatus)
-                if (result.equals("[]")) {
-                    count++
+            try {
+                Log.i("LIST_DATA", "onViewCreated: $satelliteDetails")
+                val result = dbControl.insertSatelliteConfiguration(args.surveyConfigName + "SatConfig")
+                Log.d(TAG, "onViewCreated: result$result")
+                if (result != 0) {
+                    val satelliteConfigID =
+                        dbControl.getSatelliteConfigurationID(args.surveyConfigName + "SatConfig")
+
+
+                    val resultmapping = dbControl.insertSatelliteMappingDataasas(
+                        satelliteConfigID,
+                        satelliteDetails
+                    )
+                    findNavController().safeNavigate(SatelliteConfigurationFragmentDirections.
+                    actionSatelliteConfigurationFragmentToMiscellaneousFragment(args.surveyConfigName,"${args.surveyConfigName}SatConfig"))
+                    Log.d("TAG", "onViewCreated: resultConfigInsert--$resultmapping")
+                    Log.d(TAG, "onViewCreated: satelliteConfigID IF--$satelliteConfigID")
+                } else {
+                    Log.d(TAG, "onViewCreated: satelliteConfigID Else")
                 }
-                Log.d("TAG", "onViewCreated:Result $result ")
+
+
+            } catch (e: Exception) {
+                Log.d(TAG, "onViewCreated:Exception ${e.message} ")
             }
-            if (count == 4) {
-
-                //findNavController().safeNavigate(R.id.action_satelliteConfigurationFragment_to_miscellaneousFragment)
-                findNavController().safeNavigate(SatelliteConfigurationFragmentDirections.actionSatelliteConfigurationFragmentToMiscellaneousFragment(satelliteDetails.toTypedArray(),args.surveyConfigName,))
-            } else {
-                Log.d("TAG", "onViewCreated:count $count ")
-
-            }
-
         }
     }
 
     private fun setRecycleView() {
         binding.recycleView.apply {
             this@SatelliteConfigurationFragment.adaptor = SatelliteScreenAdaptor { position, op ->
-                Log.d("TAG", "setRecycleView: $op")
+                Log.d(TAG, "setRecycleView: $op")
                 try {
                     satelliteDetails.removeAt(position)
                     satelliteDetails.add(position, op)
 
                 } catch (e: Exception) {
-                    Log.d("TAG", "setRecycleView:Exception ${e.message} ")
+                    Log.d(TAG, "setRecycleView:Exception ${e.message} ")
                 }
             }
             adapter = this@SatelliteConfigurationFragment.adaptor

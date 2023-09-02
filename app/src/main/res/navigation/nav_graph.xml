@@ -208,11 +208,12 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
-        <argument
-            android:name="satellite_data_values"
-            app:argType="com.apogee.geomaster.model.SatelliteModel[]" />
+
         <argument
             android:name="survey_config_name"
+            app:argType="string" />
+        <argument
+            android:name="satelliteConfigName"
             app:argType="string" />
 
     </fragment>
@@ -226,10 +227,10 @@
             app:destination="@id/deviceConfiguration" />
 
         <argument
-            android:name="satellite_data_list"
-            app:argType="com.apogee.geomaster.model.SatelliteModel[]" />
-        <argument
             android:name="survey_config_name"
+            app:argType="string" />
+        <argument
+            android:name="satelliteConfigName"
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_bluetoothscandevicefragment" app:destination="@id/bluetoothscandevicefragment" />

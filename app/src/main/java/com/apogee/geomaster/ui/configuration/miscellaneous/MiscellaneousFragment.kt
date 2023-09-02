@@ -15,7 +15,6 @@ import com.apogee.geomaster.utils.safeNavigate
 class MiscellaneousFragment : Fragment(R.layout.miscellaneous_layout) {
 
     private lateinit var binding: MiscellaneousLayoutBinding
-
     private val args by navArgs<MiscellaneousFragmentArgs>()
 
 
@@ -23,9 +22,9 @@ class MiscellaneousFragment : Fragment(R.layout.miscellaneous_layout) {
         super.onViewCreated(view, savedInstanceState)
         binding = MiscellaneousLayoutBinding.bind(view)
         displayActionBar("Miscellaneous Configuration", binding.actionLayout)
-        Log.d("TAG", "onViewCreated:  args.item ${args.satelliteDataList}---${args.surveyConfigName}")
+        Log.d("TAG", "onViewCreated:  args.item---${args.surveyConfigName},${args.satelliteConfigName}")
         binding.doneBtn.setOnClickListener {
-            findNavController().safeNavigate(MiscellaneousFragmentDirections.actionMiscellaneousFragmentToDeviceConfiguration(args.satelliteDataList,args.surveyConfigName))
+            findNavController().safeNavigate(MiscellaneousFragmentDirections.actionMiscellaneousFragmentToDeviceConfiguration(args.surveyConfigName,args.satelliteConfigName))
         }
 
     }
