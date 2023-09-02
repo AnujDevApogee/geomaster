@@ -2,18 +2,32 @@ package com.apogee.geomaster.adaptor
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.AsyncListUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.apogee.geomaster.databinding.StakePointItemBinding
 import com.apogee.geomaster.model.SurveyModel
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.createLog
 
 
 class StakePointAdaptor(private val itemClicked: OnItemClickListener) :
     ListAdapter<SurveyModel, StakePointAdaptor.StakeViewHolder>(diffUtil) {
-    
 
+    private val asyncDiffUtil: AsyncListDiffer<SurveyModel> = AsyncListDiffer(this, diffUtil)
+
+
+    override fun getItemCount(): Int {
+        return asyncDiffUtil.currentList.size
+    }
+
+    override fun submitList(list: MutableList<SurveyModel>?) {
+        createLog("ls_hit","from submit list ${list?.size}")
+        asyncDiffUtil.submitList(list)
+
+    }
     inner class StakeViewHolder(private val binding: StakePointItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -48,9 +62,13 @@ class StakePointAdaptor(private val itemClicked: OnItemClickListener) :
         return StakeViewHolder(binding)
     }
 
+    override fun getItem(position: Int): SurveyModel {
+        return asyncDiffUtil.currentList[position]
+    }
+
     override fun onBindViewHolder(holder: StakeViewHolder, position: Int) {
         val currItem = getItem(position)
-        currItem?.let {
+        currItem.let {
             holder.setData(it, itemClicked)
         }
     }
