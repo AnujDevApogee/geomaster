@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Html
-import android.text.Spannable
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
@@ -15,7 +13,6 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
-import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -30,6 +27,19 @@ fun Context.toastMsg(msg: String) {
 object ApiUtils {
     val POST_GET_TABLE_RECORDS =
         Pair("http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getAllTableRecords/", 102)
+}
+
+object StakeHelper {
+    const val LONGITUDE = "LONGITUDE"
+    const val LATITUDE = "LATITUDE"
+    const val ELEVATION = "ELEVATION"
+    const val XAXIS = "XAXIS"
+    const val YAXIS = "YAXIS"
+    const val ZAXIS = "ZAXIS"
+    const val ANGLE = "ANGLE"
+    const val DISTANCE = "DISTANCE"
+    const val NORTH_SOUTH = "NORTH_SOUTH"
+    const val EAST_WEST = "EAST_WEST"
 }
 
 fun isInvalidString(txt: String?) = txt.isNullOrEmpty() || txt.isBlank() || txt == "null"

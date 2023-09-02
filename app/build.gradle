@@ -112,6 +112,9 @@ dependencies {
 
     implementation 'org.osmdroid:osmdroid-android:6.1.16'
 
+    //GPS Location
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
     //Preference
     implementation "androidx.preference:preference-ktx:1.2.1"
     // Permission

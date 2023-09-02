@@ -6,8 +6,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.api.IMapController
+import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.MapController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.Projection
 import org.osmdroid.views.overlay.ScaleBarOverlay
@@ -50,5 +50,12 @@ fun plotPointOnMap(points: MutableList<IGeoPoint>): SimpleFastPointOverlay {
 
 fun IMapController.zoomToPoint(zoom: Double, geoPoint: GeoPoint) {
     setCenter(geoPoint)
-    animateTo(geoPoint,zoom,2)
+    animateTo(geoPoint, zoom, 2)
+}
+
+
+fun MapView.zoomAndAnimateToPoints(ls: List<GeoPoint>) {
+    val boundingBox = BoundingBox.fromGeoPoints(ls)
+    zoomToBoundingBox(boundingBox, true)
+    invalidate()
 }

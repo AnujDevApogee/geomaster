@@ -2,6 +2,7 @@ package com.apogee.geomaster.ui.stake.point
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -18,20 +19,26 @@ import com.apogee.geomaster.model.SurveyModel
 import com.apogee.geomaster.repository.FakeStakePointRepository
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.DrawCircles
+import com.apogee.geomaster.utils.DrawLinePoint
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.OnSwipeTouchListener
+import com.apogee.geomaster.utils.RADIUS
+import com.apogee.geomaster.utils.StakeHelper
 import com.apogee.geomaster.utils.compassOverlay
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.plotPointOnMap
 import com.apogee.geomaster.utils.scaleOverlay
 import com.apogee.geomaster.utils.show
+import com.apogee.geomaster.utils.zoomAndAnimateToPoints
 import com.apogee.geomaster.utils.zoomToPoint
 import com.apogee.geomaster.viewmodel.StakePointViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
+import org.osmdroid.api.IGeoPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -47,6 +54,9 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
 
     private val viewModel: StakePointViewModel by viewModels()
 
+    private var currentLocation: GeoPoint? = null
+    private var isUpdateMap: Boolean = false
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,36 +68,70 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
         setupMap()
         setUpAdaptor()
         getPoints()
-        getGeoPoint()
+        getCoordinate()
+
     }
 
-    private fun getGeoPoint() {
+    @SuppressLint("SetTextI18n")
+    private fun getCoordinate() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.pointData
-                    .buffer(Channel.UNLIMITED)
-                    .collect { res ->
-                        res?.let {
-                            when (it) {
-                                is ApiResponse.Error -> {}
-                                is ApiResponse.Loading -> {}
-                                is ApiResponse.Success -> {
-                                    val ls = it.data
-                                    createLog("TAG_INFO", "LIST IS THERE ${ls?.size}")
-                                    if (!ls.isNullOrEmpty()) {
-                                        binding.mapView.overlays.add(plotPointOnMap(ls))
-                                        binding.mapView.controller.zoomToPoint(
-                                            12.5,
-                                            GeoPoint(ls.first().latitude, ls.first().longitude,FakeStakePointRepository.altitude)
-                                        )
+                viewModel.currentData.collect { res ->
+                    res?.let {
+                        when (it) {
+                            is ApiResponse.Error -> {}
+                            is ApiResponse.Loading -> {}
+                            is ApiResponse.Success -> {
+                                val data = it.data!!
+                                val latitude = data[StakeHelper.LATITUDE] as Double
+                                val longitude = data[StakeHelper.LONGITUDE] as Double
+
+                                binding.northIngTxt.text = "N :${latitude}"
+                                binding.eastingTxt.text = "E :${longitude}"
+                                binding.elevationKy.text =
+                                    "Elevation :${data[StakeHelper.ELEVATION]}"
+                                binding.altiuide.text = "Altitude :${data[StakeHelper.ELEVATION]}"
+                                binding.tvSigmaX.text = ("σ X : ${data[StakeHelper.XAXIS]}")
+                                binding.tvSigmaY.text = ("σ Y : ${data[StakeHelper.YAXIS]}")
+                                binding.tvSigmaZ.text = ("σ Z : ${data[StakeHelper.ZAXIS]}")
+
+                                currentLocation?.let { desLocation ->
+                                    if (isUpdateMap) {
+                                        binding.mapView.overlays.removeAt(binding.mapView.overlays.size - 2)
+                                        binding.mapView.overlays.removeAt(binding.mapView.overlays.size - 3)
+                                        binding.mapView.overlays.removeAt(binding.mapView.overlays.size - 4)
+                                    } else {
+                                        isUpdateMap = true
                                     }
+                                    val startPoint = GeoPoint(latitude, longitude)
+                                    val points: MutableList<IGeoPoint> = ArrayList()
+                                    points.add(LabelledGeoPoint(latitude, longitude, "Me"))
+                                    binding.mapView.overlays.add(plotPointOnMap(points))
+                                    binding.mapView.overlays.add(
+                                        DrawLinePoint(
+                                            desLocation,
+                                            startPoint
+                                        )
+                                    )
+                                    binding.mapView.overlays.add(
+                                        DrawCircles(
+                                            desLocation,
+                                            Paint(Paint.ANTI_ALIAS_FLAG),
+                                            RADIUS,//meter
+                                            Color.RED
+                                        )
+                                    )
+
                                 }
+
                             }
                         }
                     }
+                }
             }
         }
     }
+
 
     private fun getPoints() {
         lifecycleScope.launch {
@@ -103,7 +147,23 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
                                 is ApiResponse.Loading -> {}
                                 is ApiResponse.Success -> {
                                     val ls = it.data
-                                    navStakePointAdaptor.submitList(ls)
+                                    createLog(
+                                        "TAG_INFO",
+                                        "LIST IS THERE POINTS ${ls?.second?.size} STOCK ${ls?.first?.size}"
+                                    )
+
+                                    if (ls != null && ls.first.isNotEmpty() && ls.second.isNotEmpty()) {
+                                        navStakePointAdaptor.submitList(ls.first)
+                                        binding.mapView.overlays.add(plotPointOnMap(ls.second))
+                                        binding.mapView.controller.zoomToPoint(
+                                            12.5,
+                                            GeoPoint(
+                                                ls.second.first().latitude,
+                                                ls.second.first().longitude,
+                                                FakeStakePointRepository.altitude
+                                            )
+                                        )
+                                    }
 
                                 }
                             }
@@ -131,13 +191,15 @@ class StakePointFragment: Fragment(R.layout.stake_point_fragment_layout) {
             override fun <T> onClickListener(response: T) {
                 binding.drawerPoint.close()
                 if (response is SurveyModel) {
+                    currentLocation = GeoPoint(response.easting, response.northing)
                     val obj = LabelledGeoPoint(
                         response.easting,
                         response.northing,
                         response.pointName
                     )
-                    binding.mapView.overlays.add(plotPointOnMap(mutableListOf(obj)))
-                    binding.mapView.controller.setCenter(obj)
+                    //binding.mapView.overlays.add(plotPointOnMap(mutableListOf(obj)))
+
+                    binding.mapView.zoomAndAnimateToPoints(listOf(obj))
                 }
             }
         })

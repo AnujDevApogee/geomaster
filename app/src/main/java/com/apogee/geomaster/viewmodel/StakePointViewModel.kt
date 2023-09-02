@@ -17,27 +17,35 @@ import org.osmdroid.api.IGeoPoint
 
 class StakePointViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _data = MutableStateFlow<ApiResponse<MutableList<SurveyModel>>?>(null)
-    val data: StateFlow<ApiResponse<MutableList<SurveyModel>>?>
+    private val _data =
+        MutableStateFlow<ApiResponse<Pair<MutableList<SurveyModel>, MutableList<IGeoPoint>>>?>(null)
+    val data: StateFlow<ApiResponse<Pair<MutableList<SurveyModel>, MutableList<IGeoPoint>>>?>
         get() = _data
 
+    private val _currentData = MutableStateFlow<ApiResponse<HashMap<String, Any>>?>(null)
+    val currentData: StateFlow<ApiResponse<HashMap<String, Any>>?>
+        get() = _currentData
 
-    private val _pointData = MutableStateFlow<ApiResponse<MutableList<IGeoPoint>>?>(null)
-    val pointData: StateFlow<ApiResponse<MutableList<IGeoPoint>>?>
-        get() = _pointData
 
-
-    private val repo = StakePointRepository()
+    private val repo = StakePointRepository(application)
 
     init {
+        pointOnMap()
+        currCoordinate()
+    }
+
+    private fun currCoordinate() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.data.buffer(Channel.UNLIMITED).collect {
                 _data.value = it
             }
         }
+    }
+
+    private fun pointOnMap() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.pointData.buffer(Channel.UNLIMITED).collect {
-                _pointData.value = it
+            repo.currentData.buffer(Channel.UNLIMITED).collect {
+                _currentData.value = it
             }
         }
     }

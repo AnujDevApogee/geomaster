@@ -6,5 +6,5 @@ interface MockStakePointImpl {
 
     fun receivePoint(surveyModel: SurveyModel)
 
-    fun stakePoint(hashMap: HashMap<String, String>)
+    fun stakePoint(hashMap: HashMap<String, Any>)
 }
