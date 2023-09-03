@@ -141,7 +141,14 @@ fun isProperLength(distance: Double): String {
           if (distance.toInt() <= 1000) {
               return decimalFormat.format((distance / 1000)) + " Km"
           }*/
+    if (distance.toInt()>=1000){
+        return decimalFormat.format((distance / 1000)) + " Km"
+    }
 
     return decimalFormat.format(distance) + " m"
 
+}
+
+fun getConvertDecimal(value:Double,type:String="#.###"): String {
+    return  DecimalFormat(type).format(value)
 }

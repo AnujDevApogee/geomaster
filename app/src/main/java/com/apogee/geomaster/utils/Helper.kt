@@ -1,5 +1,6 @@
 package com.apogee.geomaster.utils
 
+import android.R
 import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
@@ -11,7 +12,10 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -126,3 +130,14 @@ fun NavController.safeNavigate(direction: Int) {
 fun createLog(tag: String, msg: String) {
     Log.i(tag, "createLog: $msg")
 }
+
+
+fun TextView.changeIconDrawable(id:Int){
+    val tintColor = ContextCompat.getColor(context, R.color.holo_green_dark)
+    var drawable = ContextCompat.getDrawable(context, id)
+    drawable = DrawableCompat.wrap(drawable!!)
+    DrawableCompat.setTint(drawable.mutate(), tintColor)
+    drawable.setBounds( 0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    setCompoundDrawables(drawable, null, null, null)
+}
+

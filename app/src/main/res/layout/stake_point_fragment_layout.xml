@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:layout_width="match_parent"
         android:id="@+id/drawer_point"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +38,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="N: gkfld"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_up_northing"
@@ -47,7 +47,8 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="N: gkfld" />
 
 
                         <TextView
@@ -55,8 +56,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="E: gkfld"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_easting"
@@ -64,7 +65,8 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/north_ing_txt" />
+                            app:layout_constraintTop_toBottomOf="@id/north_ing_txt"
+                            tools:text="E: gkfld" />
 
 
                         <TextView
@@ -72,8 +74,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="Elv: gdfkl"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_elevation_item"
@@ -82,25 +84,27 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/easting_txt" />
+                            app:layout_constraintTop_toBottomOf="@id/easting_txt"
+                            tools:text="Elv: gdfkl" />
 
 
                         <TextView
                             android:id="@+id/elevation_angle"
                             android:layout_width="0dp"
-                            app:layout_constraintHorizontal_weight="1"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="Angle: gdfkl"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_elevation_item"
                             app:drawableTint="#AFAFAF"
                             app:layout_constraintEnd_toStartOf="@+id/altiuide"
                             app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/elevation_ky" />
+                            app:layout_constraintTop_toBottomOf="@id/elevation_ky"
+                            tools:text="Angle: gdfkl" />
 
 
                         <TextView
@@ -108,8 +112,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="Curr Elevetion"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_elevation_item"
@@ -118,7 +122,8 @@
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/elevation_angle"
-                            app:layout_constraintTop_toTopOf="@id/elevation_angle" />
+                            app:layout_constraintTop_toTopOf="@id/elevation_angle"
+                            tools:text="Curr Elevetion" />
 
 
                         <TextView
@@ -126,15 +131,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="\tD: gkfld"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/north_ing_txt"
-                            app:layout_constraintTop_toTopOf="@id/north_ing_txt" />
+                            app:layout_constraintTop_toTopOf="@id/north_ing_txt"
+                            tools:text="\tD: gkfld" />
 
 
                         <TextView
@@ -142,17 +148,17 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="East/West"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_easting"
-                            app:drawableTint="#AFAFAF"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/easting_txt"
-                            app:layout_constraintTop_toTopOf="@id/easting_txt" />
+                            app:layout_constraintTop_toTopOf="@id/easting_txt"
+                            tools:text="East/West" />
 
 
                         <TextView
@@ -160,17 +166,17 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
-                            tools:text="North/South"
                             android:textSize="17sp"
                             android:textStyle="bold"
                             app:drawableLeftCompat="@drawable/ic_up_northing"
-                            app:drawableTint="#AFAFAF"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/elevation_ky"
-                            app:layout_constraintTop_toTopOf="@id/elevation_ky" />
+                            app:layout_constraintTop_toTopOf="@id/elevation_ky"
+                            tools:text="North/South" />
 
 
                         <TextView
@@ -179,6 +185,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
+                            android:fontFamily="@font/open_sans_light"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/tv_sigma_y"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -191,13 +198,14 @@
                             android:id="@+id/tv_sigma_y"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            tools:text="σ Y : "
+                            android:fontFamily="@font/open_sans_light"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/tv_sigma_z"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/tv_sigma_x"
-                            app:layout_constraintTop_toTopOf="@id/tv_sigma_x" />
+                            app:layout_constraintTop_toTopOf="@id/tv_sigma_x"
+                            tools:text="σ Y : " />
 
 
                         <TextView
@@ -205,13 +213,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            tools:text="σ Z : "
+                            android:fontFamily="@font/open_sans_light"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/tv_sigma_y"
-                            app:layout_constraintTop_toTopOf="@id/tv_sigma_y" />
+                            app:layout_constraintTop_toTopOf="@id/tv_sigma_y"
+                            tools:text="σ Z : " />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -231,19 +240,14 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             <org.osmdroid.views.MapView
                 android:id="@+id/map_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/cv_bottom"
-                app:layout_constraintTop_toBottomOf="@id/cv_slider_option"
-                />
-
-
-
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_slider_option" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -251,9 +255,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:elevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:elevation="10dp"
                 app:layout_constraintRight_toRightOf="parent">
 
 
@@ -276,11 +280,11 @@
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
                         android:id="@+id/layout_drop"
-                        android:backgroundTint="@color/white"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:background="@color/white"
+                        android:backgroundTint="@color/white">
 
                         <TextView
                             android:id="@+id/tvDotile"
@@ -288,29 +292,31 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
-                            tools:text="ggkfld\nkg"
+                            android:fontFamily="@font/open_sans_light"
                             android:textAlignment="center"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/sattellite_tx"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="ggkfld\nkg" />
 
 
                         <TextView
                             android:id="@+id/sattellite_tx"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:drawableTop="@drawable/ic_satellite"
-                            tools:text="ggkfld\nkg"
+                            android:fontFamily="@font/open_sans_light"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            app:drawableTopCompat="@drawable/ic_satellite"
                             app:layout_constraintEnd_toStartOf="@+id/tvstop"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/tvDotile"
-                            app:layout_constraintTop_toTopOf="@id/tvDotile" />
+                            app:layout_constraintTop_toTopOf="@id/tvDotile"
+                            tools:text="ggkfld\nkg" />
 
 
                         <TextView
@@ -318,14 +324,15 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            tools:text="gfdkgd gjfdk gkfld"
+                            android:fontFamily="@font/open_sans_light"
                             android:textAlignment="center"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@+id/sattellite_tx"
-                            app:layout_constraintTop_toTopOf="@id/sattellite_tx" />
+                            app:layout_constraintTop_toTopOf="@id/sattellite_tx"
+                            tools:text="gfdkgd gjfdk gkfld" />
 
 
                         <TextView
@@ -334,10 +341,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="40dp"
-                            android:drawableStart="@drawable/roversetting"
+                            android:fontFamily="@font/poppins_bold"
                             android:text="@string/antenna"
                             android:textSize="18sp"
                             android:textStyle="bold"
+                            app:drawableStartCompat="@drawable/roversetting"
                             app:layout_constraintLeft_toLeftOf="@id/tvDotile"
                             app:layout_constraintRight_toLeftOf="@id/status"
                             app:layout_constraintTop_toBottomOf="@id/sattellite_tx" />
@@ -350,10 +358,10 @@
                             android:background="@drawable/buttondesign1"
                             android:drawableLeft="@drawable/instrumentrovericoninactive"
                             android:padding="@dimen/three_dp"
-                            android:text="Manual Input Point"
                             android:paddingEnd="10dp"
-                            android:textColor="@color/white"
+                            android:text="Manual Input Point"
                             android:textAllCaps="false"
+                            android:textColor="@color/white"
                             app:layout_constraintRight_toRightOf="@id/tvstop"
                             app:layout_constraintTop_toTopOf="@id/antenna_txt" />
 
@@ -364,8 +372,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/code_status"
+                            android:fontFamily="@font/open_sans_light"
                             android:padding="5dp"
                             android:text="CodeName"
+                            android:textStyle="bold"
                             app:drawableEndCompat="@drawable/ic_clear"
                             app:layout_constraintLeft_toLeftOf="@id/antenna_txt"
                             app:layout_constraintRight_toRightOf="@id/status"
