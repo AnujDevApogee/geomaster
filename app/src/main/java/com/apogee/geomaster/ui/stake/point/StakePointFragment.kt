@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -75,8 +76,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding = StakePointFragmentLayoutBinding.bind(view)
         (activity as HomeScreen?)?.hideActionBar()
 
-        binding.cvSliderOption.setOnTouchListener(swipeGesture(binding.infoLayout, false))
-        binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true))
+        binding.cvSliderOption.setOnTouchListener(swipeGesture(binding.infoLayout, false,binding.dropIc))
+        binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true,binding.dropUp))
         setupMap()
         setUpAdaptor()
         getPoints()
@@ -341,7 +342,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
     }
 
 
-    private fun swipeGesture(view: View, isBottomView: Boolean): OnSwipeTouchListener {
+    private fun swipeGesture(view: View, isBottomView: Boolean,arrArrow:ImageView): OnSwipeTouchListener {
         return object : OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeRight() {
                 super.onSwipeRight()
@@ -355,19 +356,25 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
             override fun onSwipeTop() {
                 super.onSwipeTop()
-                if (!isBottomView)
+                if (!isBottomView) {
                     view.hide()
-                else
+                }
+                else {
                     view.show()
+                }
+                arrArrow.rotation=0f
                 createLog("TOUCH_MSG", "Bottom TOP")
             }
 
             override fun onSwipeBottom() {
                 super.onSwipeBottom()
-                if (!isBottomView)
+                if (!isBottomView) {
                     view.show()
-                else
+                }
+                else {
                     view.hide()
+                }
+                arrArrow.rotation = 180f
                 createLog("TOUCH_MSG", "Bottom click")
             }
         }
