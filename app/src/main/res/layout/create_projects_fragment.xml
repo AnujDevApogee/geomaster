@@ -80,8 +80,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:paddingStart="15dp"
-                android:textSize="15sp"
                 android:text="Source"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@+id/source_data"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -94,13 +94,91 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="WGS84"
                 android:paddingEnd="50dp"
+                android:text="WGS84"
                 app:layout_constraintEnd_toEndOf="@id/operator_name_layout"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/source_view"
                 app:layout_constraintTop_toTopOf="@id/source_view" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/coordinateSystem"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:hint="@string/coordinate_system"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                app:layout_constraintTop_toBottomOf="@id/source_view">
+
+                <AutoCompleteTextView
+                    android:id="@+id/coordinateSystem_conn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:text="@string/coordinate_system" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/calfilePick"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintHorizontal_weight="1"
+                android:hint="@string/calFile"
+                app:layout_constraintRight_toLeftOf="@id/pickdoc"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+                app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                app:layout_constraintTop_toBottomOf="@id/coordinateSystem">
+
+                <AutoCompleteTextView
+                    android:id="@+id/calfileView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:text="@string/chooseFile" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/pickdoc"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="50dp"
+                android:src="@drawable/baseline_upload_file_24"
+                android:layout_height="50dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="15dp"
+                android:hint="@string/calFile"
+                app:layout_constraintBottom_toBottomOf="@id/calfilePick"
+                app:boxStrokeColor="@color/md_theme_light_primary"
+
+                app:layout_constraintRight_toRightOf="@id/project_nm_layout"
+                app:layout_constraintTop_toTopOf="@id/calfilePick">
+
+         <!--       <ImageView
+                    android:id="@+id/iv_pickFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:src="@drawable/ic_add"
+                    android:inputType="none"
+                    android:maxLines="1" />-->
+
+            </ImageView>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/datum_type_layout"
@@ -113,7 +191,7 @@
                 app:boxStrokeColor="@color/md_theme_light_primary"
                 app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
                 app:layout_constraintRight_toRightOf="@id/project_nm_layout"
-                app:layout_constraintTop_toBottomOf="@id/source_view">
+                app:layout_constraintTop_toBottomOf="@id/calfilePick">
 
                 <AutoCompleteTextView
                     android:id="@+id/datum_type_conn"
@@ -152,6 +230,7 @@
                     android:text="@string/continent" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/countries_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -178,8 +257,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/datum_nm_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -201,7 +278,6 @@
                     android:text="@string/datum_nm" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -258,8 +334,8 @@
                 android:layout_marginTop="10dp"
                 android:hint="@string/zn_data"
                 app:boxStrokeColor="@color/md_theme_light_primary"
-                app:layout_constraintRight_toRightOf="@id/project_nm_layout"
                 app:layout_constraintLeft_toLeftOf="@id/project_nm_layout"
+                app:layout_constraintRight_toRightOf="@id/project_nm_layout"
                 app:layout_constraintTop_toBottomOf="@id/zone_projection_layout">
 
                 <AutoCompleteTextView
@@ -272,29 +348,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/zone_hemisphere_layout"-->
-<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:hint="@string/zn_hemisphere_data"-->
-<!--                app:boxStrokeColor="@color/md_theme_light_primary"-->
-<!--                app:layout_constraintEnd_toEndOf="@id/datum_nm_layout"-->
-<!--                app:layout_constraintHorizontal_bias="0.5"-->
-<!--                app:layout_constraintHorizontal_weight=".65"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/zone_data_layout"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/zone_projection_layout">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/zone_hemisphere_layout"-->
+            <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:hint="@string/zn_hemisphere_data"-->
+            <!--                app:boxStrokeColor="@color/md_theme_light_primary"-->
+            <!--                app:layout_constraintEnd_toEndOf="@id/datum_nm_layout"-->
+            <!--                app:layout_constraintHorizontal_bias="0.5"-->
+            <!--                app:layout_constraintHorizontal_weight=".65"-->
+            <!--                app:layout_constraintStart_toEndOf="@+id/zone_data_layout"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/zone_projection_layout">-->
 
-<!--                <AutoCompleteTextView-->
-<!--                    android:id="@+id/zone_hemisphere_data"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:inputType="none"-->
-<!--                    android:text="@string/hemisphere_data" />-->
+            <!--                <AutoCompleteTextView-->
+            <!--                    android:id="@+id/zone_hemisphere_data"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:inputType="none"-->
+            <!--                    android:text="@string/hemisphere_data" />-->
 
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/elevation_key_layout"

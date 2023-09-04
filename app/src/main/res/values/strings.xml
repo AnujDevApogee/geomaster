@@ -19,7 +19,10 @@
     <string name="login_btn">Login</string>
     <string name="add_manually">Add Manually</string>
     <string name="zn_datum_type">Datum Type</string>
+    <string name="coordinate_system">Coordinate System</string>
     <string name="datum_type">Datum Type</string>
+    <string name="calFile">Cal File</string>
+    <string name="chooseFile">Choose Cal File</string>
     <string name="continent">Continent</string>
     <string name="country">Countries</string>
     <string name="angle_nm">Angle Unit</string>

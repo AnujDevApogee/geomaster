@@ -42,10 +42,16 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     var scanTime: Long = 3000
 
     // for Nordic
+//    private val descriptorId = "00002902-0000-1000-8000-00805f9b34fb"
+//    private var serviceId = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+//    private var writeCharId = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+//    private var readCharId = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
+
     private val descriptorId = "00002902-0000-1000-8000-00805f9b34fb"
-    private var serviceId = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
-    private var writeCharId = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
-    private var readCharId = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
+    private var serviceId = ""
+    private var writeCharId = ""
+    private var readCharId = ""
+    var serviceIdForChar = ""
 
     private var deviceAddress = ""
 
@@ -70,13 +76,6 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
         binding = FragmentCommunicationBinding.bind(view)
 
 
-        getResponse()
-
-
-
-
-
-
         displayActionBar(
             "\t\t\tAdd Device ${getEmojiByUnicode(0x1F4F6)}",
             binding.actionLayout,
@@ -90,16 +89,16 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             bleDeviceAdaptor = BleDeviceAdaptor {
 
 
-                 deviceAddress = it.device.address
-                 deviceName = it.device.name.split("_".toRegex()).first()
-             //   Log.d(TAG, "onViewCreated: "+bleGetConfigDataViewModel.getModelId(deviceName))
-                 if(bleGetConfigDataViewModel.getModelName(deviceName)!!.size==0)
-                    {
-                        bleGetConfigDataViewModel.getConfigData(deviceName)
-                    }else
-                     {
-                         getObserverData("2")
-                     }
+                deviceAddress = it.device.address
+                deviceName = it.device.name.split("_".toRegex()).first()
+                //   Log.d(TAG, "onViewCreated: "+bleGetConfigDataViewModel.getModelId(deviceName))
+                if(bleGetConfigDataViewModel.getModelName(deviceName)!!.size==0)
+                {
+                    bleGetConfigDataViewModel.getConfigData(deviceName)
+                }else
+                {
+                    getObserverData(deviceName)
+                }
 
             }
             adapter = bleDeviceAdaptor
@@ -159,23 +158,44 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
     }
 
-    private fun getObserverData(model_id: String) {
-        if (!bleGetConfigDataViewModel.getServiceId(model_id).isNullOrEmpty()) {
-
-            serviceId = bleGetConfigDataViewModel.getServiceId(model_id)!!.first()
+    private fun getObserverData(deviceName: String) {
 
 
-        } else if (!bleGetConfigDataViewModel.getCharacteristicId(model_id).isNullOrEmpty()) {
-            bleGetConfigDataViewModel.getCharacteristicId(model_id)!!.forEach {
+
+        if (!bleGetConfigDataViewModel.getServiceId(deviceName).isNullOrEmpty()) {
+
+            var data = bleGetConfigDataViewModel.getServiceId(deviceName)!!.first().toString()
+
+
+            Log.d(TAG, "getObserverData:bleData "+data)
+
+
+            val dataArray: List<String> = data.split(",")
+
+            serviceId = dataArray.get(0)
+
+            serviceIdForChar = dataArray.get(1)
+
+
+        }
+
+        if (!bleGetConfigDataViewModel.getCharacteristicId(serviceIdForChar).isNullOrEmpty()) {
+
+            bleGetConfigDataViewModel.getCharacteristicId(serviceIdForChar)!!.forEach {
 
 
                 if (it.contains("read")) {
 
                     readCharId = it.split(",".toRegex()).first()
 
+                    Log.d(TAG, "getObserverData: readCharId"+readCharId)
+
                 } else if (it.contains("write")) {
 
                     writeCharId = it.split(",".toRegex()).first()
+
+                    Log.d(TAG, "getObserverData: writeCharId"+writeCharId)
+
                 }
 
 
@@ -190,14 +210,16 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
             bleGetConfigDataViewModel.getBlutoothData.collect {
 
-                    Log.d(TAG, "getObserverData: "+deviceAddress+"=="+serviceId)
-           bleConnectionViewModel.onConnect(
-                        deviceAddress,
-                        readCharId,
-                        writeCharId,
-                        serviceId,
-                        descriptorId,
-             )
+                Log.d(TAG, "getObserverData: "+deviceAddress+"=="+serviceId)
+                bleConnectionViewModel.onConnect(
+                    deviceAddress,
+                    readCharId,
+                    writeCharId,
+                    serviceId,
+                    descriptorId,
+                )
+
+                getResponse()
 
 
             }

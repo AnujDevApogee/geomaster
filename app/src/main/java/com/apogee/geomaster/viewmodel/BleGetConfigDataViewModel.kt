@@ -1,12 +1,10 @@
 package com.apogee.geomaster.viewmodel
 
 import android.app.Application
-import android.app.Service
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.apogee.geomaster.repository.GetBluetoothConfigDataRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class BleGetConfigDataViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,25 +23,25 @@ class BleGetConfigDataViewModel(application: Application) : AndroidViewModel(app
 
     }
 
-    fun getServiceId(model_id: String): List<String>? {
+    fun getServiceId(deviceName: String): List<String>? {
 
-        return getBluetoothConfigDataRepository.getServiceIds(model_id)
-
-    }
-    fun getModelId(device_name: String): List<String>? {
-
-        return getBluetoothConfigDataRepository.getModelId(device_name)
+        return getBluetoothConfigDataRepository.getServiceIds(deviceName)
 
     }
+    /*    fun getModelId(device_name: String): List<String>? {
+
+            return getBluetoothConfigDataRepository.getModelId(device_name)
+
+        }*/
     fun getModelName(deviceName: String): List<String>? {
 
         return getBluetoothConfigDataRepository.getModelName(deviceName)
 
     }
 
-    fun getCharacteristicId(service_id: String): List<String>? {
+    fun getCharacteristicId(serviceId: String): List<String>? {
 
-        return getBluetoothConfigDataRepository.getCharacteristicIds(service_id)
+        return getBluetoothConfigDataRepository.getCharacteristicIds(serviceId)
 
     }
 
