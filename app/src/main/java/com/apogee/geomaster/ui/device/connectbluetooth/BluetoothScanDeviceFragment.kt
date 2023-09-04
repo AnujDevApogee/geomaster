@@ -36,11 +36,10 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     private lateinit var binding: FragmentCommunicationBinding
     private lateinit var bleDeviceAdaptor: BleDeviceAdaptor
     private var bleDeviceScanner: BleDeviceScanner? = null
-    var deviceName = "NAVIK50-1.0"
+    var deviceName = "NAVIK200-1.0"
     private val bleConnectionViewModel: BleConnectionViewModel by viewModels()
     private val bleGetConfigDataViewModel: BleGetConfigDataViewModel by viewModels()
     var scanTime: Long = 3000
-
 
     // for Nordic
     private val descriptorId = "00002902-0000-1000-8000-00805f9b34fb"

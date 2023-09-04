@@ -126,7 +126,7 @@ class CreateConfigurationFragment : Fragment(R.layout.create_configuration_fragm
                        ).show()
                    }*/
 
-            idList.put("config_name", binding.projectNme.text.toString() + "Config")
+            idList.put("config_name", binding.projectNme.text.toString())
             if (binding.projectNme.text.toString().equals("")) {
                 Toast.makeText(
                     this.requireContext(), "Enter Project Name",

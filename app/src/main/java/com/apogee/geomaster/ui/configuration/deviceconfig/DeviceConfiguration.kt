@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.DeviceConfigurationAdaptor
@@ -12,9 +11,7 @@ import com.apogee.geomaster.databinding.DeviceConfigLayoutBinding
 import com.apogee.geomaster.model.DeviceWorkMode
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
-import com.apogee.geomaster.ui.configuration.miscellaneous.MiscellaneousFragmentArgs
 import com.apogee.geomaster.utils.displayActionBar
-import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setUpDialogBox
 
 class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
@@ -36,6 +33,7 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
         (activity as HomeScreen?)?.hideActionBar()
         Log.d("TAG", "onViewCreated:argsDevice ${args.satelliteDataValues}---${args.surveyConfigName} ")
         val surveyConfigId=dbControl.getproject_configurationID(args.surveyConfigName)
+        Log.d("TAG", "onViewCreated: surveyConfigIdDev --$surveyConfigId")
 
         setAdaptor()
         binding.doneBtn.setOnClickListener {
@@ -44,10 +42,17 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
                 "Update",
                 "Create",
                 success = {
-                    val result = dbControl.insertConfigMappingData("${args.surveyConfigName}Config,$surveyConfigId")
-                    Log.d("TAG", "onViewCreated: resultConfigInsert--$result")
-
-//                          findNavController().safeNavigate(R.id.action_deviceConfiguration_to_homeScreenMainFragment)
+                    val result = dbControl.insertConfigMappingData("${args.surveyConfigName}Config,${surveyConfigId}")
+                    Log.d("TAG", "onViewCreated:insertConfigMappingData $result")
+                    val configMappId=dbControl.getproject_configurationMappingID("${args.surveyConfigName}Config")
+                    if(configMappId.equals("")){
+                        Log.d("TAG", "onViewCreated: $configMappId")
+                    }else{
+                        val resultmapping=dbControl.insertSatelliteMappingDataasas(configMappId,args.satelliteDataValues)
+                        Log.d("TAG", "onViewCreated: resultConfigInsert--$resultmapping")
+                        val saveproject=dbControl.insertProjectValues("${args.surveyConfigName},$configMappId")
+                    }
+//              findNavController().safeNavigate(R.id.action_deviceConfiguration_to_homeScreenMainFragment)
                 },
                 cancelListener = {
 

@@ -48,7 +48,6 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
 
 
     fun getConfigData(deviceName: String) {
-
         ApiCall().postDataWithBody(
             deviceName,
             this,
