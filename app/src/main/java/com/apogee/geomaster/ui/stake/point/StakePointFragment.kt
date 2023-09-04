@@ -76,8 +76,14 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding = StakePointFragmentLayoutBinding.bind(view)
         (activity as HomeScreen?)?.hideActionBar()
 
-        binding.cvSliderOption.setOnTouchListener(swipeGesture(binding.infoLayout, false,binding.dropIc))
-        binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true,binding.dropUp))
+        binding.cvSliderOption.setOnTouchListener(
+            swipeGesture(
+                binding.infoLayout,
+                false,
+                binding.dropIc
+            )
+        )
+        binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true, binding.dropUp))
         setupMap()
         setUpAdaptor()
         getPoints()
@@ -103,7 +109,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                 binding.eastingTxt.text = "E :${longitude}"
                                 binding.elevationKy.text =
                                     "Elevation :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
-                                binding.altiuide.text = "Altitude :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
+                                binding.altiuide.text =
+                                    "Altitude :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
                                 binding.tvSigmaX.text = ("σ X : ${data[StakeHelper.XAXIS]}")
                                 binding.tvSigmaY.text = ("σ Y : ${data[StakeHelper.YAXIS]}")
                                 binding.tvSigmaZ.text = ("σ Z : ${data[StakeHelper.ZAXIS]}")
@@ -145,6 +152,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                             startPoint
                                         )
                                     )
+                                    changeColor()
                                     findDistance(startPoint, desLocation)
                                 }
 
@@ -201,11 +209,21 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                 EASTING.EAST -> {
                     binding.degreeTxt.changeIconDrawable(R.drawable.ic_easting)
                     binding.degreeTxt.text = "${it.first} East"
+                    binding.arrowRightDirection.changeIconDrawable(
+                        R.drawable.right_direction_arrow,
+                        position = 3
+                    )
+                    binding.arrowRightDirection.text = it.first
                 }
 
                 EASTING.WEST -> {
                     binding.degreeTxt.changeIconDrawable(R.drawable.ic_west)
                     binding.degreeTxt.text = "${it.first} West"
+                    binding.arrowLeftDirection.changeIconDrawable(
+                        R.drawable.left_direction_arrow,
+                        position = 1
+                    )
+                    binding.arrowLeftDirection.text = it.first
                 }
             }
         }
@@ -215,11 +233,22 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                 NOTHING.NORTH -> {
                     binding.northSouthKey.changeIconDrawable(R.drawable.ic_up_northing)
                     binding.northSouthKey.text = "${it.first} North"
+                    binding.arrowTopDirection.changeIconDrawable(
+                        R.drawable.up_direction_arrow,
+                        position = 2
+                    )
+                    binding.arrowTopDirection.text = it.first
+
                 }
 
                 NOTHING.SOUTH -> {
                     binding.northSouthKey.changeIconDrawable(R.drawable.ic_south)
                     binding.northSouthKey.text = "${it.first} South"
+                    binding.arrowDownDirection.text = it.first
+                    binding.arrowDownDirection.changeIconDrawable(
+                        R.drawable.down_direction_arrow,
+                        position = 4
+                    )
                 }
             }
 
@@ -272,21 +301,25 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                     )
 
                                     if (ls != null && ls.first.isNotEmpty() && ls.second.isNotEmpty()) {
-                                     try {
-                                         navStakePointAdaptor.submitList(ls.first)
-                                         currentLocation = Pair(currentLocation?.first, ls.second)
-                                         binding.mapView.overlays.add(plotPointOnMap(ls.second))
-                                         binding.mapView.controller.zoomToPoint(
-                                             12.5,
-                                             GeoPoint(
-                                                 ls.second.first().latitude,
-                                                 ls.second.first().longitude,
-                                                 FakeStakePointRepository.altitude
-                                             )
-                                         )
-                                     }catch (e:Exception){
-                                         createLog("TAG_INFO","PLOTTING CRASH ${e.localizedMessage}")
-                                     }
+                                        try {
+                                            navStakePointAdaptor.submitList(ls.first)
+                                            currentLocation =
+                                                Pair(currentLocation?.first, ls.second)
+                                            binding.mapView.overlays.add(plotPointOnMap(ls.second))
+                                            binding.mapView.controller.zoomToPoint(
+                                                12.5,
+                                                GeoPoint(
+                                                    ls.second.first().latitude,
+                                                    ls.second.first().longitude,
+                                                    FakeStakePointRepository.altitude
+                                                )
+                                            )
+                                        } catch (e: Exception) {
+                                            createLog(
+                                                "TAG_INFO",
+                                                "PLOTTING CRASH ${e.localizedMessage}"
+                                            )
+                                        }
                                     }
 
                                 }
@@ -342,7 +375,11 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
     }
 
 
-    private fun swipeGesture(view: View, isBottomView: Boolean,arrArrow:ImageView): OnSwipeTouchListener {
+    private fun swipeGesture(
+        view: View,
+        isBottomView: Boolean,
+        arrArrow: ImageView
+    ): OnSwipeTouchListener {
         return object : OnSwipeTouchListener(requireActivity()) {
             override fun onSwipeRight() {
                 super.onSwipeRight()
@@ -357,27 +394,74 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             override fun onSwipeTop() {
                 super.onSwipeTop()
                 if (!isBottomView) {
+                    if (currentLocation?.first!=null){
+                        showDirection()
+                    }
                     view.hide()
-                }
-                else {
+                } else {
                     view.show()
                 }
-                arrArrow.rotation=0f
+                arrArrow.rotation = 0f
                 createLog("TOUCH_MSG", "Bottom TOP")
             }
 
             override fun onSwipeBottom() {
                 super.onSwipeBottom()
                 if (!isBottomView) {
+                    hideDirection()
                     view.show()
-                }
-                else {
+                } else {
+
                     view.hide()
                 }
                 arrArrow.rotation = 180f
                 createLog("TOUCH_MSG", "Bottom click")
             }
         }
+    }
+
+    private fun hideDirection() {
+        binding.arrowTopDirection.hide()
+        binding.arrowDownDirection.hide()
+        binding.arrowLeftDirection.hide()
+        binding.arrowRightDirection.hide()
+    }
+
+    private fun showDirection() {
+        binding.arrowTopDirection.show()
+        binding.arrowDownDirection.show()
+        binding.arrowLeftDirection.show()
+        binding.arrowRightDirection.show()
+    }
+
+    private fun changeColor() {
+        binding.arrowTopDirection.changeIconDrawable(
+            R.drawable.up_direction_arrow,
+            R.color.arrow_grey,
+            2
+        )
+        binding.arrowTopDirection.text = "0"
+
+        binding.arrowDownDirection.changeIconDrawable(
+            R.drawable.down_direction_arrow,
+            R.color.arrow_grey,
+            4
+        )
+        binding.arrowDownDirection.text = "0"
+
+        binding.arrowLeftDirection.changeIconDrawable(
+            R.drawable.left_direction_arrow,
+            R.color.arrow_grey,
+            1
+        )
+        binding.arrowLeftDirection.text = "0"
+
+        binding.arrowRightDirection.changeIconDrawable(
+            R.drawable.right_direction_arrow,
+            R.color.arrow_grey,
+            3
+        )
+        binding.arrowRightDirection.text = "0"
     }
 
 }

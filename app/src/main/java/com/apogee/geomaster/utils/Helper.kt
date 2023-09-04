@@ -132,12 +132,17 @@ fun createLog(tag: String, msg: String) {
 }
 
 
-fun TextView.changeIconDrawable(id:Int){
-    val tintColor = ContextCompat.getColor(context, R.color.holo_green_dark)
+fun TextView.changeIconDrawable(id:Int,color: Int=R.color.holo_green_dark,position:Int=1){
+    val tintColor = ContextCompat.getColor(context, color)
     var drawable = ContextCompat.getDrawable(context, id)
     drawable = DrawableCompat.wrap(drawable!!)
     DrawableCompat.setTint(drawable.mutate(), tintColor)
     drawable.setBounds( 0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-    setCompoundDrawables(drawable, null, null, null)
+    when(position){
+        1->setCompoundDrawables(drawable, null, null, null)
+        2->setCompoundDrawables(null, drawable, null, null)
+        3->setCompoundDrawables(null, null, drawable, null)
+        4->setCompoundDrawables(null, null, null, drawable)
+    }
 }
 
