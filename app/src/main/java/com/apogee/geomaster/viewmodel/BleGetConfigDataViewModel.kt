@@ -18,9 +18,7 @@ class BleGetConfigDataViewModel(application: Application) : AndroidViewModel(app
         get() = _getBlutoothData
 
     fun getConfigData(deviceName: String) {
-
         getBluetoothConfigDataRepository.getConfigData(deviceName)
-
     }
 
     fun getServiceId(deviceName: String): List<String>? {
@@ -33,6 +31,7 @@ class BleGetConfigDataViewModel(application: Application) : AndroidViewModel(app
             return getBluetoothConfigDataRepository.getModelId(device_name)
 
         }*/
+
     fun getModelName(deviceName: String): List<String>? {
 
         return getBluetoothConfigDataRepository.getModelName(deviceName)

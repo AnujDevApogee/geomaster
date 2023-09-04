@@ -16,15 +16,27 @@ class MiscellaneousFragment : Fragment(R.layout.miscellaneous_layout) {
 
     private lateinit var binding: MiscellaneousLayoutBinding
     private val args by navArgs<MiscellaneousFragmentArgs>()
+    private val TAG = "MiscellaneousFragment"
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = MiscellaneousLayoutBinding.bind(view)
         displayActionBar("Miscellaneous Configuration", binding.actionLayout)
-        Log.d("TAG", "onViewCreated:  args.item---${args.surveyConfigName},${args.satelliteConfigName}")
+        Log.d(TAG, "onViewCreated:Miscellaneous  args.item---${args.surveyConfigName},${args.satelliteConfigName}")
         binding.doneBtn.setOnClickListener {
-            findNavController().safeNavigate(MiscellaneousFragmentDirections.actionMiscellaneousFragmentToDeviceConfiguration(args.surveyConfigName,args.satelliteConfigName))
+            CheckListner()
+//            findNavController().safeNavigate(MiscellaneousFragmentDirections.actionMiscellaneousFragmentToDeviceConfiguration(args.surveyConfigName,args.satelliteConfigName))
+        }
+
+    }
+    fun CheckListner(){
+
+var pointName = ""
+        binding.pointNameVisible.setOnCheckedChangeListener{ _, isChecked ->
+             pointName = if (isChecked) "Switch1:ON" else "Switch1:OFF"
+            Log.d(TAG, "CheckListner: pointName--$pointName")
+
         }
 
     }

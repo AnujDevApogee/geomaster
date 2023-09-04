@@ -1,13 +1,17 @@
 package com.apogee.geomaster.ui.projects.createproject
 
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
@@ -21,6 +25,7 @@ import com.apogee.geomaster.utils.getEmojiByUnicode
 import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.show
+import com.apogee.import_export_module.ReadCalFile
 import com.google.android.material.transition.MaterialFadeThrough
 
 
@@ -57,6 +62,8 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
     private var datumTypesID: String = ""
     private var elevationType: ArrayList<String> = ArrayList()
     private var elevationTypeID: String = ""
+    private val PICK_CSV_FILE_REQUEST_CODE= 100
+    private val RESULT_OK= 50
 
     private lateinit var dbControl: DatabaseRepsoitory
     private val tag = "CreateProjectFragment"
@@ -482,7 +489,36 @@ class CreateProjectFragment : Fragment(R.layout.create_projects_fragment) {
 
         }
 
+        binding.pickdoc.setOnClickListener{
+                openFilePicker()
+        }
+
     }
+
+
+
+    open fun openFilePicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "*/*"
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Cal file"),
+            PICK_CSV_FILE_REQUEST_CODE
+        )
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_CSV_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            val fileuri = data.data
+            val readData = ReadCalFile(requireContext()).getCalFileData(fileuri!!,"file.cal")
+            Log.d(TAG, "onActivityResult: "+readData.toString())
+//            binding.calfileView.text=readData
+        }
+    }
+
 
 //    override fun onStart() {
 //        super.onStart()
