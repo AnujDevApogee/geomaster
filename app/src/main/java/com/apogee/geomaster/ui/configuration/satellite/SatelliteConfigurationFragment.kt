@@ -23,8 +23,8 @@ class SatelliteConfigurationFragment : Fragment(R.layout.satellite_configuration
     private val args by navArgs<SatelliteConfigurationFragmentArgs>()
     val TAG = "SatelliteConfigurationFragment"
 
-    var satelliteDetails: ArrayList<SatelliteModel> = ArrayList()
-    var satelliteStatusList: ArrayList<SatelliteModel> = ArrayList()
+    private var satelliteDetails: ArrayList<SatelliteModel> = ArrayList()
+    private var satelliteStatusList: ArrayList<SatelliteModel> = ArrayList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

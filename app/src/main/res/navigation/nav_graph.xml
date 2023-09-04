@@ -234,5 +234,10 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_bluetoothscandevicefragment" app:destination="@id/bluetoothscandevicefragment" />
+    <fragment
+        android:id="@+id/stakePointFragment"
+        android:name="com.apogee.geomaster.ui.stake.point.StakePointFragment"
+        android:label="stake_point_fragment_layout"
+        tools:layout="@layout/stake_point_fragment_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/>
 
 </navigation>
