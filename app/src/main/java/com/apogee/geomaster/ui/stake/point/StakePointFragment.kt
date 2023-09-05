@@ -21,10 +21,10 @@ import com.apogee.geomaster.model.SurveyModel
 import com.apogee.geomaster.repository.FakeStakePointRepository
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.AudioListener
 import com.apogee.geomaster.utils.DrawCircles
 import com.apogee.geomaster.utils.DrawLinePoint
 import com.apogee.geomaster.utils.EASTING
-import com.apogee.geomaster.utils.MapType
 import com.apogee.geomaster.utils.MapType.*
 import com.apogee.geomaster.utils.NOTHING
 import com.apogee.geomaster.utils.OnItemClickListener
@@ -53,10 +53,12 @@ import com.apogee.geomaster.utils.showStreetView
 import com.apogee.geomaster.utils.zoomAndAnimateToPoints
 import com.apogee.geomaster.utils.zoomToPoint
 import com.apogee.geomaster.viewmodel.StakePointViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -64,6 +66,7 @@ import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
+import java.lang.StringBuilder
 
 
 class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
@@ -82,19 +85,21 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
     private val stakePointPlot by lazy {
         PointPlot { res ->
             currentLocation = Pair(
-                GeoPoint(res.latitude, res.longitude),
-                currentLocation?.second ?: mutableListOf()
+                GeoPoint(res.latitude, res.longitude), currentLocation?.second ?: mutableListOf()
             )
             binding.mapView.zoomAndAnimateToPoints(
                 listOf(
                     LabelledGeoPoint(
-                        res.latitude,
-                        res.longitude
+                        res.latitude, res.longitude
                     )
                 )
             )
             showMessage("Selected ${res.latitude} and ${res.longitude}")
         }
+    }
+
+    private val audioListener by lazy {
+        AudioListener(requireActivity())
     }
 
 
@@ -207,8 +212,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
                                     binding.mapView.overlays.add(
                                         DrawLinePoint(
-                                            desLocation,
-                                            startPoint
+                                            desLocation, startPoint
                                         )
                                     )
 
@@ -231,18 +235,12 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         val startEstWst = convertLatitudeAndLongitude(startPoint.latitude, startPoint.longitude)
 
         val distance = calculateDistanceBetweenPoints(
-            desEstWst.first,
-            desEstWst.second,
-            startEstWst.first,
-            startEstWst.second
+            desEstWst.first, desEstWst.second, startEstWst.first, startEstWst.second
         )
 
 
         var angle = calculateDegree(
-            desEstWst.first,
-            desEstWst.second,
-            startEstWst.first,
-            startEstWst.second
+            desEstWst.first, desEstWst.second, startEstWst.first, startEstWst.second
         )
         angle = 360 - angle
         angle += 90
@@ -252,13 +250,10 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
         Log.i(
             "TAG_INFO",
-            "findDistance: Destination Point X =${desEstWst.first} Y=${desEstWst.second}" +
-                    "\n Start Point X= ${startEstWst.first} Y=${startEstWst.second} " +
-                    "\n Angle is $angle" +
-                    " $distance"
+            "findDistance: Destination Point X =${desEstWst.first} Y=${desEstWst.second}" + "\n Start Point X= ${startEstWst.first} Y=${startEstWst.second} " + "\n Angle is $angle" + " $distance"
         )
 
-
+        val sentence = StringBuilder()
 
         binding.distance.text = "Distance ${isProperLength(distance)}"
 
@@ -270,24 +265,26 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                     binding.degreeTxt.changeIconDrawable(R.drawable.ic_easting)
                     binding.degreeTxt.text = "${it.first} East"
                     binding.arrowRightDirection.changeIconDrawable(
-                        R.drawable.right_direction_arrow,
-                        position = 3
+                        R.drawable.right_direction_arrow, position = 3
                     )
                     binding.arrowRightDirection.text = it.first
-                    if (!showArrow())
-                        binding.arrowRightDirection.show()
+                    if (!showArrow()) binding.arrowRightDirection.show()
+                    //speak("Move ${it.first} toward Eastward")
+                    sentence.append("Move ${it.first} toward Eastward")
+                    sentence.append(" and then ")
                 }
 
                 EASTING.WEST -> {
                     binding.degreeTxt.changeIconDrawable(R.drawable.ic_west)
                     binding.degreeTxt.text = "${it.first} West"
                     binding.arrowLeftDirection.changeIconDrawable(
-                        R.drawable.left_direction_arrow,
-                        position = 1
+                        R.drawable.left_direction_arrow, position = 1
                     )
                     binding.arrowLeftDirection.text = it.first
-                    if (!showArrow())
-                        binding.arrowLeftDirection.show()
+                    if (!showArrow()) binding.arrowLeftDirection.show()
+                    //speak("Move ${it.first} towards Westwards")
+                    sentence.append("Move ${it.first} towards Westwards")
+                    sentence.append(" and then ")
                 }
             }
         }
@@ -298,34 +295,29 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                     binding.northSouthKey.changeIconDrawable(R.drawable.ic_up_northing)
                     binding.northSouthKey.text = "${it.first} North"
                     binding.arrowTopDirection.changeIconDrawable(
-                        R.drawable.up_direction_arrow,
-                        position = 2
+                        R.drawable.up_direction_arrow, position = 2
                     )
                     binding.arrowTopDirection.text = it.first
-                    if (!showArrow())
-                        binding.arrowTopDirection.show()
-
+                    if (!showArrow()) binding.arrowTopDirection.show()
+                    sentence.append("Move ${it.first} toward Northward")
                 }
 
                 NOTHING.SOUTH -> {
                     binding.northSouthKey.changeIconDrawable(R.drawable.ic_south)
                     binding.northSouthKey.text = "${it.first} South"
                     binding.arrowDownDirection.text = it.first
-                    if (!showArrow())
-                        binding.arrowDownDirection.show()
+                    if (!showArrow()) binding.arrowDownDirection.show()
                     binding.arrowDownDirection.changeIconDrawable(
-                        R.drawable.down_direction_arrow,
-                        position = 4
+                        R.drawable.down_direction_arrow, position = 4
                     )
+                    sentence.append("Move ${it.first} toward Southward")
                 }
             }
 
         }
         binding.mapView.overlays.add(
             DrawCircles(
-                desPoint,
-                Paint(Paint.ANTI_ALIAS_FLAG),
-                RADIUS,//meter
+                desPoint, Paint(Paint.ANTI_ALIAS_FLAG), RADIUS,//meter
                 if (distance <= RADIUS) {
                     Color.GREEN
                 } else {
@@ -339,10 +331,12 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             val boundingBox = BoundingBox.fromGeoPoints(listOf(desPoint, startPoint))
             binding.mapView.zoomToBoundingBox(boundingBox, true)
             binding.mapView.invalidate()
+            sentence.clear()
+            sentence.append("Arrived to Point")
         } else {
             binding.mapView.controller.setCenter(desPoint)
         }
-
+        speak(sentence.toString())
         /*  binding.directionX.text = " ${estWst((endEstWst.first - startEstWst.first))}"
           binding.directionY.text = " ${northSouth((startEstWst.second - endEstWst.second))}"*/
 
@@ -354,31 +348,28 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             delay(3000)
             viewModel.getPoint()
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.data
-                    .buffer(Channel.UNLIMITED)
-                    .collect { res ->
-                        res?.let {
-                            when (it) {
-                                is ApiResponse.Error -> {}
-                                is ApiResponse.Loading -> {}
-                                is ApiResponse.Success -> {
-                                    val ls = it.data
-                                    createLog(
-                                        "TAG_INFO",
-                                        "Point_LIST IS THERE POINTS ${ls?.second?.size} STOCK ${ls?.first?.size}"
-                                    )
+                viewModel.data.buffer(Channel.UNLIMITED).collect { res ->
+                    res?.let {
+                        when (it) {
+                            is ApiResponse.Error -> {}
+                            is ApiResponse.Loading -> {}
+                            is ApiResponse.Success -> {
+                                val ls = it.data
+                                createLog(
+                                    "TAG_INFO",
+                                    "Point_LIST IS THERE POINTS ${ls?.second?.size} STOCK ${ls?.first?.size}"
+                                )
 
-                                    if (ls != null && ls.first.isNotEmpty() && ls.second.isNotEmpty()) {
-                                        try {
-                                            navStakePointAdaptor.submitList(ls.first)
-                                            currentLocation =
-                                                Pair(currentLocation?.first, ls.second)
-                                            binding.mapView.overlays.add(
-                                                stakePointPlot.plotPointOnMap(
-                                                    ls.second
-                                                )
+                                if (ls != null && ls.first.isNotEmpty() && ls.second.isNotEmpty()) {
+                                    try {
+                                        navStakePointAdaptor.submitList(ls.first)
+                                        currentLocation =
+                                            Pair(currentLocation?.first, ls.second)
+                                        binding.mapView.overlays.add(
+                                            stakePointPlot.plotPointOnMap(
+                                                ls.second
                                             )
-                                            /*{ res ->
+                                        )/*{ res ->
                                                 currentLocation = Pair(
                                                     GeoPoint(res.latitude, res.longitude),
                                                     ls.second
@@ -393,34 +384,31 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                                 )
                                                 showMessage("${res.latitude} and ${res.longitude}")
                                             }*/
-                                            binding.mapView.controller.zoomToPoint(
-                                                12.5,
-                                                GeoPoint(
-                                                    ls.second.first().latitude,
-                                                    ls.second.first().longitude,
-                                                    FakeStakePointRepository.altitude
-                                                )
+                                        binding.mapView.controller.zoomToPoint(
+                                            12.5, GeoPoint(
+                                                ls.second.first().latitude,
+                                                ls.second.first().longitude,
+                                                FakeStakePointRepository.altitude
                                             )
-                                        } catch (e: Exception) {
-                                            createLog(
-                                                "TAG_INFO",
-                                                "PLOTTING CRASH ${e.localizedMessage}"
-                                            )
-                                        }
+                                        )
+                                    } catch (e: Exception) {
+                                        createLog(
+                                            "TAG_INFO", "PLOTTING CRASH ${e.localizedMessage}"
+                                        )
                                     }
-
                                 }
+
                             }
                         }
                     }
+                }
             }
         }
     }
 
     private fun setupMap() {
         Configuration.getInstance().load(
-            requireActivity(),
-            PreferenceManager.getDefaultSharedPreferences(requireActivity())
+            requireActivity(), PreferenceManager.getDefaultSharedPreferences(requireActivity())
         )
         binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
         binding.mapView.overlayManager.tilesOverlay.loadingBackgroundColor = Color.TRANSPARENT
@@ -435,15 +423,12 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             override fun <T> onClickListener(response: T) {
                 binding.drawerPoint.close()
                 if (response is SurveyModel) {
-                    currentLocation =
-                        Pair(
-                            GeoPoint(response.easting, response.northing),
-                            currentLocation?.second ?: mutableListOf()
-                        )
+                    currentLocation = Pair(
+                        GeoPoint(response.easting, response.northing),
+                        currentLocation?.second ?: mutableListOf()
+                    )
                     val obj = LabelledGeoPoint(
-                        response.easting,
-                        response.northing,
-                        response.pointName
+                        response.easting, response.northing, response.pointName
                     )
                     //binding.mapView.overlays.add(plotPointOnMap(mutableListOf(obj)))
 
@@ -454,8 +439,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding.listSlide.adapter = navStakePointAdaptor
         binding.listSlide.addItemDecoration(
             DividerItemDecoration(
-                requireActivity(),
-                DividerItemDecoration.VERTICAL
+                requireActivity(), DividerItemDecoration.VERTICAL
             )
         )
 
@@ -472,32 +456,32 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
     private fun changeColor() {
         binding.arrowTopDirection.changeIconDrawable(
-            R.drawable.up_direction_arrow,
-            R.color.arrow_grey,
-            2
+            R.drawable.up_direction_arrow, R.color.arrow_grey, 2
         )
         binding.arrowTopDirection.text = "0"
 
         binding.arrowDownDirection.changeIconDrawable(
-            R.drawable.down_direction_arrow,
-            R.color.arrow_grey,
-            4
+            R.drawable.down_direction_arrow, R.color.arrow_grey, 4
         )
         binding.arrowDownDirection.text = "0"
 
         binding.arrowLeftDirection.changeIconDrawable(
-            R.drawable.left_direction_arrow,
-            R.color.arrow_grey,
-            1
+            R.drawable.left_direction_arrow, R.color.arrow_grey, 1
         )
         binding.arrowLeftDirection.text = "0"
 
         binding.arrowRightDirection.changeIconDrawable(
-            R.drawable.right_direction_arrow,
-            R.color.arrow_grey,
-            3
+            R.drawable.right_direction_arrow, R.color.arrow_grey, 3
         )
         binding.arrowRightDirection.text = "0"
     }
 
+
+    private fun speak(data: String) {
+        runBlocking {
+            async {
+                audioListener.speak(data)
+            }.await()
+        }
+    }
 }
