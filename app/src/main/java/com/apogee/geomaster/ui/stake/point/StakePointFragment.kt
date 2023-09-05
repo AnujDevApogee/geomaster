@@ -26,6 +26,7 @@ import com.apogee.geomaster.utils.DrawLinePoint
 import com.apogee.geomaster.utils.EASTING
 import com.apogee.geomaster.utils.NOTHING
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.PointPlot
 import com.apogee.geomaster.utils.RADIUS
 import com.apogee.geomaster.utils.StakeHelper
 import com.apogee.geomaster.utils.angleType
@@ -40,7 +41,6 @@ import com.apogee.geomaster.utils.getConvertDecimal
 import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.isProperLength
 import com.apogee.geomaster.utils.northSouth
-import com.apogee.geomaster.utils.plotPointOnMap
 import com.apogee.geomaster.utils.scaleOverlay
 import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.showMessage
@@ -72,6 +72,25 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
     private var isBottomView: Boolean = false
     private var isTopView: Boolean = false
+
+    private val stakePointPlot by lazy {
+        PointPlot { res ->
+            currentLocation = Pair(
+                GeoPoint(res.latitude, res.longitude),
+                currentLocation?.second ?: mutableListOf()
+            )
+            binding.mapView.zoomAndAnimateToPoints(
+                listOf(
+                    LabelledGeoPoint(
+                        res.latitude,
+                        res.longitude
+                    )
+                )
+            )
+            showMessage("Selected ${res.latitude} and ${res.longitude}")
+        }
+    }
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -163,7 +182,11 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                     points.addAll(currentLocation?.second ?: emptyList())
                                     points.add(LabelledGeoPoint(latitude, longitude, "Me"))
 
-                                    binding.mapView.overlays.add(plotPointOnMap(points, null))
+                                    binding.mapView.overlays.add(
+                                        stakePointPlot.plotPointOnMap(
+                                            points
+                                        )
+                                    )
 
                                     binding.mapView.overlays.add(
                                         DrawCircles(
@@ -342,7 +365,12 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                             navStakePointAdaptor.submitList(ls.first)
                                             currentLocation =
                                                 Pair(currentLocation?.first, ls.second)
-                                            binding.mapView.overlays.add(plotPointOnMap(ls.second) { res ->
+                                            binding.mapView.overlays.add(
+                                                stakePointPlot.plotPointOnMap(
+                                                    ls.second
+                                                )
+                                            )
+                                            /*{ res ->
                                                 currentLocation = Pair(
                                                     GeoPoint(res.latitude, res.longitude),
                                                     ls.second
@@ -356,7 +384,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                                     )
                                                 )
                                                 showMessage("${res.latitude} and ${res.longitude}")
-                                            })
+                                            }*/
                                             binding.mapView.controller.zoomToPoint(
                                                 12.5,
                                                 GeoPoint(

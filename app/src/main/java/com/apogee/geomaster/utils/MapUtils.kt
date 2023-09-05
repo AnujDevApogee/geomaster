@@ -31,28 +31,30 @@ fun Activity.compassOverlay(view: MapView) = object : CompassOverlay(this, view)
     }
 }
 
-fun plotPointOnMap(points: MutableList<IGeoPoint>, listener: ((IGeoPoint) -> Unit?)? =null): SimpleFastPointOverlay {
-    val pt = SimplePointTheme(points, true)
-    val textStyle = Paint()
-    textStyle.style = Paint.Style.FILL
-    textStyle.color = Color.parseColor("#0000ff")
-    textStyle.textAlign = Paint.Align.CENTER
-    textStyle.textSize = 24f
+class PointPlot(private val pointPlot: (IGeoPoint) -> Unit) {
 
-    val opt = SimpleFastPointOverlayOptions.getDefaultStyle()
-        .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-        .setRadius(7f).setIsClickable(true).setCellSize(15)
-        .setTextStyle(textStyle).setSymbol(SimpleFastPointOverlayOptions.Shape.CIRCLE)
+    fun plotPointOnMap(points: MutableList<IGeoPoint>): SimpleFastPointOverlay {
+        val pt = SimplePointTheme(points, true)
+        val textStyle = Paint()
+        textStyle.style = Paint.Style.FILL
+        textStyle.color = Color.parseColor("#0000ff")
+        textStyle.textAlign = Paint.Align.CENTER
+        textStyle.textSize = 24f
 
-    SimpleFastPointOverlay(pt, opt).apply {
-        setOnClickListener { points, point ->
-                listener?.invoke(points.get(point))
+        val opt = SimpleFastPointOverlayOptions.getDefaultStyle()
+            .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
+            .setRadius(7f).setIsClickable(true).setCellSize(15)
+            .setTextStyle(textStyle).setSymbol(SimpleFastPointOverlayOptions.Shape.CIRCLE)
+
+        SimpleFastPointOverlay(pt, opt).apply {
+            setOnClickListener { points, point ->
+                pointPlot.invoke(points.get(point))
+            }
+            return this
         }
-        return this
+
     }
-
 }
-
 
 fun IMapController.zoomToPoint(zoom: Double, geoPoint: GeoPoint) {
     setCenter(geoPoint)
