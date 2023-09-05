@@ -87,9 +87,7 @@ class ResponseHandling(context: Context ) {
                                                 .toTypedArray()
                                             val header = res_split[0]
                                             val header2 = res_split[1]
-                                            val split_index = validation_index.split("_".toRegex())
-                                                .dropLastWhile { it.isEmpty() }
-                                                .toTypedArray()
+                                            val split_index = validation_index.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                                             if (split_index.size > 0) {
                                                 val start = split_index[0]
                                                 val end = split_index[1]
