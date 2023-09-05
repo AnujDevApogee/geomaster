@@ -31,7 +31,7 @@ fun Activity.compassOverlay(view: MapView) = object : CompassOverlay(this, view)
     }
 }
 
-fun plotPointOnMap(points: MutableList<IGeoPoint>): SimpleFastPointOverlay {
+fun plotPointOnMap(points: MutableList<IGeoPoint>, listener: ((IGeoPoint) -> Unit?)? =null): SimpleFastPointOverlay {
     val pt = SimplePointTheme(points, true)
     val textStyle = Paint()
     textStyle.style = Paint.Style.FILL
@@ -44,7 +44,13 @@ fun plotPointOnMap(points: MutableList<IGeoPoint>): SimpleFastPointOverlay {
         .setRadius(7f).setIsClickable(true).setCellSize(15)
         .setTextStyle(textStyle).setSymbol(SimpleFastPointOverlayOptions.Shape.CIRCLE)
 
-    return SimpleFastPointOverlay(pt, opt)
+    SimpleFastPointOverlay(pt, opt).apply {
+        setOnClickListener { points, point ->
+                listener?.invoke(points.get(point))
+        }
+        return this
+    }
+
 }
 
 

@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -26,7 +26,6 @@ import com.apogee.geomaster.utils.DrawLinePoint
 import com.apogee.geomaster.utils.EASTING
 import com.apogee.geomaster.utils.NOTHING
 import com.apogee.geomaster.utils.OnItemClickListener
-import com.apogee.geomaster.utils.OnSwipeTouchListener
 import com.apogee.geomaster.utils.RADIUS
 import com.apogee.geomaster.utils.StakeHelper
 import com.apogee.geomaster.utils.angleType
@@ -44,6 +43,7 @@ import com.apogee.geomaster.utils.northSouth
 import com.apogee.geomaster.utils.plotPointOnMap
 import com.apogee.geomaster.utils.scaleOverlay
 import com.apogee.geomaster.utils.show
+import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.utils.zoomAndAnimateToPoints
 import com.apogee.geomaster.utils.zoomToPoint
 import com.apogee.geomaster.viewmodel.StakePointViewModel
@@ -70,20 +70,47 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
     private var currentLocation: Pair<GeoPoint?, MutableList<IGeoPoint>>? = null
 
+    private var isBottomView: Boolean = false
+    private var isTopView: Boolean = false
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = StakePointFragmentLayoutBinding.bind(view)
         (activity as HomeScreen?)?.hideActionBar()
 
-        binding.cvSliderOption.setOnTouchListener(
-            swipeGesture(
-                binding.infoLayout,
-                false,
-                binding.dropIc
-            )
-        )
-        binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true, binding.dropUp))
+//        binding.cvSliderOption.setOnTouchListener(
+//            swipeGesture(
+//                binding.infoLayout,
+//                false,
+//                binding.dropIc
+//            )
+//        )
+        //binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true, binding.dropUp))
+
+        binding.cvSliderOption.setOnClickListener {
+            if (isTopView) {
+                hideDirection()
+                binding.infoLayout.show()
+                binding.dropIc.rotation = 180f
+            } else {
+                binding.infoLayout.hide()
+                binding.dropIc.rotation = 0f
+            }
+            isTopView = !isTopView
+        }
+        binding.cvBottom.setOnClickListener {
+            if (isBottomView) {
+                hideDirection()
+                binding.layoutDrop.show()
+                binding.dropUp.rotation = 0f
+            } else {
+                binding.layoutDrop.hide()
+                binding.dropUp.rotation = 180f
+            }
+            isBottomView = !isBottomView
+        }
+
         setupMap()
         setUpAdaptor()
         getPoints()
@@ -109,8 +136,9 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                 binding.eastingTxt.text = "E :${longitude}"
                                 binding.elevationKy.text =
                                     "Elevation :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
+                                binding.altiuide.changeIconDrawable(R.drawable.ic_elevation_item)
                                 binding.altiuide.text =
-                                    "Altitude :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
+                                    "Fill :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double / 2)}"
                                 binding.tvSigmaX.text = ("σ X : ${data[StakeHelper.XAXIS]}")
                                 binding.tvSigmaY.text = ("σ Y : ${data[StakeHelper.YAXIS]}")
                                 binding.tvSigmaZ.text = ("σ Z : ${data[StakeHelper.ZAXIS]}")
@@ -135,7 +163,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                     points.addAll(currentLocation?.second ?: emptyList())
                                     points.add(LabelledGeoPoint(latitude, longitude, "Me"))
 
-                                    binding.mapView.overlays.add(plotPointOnMap(points))
+                                    binding.mapView.overlays.add(plotPointOnMap(points, null))
 
                                     binding.mapView.overlays.add(
                                         DrawCircles(
@@ -152,6 +180,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                             startPoint
                                         )
                                     )
+
                                     changeColor()
                                     findDistance(startPoint, desLocation)
                                 }
@@ -214,6 +243,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                         position = 3
                     )
                     binding.arrowRightDirection.text = it.first
+                    if (!showArrow())
+                        binding.arrowRightDirection.show()
                 }
 
                 EASTING.WEST -> {
@@ -224,6 +255,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                         position = 1
                     )
                     binding.arrowLeftDirection.text = it.first
+                    if (!showArrow())
+                        binding.arrowLeftDirection.show()
                 }
             }
         }
@@ -238,6 +271,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                         position = 2
                     )
                     binding.arrowTopDirection.text = it.first
+                    if (!showArrow())
+                        binding.arrowTopDirection.show()
 
                 }
 
@@ -245,6 +280,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                     binding.northSouthKey.changeIconDrawable(R.drawable.ic_south)
                     binding.northSouthKey.text = "${it.first} South"
                     binding.arrowDownDirection.text = it.first
+                    if (!showArrow())
+                        binding.arrowDownDirection.show()
                     binding.arrowDownDirection.changeIconDrawable(
                         R.drawable.down_direction_arrow,
                         position = 4
@@ -305,7 +342,21 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                             navStakePointAdaptor.submitList(ls.first)
                                             currentLocation =
                                                 Pair(currentLocation?.first, ls.second)
-                                            binding.mapView.overlays.add(plotPointOnMap(ls.second))
+                                            binding.mapView.overlays.add(plotPointOnMap(ls.second) { res ->
+                                                currentLocation = Pair(
+                                                    GeoPoint(res.latitude, res.longitude),
+                                                    ls.second
+                                                )
+                                                binding.mapView.zoomAndAnimateToPoints(
+                                                    listOf(
+                                                        LabelledGeoPoint(
+                                                            res.latitude,
+                                                            res.longitude
+                                                        )
+                                                    )
+                                                )
+                                                showMessage("${res.latitude} and ${res.longitude}")
+                                            })
                                             binding.mapView.controller.zoomToPoint(
                                                 12.5,
                                                 GeoPoint(
@@ -374,52 +425,6 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
     }
 
-
-    private fun swipeGesture(
-        view: View,
-        isBottomView: Boolean,
-        arrArrow: ImageView
-    ): OnSwipeTouchListener {
-        return object : OnSwipeTouchListener(requireActivity()) {
-            override fun onSwipeRight() {
-                super.onSwipeRight()
-                createLog("TOUCH_MSG", "Bottom RIGHT")
-            }
-
-            override fun onSwipeLeft() {
-                super.onSwipeLeft()
-                createLog("TOUCH_MSG", "Bottom LEFT")
-            }
-
-            override fun onSwipeTop() {
-                super.onSwipeTop()
-                if (!isBottomView) {
-                    if (currentLocation?.first!=null){
-                        showDirection()
-                    }
-                    view.hide()
-                } else {
-                    view.show()
-                }
-                arrArrow.rotation = 0f
-                createLog("TOUCH_MSG", "Bottom TOP")
-            }
-
-            override fun onSwipeBottom() {
-                super.onSwipeBottom()
-                if (!isBottomView) {
-                    hideDirection()
-                    view.show()
-                } else {
-
-                    view.hide()
-                }
-                arrArrow.rotation = 180f
-                createLog("TOUCH_MSG", "Bottom click")
-            }
-        }
-    }
-
     private fun hideDirection() {
         binding.arrowTopDirection.hide()
         binding.arrowDownDirection.hide()
@@ -427,12 +432,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding.arrowRightDirection.hide()
     }
 
-    private fun showDirection() {
-        binding.arrowTopDirection.show()
-        binding.arrowDownDirection.show()
-        binding.arrowLeftDirection.show()
-        binding.arrowRightDirection.show()
-    }
+    private fun showArrow() = binding.layoutDrop.isVisible && binding.infoLayout.isVisible
 
     private fun changeColor() {
         binding.arrowTopDirection.changeIconDrawable(
