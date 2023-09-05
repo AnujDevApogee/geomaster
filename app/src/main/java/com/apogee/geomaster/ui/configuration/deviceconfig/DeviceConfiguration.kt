@@ -40,10 +40,11 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
         (activity as HomeScreen?)?.hideActionBar()
         Log.d(
             "TAG",
-            "onViewCreated:argsDevice ${args.satelliteDataValues}---${args.surveyConfigName} "
+            "onViewCreated:argsDevice ---${args.surveyConfigName}---${args.satelliteConfigName} "
         )
         val surveyConfigId = dbControl.getproject_configurationID(args.surveyConfigName)
-        Log.d("TAG", "onViewCreated: surveyConfigIdDev --$surveyConfigId")
+        val sateLiiteConfigId = dbControl.getSatelliteConfigurationID(args.satelliteConfigName)
+        Log.d("TAG", "onViewCreated: surveyConfigIdDev --$surveyConfigId--$sateLiiteConfigId")
 
         setAdaptor()
         binding.doneBtn.setOnClickListener {
@@ -53,30 +54,21 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
                 "Create",
                 success = {
                     val result =
-                        dbControl.insertConfigMappingData("${args.surveyConfigName}Config,${surveyConfigId}")
+                        dbControl.insertConfigMappingData("${args.surveyConfigName}Config,${surveyConfigId},$sateLiiteConfigId")
                     Log.d("TAG", "onViewCreated:insertConfigMappingData $result")
-                    val configMappId =
-                        dbControl.getproject_configurationMappingID("${args.surveyConfigName}Config")
+                    val configMappId = dbControl.getproject_configurationMappingID("${args.surveyConfigName}Config")
                     if (configMappId.equals("")) {
                         Log.d("TAG", "onViewCreated: $configMappId")
                     } else {
-                        val resultmapping = dbControl.insertSatelliteMappingDataasas(
-                            configMappId,
-                            args.satelliteDataValues
-                        )
-                        Log.d("TAG", "onViewCreated: resultConfigInsert--$resultmapping")
-                        if (resultmapping != 0) {
-                            val saveproject =
-                                dbControl.insertProjectValues("${args.surveyConfigName},$configMappId")
-                            if(saveproject!=0){
-                                myPreference.putStringData("Last_Used", args.surveyConfigName)
-                                myPreference.putStringData("Last_Used_config","${args.surveyConfigName}Config")
-                                findNavController().safeNavigate(R.id.action_deviceConfiguration_to_homeScreenMainFragment)
-                            }else{
-                                Toast.makeText(requireContext(), "Project Creation Failed", Toast.LENGTH_SHORT).show()
-                            }
-                        } else {
-                            Toast.makeText(requireContext(), "SatelliteMapping Failed", Toast.LENGTH_SHORT).show()
+                        val projectCreate=dbControl.insertProjectValues("${args.surveyConfigName},$configMappId")
+                        if(projectCreate==1){
+                            findNavController().safeNavigate(DeviceConfigurationDirections.actionDeviceConfigurationToHomeScreenMainFragment())
+                            myPreference.putStringData("Last_Used", args.surveyConfigName)
+                            myPreference.putStringData("Last_Used_config","${args.surveyConfigName}Config")
+
+                            Toast.makeText(requireContext(), "Project Created Successfully", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(requireContext(), "Project Creation  Unsuccessful", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
@@ -89,7 +81,6 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
     private fun setAdaptor() {
         binding.recycleView.apply {
             this@DeviceConfiguration.adaptor = DeviceConfigurationAdaptor {
-
             }
             adapter = this@DeviceConfiguration.adaptor
             this@DeviceConfiguration.adaptor.submitList(DeviceWorkMode.list)

@@ -738,6 +738,21 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(charachtristics, charachtristicsColumn)
 
 
+
+
+        val device_characteristic_ble_map = "device_characteristic_ble_map"
+        val device_characteristic_ble_mapColumn = arrayOf(
+            TableCreator.ColumnDetails("device_characteristic_ble_map_id", "INTEGER", true),
+            TableCreator.ColumnDetails("write_characteristic_id", "INTEGER"),
+            TableCreator.ColumnDetails("order_no", "STRING"),
+            TableCreator.ColumnDetails("read_characteristic_id", "INTEGER"),
+            TableCreator.ColumnDetails("ble_operation_name_id", "INTEGER"),
+            TableCreator.ColumnDetails("device_id","INTEGER",foreignKey = true,foreignKeyReference = "device (device_id)"),
+            TableCreator.ColumnDetails("remark", "STRING"))
+        val device_characteristic_ble_mapTable = tableCreator.createMainTableIfNeeded(device_characteristic_ble_map, device_characteristic_ble_mapColumn)
+        Log.d(TAG, "CommonApi_TablesCreation:device_characteristic_ble_mapTable $device_characteristic_ble_mapTable ")
+
+
         val input = "input"
         val inputColumn = arrayOf(
             TableCreator.ColumnDetails("input_id", "INTEGER", true),
@@ -1323,6 +1338,65 @@ class DatabaseRepsoitory(context: Context) {
             )
 
 
+        val satelliteConfiguration = "satelliteConfiguration"
+        val satelliteConfigurationColumn = arrayOf(
+            TableCreator.ColumnDetails("satelliteConfig_id", "INTEGER", true),
+            TableCreator.ColumnDetails("satelliteConfig_name", "STRING"),
+            TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
+            TableCreator.ColumnDetails("created_at", "STRING"),
+            TableCreator.ColumnDetails("remark", "STRING"),
+        )
+        val satelliteConfigurationTable =
+            tableCreator.createMainTableIfNeeded(
+                satelliteConfiguration,
+                satelliteConfigurationColumn
+            )
+
+        if (satelliteConfigurationTable.equals("Table Created Successfully...")) {
+            val status1 = tableCreator.executeStaticQuery("INSERT INTO satelliteConfiguration (satelliteConfig_name,active) VALUES ('defaultSatellite','Y')")
+            Log.d(TAG,"CommonApi_TablesCreation: INSERTsatelliteConfigurationTable--$status1")
+        }
+
+
+        val satelliteMapping = "satelliteMapping"
+        val satelliteMappingColumn = arrayOf(
+            TableCreator.ColumnDetails("satelliteMapping_id", "INTEGER", true),
+            TableCreator.ColumnDetails(
+                "constellation_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "constellation (constellation_id)"
+            ),
+            TableCreator.ColumnDetails(
+                "satelliteConfig_id", "STRING", foreignKey = true, foreignKeyReference =
+                "satelliteConfiguration (satelliteConfig_id)"
+            ),
+            TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
+            TableCreator.ColumnDetails("created_at", "STRING"),
+            TableCreator.ColumnDetails("remark", "STRING"),
+        )
+        val satelliteMappingTable =
+            tableCreator.createMainTableIfNeeded(
+                satelliteMapping,
+                satelliteMappingColumn
+            )
+
+
+        if (satelliteMappingTable.equals("Table Created Successfully...")) {
+            val status1 =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,satelliteConfig_id) VALUES (1,1)")
+            val status2 =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,satelliteConfig_id) VALUES (2,1)")
+            val status3 =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,satelliteConfig_id) VALUES (5,1)")
+            val status4 =
+                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,satelliteConfig_id) VALUES (6,1)")
+            Log.d(TAG,"CommonApi_TablesCreation: INSERTsatelliteMapping--$status1--$status2--$status3--$status4")
+        }
+
+
+
+
         val project_configuration_mapping = "project_configuration_mapping"
         val project_configuration_mappingColumn = arrayOf(
             TableCreator.ColumnDetails("project_configuration_id", "INTEGER", true, true),
@@ -1332,6 +1406,11 @@ class DatabaseRepsoitory(context: Context) {
                 "INTEGER",
                 foreignKey = true,
                 foreignKeyReference = "survey_configuration(config_id)"
+            ),  TableCreator.ColumnDetails(
+                "satelliteConfig_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "satelliteConfiguration(satelliteConfig_id)"
             ),
             TableCreator.ColumnDetails(
                 "deviceConfig_id",
@@ -1365,7 +1444,7 @@ class DatabaseRepsoitory(context: Context) {
             val status =
                 tableCreator.executeStaticQuery(
                     "INSERT INTO project_configuration_mapping" +
-                            " (project_configuration_Name,config_id,deviceConfig_id) VALUES ('DefaultConfig',1,1)"
+                            " (project_configuration_Name,config_id,satelliteConfig_id,deviceConfig_id) VALUES ('DefaultConfig',1,1,1)"
                 )
 
             Log.d(
@@ -1374,58 +1453,11 @@ class DatabaseRepsoitory(context: Context) {
             )
         }
 
-        val satelliteConfiguration = "satelliteConfiguration"
-        val satelliteConfigurationColumn = arrayOf(
-            TableCreator.ColumnDetails("satelliteConfig_id", "INTEGER", true),
-            TableCreator.ColumnDetails("constellation_name", "STRING"),
-            TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
-            TableCreator.ColumnDetails("created_at", "STRING"),
-            TableCreator.ColumnDetails("remark", "STRING"),
-        )
-        val satelliteConfigurationTable =
-            tableCreator.createMainTableIfNeeded(
-                satelliteConfiguration,
-                satelliteConfigurationColumn
-            )
-
-        val satelliteMapping = "satelliteMapping"
-        val satelliteMappingColumn = arrayOf(
-            TableCreator.ColumnDetails("satelliteMapping_id", "INTEGER", true),
-            TableCreator.ColumnDetails(
-                "constellation_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "constellation (constellation_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "project_configuration_id", "STRING", foreignKey = true, foreignKeyReference =
-                "project_configuration_mapping (project_configuration_id)"
-            ),
-            TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
-            TableCreator.ColumnDetails("created_at", "STRING"),
-            TableCreator.ColumnDetails("remark", "STRING"),
-        )
-        val satelliteMappingTable =
-            tableCreator.createMainTableIfNeeded(
-                satelliteMapping,
-                satelliteMappingColumn
-            )
 
 
-        if (satelliteMappingTable.equals("Table Created Successfully...")) {
-            val status1 =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (1,1)")
-            val status2 =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (2,1)")
-            val status3 =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (5,1)")
-            val status4 =
-                tableCreator.executeStaticQuery("INSERT INTO satelliteMapping (constellation_id,project_Configuration_id) VALUES (6,1)")
-            Log.d(
-                TAG,
-                "CommonApi_TablesCreation: INSERTsatelliteMapping--$status1--$status2--$status3--$status4"
-            )
-        }
+
+
+
 
 
         val project_table = "project_table"
@@ -1511,6 +1543,7 @@ class DatabaseRepsoitory(context: Context) {
                     "\n selectionTable:--$selectionTable" +
                     "\n deviceTable:--$deviceTable" +
                     "\n response_sub_byte_divisionTable:--$response_sub_byte_divisionTable" +
+                    "\n response_sub_byte_divisionTable:--$device_characteristic_ble_mapTable" +
                     "\n command_device_mapTable:--$command_device_mapTable" +
                     "\n sub_byte_divisionTable:--$sub_byte_divisionTable" +
                     "\n sub_division_selectionTable:--$sub_division_selectionTable" +
@@ -1593,6 +1626,7 @@ class DatabaseRepsoitory(context: Context) {
             && selectionTable.equals("Table Created Successfully...")
             && deviceTable.equals("Table Created Successfully...")
             && response_sub_byte_divisionTable.equals("Table Created Successfully...")
+            && device_characteristic_ble_mapTable.equals("Table Created Successfully...")
             && command_device_mapTable.equals("Table Created Successfully...")
             && sub_byte_divisionTable.equals("Table Created Successfully...")
             && sub_division_selectionTable.equals("Table Created Successfully...")
@@ -1835,8 +1869,10 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.executeStaticQuery("SELECT zonedata_id FROM zonedata where zone='" + zone + "'")
         return data?.get(0) ?: ""
     }
+
     fun getCoordinateSystem(): List<String>? {
-        val data = tableCreator.executeStaticQuery("SELECT coordinateSystem_name FROM coordinateSystem where active = 'Y' ")
+        val data =
+            tableCreator.executeStaticQuery("SELECT coordinateSystem_name FROM coordinateSystem where active = 'Y' ")
         return data
     }
 
@@ -1906,67 +1942,51 @@ class DatabaseRepsoitory(context: Context) {
         return data
     }
 
-    fun insertSatelliteMappingData(data: String): String {
 
-        /*        val satelliteConfiguration = "satelliteConfiguration"
-                val satelliteConfigurationColumn = arrayOf(
-                    TableCreator.ColumnDetails("satelliteConfig_id", "INTEGER", true),
-                    TableCreator.ColumnDetails("constellation_name", "STRING"),
-                    TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
-                    TableCreator.ColumnDetails("created_at", "STRING"),
-                    TableCreator.ColumnDetails("remark", "STRING"),*/
-
-
-        var query =
-            " INSERT INTO satelliteConfiguration ( constellation_name,active) VALUES ('" + data.split(
-                ","
-            )[1] + "','" + data.split(",")[0] + "')"
+    fun insertSatelliteConfiguration(data: String): Int {
+        var result=0
+        val query ="INSERT INTO satelliteConfiguration ( satelliteConfig_name,active) VALUES ('" + data.split(",")[0] + "','Y')"
         Log.d(TAG, "insertSatelliteDataList: $query")
-        var result = tableCreator.executeStaticQuery(query)
-        Log.d(TAG, "insertSatelliteDataList: $result")
-        return result.toString()
+        val resultResult = tableCreator.executeStaticQuery(query)
+        Log.d(TAG, "insertSatelliteConfiguration: $resultResult")
+        if(resultResult!!.size!=0){
+            result=0
+            Log.d(TAG, "insertSatelliteDataList: $resultResult")
+        }else{
+            Log.d(TAG, "insertSatelliteDataList: $resultResult")
+
+            result=1
+        }
+        return result
+    }
+    fun getSatelliteConfigurationID(satelliteConfig_name: String): String {
+        Log.d(TAG, "getproject_configurationID: $satelliteConfig_name")
+        var data =
+            tableCreator.executeStaticQuery("SELECT satelliteConfig_id FROM satelliteConfiguration where satelliteConfig_name='" + satelliteConfig_name + "'")
+        Log.d(TAG, "getproject_configurationID:$satelliteConfig_name--- $data ")
+        return data?.get(0) ?: ""
     }
 
-
-    fun insertSatelliteDataList(data: String): String {
-
-        /*        val satelliteConfiguration = "satelliteConfiguration"
-                val satelliteConfigurationColumn = arrayOf(
-                    TableCreator.ColumnDetails("satelliteConfig_id", "INTEGER", true),
-                    TableCreator.ColumnDetails("constellation_name", "STRING"),
-                    TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
-                    TableCreator.ColumnDetails("created_at", "STRING"),
-                    TableCreator.ColumnDetails("remark", "STRING"),*/
-
-        val query =
-            " INSERT INTO satelliteConfiguration ( constellation_name,active) VALUES ('" + data.split(
-                ","
-            )[0] + "','" + data.split(",")[1] + "')"
-        Log.d(TAG, "insertSatelliteDataList: $query")
-        val result = tableCreator.executeStaticQuery(query)
-        Log.d(TAG, "insertSatelliteDataList: $result")
-        return result.toString()
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun addConfigurationData(map: HashMap<String, String>): String {
         var insertResult = ""
-            Log.d(TAG, "addConfigurationData: Else")
+        Log.d(TAG, "addConfigurationData: Else")
 
-            val dataList: MutableList<ContentValues> = ArrayList()
-            val values1 = ContentValues()
-            Log.d(TAG, "addConfigurationData:projectName ${map.get("projectName")}")
-            values1.put("config_name", map.get("projectName"))
-            values1.put("datum_id", map.get("datumName"))
-            values1.put("zonedata_id", map.get("zoneData"))
-            values1.put("elevationtype_id", map.get("elevation"))
-            values1.put("distanceunit_id", map.get("distanceUnit"))
-            values1.put("angleunit_id", map.get("angleUnit"))
-            values1.put("projectionParam_id", map.get("zoneProjection"))
-            values1.put("config_time", "${LocalDateTime.now()}")
-            dataList.add(values1)
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val values1 = ContentValues()
+        Log.d(TAG, "addConfigurationData:projectName ${map.get("projectName")}")
+        values1.put("config_name", map.get("projectName"))
+        values1.put("datum_id", map.get("datumName"))
+        values1.put("zonedata_id", map.get("zoneData"))
+        values1.put("elevationtype_id", map.get("elevation"))
+        values1.put("distanceunit_id", map.get("distanceUnit"))
+        values1.put("angleunit_id", map.get("angleUnit"))
+        values1.put("projectionParam_id", map.get("zoneProjection"))
+        values1.put("config_time", "${LocalDateTime.now()}")
+        dataList.add(values1)
 
-            insertResult = tableCreator.insertDataIntoTable("survey_configuration", dataList)
+        insertResult = tableCreator.insertDataIntoTable("survey_configuration", dataList)
 
         return insertResult
     }
@@ -2046,12 +2066,7 @@ class DatabaseRepsoitory(context: Context) {
         Log.d(TAG, "insertConfigMappingData: $values")
         val data = tableCreator.executeStaticQuery(
             "INSERT INTO project_configuration_mapping" +
-                    " (project_configuration_Name,config_id) VALUES ('${values.split(",")[0]}',${
-                        values.split(
-                            ","
-                        )[1]
-                    })"
-        )
+                    " (project_configuration_Name,config_id,satelliteConfig_id) VALUES ('${values.split(",")[0]}',${values.split(",")[1]},${values.split(",")[2]})")
 
         return data!!
     }
@@ -2075,7 +2090,7 @@ class DatabaseRepsoitory(context: Context) {
 
     fun insertSatelliteMappingDataasas(
         configMapId: String,
-        statusList: Array<SatelliteModel>
+        statusList: ArrayList<SatelliteModel>
     ): Int {
         var result = 0
         var count = 0
@@ -2086,7 +2101,7 @@ class DatabaseRepsoitory(context: Context) {
                 "insertSatelliteMappingDataasas:--statusList ${statusList.get(i).satelliteStatus}"
             )
             val status1 = tableCreator.executeStaticQuery(
-                "INSERT INTO satelliteMapping (constellation_id,project_Configuration_id,active) VALUES ($constID,'$configMapId','${
+                "INSERT INTO satelliteMapping (constellation_id,satelliteConfig_id,active) VALUES ($constID,'$configMapId','${
                     statusList.get(i).satelliteStatus
                 }')"
             )
@@ -2104,6 +2119,7 @@ class DatabaseRepsoitory(context: Context) {
     }
 
     fun insertProjectValues(values: String): Int {
+        Log.d(TAG, "insertProjectValues: values --$values")
         var result = 0
         val status1 = tableCreator.executeStaticQuery(
             "INSERT INTO project_table (project_name,project_configuration_id) VALUES ('${
@@ -2141,13 +2157,15 @@ class DatabaseRepsoitory(context: Context) {
     fun BluetoothConfigurationData(apiResponse: String) {
         insertDBData(apiResponse)
     }
-    fun getFixedResponse(param_id: String,value: String): Cursor? {
+
+    fun getFixedResponse(param_id: String, value: String): Cursor? {
         val query =
             (" select * from fixed_response fr,fixed_response_value frv where fr.active='Y' and frv.active='Y' "
                     + " and fr.fixed_response_id=frv.fixed_response_id and fr.parameter_id='" + param_id + "'  "
                     + " and frv.select_value='" + value + "' ")
         return tableCreator.executeStaticQueryForCursor(query)
     }
+
     fun getParameterResponse(param: String): Cursor? {
         val query =
             (" select * from parameter2 p,parameter_type pt where p.active='Y' and pt.active='Y' "
@@ -2162,8 +2180,9 @@ class DatabaseRepsoitory(context: Context) {
     fun getResponseList(id: Int): ArrayList<DBResponseModel>? {
         val list: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
         try {
-            var cursor = tableCreator.executeStaticQueryForCursor("SELECT * FROM response where command_id=$id order by response_type_id asc")
-            if(cursor!=null) {
+            var cursor =
+                tableCreator.executeStaticQueryForCursor("SELECT * FROM response where command_id=$id order by response_type_id asc")
+            if (cursor != null) {
                 for (i in 0 until cursor.count) {
                     cursor.moveToPosition(i)
                     val response_id = cursor.getString(cursor.getColumnIndex("response_id"))
@@ -2183,7 +2202,7 @@ class DatabaseRepsoitory(context: Context) {
                     val all_delimeter_list = ArrayList<DelimeterResponse>()
                     val query = (" select * from delimeter_validation  where active='Y' "
                             + " and response_id='" + response_id + "'")
-                    val d_cursor =  tableCreator.executeStaticQueryForCursor(query)
+                    val d_cursor = tableCreator.executeStaticQueryForCursor(query)
                     while (d_cursor!!.moveToNext()) {
                         val delimeter_validation_id =
                             d_cursor.getString(d_cursor.getColumnIndex("delimeter_validation_id"))
