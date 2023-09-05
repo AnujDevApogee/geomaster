@@ -81,7 +81,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
     private var isBottomView: Boolean = false
     private var isTopView: Boolean = false
-
+    private val sentence = StringBuilder()
     private val stakePointPlot by lazy {
         PointPlot { res ->
             currentLocation = Pair(
@@ -253,8 +253,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             "findDistance: Destination Point X =${desEstWst.first} Y=${desEstWst.second}" + "\n Start Point X= ${startEstWst.first} Y=${startEstWst.second} " + "\n Angle is $angle" + " $distance"
         )
 
-        val sentence = StringBuilder()
 
+        sentence.clear()
         binding.distance.text = "Distance ${isProperLength(distance)}"
 
         binding.elevationAngle.text = ("${angleType(angle)} Degree")
@@ -352,7 +352,9 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                     res?.let {
                         when (it) {
                             is ApiResponse.Error -> {}
-                            is ApiResponse.Loading -> {}
+                            is ApiResponse.Loading -> {
+                                showPb()
+                            }
                             is ApiResponse.Success -> {
                                 val ls = it.data
                                 createLog(
@@ -362,28 +364,27 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
                                 if (ls != null && ls.first.isNotEmpty() && ls.second.isNotEmpty()) {
                                     try {
+                                        hidePb()
+                                        binding.mapView.overlays.clear()
+                                        binding.mapView.overlays.add(
+                                            requireActivity().compassOverlay(
+                                                binding.mapView
+                                            )
+                                        )
+                                        binding.mapView.overlays.add(
+                                            requireActivity().scaleOverlay(
+                                                binding.mapView
+                                            )
+                                        )
                                         navStakePointAdaptor.submitList(ls.first)
                                         currentLocation =
                                             Pair(currentLocation?.first, ls.second)
+
                                         binding.mapView.overlays.add(
                                             stakePointPlot.plotPointOnMap(
                                                 ls.second
                                             )
-                                        )/*{ res ->
-                                                currentLocation = Pair(
-                                                    GeoPoint(res.latitude, res.longitude),
-                                                    ls.second
-                                                )
-                                                binding.mapView.zoomAndAnimateToPoints(
-                                                    listOf(
-                                                        LabelledGeoPoint(
-                                                            res.latitude,
-                                                            res.longitude
-                                                        )
-                                                    )
-                                                )
-                                                showMessage("${res.latitude} and ${res.longitude}")
-                                            }*/
+                                        )
                                         binding.mapView.controller.zoomToPoint(
                                             12.5, GeoPoint(
                                                 ls.second.first().latitude,
@@ -391,6 +392,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                                 FakeStakePointRepository.altitude
                                             )
                                         )
+                                        binding.mapView.invalidate()
                                     } catch (e: Exception) {
                                         createLog(
                                             "TAG_INFO", "PLOTTING CRASH ${e.localizedMessage}"
@@ -410,7 +412,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         Configuration.getInstance().load(
             requireActivity(), PreferenceManager.getDefaultSharedPreferences(requireActivity())
         )
-        binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+        binding.mapView.setTileSource(TileSourceFactory.BASE_OVERLAY_NL)
         binding.mapView.overlayManager.tilesOverlay.loadingBackgroundColor = Color.TRANSPARENT
         binding.mapView.setMultiTouchControls(true)
         binding.mapView.overlays.add(requireActivity().scaleOverlay(binding.mapView))
@@ -483,5 +485,13 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                 audioListener.speak(data)
             }.await()
         }
+    }
+
+    private fun showPb() {
+        binding.pb.isVisible = true
+    }
+
+    private fun hidePb() {
+        binding.pb.isVisible = false
     }
 }

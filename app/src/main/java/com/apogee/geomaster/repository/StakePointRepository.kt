@@ -41,6 +41,7 @@ class StakePointRepository(application: Application) : MockStakePointImpl {
 
     override fun receivePoint(surveyModel: SurveyModel) {
         coroutineScope.launch {
+            _data.value = ApiResponse.Loading(Pair(mutableListOf(), mutableListOf()))
             listNode.add(surveyModel)
             delay(100)
             points.add(
