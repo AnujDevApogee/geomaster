@@ -1,6 +1,10 @@
-
 <resources>
     <color name="seed">#0E4A88</color>
+    <color name="light_gray">#B5B5B5</color>
+    <color name="test">#0E4A88</color>
+    <color name="test1">#CAD7E2</color>
+    <color name="blue">#4099FF</color>
+    <color name="colorPrimaryDark">#0E4A88</color>
     <color name="md_theme_light_primary">#215FA6</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#D5E3FF</color>
@@ -28,6 +32,7 @@
     <color name="md_theme_light_inverseOnSurface">#F1F0F4</color>
     <color name="md_theme_light_inverseSurface">#2F3033</color>
     <color name="md_theme_light_inversePrimary">#A6C8FF</color>
+    <color name="whitetest">#eeeeee</color>
     <color name="md_theme_light_shadow">#000000</color>
     <color name="md_theme_light_surfaceTint">#215FA6</color>
     <color name="md_theme_light_outlineVariant">#C4C6CF</color>

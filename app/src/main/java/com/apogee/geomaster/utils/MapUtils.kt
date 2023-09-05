@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.api.IMapController
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -66,4 +67,23 @@ fun MapView.zoomAndAnimateToPoints(ls: List<GeoPoint>) {
     val boundingBox = BoundingBox.fromGeoPoints(ls)
     zoomToBoundingBox(boundingBox, true)
     invalidate()
+}
+
+fun MapView.showStreetView() {
+    setTileSource(TileSourceFactory.MAPNIK)
+}
+
+fun MapView.showSatellite() {
+    setTileSource(TileSourceFactory.USGS_SAT)
+}
+
+fun MapView.showPlainView() {
+    setTileSource(TileSourceFactory.BASE_OVERLAY_NL)
+    overlayManager.tilesOverlay.loadingBackgroundColor = Color.TRANSPARENT
+}
+
+enum class MapType {
+    STATALLITE,
+    STEETVIEW,
+    PLANEVIEW
 }

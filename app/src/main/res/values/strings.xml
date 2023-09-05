@@ -5,6 +5,13 @@
     <string name="please_turn_on_internet_connection_to_continue">Please! Turn on internet to continue</string>
     <string name="ok">Ok</string>
     <string name="unKnow_value">N/A</string>
+    <string name="imu">IMU</string>
+    <string name="point_codes">Point Code</string>
+    <string name="lrf">LRF</string>
+    <string name="point_media">Point Media</string>
+    <string name="lines">Lines</string>
+    <string name="scale_bar">Scale Bar</string>
+    <string name="map_opacity">Map Opacity</string>
     <string name="disconnect_value">Disconnect</string>
     <string name="create_project">Create Projects</string>
     <string name="create_configuration">Create Configuration</string>
@@ -22,6 +29,7 @@
     <string name="coordinate_system">Coordinate System</string>
     <string name="datum_type">Datum Type</string>
     <string name="calFile">Cal File</string>
+    <string name="point_names">Point Names</string>
     <string name="chooseFile">Choose Cal File</string>
     <string name="continent">Continent</string>
     <string name="country">Countries</string>

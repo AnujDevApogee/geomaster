@@ -24,6 +24,8 @@ import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.DrawCircles
 import com.apogee.geomaster.utils.DrawLinePoint
 import com.apogee.geomaster.utils.EASTING
+import com.apogee.geomaster.utils.MapType
+import com.apogee.geomaster.utils.MapType.*
 import com.apogee.geomaster.utils.NOTHING
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.PointPlot
@@ -42,8 +44,12 @@ import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.isProperLength
 import com.apogee.geomaster.utils.northSouth
 import com.apogee.geomaster.utils.scaleOverlay
+import com.apogee.geomaster.utils.setUpDialogInfo
 import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.showMessage
+import com.apogee.geomaster.utils.showPlainView
+import com.apogee.geomaster.utils.showSatellite
+import com.apogee.geomaster.utils.showStreetView
 import com.apogee.geomaster.utils.zoomAndAnimateToPoints
 import com.apogee.geomaster.utils.zoomToPoint
 import com.apogee.geomaster.viewmodel.StakePointViewModel
@@ -98,15 +104,6 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding = StakePointFragmentLayoutBinding.bind(view)
         (activity as HomeScreen?)?.hideActionBar()
 
-//        binding.cvSliderOption.setOnTouchListener(
-//            swipeGesture(
-//                binding.infoLayout,
-//                false,
-//                binding.dropIc
-//            )
-//        )
-        //binding.cvBottom.setOnTouchListener(swipeGesture(binding.layoutDrop, true, binding.dropUp))
-
         binding.cvSliderOption.setOnClickListener {
             if (isTopView) {
                 hideDirection()
@@ -130,10 +127,21 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             isBottomView = !isBottomView
         }
 
+        binding.bubblePoint.setOnClickListener {
+            activity?.setUpDialogInfo { map ->
+                when (valueOf(map)) {
+                    STATALLITE -> binding.mapView.showSatellite()
+                    STEETVIEW -> binding.mapView.showStreetView()
+                    PLANEVIEW -> binding.mapView.showPlainView()
+                }
+            }
+        }
+
         setupMap()
         setUpAdaptor()
         getPoints()
         getCoordinate()
+
 
     }
 
@@ -332,7 +340,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             binding.mapView.zoomToBoundingBox(boundingBox, true)
             binding.mapView.invalidate()
         } else {
-            binding.mapView.controller.setCenter(startPoint)
+            binding.mapView.controller.setCenter(desPoint)
         }
 
         /*  binding.directionX.text = " ${estWst((endEstWst.first - startEstWst.first))}"
