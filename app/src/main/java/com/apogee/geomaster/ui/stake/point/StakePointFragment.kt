@@ -386,7 +386,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
             requireActivity(),
             PreferenceManager.getDefaultSharedPreferences(requireActivity())
         )
-        binding.mapView.setTileSource(TileSourceFactory.BASE_OVERLAY_NL)
+        binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
         binding.mapView.overlayManager.tilesOverlay.loadingBackgroundColor = Color.TRANSPARENT
         binding.mapView.setMultiTouchControls(true)
         binding.mapView.overlays.add(requireActivity().scaleOverlay(binding.mapView))

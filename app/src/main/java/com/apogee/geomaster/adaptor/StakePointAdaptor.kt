@@ -16,16 +16,16 @@ import com.apogee.geomaster.utils.createLog
 class StakePointAdaptor(private val itemClicked: OnItemClickListener) :
     ListAdapter<SurveyModel, StakePointAdaptor.StakeViewHolder>(diffUtil) {
 
-    private val asyncDiffUtil: AsyncListDiffer<SurveyModel> = AsyncListDiffer(this, diffUtil)
+    private val asyncDiffUtil: AsyncListDiffer<SurveyModel>? = AsyncListDiffer(this, diffUtil)
 
 
     override fun getItemCount(): Int {
-        return asyncDiffUtil.currentList.size
+        return asyncDiffUtil?.currentList?.size ?: 0
     }
 
     override fun submitList(list: MutableList<SurveyModel>?) {
         createLog("ls_hit","from submit list ${list?.size}")
-        asyncDiffUtil.submitList(list)
+        asyncDiffUtil?.submitList(list)
 
     }
     inner class StakeViewHolder(private val binding: StakePointItemBinding) :
@@ -62,13 +62,13 @@ class StakePointAdaptor(private val itemClicked: OnItemClickListener) :
         return StakeViewHolder(binding)
     }
 
-    override fun getItem(position: Int): SurveyModel {
-        return asyncDiffUtil.currentList[position]
+    override fun getItem(position: Int): SurveyModel? {
+        return asyncDiffUtil?.currentList?.get(position)
     }
 
     override fun onBindViewHolder(holder: StakeViewHolder, position: Int) {
         val currItem = getItem(position)
-        currItem.let {
+        currItem?.let {
             holder.setData(it, itemClicked)
         }
     }
