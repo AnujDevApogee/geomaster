@@ -75,6 +75,12 @@
 
     <string name="ssid_conn">SSID</string>
     <string name="ssid_pass_conn">SSID Password</string>
+    <string name="select_work_mode">SELECT WORK MODE</string>
+    <string name="base">BASE</string>
+    <string name="rover">ROVER</string>
+    <string name="static_">STATIC</string>
+
+    <string name="ppk">PPK</string>
 
 
 </resources>

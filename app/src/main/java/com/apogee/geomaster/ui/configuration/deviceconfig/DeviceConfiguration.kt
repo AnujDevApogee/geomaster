@@ -46,7 +46,7 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
         val sateLiiteConfigId = dbControl.getSatelliteConfigurationID(args.satelliteConfigName)
         Log.d("TAG", "onViewCreated: surveyConfigIdDev --$surveyConfigId--$sateLiiteConfigId")
 
-        setAdaptor()
+//        setAdaptor()
         binding.doneBtn.setOnClickListener {
             activity?.setUpDialogBox("Modify Project",
                 "Are you sure to modify the project or create a New One",
@@ -78,13 +78,13 @@ class DeviceConfiguration : Fragment(R.layout.device_config_layout) {
         }
     }
 
-    private fun setAdaptor() {
+/*    private fun setAdaptor() {
         binding.recycleView.apply {
             this@DeviceConfiguration.adaptor = DeviceConfigurationAdaptor {
             }
             adapter = this@DeviceConfiguration.adaptor
             this@DeviceConfiguration.adaptor.submitList(DeviceWorkMode.list)
         }
-    }
+    }*/
 
 }
