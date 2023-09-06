@@ -31,7 +31,7 @@ class FakeStakePointRepository(application: Application, private val data: MockS
     }
 
     fun fakeStakePoint() {
-        for (i in 0..99999) {
+        for (i in 0..22000) {
             val obj = SurveyModel(
                 i + 1,
                 "point_${i + 1}",

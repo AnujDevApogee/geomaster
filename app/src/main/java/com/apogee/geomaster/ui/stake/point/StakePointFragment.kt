@@ -184,8 +184,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                 val latitude = data[StakeHelper.LATITUDE] as Double
                                 val longitude = data[StakeHelper.LONGITUDE] as Double
 
-                                binding.northIngTxt.text = "N :${latitude}"
-                                binding.eastingTxt.text = "E :${longitude}"
+                                binding.northIngTxt.text = "${PointPlot.spaceCoordinate}N :${latitude}"
+                                binding.eastingTxt.text = "${PointPlot.spaceCoordinate}E :${longitude}"
                                 binding.elevationKy.text =
                                     "Elevation :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
                                 binding.altiuide.changeIconDrawable(R.drawable.ic_elevation_item)
@@ -275,7 +275,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
 
         sentence.clear()
-        binding.distance.text = "Distance ${isProperLength(distance)}"
+        binding.distance.text = "${PointPlot.spaceCoordinate}Dist: ${isProperLength(distance)}"
 
         binding.elevationAngle.text = ("${angleType(angle)} Degree")
 

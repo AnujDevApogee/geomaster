@@ -33,7 +33,9 @@ fun Activity.compassOverlay(view: MapView) = object : CompassOverlay(this, view)
 }
 
 class PointPlot(private val pointPlot: (IGeoPoint) -> Unit) {
-
+companion object{
+    const val spaceCoordinate="\t\t\t\t\t"
+}
     fun plotPointOnMap(points: MutableList<IGeoPoint>): SimpleFastPointOverlay {
         val pt = SimplePointTheme(points, true)
         val textStyle = Paint()

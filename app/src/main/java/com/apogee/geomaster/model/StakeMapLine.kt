@@ -9,7 +9,7 @@ data class StakeMapLine(
     companion object {
         val list = listOf(
             StakeMapLine(
-                id = R.drawable.ic_add
+                id = R.drawable.setting_icon
             ), StakeMapLine(
                 id = R.drawable.ic_easting
             ), StakeMapLine(
@@ -17,7 +17,7 @@ data class StakeMapLine(
             ), StakeMapLine(
                 id = R.drawable.ic_angle
             ), StakeMapLine(
-                id = R.drawable.ic_add
+                id = R.drawable.ic_setting
             ), StakeMapLine(
                 id = R.drawable.ic_setting
             ), StakeMapLine(
