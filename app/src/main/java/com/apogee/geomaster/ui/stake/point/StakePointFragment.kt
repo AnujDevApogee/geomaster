@@ -15,8 +15,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.apogee.geomaster.R
+import com.apogee.geomaster.adaptor.StakeMapListAdaptor
 import com.apogee.geomaster.adaptor.StakePointAdaptor
 import com.apogee.geomaster.databinding.StakePointFragmentLayoutBinding
+import com.apogee.geomaster.model.StakeMapLine
 import com.apogee.geomaster.model.SurveyModel
 import com.apogee.geomaster.repository.FakeStakePointRepository
 import com.apogee.geomaster.ui.HomeScreen
@@ -66,7 +68,6 @@ import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-import java.lang.StringBuilder
 
 
 class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
@@ -102,6 +103,19 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         AudioListener(requireActivity())
     }
 
+    private val recycleViewCallBack = object : OnItemClickListener {
+        override fun <T> onClickListener(response: T) {
+            if (response is StakeMapLine && response.id == R.drawable.ic_setting) {
+                activity?.setUpDialogInfo { map ->
+                    when (valueOf(map)) {
+                        STATALLITE -> binding.mapView.showSatellite()
+                        STEETVIEW -> binding.mapView.showStreetView()
+                        PLANEVIEW -> binding.mapView.showPlainView()
+                    }
+                }
+            }
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,31 +137,37 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding.cvBottom.setOnClickListener {
             if (isBottomView) {
                 hideDirection()
-                binding.layoutDrop.show()
+                //binding.layoutDrop.show()
+                binding.bottomRecycleViews.show()
+                binding.topRecycleViews.show()
                 binding.dropUp.rotation = 0f
             } else {
-                binding.layoutDrop.hide()
+                binding.bottomRecycleViews.hide()
+                binding.topRecycleViews.hide()
                 binding.dropUp.rotation = 180f
             }
             isBottomView = !isBottomView
         }
-
-        binding.bubblePoint.setOnClickListener {
-            activity?.setUpDialogInfo { map ->
-                when (valueOf(map)) {
-                    STATALLITE -> binding.mapView.showSatellite()
-                    STEETVIEW -> binding.mapView.showStreetView()
-                    PLANEVIEW -> binding.mapView.showPlainView()
-                }
-            }
-        }
-
+        setAdaptor()
         setupMap()
         setUpAdaptor()
         getPoints()
         getCoordinate()
 
 
+    }
+
+    private fun setAdaptor() {
+        binding.topRecycleViews.apply {
+            val adapter=StakeMapListAdaptor(recycleViewCallBack)
+            this.adapter=adapter
+            adapter.submitList(StakeMapLine.list)
+        }
+        binding.bottomRecycleViews.apply {
+            val adapter=StakeMapListAdaptor(recycleViewCallBack)
+            this.adapter=adapter
+            adapter.submitList(StakeMapLine.otherLayout)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -454,7 +474,8 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         binding.arrowRightDirection.hide()
     }
 
-    private fun showArrow() = binding.layoutDrop.isVisible && binding.infoLayout.isVisible
+    private fun showArrow() =
+        binding.topRecycleViews.isVisible && binding.infoLayout.isVisible && binding.bottomRecycleViews.isVisible
 
     private fun changeColor() {
         binding.arrowTopDirection.changeIconDrawable(
