@@ -2193,6 +2193,8 @@ class DatabaseRepsoitory(context: Context) {
         return result
     }
 
+
+
     fun insertProjectValues(values: String): Int {
         Log.d(TAG, "insertProjectValues: values --$values")
         var result = 0
@@ -2211,6 +2213,7 @@ class DatabaseRepsoitory(context: Context) {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insertSatelliteMappingDatajjj(list: List<String>): String {
 
         val dataList: MutableList<ContentValues> = ArrayList()

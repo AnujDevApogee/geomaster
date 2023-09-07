@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_point"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_slider_option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:elevation="5dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/info_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
+
+                        <TextView
+                            android:id="@+id/north_ing_txt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/distance"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="N: gkfld" />
+
+
+                        <TextView
+                            android:id="@+id/easting_txt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/degree_txt"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/north_ing_txt"
+                            tools:text="E: gkfld" />
+
+
+                        <TextView
+                            android:id="@+id/elevation_ky"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            app:drawableLeftCompat="@drawable/ic_elevation_item"
+                            app:drawableTint="@color/black"
+                            app:layout_constraintEnd_toStartOf="@+id/north_south_key"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/easting_txt"
+                            tools:text="Elv: gdfkl" />
+
+
+                        <TextView
+                            android:id="@+id/elevation_angle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/ic_angle"
+                            app:drawableTint="@color/black"
+                            app:layout_constraintEnd_toStartOf="@+id/altiuide"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/elevation_ky"
+                            tools:text="Angle: gdfkl" />
+
+
+                        <TextView
+                            android:id="@+id/altiuide"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:drawableTint="#AFAFAF"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/elevation_angle"
+                            app:layout_constraintTop_toTopOf="@id/elevation_angle"
+                            tools:text="Curr Elevetion" />
+
+
+                        <TextView
+                            android:id="@+id/distance"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/north_ing_txt"
+                            app:layout_constraintTop_toTopOf="@id/north_ing_txt"
+                            tools:text="\tD: gkfld" />
+
+
+                        <TextView
+                            android:id="@+id/degree_txt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/easting_txt"
+                            app:layout_constraintTop_toTopOf="@id/easting_txt"
+                            tools:text="East/West" />
+
+
+                        <TextView
+                            android:id="@+id/north_south_key"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/text_view_border"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="5dp"
+                            android:textColor="@color/seed"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/elevation_ky"
+                            app:layout_constraintTop_toTopOf="@id/elevation_ky"
+                            tools:text="North/South" />
+
+
+                        <TextView
+                            android:id="@+id/tv_sigma_x"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/open_sans_light"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_sigma_y"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/elevation_angle"
+                            tools:text="σ X : " />
+
+                        <TextView
+                            android:id="@+id/tv_sigma_y"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/open_sans_light"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_sigma_z"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/tv_sigma_x"
+                            app:layout_constraintTop_toTopOf="@id/tv_sigma_x"
+                            tools:text="σ Y : " />
+
+
+                        <TextView
+                            android:id="@+id/tv_sigma_z"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/open_sans_light"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@+id/tv_sigma_y"
+                            app:layout_constraintTop_toTopOf="@id/tv_sigma_y"
+                            tools:text="σ Z : " />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:id="@+id/drop_ic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bottom_curve"
+                        android:backgroundTint="#E0DEDE"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_down_arrow"
+                        app:tint="#888585" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <org.osmdroid.views.MapView
+                android:id="@+id/map_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/cv_bottom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_slider_option" />
+
+
+            <TextView
+                android:id="@+id/arrow_top_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="5dp"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/open_sans_light"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableTopCompat="@drawable/up_direction_arrow"
+                app:layout_constraintLeft_toLeftOf="@id/cv_slider_option"
+                app:layout_constraintRight_toRightOf="@id/cv_slider_option"
+                app:layout_constraintTop_toBottomOf="@id/cv_slider_option"
+                tools:text="gfklgdgfdgkld"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/arrow_down_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawablePadding="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableBottomCompat="@drawable/down_direction_arrow"
+                app:layout_constraintBottom_toTopOf="@id/cv_bottom"
+                app:layout_constraintLeft_toLeftOf="@id/cv_bottom"
+                app:layout_constraintRight_toRightOf="@id/cv_bottom"
+                tools:text="gfklgdgfdgkld"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/arrow_right_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableEndCompat="@drawable/right_direction_arrow"
+                app:layout_constraintBottom_toTopOf="@id/cv_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_slider_option"
+                tools:text="gfklgdgfdgkld"
+                tools:visibility="visible" />
+
+
+            <TextView
+                android:id="@+id/arrow_left_direction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/left_direction_arrow"
+                app:layout_constraintBottom_toTopOf="@id/cv_bottom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_slider_option"
+                tools:text="gfklgdgfdgkld"
+                tools:visibility="visible" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/drop_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bottom_curve"
+                        android:backgroundTint="#E0DEDE"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_down_arrow"
+                        app:tint="#888585" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:id="@+id/top_recycle_views"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/stake_option_list_layout"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/bottom_recycle_views"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:listitem="@layout/stake_option_list_layout"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:indicatorSize="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:trackCornerRadius="20dp"
+                app:trackThickness="4dp"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_slide"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/stake_point_item" />
+
+            </LinearLayout>
+
+        </com.google.android.material.navigation.NavigationView>
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+</layout>
