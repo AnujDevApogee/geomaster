@@ -1,16 +1,19 @@
 package com.apogee.geomaster.model
 
-data class DeviceWorkMode(
-    val type:String,
-    val communicationType:String,
-    val maskAngle:String
+data class DeviceMode(
+    val type: String,
+    val position: Int,
 ) {
-    companion object{
-        val list= listOf(
-            DeviceWorkMode(
-                "Rover Device",
-                "Radio",
-                "20 degree"
+    companion object {
+        val list = listOf(
+            DeviceMode(
+                "BASE", 1
+            ), DeviceMode(
+                "ROVER", 2
+            ), DeviceMode(
+                "STATIC", 3
+            ), DeviceMode(
+                "PPK", 4
             )
         )
     }

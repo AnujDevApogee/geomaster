@@ -65,8 +65,6 @@
     <string name="disconnect">Disconnect</string>
     <string name="connect">Connect</string>
     <string name="refreshlist">RefreshList</string>
-
-
     <string-array name="business_location_type">
         <!--  <item>Select</item>-->
         <item>Bluetooth</item>
@@ -81,6 +79,32 @@
     <string name="static_">STATIC</string>
 
     <string name="ppk">PPK</string>
+    <string name="done">Done</string>
+    <string name="get_points">GET POINTS</string>
+    <string name="occupation_time">Occupation Time</string>
+    <string name="in_sec">In Sec</string>
+    <string name="init_time">Initialization Time (s)</string>
+    <string name="basic_parameters">Basic Parameters</string>
+    <string name="anteena_height">Anteena Height</string>
+    <string name="antenna_height">Antenna Height</string>
+    <string name="set_up_antenna_height">Set Up Antenna Height</string>
+    <string name="correction">Correction</string>
+    <string name="set_up_corrections">Set Up Corrections</string>
+    <string name="set_up_communication">Set Up Communication</string>
+    <string name="make">Make</string>
+    <string name="model">Model</string>
+    <string name="profile_name">Profile Name</string>
+    <string name="rtk_ppk">RTK+PPK</string>
+
+    <string-array name="OccupationTime">
+        <item>Select</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+
+    </string-array>
+
 
 
 </resources>
