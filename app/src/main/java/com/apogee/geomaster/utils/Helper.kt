@@ -5,7 +5,9 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Html
+import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
@@ -17,20 +19,22 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.gson.Gson
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 fun Context.toastMsg(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
+object ApiUtils {
+    val POST_GET_TABLE_RECORDS =
+        Pair("http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getAllTableRecords/", 102)
+}
 
 object StakeHelper {
     const val LONGITUDE = "LONGITUDE"
@@ -94,8 +98,6 @@ fun setHtmlBoldTxt(txt: String): SpannableString {
 
 
 fun getEmojiByUnicode(unicode: Int) = String(Character.toChars(unicode))
-
-
 
 fun Activity.closeKeyboard(view: View) {
     val imm = (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)

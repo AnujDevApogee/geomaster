@@ -1514,45 +1514,27 @@ class DatabaseRepsoitory(context: Context) {
             )
 
 
-        val device_command_map = "device_command_map"
-        val device_command_mapColumn = arrayOf(
-            TableCreator.ColumnDetails("device_command_id", "INTEGER", true, true),
-            TableCreator.ColumnDetails(
-                "device_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "device(device_id)"
-            ), TableCreator.ColumnDetails(
-                "command_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "command(command_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "operation_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "operation(operation_id)"
-            ),
-            TableCreator.ColumnDetails(
-                "ppkParams_id",
-                "INTEGER",
-                foreignKey = true,
-                foreignKeyReference = "ppkParams(ppkParams_id)"
-            ),
-            TableCreator.ColumnDetails("order_no", "INTEGER"),
-            TableCreator.ColumnDetails("delay", "INTEGER"),
+        val dataSource = "dataSource"
+        val dataSourceColumn = arrayOf(
+            TableCreator.ColumnDetails("dataSource_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("type", "INTEGER"),
+            TableCreator.ColumnDetails("parameter_name", "STRING"),
+            TableCreator.ColumnDetails("parameter_value", "STRING"),
+            TableCreator.ColumnDetails("parameter_id", "INTEGER"),
+            TableCreator.ColumnDetails("operation", "STRING"),
+            TableCreator.ColumnDetails("configMode", "STRING"),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("active", "STRING"),
             TableCreator.ColumnDetails("remark", "STRING"),
-            TableCreator.ColumnDetails("device_command_map_time", "STRING")
+            TableCreator.ColumnDetails("dataSource_time", "STRING")
 
         )
-        val device_command_mapTable =
+        val dataSourceTable =
             tableCreator.createMainTableIfNeeded(
-                device_command_map,
-                device_command_mapColumn
+                dataSource,
+                dataSourceColumn
             )
+
 
 
 
@@ -1634,7 +1616,7 @@ class DatabaseRepsoitory(context: Context) {
                     "\n project_folderTable:--$project_folderTable" +
                     "\n project_tableData:--$project_tableData" +
                     "\n project_configuration_mappingTable:--$project_configuration_mappingTable" +
-                    "\n device_command_mapTable:--$device_command_mapTable"
+                    "\n dataSourceTable:--$dataSourceTable"
 
         )
 
@@ -1715,7 +1697,7 @@ class DatabaseRepsoitory(context: Context) {
             && project_folderTable.equals("Table Created Successfully...")
             && project_tableData.equals("Table Created Successfully...")
             && project_configuration_mappingTable.equals("Table Created Successfully...")
-            && device_command_mapTable.equals("Table Created Successfully...")
+            && dataSourceTable.equals("Table Created Successfully...")
 
 
         ) {
@@ -2194,7 +2176,6 @@ class DatabaseRepsoitory(context: Context) {
     }
 
 
-
     fun insertProjectValues(values: String): Int {
         Log.d(TAG, "insertProjectValues: values --$values")
         var result = 0
@@ -2358,7 +2339,7 @@ class DatabaseRepsoitory(context: Context) {
     fun getCommandID(opId: Int, dgpsId: Int) {
         try {
             val cmdID =
-                tableCreator.executeStaticQuery("SELECT command_id FROM device_command_map where operation_id=" + opId + " AND device_id=" + dgpsId + " ORDER BY order_no ASC")
+                tableCreator.executeStaticQuery("SELECT command_id FROM command_device_map where operation_id=" + opId + " AND device_id=" + dgpsId + " ORDER BY order_no ASC")
         } catch (e: Exception) {
             Log.d(TAG, "getCommandID:Exception ${e.message} ")
         }
@@ -2383,29 +2364,87 @@ class DatabaseRepsoitory(context: Context) {
             cursor!!.moveToPosition(0)
             a = cursor.getInt(0)
         } catch (e: Exception) {
-            Log.e(TAG, "detopnameid:Exception $e")
+            Log.e(TAG, "getOperationId:Exception ${e.message}")
         }
         return a
     }
 
-    fun delaylist(id: Int, Device_id: Int): ArrayList<String> {
+    fun delaylist(opId: Int, device_id: Int): ArrayList<String> {
         val list = java.util.ArrayList<String>()
         try {
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT delay FROM device_command_map where operation_id = $id and device_id = $Device_id order by order_no; ")
+                "SELECT delay FROM command_device_map where operation_id = $opId and device_id = $device_id order by order_no; "
+            )
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
                 list.add(cursor.getString(0))
             }
         } catch (e: Exception) {
-            Log.e(TAG,"delaylistError: ${e.message}")
+            Log.e(TAG, "delaylistError: ${e.message}")
         }
         return list
     }
 
+    fun commandforparsinglist(id: Int, Device_id: Int): java.util.ArrayList<String> {
+        val list = java.util.ArrayList<String>()
+        try {
+            val query =
+                "SELECT c.command  FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no; "
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT c.command  FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no "
+            )
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getString(0))
+            }
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "commandforparsinglist Error: $e"
+            )
+        }
+        return list
+    }
+
+    fun commandformatparsinglist(id: Int, Device_id: Int): ArrayList<String> {
+        val list = java.util.ArrayList<String>()
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT c.format   FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no"
+            )
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getString(0))
+                // list.add(surveyBean);
+            }
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "commandformatparsinglistError: $e"
+            )
+        }
+        return list
+    }
+
+    fun getidDataSource(): String {
+        var id = "0"
+        try {
+            val cursor =
+                tableCreator.executeStaticQueryForCursor("SELECT Parameter_id FROM DataSource ")
+            cursor!!.moveToPosition(0)
+            val a = cursor.count
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                id = cursor.getString(0)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "getidDataSource Exception: ${e.message}")
+        }
+        return id
+    }
 
 
-    fun getCommandIdFromOpIdAndDgpsID(opId: Int, dgpsId: Int): ArrayList<Int> {
+    fun commandidls1(opId: Int, dgpsId: Int): ArrayList<Int> {
         val list = ArrayList<Int>()
         try {
             val cursor =
@@ -2420,45 +2459,46 @@ class DatabaseRepsoitory(context: Context) {
         return list
     }
 
-    fun selectionValueId(joined: String): List<Int>? {
+    fun selectionidlist1(command_id: String): List<Int> {
         val list: MutableList<Int> = ArrayList()
         try {
 
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT selection_value_id FROM command_param_map where command_id IN ($joined) ; ")
+                "SELECT selection_value_id FROM command_param_map where command_id IN ($command_id)"
+            )
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
                 list.add(cursor.getInt(0))
             }
-        } catch (e: java.lang.Exception) {
-            Log.e(TAG, "getUserDtailerror: $e")
+        } catch (e: Exception) {
+            Log.e(TAG, "selectionValueId Exception: $e")
         }
         return list
     }
 
-    fun inputlist(joined: String): ArrayList<Int> {
+    fun inputlist(command_id: String): ArrayList<Int> {
         val list = ArrayList<Int>()
         try {
-            val query = "SELECT parameter_id FROM input Where command_id IN ($joined) "
-            Log.d(TAG, "inputlist: $query")
+            /* val query = "SELECT parameter_id FROM input Where command_id IN ($joined) "
+             Log.d(TAG, "inputlist: $query")*/
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT parameter_id FROM input Where command_id IN ($joined) ")
+                "SELECT parameter_id FROM input Where command_id IN ($command_id) "
+            )
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
                 list.add(cursor.getInt(0))
             }
-        } catch (e: java.lang.Exception) {
-            Log.e(TAG, "getUserDtailerror: $e")
+        } catch (e: Exception) {
+            Log.e(TAG, "getParameterIdList: Exception- $e")
         }
         return list
     }
 
-    fun getDisplayValByteValandParamName(joined: String): Map<String, Map<String, String>> {
+    fun displayvaluelist1(joined: String): Map<String, Map<String, String>> {
         val selectionMap: MutableMap<String, Map<String, String>> = LinkedHashMap()
         var selectionValueMap: MutableMap<String, String> = LinkedHashMap()
         var parameter = ""
         try {
-
             val cursor = tableCreator.executeStaticQueryForCursor(
                 "SELECT distinct parameter_name,display_value,byte_value FROM command_param_map, parameter, selection_value " +
                         "where command_param_map.parameter_id = parameter.parameter_id and command_param_map.selection_value_id = selection_value.selection_value_id " +
@@ -2483,10 +2523,92 @@ class DatabaseRepsoitory(context: Context) {
                     selectionMap[parameter] = selectionValueMap
                 }
             }
-        } catch (e:Exception) {
-            Log.e(TAG, "getUserDtailerror:Exception $e")
+        } catch (e: Exception) {
+            Log.e(TAG, "getDisplayValByteValandParamName:Exception $e")
         }
         return selectionMap
+    }
+
+    fun inputparameterlists(joined: String): ArrayList<String> {
+        val list = ArrayList<String>()
+        var name: String
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT parameter_name FROM parameter Where parameter_id IN ($joined) "
+            )
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                name = cursor.getString(0)
+                list.add(name)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "inputparameterLists:Exception ${e.message}")
+        }
+        return list
+    }
+
+
+    fun inputparameterlist(joined: String): List<String> {
+        val list: MutableList<String> = ArrayList()
+        var name: String
+        var type: String
+        var remark: String
+        try {
+
+            /*val query =
+                "SELECT parameter_name,parameter_type,remark FROM parameter Where parameter_id IN ($joined) ; "
+            Log.d(TAG, "inputparameterlist: $query")*/
+
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT parameter_name,parameter_type,remark FROM " +
+                        "parameter Where parameter_id IN ($joined)"
+            )
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                name = cursor.getString(0)
+                type = cursor.getString(1)
+                remark = cursor.getString(2)
+                list.add("$name,$type,$remark")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "parameterDataList: Exception ${e.message}")
+        }
+        return list
+    }
+
+    fun insertSatelliteMappingDatajjjsds(list: List<String>): String {
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val values1 = ContentValues()
+        values1.put("project_name", list.get(0))
+        values1.put("operator", list.get(2))
+        values1.put("comment", list.get(3))
+        values1.put("config_id", list.get(1))
+        values1.put("projectCreated_at", "${LocalDateTime.now()}")
+        values1.put("status_id", "1")
+        dataList.add(values1)
+
+        val result = tableCreator.insertDataIntoTable("project_table", dataList)
+        return result
+    }
+
+
+    fun insertdataSorcestable(
+        type: String, Parameter_Name: String, Parameter_value: String,
+        parameter_id: String, operation: String, configMode: String
+    ): Boolean {
+        var result = false
+        val dataList: MutableList<ContentValues> = ArrayList()
+        val contentValues = ContentValues()
+        contentValues.put("type", type.trim())
+        contentValues.put("parameter_name", Parameter_Name.trim())
+        contentValues.put("parameter_value", Parameter_value.trim())
+        contentValues.put("Parameter_id", parameter_id.trim())
+        contentValues.put("operation", operation.trim())
+        contentValues.put("configMode", configMode.trim())
+        dataList.add(contentValues)
+        val status = tableCreator.insertDataIntoTable("dataSource", dataList)
+        result = status.equals("Data inserted successfully")
+        return result
     }
 
 
