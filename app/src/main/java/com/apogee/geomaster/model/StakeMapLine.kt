@@ -11,13 +11,13 @@ data class StakeMapLine(
             StakeMapLine(
                 id = R.drawable.setting_icon
             ), StakeMapLine(
-                id = R.drawable.ic_easting
+                id = R.drawable.ic_codelist
             ), StakeMapLine(
-                id = R.drawable.ic_west
+                id = R.drawable.ic_cogo
             ), StakeMapLine(
-                id = R.drawable.ic_angle
+                id = R.drawable.current_location
             ), StakeMapLine(
-                id = R.drawable.ic_setting
+                id = R.drawable.satellite
             ), StakeMapLine(
                 id = R.drawable.ic_setting
             ), StakeMapLine(
@@ -29,11 +29,11 @@ data class StakeMapLine(
 
         val otherLayout = listOf(
             StakeMapLine(
-                id = R.drawable.ic_add
+                id = R.drawable.ic_stakeout
             ), StakeMapLine(
-                id = R.drawable.ic_easting
+                id = R.drawable.street_view
             ), StakeMapLine(
-                id = R.drawable.ic_west
+                id = R.drawable.zoomin
             ), StakeMapLine(
                 id = R.drawable.ic_angle
             ), StakeMapLine(
