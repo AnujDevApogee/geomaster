@@ -1,4 +1,4 @@
-package com.apogee.geomaster.viewmodel
+package com.apogee.geomaster.ViewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

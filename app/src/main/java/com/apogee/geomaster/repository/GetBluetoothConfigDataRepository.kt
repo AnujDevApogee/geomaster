@@ -94,8 +94,9 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
 
 
     fun getServiceIds(deviceName: String): List<String>? {
-        var query="select module_device_id from device_map dm,device d1,device d2,model m1,model m2 where dm.finished_device_id=d1.device_id and dm.module_device_id=d2.device_id and d1.model_id=m1.model_id and d2.model_id=m2.model_id and d2.device_type_id='3'  and m1.device_no='$deviceName'"
-        Log.d(TAG, "getServiceIds: "+query)
+        var query =
+            "select module_device_id from device_map dm,device d1,device d2,model m1,model m2 where dm.finished_device_id=d1.device_id and dm.module_device_id=d2.device_id and d1.model_id=m1.model_id and d2.model_id=m2.model_id and d2.device_type_id='3'  and m1.device_no='$deviceName'"
+        Log.d(TAG, "getServiceIds: " + query)
         var id = tableCreator.executeStaticQuery(
             query
         )
@@ -109,7 +110,11 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
 
     private fun getServiceIdFromId(id: List<String>?): List<String>? {
 
-        var serviceUUId = tableCreator.executeStaticQuery("select s.service_uuid,s.services_id from services s,device d,model m , device_map dm,device_characteristic_ble_map dcbm,charachtristics c where dcbm.device_id=d.device_id and dcbm.read_characteristic_id=c.char_id and c.service_id=s.services_id and d.model_id=m.model_id  and dm.module_device_id=d.device_id  and d.device_id='${id!!.get(0)}' ")
+        var serviceUUId = tableCreator.executeStaticQuery(
+            "select s.service_uuid,s.services_id from services s,device d,model m , device_map dm,device_characteristic_ble_map dcbm,charachtristics c where dcbm.device_id=d.device_id and dcbm.read_characteristic_id=c.char_id and c.service_id=s.services_id and d.model_id=m.model_id  and dm.module_device_id=d.device_id  and d.device_id='${
+                id!!.get(0)
+            }' "
+        )
 
 //        var serviceId = tableCreator.executeStaticQuery("select s.services_id from services s,device d,model m , device_map dm,device_characteristic_ble_map dcbm,charachtristics c where dcbm.device_id=d.device_id and dcbm.read_characteristic_id=c.char_id and c.service_id=s.services_id and d.model_id=m.model_id  and dm.module_device_id=d.device_id  and d.device_id='${id!!.get(0)}' ")
 //
@@ -130,7 +135,8 @@ class GetBluetoothConfigDataRepository(private val context: Context) : CustomCal
     }
 
     fun getCharacteristicIds(serviceId: String): List<String>? {
-        val uuidRead = tableCreator.executeStaticQuery("SELECT uuid,char_name FROM charachtristics where service_id = '${serviceId}' ")
+        val uuidRead =
+            tableCreator.executeStaticQuery("SELECT uuid,char_name FROM charachtristics where service_id = '${serviceId}' ")
         Log.d(TAG, "getServiceIdFromId: uuidRead====$uuidRead")
 
         return uuidRead

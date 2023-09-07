@@ -2,23 +2,17 @@ package com.apogee.geomaster.ui
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.content.Context.BIND_AUTO_CREATE
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ViewPagerAdapter
-import com.apogee.geomaster.bluetooth.ResponseHandling
 import com.apogee.geomaster.databinding.HomeScreenMainFragmentLayoutBinding
 import com.apogee.geomaster.model.HomeScreenOption
-import com.apogee.geomaster.repository.BleConnectionRepository
 import com.apogee.geomaster.ui.device.DeviceFragment
 import com.apogee.geomaster.ui.projects.ProjectsFragment
 import com.apogee.geomaster.ui.survey.SurveyFragment
@@ -26,12 +20,11 @@ import com.apogee.geomaster.ui.tools.ToolsFragment
 import com.apogee.geomaster.utils.RotateDownPageTransformer
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.toastMsg
-import com.apogee.geomaster.viewmodel.BleConnectionViewModel
+import com.apogee.geomaster.ViewModel.BleConnectionViewModel
 import com.apogee.updatedblelibrary.BleService
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
 import com.apogee.updatedblelibrary.Utils.OnSerialRead
-import com.bumptech.glide.util.Util
 import kotlinx.coroutines.launch
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.lang.Exception

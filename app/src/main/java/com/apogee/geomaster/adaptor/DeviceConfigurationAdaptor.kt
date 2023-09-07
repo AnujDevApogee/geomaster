@@ -5,52 +5,51 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.DeviceConfigItemLayoutBinding
-import com.apogee.geomaster.model.DeviceWorkMode
+import com.apogee.geomaster.model.DeviceMode
 import com.apogee.geomaster.utils.setHtmlTxt
+import com.permissionx.guolindev.dialog.permissionMapOnS
 
-typealias DeviceWorkModeListener = (data: DeviceWorkMode) -> Unit
+typealias DeviceWorkModeListener = (data: DeviceMode,position:Int) -> Unit
 
 class DeviceConfigurationAdaptor(private val itemClicked: DeviceWorkModeListener) :
-    ListAdapter<DeviceWorkMode, DeviceConfigurationAdaptor.DeviceWorkModeViewHolder>(diffUtil) {
+    ListAdapter<DeviceMode, DeviceConfigurationAdaptor.DeviceWorkModeViewHolder>(diffUtil) {
+    var lastPosi=-1
     inner class DeviceWorkModeViewHolder(private val binding: DeviceConfigItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setData(data: DeviceWorkMode, itemClicked: DeviceWorkModeListener) {
-
-            "WorK Mode".apply {
-                binding.projectName.text =this
-            }
-            binding.projectName.append("\t\t")
-            binding.projectName.append(setHtmlTxt(data.type, "'#0E4A88'"))
-
-            binding.projectInfo.append("Communication Type")
-            binding.projectInfo.append("\t\t")
-            binding.projectInfo.append(setHtmlTxt(data.communicationType, "'#0E4A88'"))
-            binding.projectInfo.append("\n\n")
-
-
-            binding.projectInfo.append("Mask Angle")
-            binding.projectInfo.append("\t\t")
-            binding.projectInfo.append(setHtmlTxt(data.maskAngle, "'#0E4A88'"))
-            binding.projectInfo.append("\n")
-
+        fun setData(data: DeviceMode, itemClicked: DeviceWorkModeListener) {
+            binding.tvRecycler.text=data.type
+            binding.rdMode.setImageResource(R.drawable.radio_off)
 
             binding.cardView.setOnClickListener {
-                itemClicked.invoke(data)
+                lastPosi=position
+                binding.rdMode.setImageResource(R.drawable.radio_on)
+                notifyDataSetChanged()
+
             }
+            if(lastPosi==position){
+                binding.rdMode.setImageResource(R.drawable.radio_on)
+                itemClicked.invoke(data,lastPosi)
+
+            }else{
+                binding.rdMode.setImageResource(R.drawable.radio_off)
+            }
+
+
         }
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<DeviceWorkMode>() {
+        val diffUtil = object : DiffUtil.ItemCallback<DeviceMode>() {
             override fun areItemsTheSame(
-                oldItem: DeviceWorkMode,
-                newItem: DeviceWorkMode
+                oldItem: DeviceMode,
+                newItem: DeviceMode
             ) = oldItem.type == newItem.type
 
             override fun areContentsTheSame(
-                oldItem: DeviceWorkMode,
-                newItem: DeviceWorkMode
+                oldItem: DeviceMode,
+                newItem: DeviceMode
             ) = oldItem == newItem
         }
     }

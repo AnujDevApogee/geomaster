@@ -22,16 +22,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.gson.Gson
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 fun Context.toastMsg(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-object ApiUtils {
-    val POST_GET_TABLE_RECORDS =
-        Pair("http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getAllTableRecords/", 102)
-}
 
 object StakeHelper {
     const val LONGITUDE = "LONGITUDE"
@@ -95,6 +94,8 @@ fun setHtmlBoldTxt(txt: String): SpannableString {
 
 
 fun getEmojiByUnicode(unicode: Int) = String(Character.toChars(unicode))
+
+
 
 fun Activity.closeKeyboard(view: View) {
     val imm = (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)

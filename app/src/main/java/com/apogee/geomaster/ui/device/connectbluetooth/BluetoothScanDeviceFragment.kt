@@ -22,7 +22,7 @@ import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.showDeviceAdd
 import com.apogee.geomaster.utils.showMessage
-import com.apogee.geomaster.viewmodel.BleConnectionViewModel
+import com.apogee.geomaster.ViewModel.BleConnectionViewModel
 import com.apogee.geomaster.viewmodel.BleGetConfigDataViewModel
 import com.apogee.updatedblelibrary.BleDeviceScanner
 import com.apogee.updatedblelibrary.Utils.BleResponse

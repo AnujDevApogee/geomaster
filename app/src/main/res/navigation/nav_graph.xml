@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_global_projectListFragment"
             app:destination="@id/projectListFragment" />
+        <action
+            android:id="@+id/action_homeScreenMainFragment_to_gnssRoverProfileFragment"
+            app:destination="@id/gnssRoverProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/createProjectFragment"
@@ -114,6 +117,11 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/gnssRoverProfileFragment"
+        android:name="com.apogee.geomaster.ui.rover.GnssRoverProfileFragment"
+        android:label="create_radio_conn_layout_fragment"
+        tools:layout="@layout/fragment_gnss_rover_profile" />
 
     <fragment
         android:id="@+id/createRadioConnectionFragment"
@@ -238,6 +246,6 @@
         android:id="@+id/stakePointFragment"
         android:name="com.apogee.geomaster.ui.stake.point.StakePointFragment"
         android:label="stake_point_fragment_layout"
-        tools:layout="@layout/stake_point_fragment_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/>
+        tools:layout="@layout/stake_point_fragment_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/><action android:id="@+id/action_global_gnssRoverProfileFragment" app:destination="@id/gnssRoverProfileFragment"/>
 
 </navigation>
