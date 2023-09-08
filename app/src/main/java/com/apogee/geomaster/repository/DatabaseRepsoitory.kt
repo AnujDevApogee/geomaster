@@ -158,8 +158,7 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("projectiontype_id", "INTEGER", true),
             TableCreator.ColumnDetails("projectionType", "STRING", unique = true),
             TableCreator.ColumnDetails("defaultConfig", "STRING"),
-            TableCreator.ColumnDetails("active", "STRING")
-        )
+            TableCreator.ColumnDetails("active", "STRING"))
         val projectiontypeTable =
             tableCreator.createMainTableIfNeeded(projectiontype, projectiontypeColumn)
 
@@ -331,7 +330,7 @@ class DatabaseRepsoitory(context: Context) {
         val parameterColumn = arrayOf(
             TableCreator.ColumnDetails("parameter_id", "INTEGER", true),
             TableCreator.ColumnDetails("parameter_name", "STRING"),
-            TableCreator.ColumnDetails("parameter_type_id", "STRING"),
+            TableCreator.ColumnDetails("parameter_type_id", "STRING", foreignKey = true, foreignKeyReference = "parameter_type (parameter_type_id)"),
             TableCreator.ColumnDetails("active", "STRING", default = true, defaultValue = 'Y'),
             TableCreator.ColumnDetails("revision_no", "INTEGER"),
             TableCreator.ColumnDetails("created_by", "STRING"),
@@ -791,7 +790,7 @@ class DatabaseRepsoitory(context: Context) {
                 foreignKeyReference = "parameter (parameter_id)"
             ),
             TableCreator.ColumnDetails("remark", "STRING"),
-            TableCreator.ColumnDetails("response_id", "INTEGER")
+            TableCreator.ColumnDetails("response_id", "INTEGER", foreignKey = true, foreignKeyReference = "response(response_id)")
         )
         val inputTable =
             tableCreator.createMainTableIfNeeded(input, inputColumn)
@@ -840,7 +839,7 @@ class DatabaseRepsoitory(context: Context) {
 
         val sub_byte_division = "sub_byte_division"
         val sub_byte_divisionColumn = arrayOf(
-            TableCreator.ColumnDetails("response_sub_byte_division_id", "INTEGER", true),
+            TableCreator.ColumnDetails("sub_byte_division_id", "INTEGER", true),
             TableCreator.ColumnDetails("remark", "STRING"),
         )
         val sub_byte_divisionTable =
@@ -880,7 +879,7 @@ class DatabaseRepsoitory(context: Context) {
         val constellation_model_map = "constellation_model_map"
         val constellation_model_mapColumn = arrayOf(
             TableCreator.ColumnDetails("constellation_model_map_id", "INTEGER", primaryKey = true),
-            TableCreator.ColumnDetails("constellation_id", "INTEGER"),
+            TableCreator.ColumnDetails("constellation_id", "INTEGER", foreignKey = true, foreignKeyReference = "constellation(constellation_id)"),
             TableCreator.ColumnDetails(
                 "model_id", "INTEGER",
                 foreignKey = true,
