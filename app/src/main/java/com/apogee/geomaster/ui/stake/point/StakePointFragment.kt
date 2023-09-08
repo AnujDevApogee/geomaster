@@ -46,6 +46,7 @@ import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.isProperLength
 import com.apogee.geomaster.utils.northSouth
 import com.apogee.geomaster.utils.scaleOverlay
+import com.apogee.geomaster.utils.setHtmlTxt
 import com.apogee.geomaster.utils.setUpDialogInfo
 import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.showMessage
@@ -184,8 +185,15 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
                                 val latitude = data[StakeHelper.LATITUDE] as Double
                                 val longitude = data[StakeHelper.LONGITUDE] as Double
 
-                                binding.northIngTxt.text = "${PointPlot.spaceCoordinate}N :${latitude}"
-                                binding.eastingTxt.text = "${PointPlot.spaceCoordinate}E :${longitude}"
+                                binding.northIngTxt.text=" "
+                                binding.northIngTxt.append(setHtmlTxt("N","'#B5B5B5'"))
+                                binding.northIngTxt.append("\t")
+                                binding.northIngTxt.append("$latitude")
+
+                                binding.eastingTxt.text=" "
+                                binding.eastingTxt.append(setHtmlTxt("E","'#B5B5B5'"))
+                                binding.eastingTxt.append("\t\t$longitude")
+
                                 binding.elevationKy.text =
                                     "Elevation :${getConvertDecimal(data[StakeHelper.ELEVATION] as Double)}"
                                 binding.altiuide.changeIconDrawable(R.drawable.ic_elevation_item)
@@ -275,7 +283,9 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
 
 
         sentence.clear()
-        binding.distance.text = "${PointPlot.spaceCoordinate}Dist: ${isProperLength(distance)}"
+        binding.distance.text=" "
+        binding.distance.append(setHtmlTxt("Distance","'#B5B5B5'"))
+        binding.distance.append("\t${isProperLength(distance)}")
 
         binding.elevationAngle.text = ("${angleType(angle)} Degree")
 
@@ -337,7 +347,7 @@ class StakePointFragment : Fragment(R.layout.stake_point_fragment_layout) {
         }
         binding.mapView.overlays.add(
             DrawCircles(
-                desPoint, Paint(Paint.ANTI_ALIAS_FLAG), RADIUS,//meter
+                startPoint, Paint(Paint.ANTI_ALIAS_FLAG), RADIUS,//meter
                 if (distance <= RADIUS) {
                     Color.GREEN
                 } else {
