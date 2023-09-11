@@ -232,12 +232,10 @@ class GnssRoverProfileFragment : Fragment(), TextToSpeech.OnInitListener, BleRes
 //                         findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
                 }
 
-
                 is BleResponse.OnResponseWrite -> Log.d(
                     ContentValues.TAG,
                     "getResponse: " + res.isMessageSend
                 )
-
             }
         }
 
@@ -248,53 +246,53 @@ class GnssRoverProfileFragment : Fragment(), TextToSpeech.OnInitListener, BleRes
 
     var deviceInfoRunnable: Runnable = object : Runnable {
         override fun run() {
-            if (isRTKPPK) {
-                deviceInfoCounter++
-
-                if (modeWork == "PPK" || modeWork == "$mode + PPK") {
-//                         progressDialog.dismiss()
-                    binding.done.isEnabled = false
-                    binding.done.isClickable = false
-                    binding.done.isFocusable = false
-                    binding.done.setBackgroundResource(R.drawable.buttondesign1)
-                    deviceInfotimerHandler.removeCallbacks(this)
-                } else if (modeWork != "PPK" || modeWork != "$mode + PPK") {
-//                         progressDialog.dismiss()
-                    binding.triggerPoint.isEnabled = false
-                    binding.triggerPoint.isClickable = false
-                    binding.triggerPoint.isFocusable = false
-                    binding.triggerPoint.setBackgroundResource(R.drawable.buttondesign1)
-                    deviceInfotimerHandler.removeCallbacks(this)
-                }
-
-                if (deviceInfoCounter < 6) {
-                    deviceInfotimerHandler.postDelayed(this, 1000)
-                } else {
-
-                    /*    if (progressDialog.isShowing) {
-                            progressDialog.dismiss()
-                        }*/
-                }
-            }
-
-
         }
     }
-
-
 /*
+    GlobalScope.launch {
+        if (isRTKPPK) {
+            deviceInfoCounter++
+
+            if (modeWork == "PPK" || modeWork == "$mode + PPK") {
+//                         progressDialog.dismiss()
+                binding.done.isEnabled = false
+                binding.done.isClickable = false
+                binding.done.isFocusable = false
+                binding.done.setBackgroundResource(R.drawable.buttondesign1)
+                deviceInfotimerHandler.removeCallbacks(this)
+            } else if (modeWork != "PPK" || modeWork != "$mode + PPK") {
+//                         progressDialog.dismiss()
+                binding.triggerPoint.isEnabled = false
+                binding.triggerPoint.isClickable = false
+                binding.triggerPoint.isFocusable = false
+                binding.triggerPoint.setBackgroundResource(R.drawable.buttondesign1)
+                deviceInfotimerHandler.removeCallbacks(this)
+            }
+
+            if (deviceInfoCounter < 6) {
+                deviceInfotimerHandler.postDelayed(this, 1000)
+            } else {
+
+                */
+/*    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }*//*
+
+            }
+        }
+        delay(1000)
+    }
+*/
+
+
+
     fun main() {
         // Using a coroutine to perform an asynchronous task
-        GlobalScope.launch {
-            // Simulate some work for 1 second
-            delay(1000)
-            println("Coroutine completed")
-        }
 
         // Keep the program running for a while to allow the coroutine to complete
         Thread.sleep(2000)
     }
-*/
+
 
 
 
