@@ -3,18 +3,25 @@ package com.apogee.geomaster.ui.base
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
+import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
 import com.google.android.material.transition.MaterialFadeThrough
 
 class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     private lateinit var binding: BaseProfileLayoutBinding
+
+    private val viewModel: BaseConfigurationViewModel by viewModels()
+
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
 
@@ -41,6 +48,9 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
             menuCallback
         )
         (activity as HomeScreen?)?.hideActionBar()
+
+        getSetConfigResponses()
+
         binding.deviceInfo.append(setHtmlBoldTxt("Make"))
         binding.deviceInfo.append("\t")
         binding.deviceInfo.append("xxxxxxxx")
@@ -55,6 +65,23 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         binding.deviceInfo.append("\n")
         binding.setConnBtn.setOnClickListener {
             findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment())
+        }
+    }
+
+    private fun getSetConfigResponses() {
+        viewModel.baseConfigDataSetUp.observe(viewLifecycleOwner){
+            when(it){
+                is ApiResponse.Error -> {
+                    createLog("BASE_SETUP","Exception => ${it.exception?.message}")
+                }
+
+                is ApiResponse.Loading -> {
+                    createLog("BASE_SETUP","Loading ${it.data}")
+                }
+                is ApiResponse.Success -> {
+                    createLog("BASE_SETUP","Success ${it.data}")
+                }
+            }
         }
     }
 

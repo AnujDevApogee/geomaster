@@ -2611,6 +2611,53 @@ class DatabaseRepsoitory(context: Context) {
     }
 
 
+    /**
+     * This Function Return the the of given Device Number i.e for device number NAVIK200-1 it return model_id list
+     **/
+    fun getUserRegNo(values: String): String? {
+        val query = "SELECT model_id FROM model WHERE device_no LIKE  '%$values%'"
+        val cursor = tableCreator.executeStaticQueryForCursor(query)
+        return if (cursor != null && cursor.moveToPosition(0)) {
+            cursor.getString(0)
+        } else {
+            null
+        }
+    }
+
+
+    /**
+     * This function return the DeviceID,ManufacturerID,CreateBy info from device table with model_id & device_type_id
+     **/
+    fun getDeviceId(modelId: String): HashMap<String, String> {
+        val hashMap = hashMapOf<String, String>()
+        val query =
+            "SELECT device_id, manufacture_id,created_by FROM device WHERE model_id = '$modelId' and device_type_id = '2'"
+        val cursor = tableCreator.executeStaticQueryForCursor(query)
+        return if (cursor != null && cursor.moveToPosition(0)) {
+            hashMap["DeviceID"] = cursor.getString(0)
+            hashMap["ManufactureID"] = cursor.getString(1)
+            hashMap["CREATED_BY"] = cursor.getString(2)
+            hashMap
+        } else {
+            hashMap
+        }
+    }
+
+
+    /**
+     * This function will return the manufacturer name via its id
+     **/
+    fun getMakeName(id: Int): String? {
+        val query = "SELECT name FROM manufacturer WHERE manufacturer_id = '$id'"
+        val cursor = tableCreator.executeStaticQueryForCursor(query)
+        return if (cursor != null && cursor.moveToPosition(0)) {
+            cursor.getString(0)
+        } else {
+            null
+        }
+    }
+
+
 }
 
 
