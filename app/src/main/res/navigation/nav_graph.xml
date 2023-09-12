@@ -102,7 +102,14 @@
         android:id="@+id/createConnectionFragment"
         android:name="com.apogee.geomaster.ui.connection.setupconnection.CreateConnectionFragment"
         android:label="create_connection_layout"
-        tools:layout="@layout/create_connection_layout" />
+        tools:layout="@layout/create_connection_layout" >
+        <argument
+            android:name="mode"
+            app:argType="string" />
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/communicationfragment"
@@ -134,7 +141,14 @@
         android:id="@+id/createRadioConnectionFragment"
         android:name="com.apogee.geomaster.ui.connection.setupradio.CreateRadioConnectionFragment"
         android:label="create_radio_conn_layout_fragment"
-        tools:layout="@layout/create_radio_conn_layout_fragment" />
+        tools:layout="@layout/create_radio_conn_layout_fragment" >
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="mode"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/addProjectionParamsFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.projection.AddProjectionParamsFragment"
@@ -157,7 +171,14 @@
         android:id="@+id/createWifiConnection"
         android:name="com.apogee.geomaster.ui.connection.setupwifi.CreateWifiConnection"
         android:label="create_wifi_connection_layout"
-        tools:layout="@layout/create_wifi_connection_layout" />
+        tools:layout="@layout/create_wifi_connection_layout" >
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="mode"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/defaultCreateProjectFragment"
         android:name="com.apogee.geomaster.ui.projects.createproject.DefaultCreateProjectFragment"

@@ -3,6 +3,7 @@ package com.apogee.geomaster.ui.connection.setupradio
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.CreateRadioConnLayoutFragmentBinding
 import com.apogee.geomaster.utils.OnItemClickListener
@@ -12,6 +13,8 @@ import com.google.android.material.transition.MaterialFadeThrough
 class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout_fragment) {
 
     private lateinit var binding: CreateRadioConnLayoutFragmentBinding
+
+    private val args: CreateRadioConnectionFragmentArgs by navArgs()
 
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
@@ -38,6 +41,9 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
             R.menu.info_mnu,
             menuCallback
         )
+
+
+
 
     }
 

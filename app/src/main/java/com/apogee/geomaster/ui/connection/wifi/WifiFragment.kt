@@ -25,7 +25,7 @@ class WifiFragment : Fragment(R.layout.wifi_connection_layout) {
         binding.setCommBtn.setOnClickListener {
             (parentFragment as ConnectionFragment).goToNxtScr(
                 ConnectionFragmentDirections
-                    .actionConnectionFragmentToCreateWifiConnection()
+                    .actionConnectionFragmentToCreateWifiConnection("Base","WiFi")
             )
         }
     }

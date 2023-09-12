@@ -1,7 +1,6 @@
 package com.apogee.geomaster.repository
 
 import android.annotation.SuppressLint
-import android.app.DownloadManager.Query
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -14,7 +13,6 @@ import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.model.SatelliteModel
-import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
@@ -2444,7 +2442,13 @@ class DatabaseRepsoitory(context: Context) {
         return id
     }
 
-
+    /**
+     * The Function will return the Command form command_device_map
+     *
+     * @param opId:String
+     * @param dgpsId:String
+     * @return It will return list of command id
+     */
     fun commandidls1(opId: Int, dgpsId: Int): ArrayList<Int> {
         val list = ArrayList<Int>()
         try {
@@ -2460,6 +2464,12 @@ class DatabaseRepsoitory(context: Context) {
         return list
     }
 
+    /**
+     * This Function return the List of ID of selected command_id is selected
+     *
+     * @param command_id:String
+     * @return with the list of ids as integer
+     */
     fun selectionidlist1(command_id: String): List<Int> {
         val list: MutableList<Int> = ArrayList()
         try {
@@ -2495,6 +2505,12 @@ class DatabaseRepsoitory(context: Context) {
         return list
     }
 
+    /**
+     * This function will display the Parameter of given on connection setup UI
+     *
+     * @param joined:String
+     * @return the Map of Parameter_name and Display_value and byte_value
+     */
     fun displayvaluelist1(joined: String): Map<String, Map<String, String>> {
         val selectionMap: MutableMap<String, Map<String, String>> = LinkedHashMap()
         var selectionValueMap: MutableMap<String, String> = LinkedHashMap()
@@ -2695,7 +2711,7 @@ class DatabaseRepsoitory(context: Context) {
         val query = "SELECT device_type_id FROM device WHERE device_id IN ($deviceId)"
         var modelId: String
         val cursor = tableCreator.executeStaticQueryForCursor(query)
-        if (cursor!=null && cursor.moveToPosition(0)){
+        if (cursor != null && cursor.moveToPosition(0)) {
             for (i in 0 until cursor.count) {
                 cursor.moveToPosition(i)
                 modelId = cursor.getString(0)
@@ -2703,6 +2719,24 @@ class DatabaseRepsoitory(context: Context) {
             }
         }
         return list
+    }
+
+    /**
+     * This Function will return the Operator Name With ID
+     *
+     * @param name:String
+     * @return it will return the operator id
+     */
+    fun detopnameid(name: String): Int? {
+        val query = "SELECT operation_id FROM operation where operation_name='$name'"
+        val cursor =
+            tableCreator.executeStaticQueryForCursor(query)
+        return if (cursor != null && cursor.moveToPosition(0)) {
+            cursor.getInt(0)
+        } else {
+            null
+        }
+
     }
 
 
