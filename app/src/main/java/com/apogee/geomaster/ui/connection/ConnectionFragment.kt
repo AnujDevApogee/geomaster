@@ -63,15 +63,17 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
         (activity as HomeScreen?)?.hideActionBar()
 
         createLog("TAG_INFO", "${args.ls.toList()}")
-        if (args.ls.contains("13"))
+        if (args.ls.contains("13")) {
             tabArr.add(resources.getString(R.string.rtk_by_radio))
-        if (args.ls.contains("10"))
+        }
+        if (args.ls.contains("10")) {
             tabArr.add(resources.getString(R.string.rtk_by_wifIn))
-        if (args.ls.contains("9"))
+        }
+        if (args.ls.contains("9")) {
             tabArr.add(resources.getString(R.string.rtk_by_internet))
+        }
 
-
-            setupViewPagerAdaptor()
+        setupViewPagerAdaptor()
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, pos ->
             tab.text = tabArr[pos]
         }.attach()
@@ -84,12 +86,14 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
     private fun setupViewPagerAdaptor() {
         viewPagerAdapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = viewPagerAdapter
-        if (args.ls.contains("13"))
+        if (args.ls.contains("13")) {
             viewPagerAdapter.setFragment(RadioFragment())
-        if (args.ls.contains("10"))
+        }
+        if (args.ls.contains("10")) {
             viewPagerAdapter.setFragment(WifiFragment())
-        if (args.ls.contains("9"))
+        }
+        if (args.ls.contains("9")) {
             viewPagerAdapter.setFragment(InternetFragment())
-        
+        }
     }
 }
