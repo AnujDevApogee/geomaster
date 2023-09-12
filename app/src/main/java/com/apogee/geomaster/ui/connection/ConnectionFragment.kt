@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ViewPagerAdapter
 import com.apogee.geomaster.databinding.ConnectionLayoutFragmentBinding
@@ -13,6 +14,7 @@ import com.apogee.geomaster.ui.connection.internet.InternetFragment
 import com.apogee.geomaster.ui.connection.radio.RadioFragment
 import com.apogee.geomaster.ui.connection.wifi.WifiFragment
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,14 +28,17 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
 
         }
     }
+    private val args: ConnectionFragmentArgs by navArgs()
+
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-    private val tabArr by lazy {
+    private val tabArr = mutableListOf<String>()
+    /*private val tabArr by lazy {
         listOf(
             resources.getString(R.string.rtk_by_radio),
             resources.getString(R.string.rtk_by_internet),
             resources.getString(R.string.rtk_by_wifIn)
         )
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +61,17 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
         )
 
         (activity as HomeScreen?)?.hideActionBar()
-        setupViewPagerAdaptor()
+
+        createLog("TAG_INFO", "${args.ls.toList()}")
+        if (args.ls.contains("13"))
+            tabArr.add(resources.getString(R.string.rtk_by_radio))
+        if (args.ls.contains("10"))
+            tabArr.add(resources.getString(R.string.rtk_by_wifIn))
+        if (args.ls.contains("9"))
+            tabArr.add(resources.getString(R.string.rtk_by_internet))
+
+
+            setupViewPagerAdaptor()
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, pos ->
             tab.text = tabArr[pos]
         }.attach()
@@ -69,8 +84,12 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
     private fun setupViewPagerAdaptor() {
         viewPagerAdapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = viewPagerAdapter
-        viewPagerAdapter.setFragment(RadioFragment())
-        viewPagerAdapter.setFragment(InternetFragment())
-        viewPagerAdapter.setFragment(WifiFragment())
+        if (args.ls.contains("13"))
+            viewPagerAdapter.setFragment(RadioFragment())
+        if (args.ls.contains("10"))
+            viewPagerAdapter.setFragment(WifiFragment())
+        if (args.ls.contains("9"))
+            viewPagerAdapter.setFragment(InternetFragment())
+        
     }
 }

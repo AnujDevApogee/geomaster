@@ -33,7 +33,7 @@ class WifiFragment : Fragment(R.layout.wifi_connection_layout) {
     private fun setupRecycle() {
         binding.recycleViewLs.apply {
             this@WifiFragment.adaptor =
-                ConnectionAdaptor(WifiConnection.list, object : OnItemClickListener {
+                ConnectionAdaptor(listOf(), object : OnItemClickListener {
                     override fun <T> onClickListener(response: T) {
                         activity?.toastMsg("$response")
                     }

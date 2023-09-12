@@ -33,7 +33,7 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
     private fun setupRecycle() {
         binding.recycleViewLs.apply {
             this@RadioFragment.adaptor =
-                ConnectionAdaptor(RadioConnection.list, object : OnItemClickListener {
+                ConnectionAdaptor(listOf(), object : OnItemClickListener {
                     override fun <T> onClickListener(response: T) {
                         activity?.toastMsg("$response")
                     }

@@ -32,7 +32,7 @@ class InternetFragment : Fragment(R.layout.internet_connection_layout) {
     private fun setupRecycle() {
         binding.recycleViewLs.apply {
             this@InternetFragment.adaptor =
-                ConnectionAdaptor(NetworkConnection.list, object : OnItemClickListener {
+                ConnectionAdaptor(listOf(), object : OnItemClickListener {
                     override fun <T> onClickListener(response: T) {
                         activity?.toastMsg("$response")
                     }

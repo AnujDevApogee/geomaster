@@ -24,7 +24,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
     }
 
     companion object{
-        // delete info
+        // delete this information
         var measuredHeight=-1
     }
 

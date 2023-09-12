@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.apogee.geomaster.ui.base
 
 import android.content.res.ColorStateList
@@ -33,6 +35,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
         }
     }
+    private var list= mutableListOf<String>()
 
     companion object {
         const val DeviceName = "NAVIK200-1.0"
@@ -102,7 +105,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
 
         binding.setConnBtn.setOnClickListener {
-            findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment())
+            findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment(list.toTypedArray()))
         }
     }
 
@@ -138,6 +141,8 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                         append(setHtmlBoldTxt("Make"))
                         append("\t ")
                         append(response.first as String)
+                        list.clear()
+                        list.addAll(response.second as List<String>)
                     }
                 }
             }

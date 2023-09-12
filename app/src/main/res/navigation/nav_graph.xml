@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_connectionFragment_to_createWifiConnection"
             app:destination="@id/createWifiConnection" />
+        <argument
+            android:name="ls"
+            app:argType="string[]" />
     </fragment>
     <action
         android:id="@+id/action_global_connectionFragment"
