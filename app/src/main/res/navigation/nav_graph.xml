@@ -69,7 +69,11 @@
         android:id="@+id/baseProfileFragment"
         android:name="com.apogee.geomaster.ui.base.BaseProfileFragment"
         android:label="base_profile_layout"
-        tools:layout="@layout/base_profile_layout" />
+        tools:layout="@layout/base_profile_layout" >
+        <action
+            android:id="@+id/action_baseProfileFragment_to_setUpAntennaFragment"
+            app:destination="@id/setUpAntennaFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_baseProfileFragment"
         app:destination="@id/baseProfileFragment" />
@@ -247,5 +251,10 @@
         android:name="com.apogee.geomaster.ui.stake.point.StakePointFragment"
         android:label="stake_point_fragment_layout"
         tools:layout="@layout/stake_point_fragment_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/><action android:id="@+id/action_global_gnssRoverProfileFragment" app:destination="@id/gnssRoverProfileFragment"/>
+    <fragment
+        android:id="@+id/setUpAntennaFragment"
+        android:name="com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment"
+        android:label="set_up_antenna_layout"
+        tools:layout="@layout/set_up_antenna_layout" />
 
 </navigation>

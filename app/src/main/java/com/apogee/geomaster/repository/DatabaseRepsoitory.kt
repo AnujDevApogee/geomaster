@@ -1,6 +1,7 @@
 package com.apogee.geomaster.repository
 
 import android.annotation.SuppressLint
+import android.app.DownloadManager.Query
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -13,6 +14,7 @@ import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.model.SatelliteModel
+import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
@@ -2655,6 +2657,52 @@ class DatabaseRepsoitory(context: Context) {
         } else {
             null
         }
+    }
+
+    /**
+     * This function will takes the device id and return the list of module device id
+     *
+     * @param deviceId :String
+     * @return list of module Ids
+     */
+    fun getModuleFinishedId(deviceId: String): List<String> {
+        val list = mutableListOf<String>()
+        var id: String
+        val query =
+            "SELECT module_device_id FROM device_map WHERE finished_device_id = '$deviceId'"
+        val cursor = tableCreator.executeStaticQueryForCursor(query)
+        if (cursor != null && cursor.moveToPosition(0)) {
+            cursor.moveToPosition(0)
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                id = cursor.getString(0)
+                list.add(id)
+            }
+
+        }
+        return list.toList()
+    }
+
+    /**
+     * The function will return the Device_type_Id for give device id
+     * i.e what type of conenction it can make like Radio,Internet,Wifi setup
+     *
+     * @param deviceId :STRING
+     * @return total list of Connection set up Ids
+     */
+    fun getDeviceModule(deviceId: String): List<String> {
+        val list = mutableListOf<String>()
+        val query = "SELECT device_type_id FROM device WHERE device_id IN ($deviceId)"
+        var modelId: String
+        val cursor = tableCreator.executeStaticQueryForCursor(query)
+        if (cursor!=null && cursor.moveToPosition(0)){
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                modelId = cursor.getString(0)
+                list.add(modelId)
+            }
+        }
+        return list
     }
 
 

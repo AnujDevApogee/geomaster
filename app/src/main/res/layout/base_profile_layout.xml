@@ -95,6 +95,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:text="@string/disconnect_value"
                     app:layout_constraintLeft_toLeftOf="@id/device_info"
                     app:layout_constraintRight_toRightOf="@id/device_info"
@@ -112,6 +113,7 @@
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:clickable="true"
+            android:visibility="gone"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/md_theme_light_onPrimary"
@@ -143,6 +145,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="0dp"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@id/connected_crd"
             app:layout_constraintRight_toRightOf="@id/connected_crd"
             app:layout_constraintTop_toBottomOf="@id/connected_crd"
@@ -165,6 +168,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/basic_params_crd"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:clickable="true"
@@ -189,6 +193,23 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/set_antenna_btn"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/md_theme_dark_inversePrimary"
+            android:text="@string/set_up_anta"
+            android:textColor="@color/md_theme_light_onSecondary"
+            app:layout_constraintLeft_toLeftOf="@id/basic_params_crd"
+            app:layout_constraintRight_toRightOf="@id/basic_params_crd"
+            app:layout_constraintTop_toBottomOf="@id/basic_params_crd" />
+
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/set_conn_btn"
             style="@style/Widget.Material3.Button.ElevatedButton"
@@ -197,12 +218,14 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/md_theme_dark_inversePrimary"
+            android:checkable="false"
+            android:enabled="false"
+            android:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
             android:text="@string/set_up_conn"
             android:textColor="@color/md_theme_light_onSecondary"
             app:layout_constraintLeft_toLeftOf="@id/basic_params_crd"
             app:layout_constraintRight_toRightOf="@id/basic_params_crd"
-            app:layout_constraintTop_toBottomOf="@id/basic_params_crd" />
+            app:layout_constraintTop_toBottomOf="@id/set_antenna_btn" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/set_auto_btn"
@@ -210,7 +233,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:backgroundTint="@color/md_theme_dark_inversePrimary"
+            android:checkable="false"
+            android:enabled="false"
+            android:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
             android:text="@string/set_up_auto"
             android:textColor="@color/md_theme_light_onSecondary"
             app:layout_constraintLeft_toLeftOf="@id/set_conn_btn"
@@ -223,7 +248,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:backgroundTint="@color/md_theme_dark_inversePrimary"
+            android:checkable="false"
+            android:enabled="false"
+            android:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
             android:text="@string/set_up_manny"
             android:textColor="@color/md_theme_light_onSecondary"
             app:layout_constraintLeft_toLeftOf="@id/set_auto_btn"

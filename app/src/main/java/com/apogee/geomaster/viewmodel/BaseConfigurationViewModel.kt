@@ -20,13 +20,11 @@ class BaseConfigurationViewModel(application: Application) : AndroidViewModel(ap
 
     private val repo = BaseConfigurationRepository(application)
 
-    init {
-        setUpConfig()
-    }
 
-    private fun setUpConfig() {
+
+     fun setUpConfig(deviceName:String) {
         viewModelScope.launch {
-            repo.setUpBaseConfig().collect {
+            repo.setUpBaseConfig(deviceName).collect {
                 _baseConfigDataSetUp.postValue(it)
             }
         }

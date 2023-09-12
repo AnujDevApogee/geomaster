@@ -44,6 +44,7 @@
     <string name="zn_hemisphere_data">Hemisphere</string>
     <string name="sbm_btn">Submit</string>
     <string name="create_custom_project">Create Custom Project</string>
+    <string name="set_up_anta">Set Up Antenna</string>
     <string name="set_up_conn">Set Up Connections</string>
     <string name="set_up_comm">Set Up Communication</string>
     <string name="set_up_auto">Set Up AutoBase</string>
@@ -52,6 +53,7 @@
     <string name="gnss_base_profile">GNSS Base Profile</string>
     <string name="corr_txt">Correction</string>
     <string name="new_corr_source">New Correction Source</string>
+    <string name="setup_antenna_source">Setup Antenna Source</string>
     <string name="project_comment_data">Project Comment (Optional)</string>
     <string name="rtk_by_radio">RTK by Radio</string>
     <string name="rtk_by_internet">RTK by Internet</string>
@@ -59,11 +61,14 @@
     <string name="internal_radio_txt">Internal Radio</string>
     <string name="external_radio_txt">External Radio</string>
     <string name="togle_pre_conn">Toggle Previous Connection</string>
+    <string name="Measure_point">Measure Point</string>
     <string name="ip_connection">IP</string>
+    <string name="measured_height">Measured Height (Meter)</string>
     <string name="power_txt">Power</string>
     <string name="proto_txt">Protocol</string>
     <string name="fegquency_txt">Frequency</string>
     <string name="port_connection">Port</string>
+    <string name="project_model">Model</string>
     <string name="mount_point">Mount-Point</string>
     <string name="wift_setup">Wifi Setup</string>
     <string name="radio_comm">Radio Communication</string>
@@ -114,11 +119,15 @@
     </string-array>
 
 
+    <string-array name="measure_point">
+        <item>Vertical</item>
+        <item>Slope</item>
+    </string-array>
+
     <string name="n_new">N :</string>
     <string name="e_new">E :</string>
     <string name="ele_new">Elev :</string>
     <string name="fill_n">Fill :</string>
-
 
 
     <string name="angle">Angle :</string>

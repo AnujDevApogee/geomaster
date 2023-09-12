@@ -2,6 +2,7 @@ package com.apogee.geomaster.ui.base
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
+import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
 import com.google.android.material.transition.MaterialFadeThrough
 
@@ -26,6 +28,10 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         override fun <T> onClickListener(response: T) {
 
         }
+    }
+
+    companion object {
+        const val DeviceName = "NAVIK200-1.0"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +54,16 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
             menuCallback
         )
         (activity as HomeScreen?)?.hideActionBar()
+        initial()
 
         getSetConfigResponses()
 
-        binding.deviceInfo.append(setHtmlBoldTxt("Make"))
+        binding.setConnBtn.setOnClickListener {
+            activity?.toastMsg("Connection click")
+        }
+
+
+        /*binding.deviceInfo.append(setHtmlBoldTxt("Make"))
         binding.deviceInfo.append("\t")
         binding.deviceInfo.append("xxxxxxxx")
         binding.deviceInfo.append("\n")
@@ -62,24 +74,58 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         binding.deviceInfo.append(setHtmlBoldTxt("Device Name"))
         binding.deviceInfo.append("\t")
         binding.deviceInfo.append("xxxxxxxx")
-        binding.deviceInfo.append("\n")
+        binding.deviceInfo.append("\n")*/
+
+
+
+
+
+
+
+
+        binding.setAntennaBtn.setOnClickListener {
+            findNavController().safeNavigate(BaseProfileFragmentDirections.actionBaseProfileFragmentToSetUpAntennaFragment())
+        }
+
+
         binding.setConnBtn.setOnClickListener {
             findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment())
         }
     }
 
+    private fun initial() {
+        viewModel.setUpConfig(DeviceName)
+    }
+
     private fun getSetConfigResponses() {
-        viewModel.baseConfigDataSetUp.observe(viewLifecycleOwner){
-            when(it){
+        viewModel.baseConfigDataSetUp.observe(viewLifecycleOwner) {
+            when (it) {
                 is ApiResponse.Error -> {
-                    createLog("BASE_SETUP","Exception => ${it.exception?.message}")
+                    createLog("BASE_SETUP", "Exception => ${it.exception?.message}")
                 }
 
                 is ApiResponse.Loading -> {
-                    createLog("BASE_SETUP","Loading ${it.data}")
+                    createLog("BASE_SETUP", "Loading ${it.data}")
                 }
+
                 is ApiResponse.Success -> {
-                    createLog("BASE_SETUP","Success ${it.data}")
+                    createLog("BASE_SETUP", "Success ${it.data}")
+                    val response = it.data as Pair<*, *>
+                    binding.deviceInfo.apply {
+                        text = ""
+                        append(setHtmlBoldTxt("Model"))
+                        append("\t")
+                        append(DeviceName)
+                        append("\n")
+                        append(setHtmlBoldTxt("Device Name"))
+                        append("\t")
+                        append(DeviceName)
+                        // Renaming Info
+                        append("\n")
+                        append(setHtmlBoldTxt("Make"))
+                        append("\t ")
+                        append(response.first as String)
+                    }
                 }
             }
         }
