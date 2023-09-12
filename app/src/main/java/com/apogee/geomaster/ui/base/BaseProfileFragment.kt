@@ -1,20 +1,24 @@
 package com.apogee.geomaster.ui.base
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.getColorInt
+import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
+import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
 import com.google.android.material.transition.MaterialFadeThrough
@@ -78,6 +82,15 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
 
 
+
+        if (SetUpAntennaFragment.measuredHeight!=-1){
+            binding.setAntennaBtn.hide()
+            binding.antennaCard.show()
+            binding.antennaType.text="Antenna ${SetUpAntennaFragment.measuredHeight}m"
+            binding.setConnBtn.isCheckable=true
+            binding.setConnBtn.isEnabled=true
+            binding.setConnBtn.backgroundTintList= ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
+        }
 
 
 

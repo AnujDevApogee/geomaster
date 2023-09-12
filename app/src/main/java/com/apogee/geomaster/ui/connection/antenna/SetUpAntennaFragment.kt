@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SetUpAntennaLayoutBinding
 import com.apogee.geomaster.ui.base.BaseProfileFragment
@@ -20,6 +21,11 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
         override fun <T> onClickListener(response: T) {
 
         }
+    }
+
+    companion object{
+        // delete info
+        var measuredHeight=-1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,8 +75,9 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
                 showMessage("Invalid Measured Point")
                 return@setOnClickListener
             }
+            SetUpAntennaFragment.measuredHeight=measuredHeight.toInt()
 
-
+            findNavController().popBackStack()
 
         }
 

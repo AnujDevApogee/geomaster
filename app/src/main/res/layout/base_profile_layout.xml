@@ -161,7 +161,7 @@
                 android:textSize="14sp"
                 app:drawableEndCompat="@drawable/ic_arrow"
                 app:drawableStartCompat="@drawable/ic_height"
-                android:text="Antenna 2m" />
+                tools:text="Antenna 2m" />
 
         </com.google.android.material.card.MaterialCardView>
 
