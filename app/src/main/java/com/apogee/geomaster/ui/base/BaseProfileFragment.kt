@@ -107,6 +107,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         binding.setConnBtn.setOnClickListener {
             findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment(list.toTypedArray()))
         }
+
     }
 
     private fun initial() {

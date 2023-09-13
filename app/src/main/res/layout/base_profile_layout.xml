@@ -233,11 +233,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
             android:checkable="false"
             android:enabled="false"
-            android:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
             android:text="@string/set_up_auto"
             android:textColor="@color/md_theme_light_onSecondary"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="@id/set_conn_btn"
             app:layout_constraintRight_toRightOf="@id/set_conn_btn"
             app:layout_constraintTop_toBottomOf="@id/set_conn_btn" />
