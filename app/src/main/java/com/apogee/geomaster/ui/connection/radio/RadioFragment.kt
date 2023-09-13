@@ -10,6 +10,7 @@ import com.apogee.geomaster.model.RadioConnection
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.ConnectionFragmentDirections
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.updatedblelibrary.Utils.checkString
@@ -28,10 +29,10 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
 
         binding.setCommBtn.setOnClickListener {
             var mode = ""
-            if (binding.externalRadioBtn.isSelected) {
+            if (binding.externalRadioBtn.isChecked) {
                 mode = "RS232"
             }
-            if (binding.internalRadioBtn.isSelected) {
+            if (binding.internalRadioBtn.isChecked) {
                 mode = "Radio"
             }
             if (checkString(mode)) {
@@ -40,7 +41,7 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
             }
             (parentFragment as ConnectionFragment).goToNxtScr(
                 ConnectionFragmentDirections.actionConnectionFragmentToCreateRadioConnectionFragment(
-                    "BASE", "Radio"
+                    "BASE", mode
                 )
             )
         }

@@ -3,11 +3,15 @@ package com.apogee.geomaster.ui.connection.setupradio
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.CreateRadioConnLayoutFragmentBinding
+import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.viewmodel.SetUpConnectionViewModel
 import com.google.android.material.transition.MaterialFadeThrough
 
 class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout_fragment) {
@@ -15,6 +19,8 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
     private lateinit var binding: CreateRadioConnLayoutFragmentBinding
 
     private val args: CreateRadioConnectionFragmentArgs by navArgs()
+
+    private val viewModel: SetUpConnectionViewModel by viewModels()
 
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
@@ -36,15 +42,35 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
         super.onViewCreated(view, savedInstanceState)
         binding = CreateRadioConnLayoutFragmentBinding.bind(view)
         displayActionBar(
-            getString(R.string.radio_comm),
-            binding.actionLayout,
-            R.menu.info_mnu,
-            menuCallback
+            getString(R.string.radio_comm), binding.actionLayout, R.menu.info_mnu, menuCallback
         )
+        getResponse()
+
+        getResponseValue()
 
 
+    }
 
+    private fun getResponse() {
+        viewModel.getInputRequiredParma(args.mode, 114)
+    }
 
+    private fun getResponseValue() {
+        viewModel.dataResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    createLog("TAG_RADIO", "RADIO_SET_UP ${it.data} and ${it.exception}")
+                }
+
+                is ApiResponse.Loading -> {
+                    createLog("TAG_RADIO", "RADIO_SET_UP Loading.. ${it.data}")
+                }
+
+                is ApiResponse.Success -> {
+                    createLog("TAG_RADIO", "RADIO_SET_UP ${it.data}")
+                }
+            }
+        }
     }
 
 

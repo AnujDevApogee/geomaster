@@ -2,6 +2,7 @@ package com.apogee.geomaster.repository
 
 import android.app.Application
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.createLog
 import kotlinx.coroutines.flow.flow
 import java.io.Serializable
 
@@ -48,13 +49,16 @@ class BaseConfigurationRepository(application: Application) {
             1,
             makeResponse.toString().length - 1
         )
+        createLog("TAG_BASE","Make Reels $makeResLs and List is $makeResponse")
         val deviceModule = databaseRepository.getDeviceModule(makeResLs)
 
         return ApiResponse.Success(Pair(makeName, deviceModule))
     }
 
-    private fun getSubString(str: String, from: Int, to: Int): String {
-        return str.substring(from, to).trim()
+    companion object{
+        fun getSubString(str: String, from: Int, to: Int): String {
+            return str.substring(from, to).trim()
+        }
     }
 
 }

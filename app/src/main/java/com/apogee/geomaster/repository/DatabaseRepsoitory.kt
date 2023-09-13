@@ -13,6 +13,7 @@ import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.model.SatelliteModel
+import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
@@ -2473,9 +2474,10 @@ class DatabaseRepsoitory(context: Context) {
     fun selectionidlist1(command_id: String): List<Int> {
         val list: MutableList<Int> = ArrayList()
         try {
-
+            val query="SELECT selection_value_id FROM command_param_map where command_id IN ($command_id)"
+            createLog("TAG_RADIO","Query is $query")
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT selection_value_id FROM command_param_map where command_id IN ($command_id)"
+                query
             )
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
