@@ -3,7 +3,10 @@ package com.apogee.geomaster.model
 sealed class DynamicViewType {
     data class SpinnerData(
         val id: Int,
-        val hint: String
+        val hint: String,
+        val dataList: List<String>,
+        val valueList: List<String>,
+        var selectedPair: Pair<String, String>? = null
     ) : DynamicViewType()
 
     data class EditText(
@@ -15,31 +18,9 @@ sealed class DynamicViewType {
         val list = listOf(
             SpinnerData(
                 0,
-                "Toogle Controller"
-            ),
-            SpinnerData(
-                1,
-                "Toogle Controller"
-            ),
-            SpinnerData(
-                2,
-                "Toogle Controller"
-            ),
-            SpinnerData(
-                3,
-                "Toogle Controller"
-            ),
-            SpinnerData(
-                4,
-                "Toogle Controller"
-            ),
-            SpinnerData(
-                5,
-                "Toogle Controller"
-            ),
-            SpinnerData(
-                6,
-                "Toogle Controller"
+                "Toogle Controller",
+                listOf(),
+                listOf()
             ),
             EditText(
                 7,

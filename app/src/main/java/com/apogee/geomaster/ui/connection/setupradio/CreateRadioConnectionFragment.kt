@@ -1,12 +1,15 @@
 package com.apogee.geomaster.ui.connection.setupradio
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
+import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.CreateRadioConnLayoutFragmentBinding
+import com.apogee.geomaster.model.DynamicViewType
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
@@ -14,6 +17,7 @@ import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.viewmodel.SetUpConnectionViewModel
 import com.google.android.material.transition.MaterialFadeThrough
 
+@Suppress("UNCHECKED_CAST")
 class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout_fragment) {
 
     private lateinit var binding: CreateRadioConnLayoutFragmentBinding
@@ -22,12 +26,18 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
 
     private val viewModel: SetUpConnectionViewModel by viewModels()
 
+    private lateinit var adaptor: MultiRecyclerViewAdaptor
+
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
 
         }
     }
-
+    private val itemRecycleViewClick=object :OnItemClickListener{
+        override fun <T> onClickListener(response: T) {
+            Log.i("item_click", "onClickListener: $response")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fadeThrough = MaterialFadeThrough().apply {
@@ -44,11 +54,19 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
         displayActionBar(
             getString(R.string.radio_comm), binding.actionLayout, R.menu.info_mnu, menuCallback
         )
+        setUpRecycle()
         getResponse()
 
         getResponseValue()
 
 
+    }
+
+    private fun setUpRecycle() {
+        binding.recycleViewRadio.apply {
+            adaptor = MultiRecyclerViewAdaptor(itemRecycleViewClick)
+            adapter = adaptor
+        }
     }
 
     private fun getResponse() {
@@ -68,6 +86,8 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
 
                 is ApiResponse.Success -> {
                     createLog("TAG_RADIO", "RADIO_SET_UP ${it.data}")
+                    val list=it.data as List<DynamicViewType>
+                    adaptor.submitList(list)
                 }
             }
         }

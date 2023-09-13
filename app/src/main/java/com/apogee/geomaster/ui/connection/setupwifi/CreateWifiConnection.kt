@@ -18,6 +18,7 @@ import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.viewmodel.SetUpConnectionViewModel
 import com.google.android.material.transition.MaterialFadeThrough
 
+@Suppress("UNCHECKED_CAST")
 class CreateWifiConnection : Fragment(R.layout.create_wifi_connection_layout) {
 
     private lateinit var binding: CreateWifiConnectionLayoutBinding
@@ -72,7 +73,6 @@ class CreateWifiConnection : Fragment(R.layout.create_wifi_connection_layout) {
             adaptor = MultiRecyclerViewAdaptor(itemRecycleViewClick)
             adapter = adaptor
         }
-        adaptor.submitList(DynamicViewType.list)
     }
 
     private fun getResponse() {
@@ -92,6 +92,8 @@ class CreateWifiConnection : Fragment(R.layout.create_wifi_connection_layout) {
 
                 is ApiResponse.Success -> {
                     createLog("TAG_WIFI", "RADIO_SET_UP ${it.data}")
+                    val list=it.data as List<DynamicViewType>
+                    adaptor.submitList(list)
                 }
             }
         }

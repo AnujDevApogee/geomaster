@@ -1,5 +1,7 @@
 package com.apogee.geomaster.adaptor.viewholder
 
+import android.R
+import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -7,6 +9,7 @@ import com.apogee.geomaster.databinding.EditTextLayoutBinding
 import com.apogee.geomaster.databinding.SpinnerDropdownLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.isInvalidString
 
 sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -18,9 +21,23 @@ sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(bin
         fun bindIt(data: DynamicViewType.SpinnerData, itemClickListener: OnItemClickListener) {
             binding.spinnerTextInputLayout.hint = data.hint
             binding.spinner.setText(data.hint)
-            binding.spinner.setOnClickListener {
-                itemClickListener.onClickListener(Pair(data,data.hint))
+            val coordinateAdaptor: ArrayAdapter<String> = ArrayAdapter<String>(
+                binding.spinner.context,
+                R.layout.select_dialog_item,
+                data.dataList
+            )
+            if (data.dataList.isNotEmpty())
+                binding.spinner.setText(data.dataList.first())
+            binding.spinner.setAdapter(coordinateAdaptor)
+            binding.spinner.setOnItemClickListener { _, _, position, _ ->
+                createLog("TAG_SPINNER", "Position $position")
+                val selectedItem = Pair(data.dataList[position], data.valueList[position])
+                data.selectedPair = selectedItem
+                itemClickListener.onClickListener(data)
             }
+            /*  binding.spinner.setOnClickListener {
+                  itemClickListener.onClickListener(Pair(data,data.hint))
+              }*/
         }
 
     }

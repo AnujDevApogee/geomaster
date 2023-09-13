@@ -24,7 +24,7 @@ class InternetFragment : Fragment(R.layout.internet_connection_layout) {
         binding.setCommBtn.setOnClickListener {
             (parentFragment as ConnectionFragment).goToNxtScr(
                 ConnectionFragmentDirections
-                    .actionConnectionFragmentToCreateConnectionFragment("Base","GSM")
+                    .actionConnectionFragmentToCreateConnectionFragment("GSM","Base")
             )
         }
     }

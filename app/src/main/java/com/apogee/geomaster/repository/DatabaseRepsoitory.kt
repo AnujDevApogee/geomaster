@@ -2489,6 +2489,12 @@ class DatabaseRepsoitory(context: Context) {
         return list
     }
 
+    /**
+     * The Function is Use to configure the InputList
+     *
+     * @param command_id:String
+     * @return ArrayList<Int> for all input type
+     */
     fun inputlist(command_id: String): ArrayList<Int> {
         val list = ArrayList<Int>()
         try {
@@ -2579,8 +2585,9 @@ class DatabaseRepsoitory(context: Context) {
             Log.d(TAG, "inputparameterlist: $query")*/
 
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT parameter_name,parameter_type,remark FROM " +
-                        "parameter Where parameter_id IN ($joined)"
+                "SELECT p.parameter_name,pt.parameter_type_name,p.remark FROM parameter as p JOIN " +
+                        "parameter_type as pt ON p.parameter_type_id=pt.parameter_type_id Where " +
+                        "parameter_id IN ($joined)"
             )
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
@@ -2593,6 +2600,34 @@ class DatabaseRepsoitory(context: Context) {
             Log.e(TAG, "parameterDataList: Exception ${e.message}")
         }
         return list
+    }
+
+
+
+    fun inputparameterlistMAP(joined: String): Map<String, Pair<String, String>> {
+        val map= mutableMapOf<String,Pair<String,String>>()
+        var name: String
+        var type: String
+        var remark: String
+        try {
+            val query="SELECT p.parameter_name,pt.parameter_type_name,p.remark FROM parameter as p " +
+                    "JOIN parameter_type as pt ON p.parameter_type_id=pt.parameter_type_id Where parameter_id IN ($joined)"
+            createLog("TAG_OPERATION",query)
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                query
+            )
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                name = cursor.getString(0)
+                type = cursor.getString(1)
+                remark = cursor.getString(2)
+                //list.add("$name,$type,$remark")
+                map.put(name, Pair(type,remark))
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "parameterDataList: Exception ${e.message}")
+        }
+        return map.toMap()
     }
 
     fun insertSatelliteMappingDatajjjsds(list: List<String>): String {
@@ -2731,6 +2766,7 @@ class DatabaseRepsoitory(context: Context) {
      */
     fun detopnameid(name: String): Int? {
         val query = "SELECT operation_id FROM operation where operation_name='$name'"
+        createLog("TAG_OPERATION","$query")
         val cursor =
             tableCreator.executeStaticQueryForCursor(query)
         return if (cursor != null && cursor.moveToPosition(0)) {
