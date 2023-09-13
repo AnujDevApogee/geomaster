@@ -6,7 +6,7 @@ sealed class DynamicViewType {
         val hint: String,
         val dataList: List<String>,
         val valueList: List<String>,
-        var selectedPair: Pair<String, String>? = null
+        var selectedPair: Pair<String, String>? = null //dataList and ValueList
     ) : DynamicViewType()
 
     data class EditText(
