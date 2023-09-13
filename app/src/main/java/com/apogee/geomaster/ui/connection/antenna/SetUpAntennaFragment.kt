@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SetUpAntennaLayoutBinding
+import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.base.BaseProfileFragment
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
@@ -37,6 +38,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
             R.menu.info_mnu,
             menuCallback
         )
+        (activity as HomeScreen?)?.hideActionBar()
         binding.modelEd.setText(BaseProfileFragment.DeviceName)
 
         val coordinateAdaptor: ArrayAdapter<String> = ArrayAdapter<String>(

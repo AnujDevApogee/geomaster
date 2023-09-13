@@ -54,6 +54,8 @@
     <string name="corr_txt">Correction</string>
     <string name="new_corr_source">New Correction Source</string>
     <string name="setup_antenna_source">Setup Antenna Source</string>
+    <string name="setup_auto_bs">SetUp AutoBase</string>
+    <string name="setup_manual_bs">SetUp ManualBase</string>
     <string name="project_comment_data">Project Comment (Optional)</string>
     <string name="rtk_by_radio">RTK by Radio</string>
     <string name="rtk_by_internet">RTK by Internet</string>

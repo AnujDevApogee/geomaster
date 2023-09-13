@@ -73,6 +73,12 @@
         <action
             android:id="@+id/action_baseProfileFragment_to_setUpAntennaFragment"
             app:destination="@id/setUpAntennaFragment" />
+        <action
+            android:id="@+id/action_baseProfileFragment_to_autoBaseFragment"
+            app:destination="@id/autoBaseFragment" />
+        <action
+            android:id="@+id/action_baseProfileFragment_to_manualBaseFragment"
+            app:destination="@id/manualBaseFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_baseProfileFragment"
@@ -280,5 +286,23 @@
         android:name="com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment"
         android:label="set_up_antenna_layout"
         tools:layout="@layout/set_up_antenna_layout" />
+    <fragment
+        android:id="@+id/manualBaseFragment"
+        tools:layout="@layout/mannual_base_layout"
+        android:name="com.apogee.geomaster.ui.connection.mannualbase.ManualBaseFragment"
+        android:label="ManualBaseFragment" >
+        <argument
+            android:name="mode"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/autoBaseFragment"
+        android:name="com.apogee.geomaster.ui.connection.autobase.AutoBaseFragment"
+        android:label="auto_base_layout"
+        tools:layout="@layout/auto_base_layout" >
+        <argument
+            android:name="mode"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

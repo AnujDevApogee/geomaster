@@ -105,9 +105,29 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
 
         binding.setConnBtn.setOnClickListener {
-            findNavController().safeNavigate(BaseProfileFragmentDirections.actionGlobalConnectionFragment(list.toTypedArray()))
+            findNavController().safeNavigate(
+                BaseProfileFragmentDirections.actionGlobalConnectionFragment(
+                    list.toTypedArray()
+                )
+            )
         }
 
+
+        binding.setAutoBtn.setOnClickListener {
+            findNavController().safeNavigate(
+                BaseProfileFragmentDirections.actionBaseProfileFragmentToAutoBaseFragment(
+                    "Auto base"
+                )
+            )
+        }
+
+        binding.setManualBtn.setOnClickListener {
+            findNavController().safeNavigate(
+                BaseProfileFragmentDirections.actionBaseProfileFragmentToManualBaseFragment(
+                    "Manual Base"
+                )
+            )
+        }
     }
 
     private fun initial() {
