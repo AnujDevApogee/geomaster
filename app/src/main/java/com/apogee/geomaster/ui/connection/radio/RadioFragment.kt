@@ -24,6 +24,7 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
     companion object {
         val Radio = mutableListOf<Map<String, Any?>>()
     }
+    private var mode = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,7 +33,6 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
 
 
         binding.setCommBtn.setOnClickListener {
-            var mode = ""
             if (binding.externalRadioBtn.isChecked) {
                 mode = "RS232"
             }
@@ -57,7 +57,10 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
                 ConnectionAdaptor(Radio, object : OnItemClickListener {
                     override fun <T> onClickListener(response: T) {
                         if (response is Pair<*, *> && (response.first as Boolean)) {
-
+                            (parentFragment as ConnectionFragment).selectTheSetting(
+                                mode,
+                                response.second as Map<String, Any?>
+                            )
                         }
                         if (response is Pair<*, *> && !(response.first as Boolean)){
                             this@RadioFragment.adaptor.notifyDataSetChanged()

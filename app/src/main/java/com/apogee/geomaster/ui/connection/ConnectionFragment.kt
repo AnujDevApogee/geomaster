@@ -32,13 +32,11 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private val tabArr = mutableListOf<String>()
-    /*private val tabArr by lazy {
-        listOf(
-            resources.getString(R.string.rtk_by_radio),
-            resources.getString(R.string.rtk_by_internet),
-            resources.getString(R.string.rtk_by_wifIn)
-        )
-    }*/
+
+    companion object {
+        var connectionSelectionType: Pair<String, Map<String, Any?>>? = null
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +79,11 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
 
     fun goToNxtScr(action: NavDirections) {
         findNavController().safeNavigate(action)
+    }
+
+    fun selectTheSetting(mode: String, mapType: Map<String, Any?>) {
+        connectionSelectionType = Pair(mode, mapType)
+        findNavController().popBackStack()
     }
 
     private fun setupViewPagerAdaptor() {
