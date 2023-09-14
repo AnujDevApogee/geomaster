@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.CreateRadioConnLayoutFragmentBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.ui.connection.radio.RadioFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
@@ -90,7 +92,8 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
                 return@setOnClickListener
             }
             createLog("TAG_RESPONSE","Done Part is Successfully $mapList")
-
+            RadioFragment.Radio.add(mapList)
+            findNavController().popBackStack()
         }
 
     }

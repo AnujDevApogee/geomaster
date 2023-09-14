@@ -1,15 +1,16 @@
 package com.apogee.geomaster.ui.connection.setupconnection
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.CreateConnectionLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.ui.connection.internet.InternetFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
@@ -87,6 +88,8 @@ class CreateConnectionFragment : Fragment(R.layout.create_connection_layout) {
                 return@setOnClickListener
             }
             createLog("TAG_RESPONSE","Done Part is Successfully $mapList")
+            InternetFragment.internetWifi.add(mapList)
+            findNavController().popBackStack()
         }
     }
 

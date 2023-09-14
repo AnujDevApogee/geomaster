@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.CreateConfigurationFragmentBinding
-import com.apogee.geomaster.databinding.CreateProjectsFragmentBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.displayActionBar

@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.DefaultProjectLayoutBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
@@ -16,13 +15,8 @@ import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
-import com.apogee.geomaster.utils.hide
-import com.apogee.geomaster.utils.openKeyBoard
-import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
 import com.apogee.geomaster.utils.setHtmlTxt
-import com.apogee.geomaster.utils.show
-import java.time.LocalDateTime
 
 class DefaultCreateProjectFragment : Fragment(R.layout.default_project_layout) {
 
