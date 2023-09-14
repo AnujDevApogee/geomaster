@@ -1,5 +1,8 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.apogee.geomaster.ui.connection.radio
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -55,6 +58,7 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
         binding.recycleViewLs.apply {
             this@RadioFragment.adaptor =
                 ConnectionAdaptor(Radio, object : OnItemClickListener {
+                    @SuppressLint("NotifyDataSetChanged")
                     override fun <T> onClickListener(response: T) {
                         if (response is Pair<*, *> && (response.first as Boolean)) {
                             (parentFragment as ConnectionFragment).selectTheSetting(

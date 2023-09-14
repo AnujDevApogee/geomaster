@@ -59,7 +59,7 @@ class ConnectionFragment : Fragment(R.layout.connection_layout_fragment) {
         )
 
         (activity as HomeScreen?)?.hideActionBar()
-
+        connectionSelectionType = null
         createLog("TAG_INFO", "${args.ls.toList()}")
         if (args.ls.contains("13")) {
             tabArr.add(resources.getString(R.string.rtk_by_radio))

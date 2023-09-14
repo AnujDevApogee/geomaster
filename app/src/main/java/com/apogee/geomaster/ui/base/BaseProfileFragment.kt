@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
@@ -86,13 +87,28 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
 
 
-        if (SetUpAntennaFragment.measuredHeight!=-1){
+        if (SetUpAntennaFragment.measuredHeight != -1) {
             binding.setAntennaBtn.hide()
             binding.antennaCard.show()
-            binding.antennaType.text="Antenna ${SetUpAntennaFragment.measuredHeight}m"
-            binding.setConnBtn.isCheckable=true
-            binding.setConnBtn.isEnabled=true
-            binding.setConnBtn.backgroundTintList= ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
+            binding.antennaType.text = "Antenna ${SetUpAntennaFragment.measuredHeight}m"
+            binding.setConnBtn.isCheckable = true
+            binding.setConnBtn.isEnabled = true
+            binding.setConnBtn.backgroundTintList =
+                ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
+        }
+
+        if (ConnectionFragment.connectionSelectionType != null) {
+            binding.setAutoBtn.isCheckable = true
+            binding.setAutoBtn.isEnabled = true
+            binding.setManualBtn.isCheckable = true
+            binding.setManualBtn.isEnabled = true
+            binding.setAutoBtn.backgroundTintList =
+                ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
+            binding.setManualBtn.backgroundTintList =
+                ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
+
+            binding.setConnBtn.hide()
+
         }
 
 
