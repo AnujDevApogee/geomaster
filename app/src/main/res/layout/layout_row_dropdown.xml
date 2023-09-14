@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/matchWarp"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <TextView
+        android:id="@+id/txtdrop"
+        style="@style/matchWrap"
+        android:text="Toogle Previous Configuration"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/ten_dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ten_dp"
+        android:layout_marginEnd="@dimen/ten_dp">
+        <Spinner
+            android:id="@+id/spindrop"
+            android:layout_width="match_parent"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:entries="@array/business_location_type"
+            android:spinnerMode="dialog"
+            android:layout_height="45dp"/>
+
+        <ImageView
+            android:layout_gravity="right|center"
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_down_24"
+            android:padding="5dp" />
+    </FrameLayout>
+
+    <!--<Spinner
+        style="@style/matchWarp"
+        android:id="@+id/spindrop"
+        android:layout_margin="@dimen/ten_dp"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/array_name"
+        android:layout_weight="0.5" />-->
+</LinearLayout>

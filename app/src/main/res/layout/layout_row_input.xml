@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/matchWarp"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/ten_dp" >
+        <CheckBox
+            android:id="@+id/cbNmea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/txtinput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:text="@string/Name"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+
+
+        <EditText
+            android:id="@+id/edinput"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="@dimen/ten_dp"
+            android:background="@drawable/border"
+            android:hint="@string/Url"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:paddingLeft="8dp"
+            android:layout_toStartOf="@+id/wifiScan"/>
+
+
+
+</LinearLayout>

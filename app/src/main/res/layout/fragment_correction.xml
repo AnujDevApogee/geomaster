@@ -1,14 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.configuration.deviceconfig.CorrectionFragment">
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/matchParent"
+        tools:context="ui.configuration.deviceconfig.CorrectionFragment">
+        <LinearLayout
+            style="@style/matchParent"
+            android:id="@+id/l1"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+            <LinearLayout
+                style="@style/matchWrap"
+                android:layout_marginLeft="@dimen/five_dp"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:background="@drawable/border"
+                android:elevation="@dimen/eight_dp"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+                android:orientation="horizontal">
 
-</FrameLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/gnssrover"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fifty_dp"
+                    android:layout_weight="1"
+                    android:elevation="@dimen/eight_dp"
+                    android:background="@drawable/buttondesign"
+                    app:cardBackgroundColor="@color/test1"
+                    app:cardElevation="@dimen/five_dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/gnssrovertext"
+                        style="@style/matchWrap"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/five_dp"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="@string/RTKbyradio"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_fifteen" />
+
+                </androidx.cardview.widget.CardView>
+                <!--      <androidx.cardview.widget.CardView
+                          android:id="@+id/external_radio"
+                          android:layout_width="match_parent"
+                          android:layout_height="@dimen/fifty_dp"
+                          android:layout_weight="1"
+                          android:elevation="@dimen/eight_dp"
+                          android:background="@drawable/buttondesign"
+                          app:cardBackgroundColor="@color/test1"
+                          app:cardElevation="@dimen/five_dp"
+                          android:visibility="gone">
+
+                          <TextView
+                              android:id="@+id/external_radio_text"
+                              style="@style/matchWrap"
+                              android:layout_gravity="center"
+                              android:layout_margin="@dimen/five_dp"
+                              android:foregroundGravity="center"
+                              android:gravity="center"
+                              android:text="@string/RTKbyexternalradio"
+                              android:textColor="@color/white"
+                              android:textSize="@dimen/text_size_fifteen" />
+
+                      </androidx.cardview.widget.CardView>
+      -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/gnssreference"
+                    style="@style/matchWrap"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/test"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/gnssreferencetext"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/five_dp"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="@string/rtk_by_internet"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_fifteen" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvWifi"
+                    style="@style/matchWrap"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/test1"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvwifi"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/five_dp"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="@string/rtk_by_wifi"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_fifteen" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvPDA"
+                    style="@style/matchWrap"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/test1"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvPDA"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/forty_dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/five_dp"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:text="@string/rtk_by_pda"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_fifteen" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioGroup"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Internal Radio"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:id="@+id/rb_radio_internal"/>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="External Radio"
+                    android:layout_weight="1"
+                    android:id="@+id/rb_radio_external"/>
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/datasource"
+                style="@style/matchWrap"
+                android:layout_margin="@dimen/five_dp"
+                android:background="@drawable/buttondesign"
+                android:textColor="@color/white"
+                android:text="@string/set_up_data_source" />
+            <!--   <Button
+                 android:id="@+id/btnExternalRadio"
+                 style="@style/matchWrap"
+                   android:visibility="gone"
+                 android:layout_margin="@dimen/five_dp"
+                 android:background="@drawable/buttondesign"
+                 android:textColor="@color/white"
+                 android:text="@string/SetUpExternalRadio" />-->
+
+            <Button
+                android:id="@+id/communication"
+                style="@style/matchWrap"
+                android:visibility="gone"
+                android:layout_margin="@dimen/five_dp"
+                android:background="@drawable/buttondesign"
+                android:textColor="@color/white"
+                android:text="@string/SetUpCommunications" />
+
+            <Button
+                android:id="@+id/btwifi"
+                style="@style/matchWrap"
+                android:visibility="gone"
+                android:layout_margin="@dimen/five_dp"
+                android:background="@drawable/buttondesign"
+                android:textColor="@color/white"
+                android:text="@string/setupWifi" />
+            <Button
+                android:id="@+id/btPDA"
+                style="@style/matchWrap"
+                android:visibility="gone"
+                android:layout_margin="@dimen/five_dp"
+                android:background="@drawable/buttondesign"
+                android:textColor="@color/white"
+                android:text="@string/setuppda" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                style="@style/matchParent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/done"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/fifty_dp"
+            android:background="@drawable/buttondesign"
+            android:text="@string/done"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+</layout>

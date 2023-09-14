@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -37,7 +38,8 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     private lateinit var bleDeviceAdaptor: BleDeviceAdaptor
     private var bleDeviceScanner: BleDeviceScanner? = null
     var deviceName = "NAVIK200-1.0"
-    private val bleConnectionViewModel: BleConnectionViewModel by viewModels()
+    private val bleConnectionViewModel: BleConnectionViewModel by activityViewModels()
+
     private val bleGetConfigDataViewModel: BleGetConfigDataViewModel by viewModels()
     var scanTime: Long = 3000
 
@@ -54,7 +56,10 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     var serviceIdForChar = ""
 
     private var deviceAddress = ""
-
+    companion object {
+        var ChangeDevice = false
+        var BTConnected=false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +92,6 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
 
         binding.recycleViewBle.apply {
             bleDeviceAdaptor = BleDeviceAdaptor {
-
 
                 deviceAddress = it.device.address
                 deviceName = it.device.name.split("_".toRegex()).first()
@@ -236,26 +240,42 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             bleConnectionViewModel.bleResponse.collect {
                 if (it != null) {
                     when (it) {
-                        is BleResponse.OnConnected ->
+                        is BleResponse.OnConnected ->{
                             binding.pbBle.isVisible = false
+                            BTConnected=true
+
+                        }
 
 
-                        is BleResponse.OnConnectionClose -> Log.d(TAG, "getResponse: " + it.message)
-                        is BleResponse.OnDisconnected -> Log.d(TAG, "getResponse: " + it.message)
-                        is BleResponse.OnError -> Log.d(TAG, "getResponse: " + it.message)
+                        is BleResponse.OnConnectionClose -> {
+                            BTConnected=false
+                            Log.d("ADD_DEVICE_TEST", "getResponse: " + it.message)
+                        }
+                        is BleResponse.OnDisconnected -> {
+                            BTConnected=false
+                            Log.d("ADD_DEVICE_TEST", "getResponse: " + it.message)
+                        }
+                        is BleResponse.OnError -> {
+                            BTConnected=false
+                            Log.d("ADD_DEVICE_TEST", "getResponse: " + it.message)
+                        }
                         is BleResponse.OnLoading ->
                             binding.pbBle.isVisible = true
 
 
-                        is BleResponse.OnReconnect -> Log.d(TAG, "getResponse: " + it.message)
+                        is BleResponse.OnReconnect -> Log.d("ADD_DEVICE_TEST", "getResponse: " + it.message)
                         is BleResponse.OnResponseRead -> {
-                            Log.d(TAG, "getResponse: " + it.response)
-                            findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
+                            if(ChangeDevice){
+                                findNavController().safeNavigate(BluetoothScanDeviceFragmentDirections.actionGlobalGnssRoverProfileFragment())
+                            }else{
+                                Log.d("ADD_DEVICE_TEST", "getResponse: " + it.response)
+                                findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
+                            }
                         }
 
 
                         is BleResponse.OnResponseWrite -> Log.d(
-                            TAG,
+                            "ADD_DEVICE_TEST",
                             "getResponse: " + it.isMessageSend
                         )
 

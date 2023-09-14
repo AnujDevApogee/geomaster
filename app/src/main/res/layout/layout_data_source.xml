@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvdata"
+        style="@style/matchWarp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="8dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            style="@style/matchMatch"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="right"
+                android:id="@+id/llAction">
+                <ImageButton
+                    android:id="@+id/ivEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/five_dp"
+                    android:visibility="gone"
+                    android:src="@drawable/baseline_edit_24"
+                    android:background="@null"/>
+                <ImageButton
+                    android:id="@+id/ibdelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/five_dp"
+                    android:src="@drawable/ic_delete"
+                    android:background="@null"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvData"
+                style="@style/matchWarp"
+                android:layout_toLeftOf="@+id/llAction"
+                android:padding="@dimen/five_dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

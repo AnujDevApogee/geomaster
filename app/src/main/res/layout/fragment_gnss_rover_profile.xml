@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.rover.GnssRoverProfileFragment">
+    tools:context=".ui.configuration.deviceconfig.rover.GnssRoverProfileFragment">
 
 
     <ScrollView
@@ -177,6 +177,12 @@
 
                 </androidx.cardview.widget.CardView>
 
+
+
+
+
+
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/gnsscommunication"
                     android:layout_width="match_parent"
@@ -264,7 +270,15 @@
 
                         </LinearLayout>
                     </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btCommunication"
+                    style="@style/matchWrap"
+                    android:layout_margin="@dimen/five_dp"
+                    android:background="@drawable/buttondesign"
+                    android:text="@string/SetUpCommunications"
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/btCorrection"
@@ -276,7 +290,8 @@
                     android:textColor="@color/white"
                     android:clickable="false"
                     android:focusable="false"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                   />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cdCorrection"
@@ -446,7 +461,7 @@
                         android:layout_gravity="right|center"
                         android:layout_marginRight="@dimen/five_dp"
                         android:src="@drawable/right_arrow"
-                        android:background="@null"/>
+                        />
 
                 </androidx.cardview.widget.CardView>
 

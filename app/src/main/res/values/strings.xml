@@ -120,7 +120,6 @@
     <string name="fill_n">Fill :</string>
 
 
-
     <string name="angle">Angle :</string>
     <string name="scale">Scale :</string>
     <string name="h_residuals">H Residuals</string>
@@ -135,6 +134,57 @@
 
     <string name="antenna">Antenna</string>
     <string name="enter_code_name">Enter Code Name</string>
+    <string name="please_select_project_first">Please! Select a Project</string>
+    <string name="please_set_up_correction_first">Please! Set up Correction</string>
+    <string name="please_set_up_parameters_first">Please!Set up Parameters</string>
+    <string name="device_detail_is_empty">Device Detail Empty</string>
+    <string name="please_enter_initial_time">Please Enter Initial Time</string>
+    <string name="please_enter_occupation_time">Please Enter Occupation Time</string>
+    <string name="please_enter_initial_time_greater_than_5_min">Please Enter Initial Time greater than 5 min.</string>
+    <string name="radio_rover">Radio_Rover</string>
+    <string name="radio_external_rover">External_Radio_Rover</string>
+    <string name="radio_external_autobase">External_Radio_AutoBase</string>
+    <string name="radio_external_manual_base">External_Radio_ManualBase</string>
+    <string name="radio_external">RS232</string>
+    <string name="gsm">GSM</string>
+    <string name="wifi">WiFi</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="pda">PDA</string>
+    <string name="pda_off">PDA_OFF</string>
+    <string name="measured_height">Measured Height</string>
+    <string name="measure_point">Measure Point</string>
+    <string name="enter_measured_height">Enter Measured Height</string>
+    <string name="enter_model">Enter Model</string>
+    <string name="meter">Meter</string>
+    <string name="RTKbyradio">RTK By Radio</string>
+    <string name="rtk_by_wifi">RTK By Wifi</string>
+    <string name="rtk_by_pda">RTK By PDA</string>
+    <string name="set_up_data_source">Set Up data source</string>
+    <string name="SetUpCommunications">Set Up Communication</string>
+    <string name="SetUpInternet">Set Up Internet</string>
+    <string name="setuppda">Set Up PDA</string>
+    <string name="setupWifi">Set Up Wifi</string>
+    <string name="radio">Radio</string>
+    <string name="please_set_up_correction">Please!Set up Correction\n</string>
+    <string name="referesh_SSID">SSID Referesh</string>
+    <string name="get_mount_point">Get Mount Point</string>
+    <string name="confirm">Confirm</string>
+    <string name="please_fill_all_data">Please fill all data</string>
+
+
+    <string name="Name">Name</string>
+    <string name="Address">Address</string>
+    <string name="Url">IP/Url</string>
+    <string name="port">Port</string>
+    <string name="username">Mount Point</string>
+    <string name="password">Password</string>
+
+
+    <string-array name="antenna_array">
+        <item>Vertical</item>
+        <item>Slope</item>
+    </string-array>
 
 
 </resources>

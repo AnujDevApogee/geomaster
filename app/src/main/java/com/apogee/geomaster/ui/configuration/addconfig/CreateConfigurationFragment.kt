@@ -84,7 +84,7 @@ class CreateConfigurationFragment : Fragment(R.layout.create_configuration_fragm
 
 
         binding.projectDetailInfo.apply {
-            text = setHtmlBoldTxt("Dataum\t\t")
+            text = setHtmlBoldTxt("Datum\t\t")
             append(setHtmlTxt("WGS84", "'#0E4A88'"))
             append("\n")
             append(setHtmlBoldTxt("Projection\t\t"))

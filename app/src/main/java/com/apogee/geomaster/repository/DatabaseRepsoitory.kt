@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.DatabaseUtils
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -694,7 +695,7 @@ class DatabaseRepsoitory(context: Context) {
                 "manufacture_id",
                 "INTEGER",
                 foreignKey = true,
-                foreignKeyReference = "manufacturer (manufacture_id)"
+                foreignKeyReference = "manufacturer (manufacturer_id)"
             ),
             TableCreator.ColumnDetails(
                 "device_type_id",
@@ -2388,10 +2389,8 @@ class DatabaseRepsoitory(context: Context) {
         val list = java.util.ArrayList<String>()
         try {
             val query =
-                "SELECT c.command  FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no; "
-            val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT c.command  FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no "
-            )
+                "SELECT c.command_name  FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no; "
+            val cursor = tableCreator.executeStaticQueryForCursor(query)
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
                 list.add(cursor.getString(0))
@@ -2457,6 +2456,30 @@ class DatabaseRepsoitory(context: Context) {
         }
         return list
     }
+
+
+    fun getCommand(id: Int): String? {
+        var command = ""
+        try {
+            val cursor = database.rawQuery("SELECT command FROM command where command_id=$id", null)
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                command = cursor.getString(0)
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(
+               TAG,
+                "getUserDtailerror: $e"
+            )
+        }
+        return command
+    }
+
+
+
+
+
+
 
     fun selectionidlist1(command_id: String): List<Int> {
         val list: MutableList<Int> = ArrayList()
@@ -2559,8 +2582,9 @@ class DatabaseRepsoitory(context: Context) {
             Log.d(TAG, "inputparameterlist: $query")*/
 
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT parameter_name,parameter_type,remark FROM " +
-                        "parameter Where parameter_id IN ($joined)"
+                "SELECT p.parameter_name,pt.parameter_type_name,p.remark FROM parameter as p JOIN " +
+                        "parameter_type as pt ON p.parameter_type_id=pt.parameter_type_id Where " +
+                        "parameter_id IN ($joined)"
             )
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
@@ -2575,6 +2599,7 @@ class DatabaseRepsoitory(context: Context) {
         return list
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insertSatelliteMappingDatajjjsds(list: List<String>): String {
         val dataList: MutableList<ContentValues> = ArrayList()
         val values1 = ContentValues()
@@ -2604,10 +2629,333 @@ class DatabaseRepsoitory(context: Context) {
         contentValues.put("Parameter_id", parameter_id.trim())
         contentValues.put("operation", operation.trim())
         contentValues.put("configMode", configMode.trim())
+        contentValues.put("dataSource_time","${LocalDateTime.now()}")
         dataList.add(contentValues)
         val status = tableCreator.insertDataIntoTable("dataSource", dataList)
         result = status.equals("Data inserted successfully")
         return result
+    }
+
+
+    fun getDataSource(
+        types: String,
+        parameter_id: String,
+        configMode: String
+    ): java.util.HashMap<String, String>? {
+        val commandmap: java.util.HashMap<String, String> = java.util.LinkedHashMap()
+        val query ="SELECT Parameter_Name,Parameter_value,Operation FROM DataSource Where type = '$types' AND Parameter_id = '$parameter_id' AND configMode = '$configMode'"
+        Log.d(TAG,"getDataSourceQuery: $query")
+        try { val cursor = tableCreator.executeStaticQueryForCursor("SELECT Parameter_Name,Parameter_value,Operation FROM DataSource Where type = '$types' AND Parameter_id = '$parameter_id' AND configMode = '$configMode' ")
+            cursor!!.moveToPosition(0)
+            val a = cursor.count
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                val name = cursor.getString(0).trim { it <= ' ' }
+                val value = cursor.getString(1).trim { it <= ' ' }
+                val operation = cursor.getString(2).trim { it <= ' ' }
+                commandmap[name] = value
+                commandmap["operation"] = operation
+            }
+            if (!commandmap.isEmpty()) {
+                commandmap["param_id"] = parameter_id
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(
+                TAG,
+                "getDataSource error: $e"
+            )
+        }
+        return commandmap
+    }
+
+
+    fun deletedataSource(parameter_id: String): Boolean {
+        try {
+            tableCreator.executeStaticQueryForCursor("DELETE FROM DataSource WHERE parameter_id= '$parameter_id'")
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return true
+    }
+
+    fun parameteridlist(joined: String): java.util.ArrayList<Int> {
+        val list = java.util.ArrayList<Int>()
+        try {
+            //  Cursor cursor = database.rawQuery("SELECT parameter_id FROM selection  where command_id IN ("+joined+") ; ", null);
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT parameter_id FROM command_param_map  where command_id IN ($joined) ")
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getInt(0))
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG, "parameteridlist: $e")
+        }
+        return list
+    }
+
+    fun retrnfromtfromrmrk(paramatername: String): String? {
+        var rtrnfrmrmk: String? = null
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT remark FROM parameter Where parameter_name='$paramatername'")
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                rtrnfrmrmk = cursor.getString(0)
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG,"getmorecommandlistError: $e")
+        }
+        return rtrnfrmrmk
+    }
+
+
+    fun inputhint(name: String): String? {
+        var a: String? = null
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT remark FROM parameter pm  WHERE pm.parameter_name='$name' ")
+            cursor!!.moveToPosition(0)
+            a = cursor.getString(0)
+        } catch (e: java.lang.Exception) {
+            Log.e(
+               TAG,
+                "getUserDtailerror: $e"
+            )
+        }
+        return a
+    }
+
+    fun getDeviceModule(deviceId: String): java.util.ArrayList<String>? {
+        val list = java.util.ArrayList<String>()
+        var id: String
+        var deviceTypeId: String
+        var modelId: String
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT device_type_id FROM device WHERE device_id IN ($deviceId) "
+            )
+            cursor!!.moveToPosition(0)
+            val a = cursor.count
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                modelId = cursor.getString(0)
+                list.add(modelId)
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(
+               TAG,
+                "getDeviceModule error: ${e.message}"
+            )
+        }
+        return list
+    }
+
+    fun getUserRegNo(device_name: String): String? {
+        var a = ""
+        try {
+            val query = "SELECT model_id FROM model WHERE device_no LIKE  '%$device_name%'"
+            Log.d(TAG,"getUserRegNo: $query")
+            val cursor = tableCreator.executeStaticQueryForCursor(query)
+            //  Cursor cursor =  database.rawQuery( "SELECT id FROM model WHERE device_name = '"+device_name+"'" , null );
+            cursor!!.moveToPosition(0)
+            a = cursor.getString(0)
+        } catch (e: java.lang.Exception) {
+            Log.e(
+                TAG,
+                "getUserRegNo error: ${e.message}"
+            )
+        }
+        return a
+    }
+
+
+    fun getdeviceId(modelId: String): String? {
+        var a = ""
+        var manufacture_id = ""
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT device_id, manufacture_id FROM device WHERE model_id = '$modelId' and device_type_id = '2'")
+            cursor!!.moveToPosition(0)
+            a = cursor.getString(0)
+            manufacture_id = cursor.getString(1)
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG,"getdeviceId error: ${e.message}")
+        }
+        return "$a,$manufacture_id"
+    }
+
+    fun getMakeName(manufacturer_id: String): String? {
+        Log.d(TAG, "getMakeName: manufacturer_id--$manufacturer_id")
+        var a = ""
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT name FROM manufacturer WHERE manufacturer_id = '$manufacturer_id'")
+            cursor!!.moveToPosition(0)
+            a = cursor.getString(0)
+        } catch (e: java.lang.Exception) {
+            Log.e(
+               TAG,
+                "getMakeName error: ${e.message}"
+            )
+        }
+        return a
+    }
+
+    fun getModuleFinishedId(deviceId: String): java.util.ArrayList<String>? {
+        val list = java.util.ArrayList<String>()
+        var id: String
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT module_device_id FROM device_map WHERE finished_device_id = '$deviceId'  ")
+            cursor!!.moveToPosition(0)
+            val a = cursor.count
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                id = cursor.getString(0)
+                list.add(id)
+            }
+        } catch (e:Exception) {
+            Log.e( TAG,"getModuleFinishedId error: ${e.message}")
+        }
+        return list
+    }
+
+
+    fun getDeviceDetail(deviceId: String): java.util.ArrayList<String>? {
+        val list = java.util.ArrayList<String>()
+        var id: String
+        var deviceTypeId: String
+        var modelId: String
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT model_id, device_type_id, device_id FROM device WHERE device_id IN ($deviceId)")
+            cursor!!.moveToPosition(0)
+            val a = cursor.count
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                modelId = cursor.getString(0)
+                deviceTypeId = cursor.getString(1)
+                id = cursor.getString(2)
+                list.add("$modelId,$deviceTypeId,$id")
+            }
+        } catch (e:Exception) {
+            Log.e( TAG,"getDeviceDetail error: ${e.message}")
+        }
+        return list
+    }
+
+    fun getDeviceTypeeId(name: String): String? {
+        var a = ""
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor("SELECT device_type_id FROM device_type WHERE type = '$name'")
+            cursor!!.moveToPosition(0)
+            a = cursor.getString(0)
+        } catch (e: Exception) {
+            Log.e(
+              TAG,
+                "getDeviceTypeeId error: ${e.message}"
+            )
+        }
+        return a
+    }
+
+    fun getModelDetail(deviceId: String): java.util.ArrayList<String>? {
+        val list = java.util.ArrayList<String>()
+        var id: String
+        var modelTypeId: String
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT device_name,model_type_id FROM model WHERE model_id IN ($deviceId)")
+            cursor!!.moveToPosition(0)
+            val a = cursor.count
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                id = cursor.getString(0)
+                modelTypeId = cursor.getString(1)
+                list.add("$id,$modelTypeId")
+                
+            }
+            Log.d(TAG, "getModelDetail: list--$list")
+        } catch (e: Exception) {
+            Log.e(TAG,"getModelDetail error: ${e.message}")
+        }
+        return list
+    }
+
+
+    fun getSsidPassword(ssid: String?): String {
+        var password = ""
+        try {
+            val c = tableCreator.executeStaticQueryForCursor(
+                "SELECT password FROM WifiData WHERE ssid=" + DatabaseUtils.sqlEscapeString(ssid) + " ")
+            c!!.moveToFirst()
+            if (c != null) {
+                for (i in 0 until c.count) {
+                    c.moveToPosition(i)
+                    password = c.getString(0)
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG,"getSsidPassword: " + e.message)
+        }
+        return password
+    }
+
+    fun insertSSIDPassword(ssid: String, password: String): Boolean {
+        var result = false
+        val query =
+            "SELECT * FROM WifiData WHERE ssid='$ssid' AND password='$password' "
+        Log.d(TAG,"insertSSIDPassword: $query")
+        val cursor = tableCreator.executeStaticQueryForCursor("SELECT * FROM WifiData ")
+        try {
+            if (cursor != null) {
+                if (cursor.count < 5) {
+                    Log.d(TAG,"getCount: " + cursor.count)
+                    val c =tableCreator.executeStaticQueryForCursor("SELECT * FROM WifiData WHERE ssid=" + DatabaseUtils.sqlEscapeString(ssid) + " AND password='" + password + "' ")
+                    result = if (!c!!.moveToFirst()) {
+                        val contentValues = ContentValues()
+                        contentValues.put("ssid", ssid)
+                        contentValues.put("password", password)
+                        database.insert("WifiData", null, contentValues)
+                        true
+                    } else {
+                        false
+                    }
+                } else {
+                    val c = tableCreator.executeStaticQueryForCursor(
+                        "SELECT * FROM WifiData WHERE ssid=" + DatabaseUtils.sqlEscapeString(ssid) + " AND password='" + password + "' ")
+                    result = if (!c!!.moveToFirst()) {
+                        val contentValues = ContentValues()
+                        contentValues.put("ssid", ssid)
+                        contentValues.put("password", password)
+                        database.insert("WifiData", null, contentValues)
+                        true
+                    } else {
+                        false
+                    }
+                    cursor.moveToFirst()
+                    val attr_id = cursor.getInt(0)
+                    Log.d(TAG, "attr_id: $attr_id")
+                    deleteWifiData(attr_id)
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            Log.d(TAG,"insertSSIDPassword: " + e.message)
+        }
+        return result
+    }
+    fun deleteWifiData(id: Int): Boolean {
+       var result=false
+        try {
+            val    status=tableCreator.executeStaticQuery("DELETE FROM WifiData WHERE  id = $id ")
+            result = status!!.size==0
+
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            Log.d(TAG,"deleteWifiData: " + e.message)
+        }
+        return true
     }
 
 

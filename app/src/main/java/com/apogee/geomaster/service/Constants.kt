@@ -1,9 +1,7 @@
 package com.apogee.geomaster.service
 
-import android.annotation.SuppressLint
 import com.apogee.basicble.Utils.ResponseHandlingModel
 import java.text.DecimalFormat
-import java.util.ArrayList
 
 
 internal object Constants {
@@ -13,6 +11,8 @@ internal object Constants {
     const val INTENT_ACTION_DISCONNECT = /*BuildConfig.APPLICATION_ID +*/ "com.example.pda.Disconnect"
     const val NOTIFICATION_CHANNEL = /*BuildConfig.APPLICATION_ID +*/ "com.example.pda.Channel"
     const val INTENT_CLASS_MAIN_ACTIVITY =/*BuildConfig.APPLICATION_ID+*/ "com.example.pda.MainActivity"
+    const val ELEVATION = "elevation"
+
 
     // values have to be unique within each app
     const val NOTIFY_MANAGER_START_FOREGROUND_SERVICE = 1001
@@ -21,12 +21,19 @@ internal object Constants {
     const val DEVICE_ID = "device_id"
     const val DGPS_DEVICE_ID = "dgps_device_id"
     const val DGPS_DEVICE_ID_FOR_RADIO = "dgps_device_id_radio"
+    const val GNSSMODULENAME = "gnssmodulename"
     const val MODULE_DEVICE = "module_device"
+
     const val antennapref = "antenapref"
 
     const val MAKE = "isMake"
     const val MODEL = "model"
     const val PROFILENAME = "profile_name"
+
+    const val TRIMBLE_ProtocolKey = "trimble_protocolkey"
+    const val TRIMBLE_ProtocolValue = "trimble_protocolValue"
+    const val TRIMBLE_rs232Key = "trimble_rs232key"
+    const val TRIMBLE_rs232Value = "trimble_rs232Value"
 
         val threeDecimalPlaces = DecimalFormat("0.000")
         val twoDecimalPlaces = DecimalFormat("0.00")
