@@ -120,11 +120,7 @@
     <fragment
         android:id="@+id/communicationfragment"
         android:name="com.apogee.geomaster.ui.device.connectbluetooth.CommunicationFragment"
-        tools:layout="@layout/fragment_communication" >
-        <action
-            android:id="@+id/action_communicationfragment_to_bluetoothscandevicefragment"
-            app:destination="@id/bluetoothscandevicefragment"/>
-    </fragment>
+        tools:layout="@layout/fragment_communication" />
 
     <fragment
         android:id="@+id/bluetoothscandevicefragment"
@@ -136,12 +132,25 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_bluetoothscandevicefragment_to_gnssRoverProfileFragment"
+            app:destination="@id/gnssRoverProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/gnssRoverProfileFragment"
-        android:name="com.apogee.geomaster.ui.rover.GnssRoverProfileFragment"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.rover.GnssRoverProfileFragment"
         android:label="create_radio_conn_layout_fragment"
-        tools:layout="@layout/fragment_gnss_rover_profile" />
+        tools:layout="@layout/fragment_gnss_rover_profile" >
+        <action
+            android:id="@+id/action_gnssRoverProfileFragment_to_antennaHeightFragment"
+            app:destination="@id/antennaHeightFragment" />
+        <action
+            android:id="@+id/action_gnssRoverProfileFragment_to_correctionFragment"
+            app:destination="@id/correctionFragment" />
+        <action
+            android:id="@+id/action_gnssRoverProfileFragment_to_bluetoothscandevicefragment"
+            app:destination="@id/bluetoothscandevicefragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/createRadioConnectionFragment"
@@ -302,6 +311,63 @@
         tools:layout="@layout/auto_base_layout" >
         <argument
             android:name="mode"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/antennaHeightFragment"
+        tools:layout="@layout/fragment_antenna_height"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.AntennaHeightFragment"
+        android:label="AntennaHeightFragment" >
+        <action
+            android:id="@+id/action_antennaHeightFragment_to_gnssRoverProfileFragment"
+            app:destination="@id/gnssRoverProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/correctionFragment"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.CorrectionFragment"
+        android:label="CorrectionFragment" >
+        <argument
+            android:name="mode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_correctionFragment_to_gnssRoverProfileFragment"
+            app:destination="@id/gnssRoverProfileFragment" />
+        <action
+            android:id="@+id/action_correctionFragment_to_newConnectionSourceFragment2"
+            app:destination="@id/newConnectionSourceFragment2" />
+        <action
+            android:id="@+id/action_correctionFragment_to_radioCommunication2"
+            app:destination="@id/radioCommunication" />
+        <action
+            android:id="@+id/action_correctionFragment_to_wiFiSetupFragment2"
+            app:destination="@id/wiFiSetupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newConnectionSourceFragment2"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.NewConnectionSourceFragment"
+        android:label="NewConnectionSourceFragment" >
+        <argument
+            android:name="GNSSMODULENAME"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/radioCommunication"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.RadioCommunication"
+        android:label="RadioCommunication" >
+        <argument
+            android:name="GnssModuleName"
+            app:argType="string" />
+        <argument
+            android:name="radioRtkType"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/wiFiSetupFragment"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.WiFiSetupFragment"
+        android:label="fragment_wi_fi_setup"
+        tools:layout="@layout/fragment_wi_fi_setup" >
+        <argument
+            android:name="GNSSMODULENAME"
             app:argType="string" />
     </fragment>
 

@@ -32,39 +32,43 @@ class BleConnectionViewModel(application: Application) : AndroidViewModel(applic
 
     }
 
-     fun onConnect(deviceAddress: String,
-                          readCharacteristic: String,
-                          writeCharacteristic: String,
-                          serviceUUIDId: String,
-                          descriptorId: String) {
-
-         viewModelScope.launch {
-
-             bleConnectionRepository.onConnect(deviceAddress,readCharacteristic,writeCharacteristic,serviceUUIDId,descriptorId)
-
-         }
-
-
-    }
-
-
-
-   private fun onRead() {
+    fun onConnect(
+        deviceAddress: String,
+        readCharacteristic: String,
+        writeCharacteristic: String,
+        serviceUUIDId: String,
+        descriptorId: String
+    ) {
 
         viewModelScope.launch {
 
-          bleConnectionRepository.bleResponse.collect {
-
-              _bleResponse.value = it
-
-
-          }
+            bleConnectionRepository.onConnect(
+                deviceAddress,
+                readCharacteristic,
+                writeCharacteristic,
+                serviceUUIDId,
+                descriptorId
+            )
 
         }
-
-
     }
 
+
+    private fun onRead() {
+        viewModelScope.launch {
+            bleConnectionRepository.bleResponse.collect {
+                _bleResponse.value = it
+            }
+        }
+    }
+
+    fun bindService() {
+        bleConnectionRepository.bindService()
+    }
+
+//    fun unBindService(): BleConnectionRepository {
+//       return bleConnectionRepository.unBindService()
+//    }
 
 
 }

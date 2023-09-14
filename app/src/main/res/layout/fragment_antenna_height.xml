@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/matchParent"
+        tools:context="ui.configuration.deviceconfig.AntennaHeightFragment">
+
+        <LinearLayout
+            android:id="@+id/l1"
+            style="@style/matchParent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/wrapContent"
+                android:layout_margin="5dp"
+                android:text="@string/measured_height"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:layout_margin="@dimen/_5sdp">
+
+                <EditText
+                    android:id="@+id/height"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_five"
+                    android:layout_toStartOf="@+id/tvUnit"
+                    android:background="@color/transparent"
+                    android:hint="@string/enter_measured_height"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="@dimen/eight_dp"
+                    android:text="2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_fourteen" />
+                <TextView
+                    android:id="@+id/tvUnit"
+                    style="@style/wrapContent"
+                    android:layout_margin="5dp"
+                    android:text="@string/meter"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/matchWrap"
+                android:layout_margin="@dimen/five_dp"
+                android:text="@string/model"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/model"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_five"
+                android:layout_margin="@dimen/five_dp"
+                android:background="@drawable/border"
+                android:paddingStart="@dimen/eight_dp"
+                android:hint="@string/enter_model"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_fourteen"
+                android:focusable="false"
+                android:clickable="false"/>
+
+
+            <TextView
+                style="@style/matchWrap"
+                android:layout_margin="@dimen/five_dp"
+                android:text="@string/measure_point"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                style="@style/matchWrap"
+                android:layout_margin="@dimen/five_dp">
+
+                <Spinner
+                    android:id="@+id/measuredPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_five"
+                    android:background="@drawable/border"
+                    android:entries="@array/antenna_array"
+                    android:padding="@dimen/five_dp"
+                    android:spinnerMode="dialog" />
+
+                <ImageView
+                    style="@style/wrapContent"
+                    android:layout_gravity="right|center"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/arrow_down_24" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="@dimen/one_hundred_twenty"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginBottom="@dimen/fifty_dp"
+            android:background="@drawable/buttondesign"
+            android:text="@string/ok"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+</layout>

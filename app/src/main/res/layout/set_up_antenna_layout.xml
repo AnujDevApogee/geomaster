@@ -67,7 +67,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="30dp"
                         android:layout_marginEnd="10dp"
-                        android:hint="@string/measured_height"
+                        android:hint="@string/measured_height_meter"
                         android:textColorHint="@color/md_theme_light_scrim"
                         app:boxStrokeColor="@color/md_theme_light_scrim"
                         app:boxStrokeWidthFocused="2dp"

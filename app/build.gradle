@@ -45,6 +45,8 @@ dependencies {
     implementation files('libs\\BleModule.jar')
     implementation files('libs\\DatabaseModule1.7.jar')
     implementation files('libs\\ImportExportModule.jar')
+    implementation files('libs\\socketlib.jar')
+    implementation files('libs\\socketlib.jar')
     def fragment_version = "1.5.7"
     def activity_version = "1.7.2"
     def nav_version = "2.6.0"
@@ -69,6 +71,8 @@ dependencies {
 
 
     // Kotlin Extensions and Coroutines support for Room
+
+
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2'
 

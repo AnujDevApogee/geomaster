@@ -40,7 +40,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     private var list= mutableListOf<String>()
 
     companion object {
-        const val DeviceName = "NAVIK200-1.0"
+        const val DeviceName = "NAVIK200-1.1"
         var baseSetUp = mutableMapOf<String, Any?>()
     }
 
@@ -85,8 +85,6 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         binding.deviceInfo.append("\t")
         binding.deviceInfo.append("xxxxxxxx")
         binding.deviceInfo.append("\n")*/
-
-
 
 
         if (SetUpAntennaFragment.measuredHeight != -1) {

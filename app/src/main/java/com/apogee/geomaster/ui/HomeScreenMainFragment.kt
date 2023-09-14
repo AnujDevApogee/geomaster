@@ -34,6 +34,7 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
 
     private lateinit var binding: HomeScreenMainFragmentLayoutBinding
     private lateinit var viewPagerAdaptor: ViewPagerAdapter
+    val TAG="HomeScreenMainFragment"
     private val bleConnectionViewModel: BleConnectionViewModel by activityViewModels()
     private var service: BleService? = null
     private val menuItem = arrayOf(
@@ -130,7 +131,7 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
 
                         is BleResponse.OnReconnect -> Log.d(ContentValues.TAG, "getResponse: " + it.message)
                         is BleResponse.OnResponseRead -> {
-                            Log.d(ContentValues.TAG, "getResponse: " + it.response)
+                            Log.d(TAG, "getResponse: " + it.response)
                             when(it.response){
                                 is OnSerialRead.onSerialNmeaRead -> {
                                    // ResponseHandling(requireContext()).validateResponse()
@@ -138,16 +139,16 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
 
                                 }
                                 is OnSerialRead.onSerialProtocolRead ->{
-                                    Log.d("BLE_HOME_INFO", "getResponse: " + it.response)
+                                    Log.d(TAG, "getResponse: " + it.response)
                                 }
                                 is OnSerialRead.onSerialResponseRead ->{
-                                    Log.d("BLE_HOME_INFO", "getResponse: " + it.response)
+                                    Log.d(TAG, "getResponse: " + it.response)
                                 }
                             }
                            // findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
                         }
                         is BleResponse.OnResponseWrite -> Log.d(
-                            ContentValues.TAG,
+                            TAG,
                             "getResponse: " + it.isMessageSend
                         )
 

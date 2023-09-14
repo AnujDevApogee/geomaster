@@ -8,15 +8,10 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.navigation.fragment.findNavController
-import com.apogee.geomaster.R
-import com.apogee.geomaster.utils.safeNavigate
-import com.apogee.updatedblelibrary.BleDeviceScanner
+import com.apogee.geomaster.utils.createLog
 import com.apogee.updatedblelibrary.BleService
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
-import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +54,7 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
     }
 
 
-     fun setupConnection() {
+    fun setupConnection() {
 
         coroutineScope.launch {
             _bleResponse.value =
@@ -98,6 +93,27 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
     }
 
+    fun unBindService() {
+//service?.onUnbind(Intent(context, BleService::class.java))
+//service?.SerialBinder()!!.service.unbindService(this)
+//        service?.unbindService(this)
+        //service?.stopService()
+        //service?.onUnbind(Intent(context, BleService::class.java))
+        createLog("TAG_UNBIND","UN BIND")
+
+    }
+
+
+    fun bindService() {
+        context.bindService(Intent(context, BleService::class.java), this, Context.BIND_AUTO_CREATE);
+        context.startService(Intent(context, BleService::class.java))
+    }
+
+
+
+
+
+
     override fun onServiceDisconnected(p0: ComponentName?) {
         Log.d(ContentValues.TAG, "onServiceDisconnected: " + p0)
 
@@ -108,8 +124,12 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
         }
     }
+    fun disconnectDevice(){
+        service?.closeConnection()
 
-    suspend fun writeRequest(byte:ByteArray){
+    }
+
+    suspend fun writeRequest(byte: ByteArray) {
         coroutineScope.launch {
             service?.write(byte)
         }
