@@ -5,16 +5,20 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.MannualBaseLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.ui.base.BaseProfileFragment
+import com.apogee.geomaster.ui.connection.autobase.AutoBaseFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.viewmodel.SetUpConnectionViewModel
 
 class ManualBaseFragment : Fragment(R.layout.mannual_base_layout) {
@@ -32,10 +36,27 @@ class ManualBaseFragment : Fragment(R.layout.mannual_base_layout) {
 
         }
     }
-
+    private var baseSetUp = mutableMapOf<String, Any?>()
+    
     private val itemRecycleViewClick = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
-            Log.i("item_click", "onClickListener: $response")
+            if (response is DynamicViewType) {
+                when (response) {
+                    is DynamicViewType.EditText -> {
+                        if (response.data.isNullOrEmpty() && baseSetUp.containsKey(response.hint)) {
+                            baseSetUp.remove(response.hint)
+                        } else {
+                            baseSetUp[response.hint] = response.data
+                        }
+                    }
+
+                    is DynamicViewType.SpinnerData -> {
+                        if (response.selectedPair != null) {
+                            baseSetUp[response.hint] = response.selectedPair
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -53,6 +74,14 @@ class ManualBaseFragment : Fragment(R.layout.mannual_base_layout) {
         setUpRecycle()
         getResponse()
         getResponseValue()
+        binding.doneBtn.setOnClickListener {
+            if (adaptor.itemCount != baseSetUp.size) {
+                showMessage("Please Add all the information")
+                return@setOnClickListener
+            }
+            BaseProfileFragment.baseSetUp=baseSetUp
+            findNavController().popBackStack()
+        }
     }
 
 

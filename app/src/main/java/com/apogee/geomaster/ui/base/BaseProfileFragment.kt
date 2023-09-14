@@ -13,6 +13,7 @@ import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
+import com.apogee.geomaster.ui.connection.autobase.AutoBaseFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
@@ -40,6 +41,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
     companion object {
         const val DeviceName = "NAVIK200-1.0"
+        var baseSetUp = mutableMapOf<String, Any?>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,9 +108,18 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                 ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
             binding.setManualBtn.backgroundTintList =
                 ColorStateList.valueOf(requireActivity().getColorInt(R.color.md_theme_dark_inversePrimary))
-
             binding.setConnBtn.hide()
+            binding.basicParamsCrd.show()
+            binding.basicType.text = "Connection Setup via" +
+                    " ${getBasicType(ConnectionFragment.connectionSelectionType?.first!!)}"
 
+        }
+
+
+        if (baseSetUp.isNotEmpty()) {
+            binding.setAutoBtn.hide()
+            binding.setManualBtn.hide()
+            // Start it
         }
 
 
@@ -143,6 +154,28 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                     "Manual Base"
                 )
             )
+        }
+    }
+
+    private fun getBasicType(type: String): String {
+        return when (type) {
+            "WiFi" -> {
+                type
+            }
+
+            "Radio" -> {
+                type
+            }
+
+            "RS232" -> {
+                "Radio"
+            }
+
+            "GSM" -> {
+                type
+            }
+
+            else -> ""
         }
     }
 
