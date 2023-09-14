@@ -21,17 +21,20 @@ class ConnectionAdaptor<T>(private val list: List<T>, private val listener: OnIt
 
         fun getData(data: T) {
             if (data is RadioConnection) {
-                binding.connectionInfo.append(setHtmlBoldTxt("AirData "))
-                binding.connectionInfo.append(setHtmlTxt(data.airDataRate,"'#215FA6'"))
+                binding.connectionInfo.append(setHtmlBoldTxt("Toggle Previous Configuration"))
+                binding.connectionInfo.append(setHtmlTxt(data.togglePreviousConfiguration,"'#215FA6'"))
                 binding.connectionInfo.append("\n")
-                binding.connectionInfo.append(setHtmlBoldTxt("Protocol "))
-                binding.connectionInfo.append(setHtmlTxt(data.protocol,"'#215FA6'"))
+                binding.connectionInfo.append(setHtmlBoldTxt("DataRate"))
+                binding.connectionInfo.append(setHtmlTxt(data.dataRate.first,"'#215FA6'"))
                 binding.connectionInfo.append("\n")
                 binding.connectionInfo.append(setHtmlBoldTxt("Power "))
-                binding.connectionInfo.append(setHtmlTxt(data.power,"'#215FA6'"))
+                binding.connectionInfo.append(setHtmlTxt(data.power.first,"'#215FA6'"))
                 binding.connectionInfo.append("\n")
-                binding.connectionInfo.append(setHtmlBoldTxt("Toggle Previous Switch "))
-                binding.connectionInfo.append(setHtmlTxt(data.togglePreviousButton,"'#215FA6'"))
+                binding.connectionInfo.append(setHtmlBoldTxt("Frequency"))
+                binding.connectionInfo.append(setHtmlTxt(data.frequency.first,"'#215FA6'"))
+                binding.connectionInfo.append("\n")
+                binding.connectionInfo.append(setHtmlBoldTxt("Baud Rate"))
+                binding.connectionInfo.append(setHtmlTxt(data.baudRate.first,"'#215FA6'"))
                 binding.connectionInfo.append("\n")
             }
 

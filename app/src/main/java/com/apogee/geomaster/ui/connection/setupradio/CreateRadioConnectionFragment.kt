@@ -14,6 +14,7 @@ import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
+import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.viewmodel.SetUpConnectionViewModel
 import com.google.android.material.transition.MaterialFadeThrough
 
@@ -33,11 +34,34 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
 
         }
     }
-    private val itemRecycleViewClick=object :OnItemClickListener{
+
+    private val mapList = mutableMapOf<String, Any?>()
+
+    private val itemRecycleViewClick = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
             Log.i("item_click", "onClickListener: $response")
+            if (response is DynamicViewType) {
+                when (response) {
+                    is DynamicViewType.EditText -> {
+                        if (response.data.isNullOrEmpty() && mapList.containsKey(response.hint)) {
+                            mapList.remove(response.hint)
+                        } else {
+                            mapList[response.hint] = response.data
+                        }
+                    }
+
+                    is DynamicViewType.SpinnerData -> {
+                        if (response.selectedPair != null) {
+                            mapList[response.hint] = response.selectedPair
+                        }
+                    }
+                }
+            }
+
         }
     }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fadeThrough = MaterialFadeThrough().apply {
@@ -59,6 +83,15 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
 
         getResponseValue()
 
+
+        binding.doneBtn.setOnClickListener {
+            if (adaptor.itemCount != mapList.size) {
+                showMessage("Please Add All the configuration")
+                return@setOnClickListener
+            }
+            createLog("TAG_RESPONSE","Done Part is Successfully $mapList")
+
+        }
 
     }
 

@@ -10,7 +10,6 @@ import com.apogee.geomaster.model.RadioConnection
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.ConnectionFragmentDirections
 import com.apogee.geomaster.utils.OnItemClickListener
-import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.updatedblelibrary.Utils.checkString
@@ -20,6 +19,10 @@ class RadioFragment : Fragment(R.layout.radio_connection_layout) {
     private lateinit var binding: RadioConnectionLayoutBinding
     private lateinit var adaptor: ConnectionAdaptor<RadioConnection>
 
+
+    companion object {
+        val list = mutableListOf<RadioConnection>()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -10,7 +10,6 @@ import com.apogee.geomaster.databinding.SpinnerDropdownLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
-import com.apogee.geomaster.utils.isInvalidString
 
 sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -26,8 +25,12 @@ sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(bin
                 R.layout.select_dialog_item,
                 data.dataList
             )
-            if (data.dataList.isNotEmpty())
+            if (data.dataList.isNotEmpty()) {
                 binding.spinner.setText(data.dataList.first())
+                val selectedItem = Pair(data.dataList.first(), data.valueList.first())
+                data.selectedPair = selectedItem
+                itemClickListener.onClickListener(data)
+            }
             binding.spinner.setAdapter(coordinateAdaptor)
             binding.spinner.setOnItemClickListener { _, _, position, _ ->
                 createLog("TAG_SPINNER", "Position $position")
@@ -50,9 +53,9 @@ sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(bin
             binding.ed.hint = data.hint
             binding.edLayout.hint = data.hint
             binding.ed.doOnTextChanged { text, _, _, _ ->
-                if (!isInvalidString(text.toString())) {
-                    itemClickListener.onClickListener(Pair(data, text))
-                }
+                createLog("TAG_RESPONSE", "Option is -> $text  ${text.isNullOrEmpty()}")
+                data.data = text?.toString()
+                itemClickListener.onClickListener(data)
             }
         }
 
