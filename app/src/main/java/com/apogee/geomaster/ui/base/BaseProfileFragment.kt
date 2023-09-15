@@ -58,6 +58,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     private val dgps by lazy {
         MyPreference.getInstance(requireActivity()).getStringData(Constants.DGPS_DEVICE_ID).toInt()
     }
+
     companion object {
         var baseSetUp: Pair<String, Map<String, Any?>>? = null
     }
@@ -256,6 +257,9 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
                 is ApiResponse.Success -> {
                     createLog("BASE_SETUP_CMD", "Success ${it.data}")
+                    val list= it.data as List<String>
+
+
                 }
             }
         }
