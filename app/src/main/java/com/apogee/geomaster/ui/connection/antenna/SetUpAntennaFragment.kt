@@ -30,6 +30,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
         // delete this information
         var measuredHeight=-1
     }
+
     private val deviceName by lazy {
         MyPreference.getInstance(requireActivity()).getStringData(Constants.DEVICE_NAME)
     }
