@@ -1,10 +1,11 @@
-package com.apogee.geomaster.bluetooth
+package com.apogee.geomaster.response_handling
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.apogee.basicble.Utils.DBResponseModel
+import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.MultiMap
 import com.apogee.basicble.Utils.ResponseHandlingModel
+import com.apogee.geomaster.bluetooth.DataResponseHandlingInterface
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.service.Constants.gsaFlag
 import com.apogee.geomaster.service.Constants.gsa_res_map

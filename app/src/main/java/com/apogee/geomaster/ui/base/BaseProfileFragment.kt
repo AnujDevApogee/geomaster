@@ -290,6 +290,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
                             is BleResponse.OnResponseRead -> {
                                 Log.d("ADD_GNSS_TEST", "getResponse:GNSS ${it.response.data}")
+
                             }
 
 

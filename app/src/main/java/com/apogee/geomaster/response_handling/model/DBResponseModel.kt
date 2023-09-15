@@ -1,4 +1,6 @@
-package com.apogee.basicble.Utils
+package com.apogee.geomaster.response_handling.model
+
+import com.apogee.basicble.Utils.DelimeterResponse
 
 class DBResponseModel(
     val response: String,

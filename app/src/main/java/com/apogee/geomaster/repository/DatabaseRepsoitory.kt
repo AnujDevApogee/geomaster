@@ -8,7 +8,7 @@ import android.database.DatabaseUtils
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.apogee.basicble.Utils.DBResponseModel
+import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.DelimeterResponse
 import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
