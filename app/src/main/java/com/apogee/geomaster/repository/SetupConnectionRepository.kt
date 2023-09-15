@@ -26,7 +26,7 @@ class SetupConnectionRepository(application: Application) {
 
     private fun upInfoSetUp(operationName: String, dgps: Int): ApiResponse<out Any> {
         val list = mutableListOf<DynamicViewType>()
-        val operationId = databaseRepository.detopnameid(operationName) ?: return ApiResponse.Error(
+        val operationId = databaseRepository.getOperationId(operationName) ?: return ApiResponse.Error(
             "Operation Id not found", null
         )
 

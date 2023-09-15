@@ -11,8 +11,10 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.CreateRadioConnLayoutFragmentBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.connection.radio.RadioFragment
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
@@ -28,6 +30,9 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
     private val args: CreateRadioConnectionFragmentArgs by navArgs()
 
     private val viewModel: SetUpConnectionViewModel by viewModels()
+    private val sharePreference by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
 
     private lateinit var adaptor: MultiRecyclerViewAdaptor
 
@@ -91,7 +96,7 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
                 showMessage("Please Add All the configuration")
                 return@setOnClickListener
             }
-            createLog("TAG_RESPONSE","Done Part is Successfully $mapList")
+            createLog("TAG_RESPONSE", "Done Part is Successfully $mapList")
             RadioFragment.Radio.add(mapList)
             findNavController().popBackStack()
         }
@@ -106,7 +111,7 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, 114)
+        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.DGPS_DEVICE_ID).toInt())
     }
 
     private fun getResponseValue() {
@@ -122,7 +127,7 @@ class CreateRadioConnectionFragment : Fragment(R.layout.create_radio_conn_layout
 
                 is ApiResponse.Success -> {
                     createLog("TAG_RADIO", "RADIO_SET_UP ${it.data}")
-                    val list=it.data as List<DynamicViewType>
+                    val list = it.data as List<DynamicViewType>
                     adaptor.submitList(list)
                 }
             }
