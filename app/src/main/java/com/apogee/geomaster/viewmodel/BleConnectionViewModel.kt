@@ -1,4 +1,4 @@
-package com.apogee.geomaster.ViewModel
+package com.apogee.geomaster.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class BleConnectionViewModel(application: Application) : AndroidViewModel(application) {
 
-    var bleConnectionRepository: BleConnectionRepository = BleConnectionRepository(application)
+    private var bleConnectionRepository: BleConnectionRepository = BleConnectionRepository(application)
 
     private val _bleResponse = MutableStateFlow<BleResponse?>(null)
     val bleResponse: StateFlow<BleResponse?>

@@ -20,7 +20,7 @@ import com.apogee.geomaster.ui.tools.ToolsFragment
 import com.apogee.geomaster.utils.RotateDownPageTransformer
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.toastMsg
-import com.apogee.geomaster.ViewModel.BleConnectionViewModel
+import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.updatedblelibrary.BleService
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
@@ -28,7 +28,6 @@ import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import kotlinx.coroutines.launch
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.lang.Exception
-import kotlin.math.log
 
 class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layout) ,BleResponseListener{
 

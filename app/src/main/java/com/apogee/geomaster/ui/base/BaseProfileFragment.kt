@@ -2,18 +2,25 @@
 
 package com.apogee.geomaster.ui.base
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
+import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
-import com.apogee.geomaster.ui.connection.autobase.AutoBaseFragment
+import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
@@ -25,23 +32,27 @@ import com.apogee.geomaster.utils.setHtmlBoldTxt
 import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
+import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.google.android.material.transition.MaterialFadeThrough
+import kotlinx.coroutines.launch
 
 class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     private lateinit var binding: BaseProfileLayoutBinding
 
     private val viewModel: BaseConfigurationViewModel by viewModels()
 
+    private val bleConnectionViewModel: BleConnectionViewModel by activityViewModels()
+
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
 
         }
     }
-    private var list= mutableListOf<String>()
+    private var list = mutableListOf<String>()
 
     companion object {
         const val DeviceName = "NAVIK200-1.1"
-        var baseSetUp = mutableMapOf<String, Any?>()
+        var baseSetUp: Pair<String, Map<String, Any?>>? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +65,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         reenterTransition = fadeThrough
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = BaseProfileLayoutBinding.bind(view)
@@ -67,6 +79,8 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         initial()
 
         getSetConfigResponses()
+        getBaseConfigCmdResponses()
+        getBleResponse()
 
         binding.setConnBtn.setOnClickListener {
             activity?.toastMsg("Connection click")
@@ -114,10 +128,15 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
         }
 
 
-        if (baseSetUp.isNotEmpty()) {
+        if (baseSetUp != null) {
             binding.setAutoBtn.hide()
             binding.setManualBtn.hide()
             // Start it
+            viewModel.getBaseConfigCmd(
+                baseSetUp!!.first,
+                ConnectionFragment.connectionSelectionType?.first!!,
+                114
+            )
         }
 
 
@@ -173,7 +192,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                 type
             }
 
-            else -> ""
+            else -> "NULL"
         }
     }
 
@@ -211,6 +230,75 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                         append(response.first as String)
                         list.clear()
                         list.addAll(response.second as List<String>)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getBaseConfigCmdResponses() {
+        viewModel.baseConfigCmd.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Error -> {
+                    createLog("BASE_SETUP_CMD", "Exception => ${it.exception?.message}")
+                }
+
+                is ApiResponse.Loading -> {
+                    createLog("BASE_SETUP_CMD", "Loading ${it.data}")
+                }
+
+                is ApiResponse.Success -> {
+                    createLog("BASE_SETUP_CMD", "Success ${it.data}")
+                }
+            }
+        }
+    }
+
+    private fun getBleResponse() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                bleConnectionViewModel.bleResponse.collect {
+                    if (it != null) {
+                        when (it) {
+                            is BleResponse.OnConnected -> {
+                                BluetoothScanDeviceFragment.BTConnected = true
+                            }
+
+
+                            is BleResponse.OnConnectionClose -> {
+                                BluetoothScanDeviceFragment.BTConnected = false
+                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
+                            }
+
+                            is BleResponse.OnDisconnected -> {
+                                BluetoothScanDeviceFragment.BTConnected = false
+                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
+                            }
+
+                            is BleResponse.OnError -> {
+                                BluetoothScanDeviceFragment.BTConnected = false
+                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
+                            }
+
+                            is BleResponse.OnLoading -> {
+                            }
+
+                            is BleResponse.OnReconnect -> Log.d(
+                                "ADD_GNSS_TEST",
+                                "getResponse: " + it.message
+                            )
+
+                            is BleResponse.OnResponseRead -> {
+                                Log.d("ADD_GNSS_TEST", "getResponse:GNSS ${it.response.data}")
+                            }
+
+
+                            is BleResponse.OnResponseWrite -> Log.d(
+                                "ADD_GNSS_TEST",
+                                "getResponse: " + it.isMessageSend
+                            )
+
+                        }
                     }
                 }
             }

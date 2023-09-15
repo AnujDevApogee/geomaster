@@ -79,7 +79,7 @@ class ManualBaseFragment : Fragment(R.layout.mannual_base_layout) {
                 showMessage("Please Add all the information")
                 return@setOnClickListener
             }
-            BaseProfileFragment.baseSetUp=baseSetUp
+            BaseProfileFragment.baseSetUp= Pair("Manual Base",baseSetUp.toMap())
             findNavController().popBackStack()
         }
     }
