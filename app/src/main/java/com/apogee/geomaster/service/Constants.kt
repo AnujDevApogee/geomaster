@@ -1,6 +1,6 @@
 package com.apogee.geomaster.service
 
-import com.apogee.basicble.Utils.ResponseHandlingModel
+import com.apogee.geomaster.response_handling.model.ResponseHandlingModel
 import java.text.DecimalFormat
 
 

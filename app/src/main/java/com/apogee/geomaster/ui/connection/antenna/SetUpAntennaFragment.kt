@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.SetUpAntennaLayoutBinding
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.base.BaseProfileFragment
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.showMessage
@@ -28,7 +30,9 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
         // delete this information
         var measuredHeight=-1
     }
-
+    private val deviceName by lazy {
+        MyPreference.getInstance(requireActivity()).getStringData(Constants.DEVICE_NAME)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = SetUpAntennaLayoutBinding.bind(view)
@@ -39,7 +43,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
             menuCallback
         )
         (activity as HomeScreen?)?.hideActionBar()
-        binding.modelEd.setText(BaseProfileFragment.DeviceName)
+        binding.modelEd.setText(deviceName)
 
         val coordinateAdaptor: ArrayAdapter<String> = ArrayAdapter<String>(
             this.requireContext(),

@@ -15,13 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
-import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
@@ -32,6 +33,7 @@ import com.apogee.geomaster.utils.setHtmlBoldTxt
 import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
+import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.coroutines.launch
@@ -50,8 +52,11 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     }
     private var list = mutableListOf<String>()
 
+    private val deviceName by lazy {
+        MyPreference.getInstance(requireActivity()).getStringData(Constants.DEVICE_NAME)
+    }
+
     companion object {
-        const val DeviceName = "NAVIK200-1.1"
         var baseSetUp: Pair<String, Map<String, Any?>>? = null
     }
 
@@ -197,7 +202,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     }
 
     private fun initial() {
-        viewModel.setUpConfig(DeviceName)
+        viewModel.setUpConfig(deviceName)
     }
 
     private fun getSetConfigResponses() {
@@ -218,11 +223,11 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                         text = ""
                         append(setHtmlBoldTxt("Model"))
                         append("\t")
-                        append(DeviceName)
+                        append(deviceName)
                         append("\n")
                         append(setHtmlBoldTxt("Device Name"))
                         append("\t")
-                        append(DeviceName)
+                        append(deviceName)
                         // Renaming Info
                         append("\n")
                         append(setHtmlBoldTxt("Make"))

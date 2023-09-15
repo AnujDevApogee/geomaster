@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.MultiMap
-import com.apogee.basicble.Utils.ResponseHandlingModel
+import com.apogee.geomaster.response_handling.model.ResponseHandlingModel
 import com.apogee.geomaster.bluetooth.DataResponseHandlingInterface
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.service.Constants.gsaFlag

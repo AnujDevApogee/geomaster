@@ -1,7 +1,7 @@
 package com.apogee.geomaster.bluetooth
 
 import com.apogee.basicble.Utils.MultiMap
-import com.apogee.basicble.Utils.ResponseHandlingModel
+import com.apogee.geomaster.response_handling.model.ResponseHandlingModel
 
 
 interface DataResponseHandlingInterface {
