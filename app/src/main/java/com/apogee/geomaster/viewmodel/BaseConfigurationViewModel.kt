@@ -39,9 +39,9 @@ class BaseConfigurationViewModel(application: Application) : AndroidViewModel(ap
     }
 
 
-    fun getBaseConfigCmd(operationId: String, rtk: String, dgps: Int) {
+    fun getBaseConfigCmd(operationName: String, rtk: String, dgps: Int) {
         viewModelScope.launch {
-            baseRepo.getCommandBle(operationId, rtk, dgps).collect {
+            baseRepo.getCommandBle(operationName, rtk, dgps).collect {
                 _baseConfigCmd.postValue(it)
             }
         }

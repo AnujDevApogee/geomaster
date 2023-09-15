@@ -3178,6 +3178,7 @@ class DatabaseRepsoitory(context: Context) {
     fun getCommandListBLE(operationIds: String, dgps: Int): List<String> {
         val query =
             "SELECT command_id FROM command_device_map where operation_id in ($operationIds) AND device_id='$dgps' ORDER BY order_no ASC"
+        createLog("TAG_BLE_CMD",query)
         val list = mutableListOf<String>()
         val cursor = tableCreator.executeStaticQueryForCursor(query)
         if (cursor != null && cursor.moveToPosition(0)) {
@@ -3195,6 +3196,7 @@ class DatabaseRepsoitory(context: Context) {
      */
     fun getCommandList(commandList: String): List<String> {
         val query = "SELECT command_name FROM command  where command_id IN ($commandList)"
+        createLog("TAG_BLE_CMD",query)
         val list = mutableListOf<String>()
         val cursor = tableCreator.executeStaticQueryForCursor(query)
         if (cursor != null && cursor.moveToPosition(0)) {
