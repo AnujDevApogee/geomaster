@@ -16,11 +16,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
+import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
+import com.apogee.geomaster.use_case.EditCommand
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
@@ -257,9 +259,15 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
                 is ApiResponse.Success -> {
                     createLog("BASE_SETUP_CMD", "Success ${it.data}")
-                    val list= it.data as List<String>
 
-
+                    createLog("TAG_FULL_Info", "${ConnectionFragment.connectionSelectionType}")
+                    createLog("TAG_FULL_Info", "$baseSetUp")
+                    val data = (it.data as Pair<List<DBResponseModel>, List<String>>)
+                    val list = EditCommand.getEditCommand(
+                        data.second,
+                        ConnectionFragment.connectionSelectionType!!,
+                        baseSetUp!!
+                    )
                 }
             }
         }

@@ -69,6 +69,13 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
     }
 
+
+    fun sendData(data:Any){
+        coroutineScope.launch {
+            service?.write(data)
+        }
+    }
+
     override fun onResponse(res: BleResponse) {
 
         coroutineScope.launch {

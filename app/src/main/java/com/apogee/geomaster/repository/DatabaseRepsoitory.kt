@@ -2253,11 +2253,11 @@ class DatabaseRepsoitory(context: Context) {
 
     //Get All Response Data on bases of command_id from Database
     @SuppressLint("Range")
-    fun getResponseList(id: Int): ArrayList<DBResponseModel>? {
+    fun getResponseList(id: String): ArrayList<DBResponseModel>? {
         val list: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
         try {
             var cursor =
-                tableCreator.executeStaticQueryForCursor("SELECT * FROM response where command_id=$id order by response_type_id asc")
+                tableCreator.executeStaticQueryForCursor("SELECT * FROM response where command_id IN ($id) order by response_type_id asc")
             if (cursor != null) {
                 for (i in 0 until cursor.count) {
                     cursor.moveToPosition(i)

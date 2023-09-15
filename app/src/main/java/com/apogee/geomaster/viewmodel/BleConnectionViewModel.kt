@@ -32,6 +32,10 @@ class BleConnectionViewModel(application: Application) : AndroidViewModel(applic
 
     }
 
+    fun writeToBle(data:Any){
+        bleConnectionRepository.sendData(data)
+    }
+
     fun onConnect(
         deviceAddress: String,
         readCharacteristic: String,

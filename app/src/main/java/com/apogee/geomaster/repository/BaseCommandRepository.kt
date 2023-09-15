@@ -30,22 +30,24 @@ class BaseCommandRepository(application: Application) {
         val opLsString =
             BaseConfigurationRepository.getSubString(oPLs.toString(), 1, oPLs.toString().length-1)
         val cmdIdList = dbDataRepository.getCommandListBLE(opLsString, dgps)
-        createLog("TAG_BLE_CMD","Operation CMD_ID_LIST -> $cmdIdList")
+        createLog("TAG_BLE_CMD", "Operation CMD_ID_LIST -> $cmdIdList")
         if (cmdIdList.isEmpty()) {
             return ApiResponse.Error("Empty Command List Found", null)
         }
         val cmdIdLsString = BaseConfigurationRepository.getSubString(
             cmdIdList.toString(),
             1,
-            cmdIdList.toString().length-1
+            cmdIdList.toString().length - 1
         )
-        createLog("TAG_BLE_CMD","Operation CMD_LIST_STRING -> $cmdIdLsString")
+        createLog("TAG_BLE_CMD", "Operation CMD_LIST_STRING -> $cmdIdLsString")
+        val resposeLs = dbDataRepository.getResponseList(cmdIdLsString)!!.toList()
+        createLog("TAG_BLE_CMD", "Operation Response_Ls -> $resposeLs")
         val cmdListLs = dbDataRepository.getCommandList(cmdIdLsString)
-        createLog("TAG_BLE_CMD","Operation CMD_NAME_LIST -> $cmdListLs")
+        createLog("TAG_BLE_CMD", "Operation CMD_NAME_LIST -> $cmdListLs")
         if (cmdListLs.isEmpty()) {
             return ApiResponse.Error("Empty Command-ID List Found", null)
         }
-        return ApiResponse.Success(cmdListLs.toList())
+        return ApiResponse.Success(Pair(resposeLs.toList(), cmdListLs.toList()))
     }
 
 
