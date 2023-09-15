@@ -15,7 +15,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
-import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.geomaster.databinding.FragmentGnssRoverProfileBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.service.Constants
@@ -24,6 +23,7 @@ import com.apogee.geomaster.utils.Conversion
 import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.toastMsg
+import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
 import kotlinx.coroutines.Dispatchers

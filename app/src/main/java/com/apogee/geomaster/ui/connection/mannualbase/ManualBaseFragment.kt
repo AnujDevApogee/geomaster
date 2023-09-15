@@ -11,10 +11,12 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.MannualBaseLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.base.BaseProfileFragment
 import com.apogee.geomaster.ui.connection.autobase.AutoBaseFragment
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
@@ -28,6 +30,9 @@ class ManualBaseFragment : Fragment(R.layout.mannual_base_layout) {
     private val viewModel: SetUpConnectionViewModel by viewModels()
 
     private lateinit var adaptor: MultiRecyclerViewAdaptor
+    private val sharePreference by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
 
     private val args:ManualBaseFragmentArgs by navArgs()
 
@@ -93,7 +98,7 @@ class ManualBaseFragment : Fragment(R.layout.mannual_base_layout) {
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, 114)
+        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.DGPS_DEVICE_ID).toInt())
     }
 
     private fun getResponseValue() {

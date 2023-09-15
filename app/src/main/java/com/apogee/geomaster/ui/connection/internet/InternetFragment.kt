@@ -9,6 +9,7 @@ import com.apogee.geomaster.adaptor.ConnectionAdaptor
 import com.apogee.geomaster.databinding.InternetConnectionLayoutBinding
 import com.apogee.geomaster.ui.connection.ConnectionFragment
 import com.apogee.geomaster.ui.connection.ConnectionFragmentDirections
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 
 class InternetFragment : Fragment(R.layout.internet_connection_layout) {
@@ -16,7 +17,9 @@ class InternetFragment : Fragment(R.layout.internet_connection_layout) {
     private lateinit var binding: InternetConnectionLayoutBinding
     private lateinit var adaptor: ConnectionAdaptor<Map<String, Any?>>
 
-
+    private val sharePreference by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
     companion object {
         val internetWifi = mutableListOf<Map<String, Any?>>()
     }

@@ -12,9 +12,11 @@ import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.CreateWifiConnectionLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
 import com.apogee.geomaster.model.WifiConnection
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.connection.setupconnection.CreateConnectionFragmentArgs
 import com.apogee.geomaster.ui.connection.wifi.WifiFragment
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
@@ -32,7 +34,9 @@ class CreateWifiConnection : Fragment(R.layout.create_wifi_connection_layout) {
     private val viewModel: SetUpConnectionViewModel by viewModels()
 
     private val args: CreateConnectionFragmentArgs by navArgs()
-
+    private val sharePreference by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
 
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
@@ -109,7 +113,7 @@ class CreateWifiConnection : Fragment(R.layout.create_wifi_connection_layout) {
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, 114)
+        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.DGPS_DEVICE_ID).toInt())
     }
 
     private fun getResponseValue() {

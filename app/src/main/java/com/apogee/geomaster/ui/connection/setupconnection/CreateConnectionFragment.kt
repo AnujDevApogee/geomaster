@@ -10,8 +10,10 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.CreateConnectionLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.connection.internet.InternetFragment
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
@@ -29,6 +31,10 @@ class CreateConnectionFragment : Fragment(R.layout.create_connection_layout) {
     private val args: CreateConnectionFragmentArgs by navArgs()
 
     private lateinit var adaptor: MultiRecyclerViewAdaptor
+
+    private val sharePreference by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
 
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
@@ -101,7 +107,7 @@ class CreateConnectionFragment : Fragment(R.layout.create_connection_layout) {
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, 114)
+        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.DGPS_DEVICE_ID).toInt())
     }
 
     private fun getResponseValue() {

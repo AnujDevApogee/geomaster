@@ -10,9 +10,11 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.MultiRecyclerViewAdaptor
 import com.apogee.geomaster.databinding.AutoBaseLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.base.BaseProfileFragment
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
@@ -28,6 +30,9 @@ class AutoBaseFragment : Fragment(R.layout.auto_base_layout) {
     private lateinit var adaptor: MultiRecyclerViewAdaptor
 
     private val args: AutoBaseFragmentArgs by navArgs()
+    private val sharePreference by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
 
 
     private val menuCallback = object : OnItemClickListener {
@@ -92,7 +97,7 @@ class AutoBaseFragment : Fragment(R.layout.auto_base_layout) {
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, 114)
+        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.DGPS_DEVICE_ID).toInt())
     }
 
     private fun getResponseValue() {

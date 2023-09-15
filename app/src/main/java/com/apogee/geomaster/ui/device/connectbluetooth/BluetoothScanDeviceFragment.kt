@@ -109,6 +109,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                 }else
                 {
                     getObserverData(deviceName)
+                    fetchDetails(deviceName)
                 }
 
             }
