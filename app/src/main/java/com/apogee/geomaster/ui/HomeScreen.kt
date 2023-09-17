@@ -96,15 +96,5 @@ class HomeScreen : AppCompatActivity() {
     }
 
 
-    fun establishConnection(){
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        val value = getIntent().getExtras()?.getBoolean("loggedIn")
-
-    }
 
 }

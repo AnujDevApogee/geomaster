@@ -9,6 +9,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.MainStakePlotPointLayoutBinding
 import com.apogee.geomaster.model.SurveyModel
 import com.apogee.geomaster.repository.FakeStakePointRepository
+import com.apogee.geomaster.ui.HomeScreen
 import com.example.stakemodual.StakePointFragment
 import com.example.stakemodual.utils.MockStakePointImpl
 
@@ -34,6 +35,7 @@ class StakePointFragment : Fragment(), MockStakePointImpl {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainStakeFragment = StakePointFragment()
+        (activity as HomeScreen?)?.hideActionBar()
         inflateFragment(mainStakeFragment)
         dataSet.fakeStakePoint()
         dataSet.getLocation()
