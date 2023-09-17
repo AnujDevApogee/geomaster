@@ -285,11 +285,7 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_bluetoothscandevicefragment" app:destination="@id/bluetoothscandevicefragment" />
-    <fragment
-        android:id="@+id/stakePointFragment"
-        android:name="com.apogee.geomaster.ui.stake.point.StakePointFragment"
-        android:label="stake_point_fragment_layout"
-        tools:layout="@layout/stake_point_fragment_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/><action android:id="@+id/action_global_gnssRoverProfileFragment" app:destination="@id/gnssRoverProfileFragment"/>
+    <action android:id="@+id/action_global_gnssRoverProfileFragment" app:destination="@id/gnssRoverProfileFragment"/>
     <fragment
         android:id="@+id/setUpAntennaFragment"
         android:name="com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment"
@@ -370,5 +366,10 @@
             android:name="GNSSMODULENAME"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/stakePointFragment"
+        android:name="com.apogee.geomaster.ui.stake.plotpoint.StakePointFragment"
+        android:label="main_stake_plot_point_layout"
+        tools:layout="@layout/main_stake_plot_point_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/>
 
 </navigation>

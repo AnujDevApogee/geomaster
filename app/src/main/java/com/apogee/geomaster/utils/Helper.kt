@@ -33,18 +33,6 @@ object ApiUtils {
         Pair("http://120.138.10.146:8080/BLE_ProjectV6_2/resources/getAllTableRecords/", 102)
 }
 
-object StakeHelper {
-    const val LONGITUDE = "LONGITUDE"
-    const val LATITUDE = "LATITUDE"
-    const val ELEVATION = "ELEVATION"
-    const val XAXIS = "XAXIS"
-    const val YAXIS = "YAXIS"
-    const val ZAXIS = "ZAXIS"
-    const val ANGLE = "ANGLE"
-    const val DISTANCE = "DISTANCE"
-    const val NORTH_SOUTH = "NORTH_SOUTH"
-    const val EAST_WEST = "EAST_WEST"
-}
 
 fun isInvalidString(txt: String?) = txt.isNullOrEmpty() || txt.isBlank() || txt == "null"
 
