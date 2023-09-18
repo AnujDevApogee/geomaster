@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.FragmentGnssRoverProfileBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
+import com.apogee.geomaster.response_handling.ResponseHandling
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
@@ -57,6 +58,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     private val bleConnectionViewModel: BleConnectionViewModel by activityViewModels()
 
     var deviceInfotimerHandler = Handler(Looper.getMainLooper())
+
     private var mDeviceAddress: String? = null
     var services = false
     var mPlayer: MediaPlayer? = null
@@ -66,6 +68,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     //    var mBluetoothLeService: BluetoothLeService? = null
     var deviceName = ""
     private lateinit var dbControl: DatabaseRepsoitory
+    private lateinit var resHandler: ResponseHandling
 
     //    var dbTask = DatabaseOperation(this)
     var gnssdelay: ArrayList<String> = ArrayList()
@@ -199,6 +202,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         Log.d(TAG, "onViewCreated: ")
         dgps_id = sharedPreferences!!.getStringData(Constants.DGPS_DEVICE_ID).toInt()
         device_id = sharedPreferences!!.getStringData(Constants.DEVICE_ID).toInt()
+        Log.d(TAG, "onViewCreated: dgps_id$dgps_id--device_id$device_id")
         deviceName = sharedPreferences!!.getStringData(Constants.DEVICE_NAME)
         if (BluetoothScanDeviceFragment.BTConnected) {
             updateConnectionState(R.string.connected)
@@ -308,7 +312,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                     when(res.response){
                         is OnSerialRead.onSerialNmeaRead->
                         {
-
+//                            resHandler.validateResponse(res,)
                         }
                         is OnSerialRead.onSerialResponseRead->
                         {
@@ -470,8 +474,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                         responseCount = 0
 //                        dddialog = null
                         cancelWrite = false
-                        // connectTcp(100, 1500, 200)
-                        send()
+                        resHandler= ResponseHandling(requireContext())
                     }
                 }
             } else {
