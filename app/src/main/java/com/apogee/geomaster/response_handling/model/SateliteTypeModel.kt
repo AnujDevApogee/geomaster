@@ -1,4 +1,4 @@
-package com.apogee.basicble.Utils
+package com.apogee.geomaster.response_handling.model
 
 class SateliteTypeModel(
     val satelite_type: String,

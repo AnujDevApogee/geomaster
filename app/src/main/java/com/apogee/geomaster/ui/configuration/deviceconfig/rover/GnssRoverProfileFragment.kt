@@ -1,31 +1,24 @@
 package com.apogee.geomaster.ui.configuration.deviceconfig.rover
 
 import android.content.ContentValues
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
-import android.text.TextUtils
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.FragmentGnssRoverProfileBinding
+import com.apogee.geomaster.model.ResponseModel
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.response_handling.ResponseHandling
+import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
@@ -43,9 +36,7 @@ import kotlinx.coroutines.launch
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.Socket
-import java.text.SimpleDateFormat
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.system.measureTimeMillis
 
 
 class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
@@ -79,6 +70,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var radiocommands: ArrayList<String> = ArrayList()
     var configTTs: TextToSpeech? = null
     var commandsfromlist: ArrayList<String> = ArrayList()
+    var commandIDList: ArrayList<String> = ArrayList()
     var delaylist: ArrayList<String> = ArrayList()
     var commandsformatList: ArrayList<String> = ArrayList()
 //    private val newline = TextUtil.newline_crlf
@@ -111,6 +103,8 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var isAnteenahUp = true
     var isCdParameters = true
     var isdiscnetHde = true
+    var responseList: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
+
 
     //    private val newline = TextUtil.newline_crlf
     var issuccess = false
@@ -149,6 +143,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var radioCount = 0
     var isSocketConnected = false
     var device_id = 0
+    var headerLength = 0
     var dgps_id = 0
 
 
@@ -167,8 +162,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         var parameterList: HashMap<String, String> = HashMap()
         var wifiMapProfile: HashMap<String, String> = HashMap()
         var pdaMapProfile: HashMap<String, String> = HashMap()
-        var dataInputStreamPDA: DataInputStream? = null
-        var dataOutputStreamPDA: DataOutputStream? = null
+
 
 
     }
@@ -202,11 +196,11 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         Log.d(TAG, "onViewCreated: ")
         dgps_id = sharedPreferences!!.getStringData(Constants.DGPS_DEVICE_ID).toInt()
         device_id = sharedPreferences!!.getStringData(Constants.DEVICE_ID).toInt()
+        headerLength = sharedPreferences!!.getStringData(Constants.HEADER_LENGTH).toInt()
         Log.d(TAG, "onViewCreated: dgps_id$dgps_id--device_id$device_id")
         deviceName = sharedPreferences!!.getStringData(Constants.DEVICE_NAME)
         if (BluetoothScanDeviceFragment.BTConnected) {
             updateConnectionState(R.string.connected)
-//            bleConnectionViewModel.setupConnection()
             getResponse()
         } else {
             updateConnectionState(R.string.disconnected)
@@ -312,7 +306,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                     when(res.response){
                         is OnSerialRead.onSerialNmeaRead->
                         {
-//                            resHandler.validateResponse(res,)
+//                            resHandler.validateResponse(res.response.data., headerLength,responseList)
                         }
                         is OnSerialRead.onSerialResponseRead->
                         {
@@ -387,15 +381,18 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
             if (satnum.isNotEmpty()) {
                 if (!isClickEnable) {
 
-                    if (datum == "" || p_name == "") {
+                  /*  if (datum == "" || p_name == "") {
                         requireActivity().toastMsg(getString(R.string.please_select_project_first))
-                    } else if (roverMapProfile.size == 0 && radioMapProfile.size == 0 && externalradioMapProfile.size == 0 && wifiMapProfile.size == 0 && pdaMapProfile.size == 0) {
+                    } else*/
+                        if (roverMapProfile.size == 0 && radioMapProfile.size == 0 && externalradioMapProfile.size == 0 && wifiMapProfile.size == 0 && pdaMapProfile.size == 0) {
                         requireActivity().toastMsg(getString(R.string.please_set_up_correction_first))
                     } else if (parameterList.size == 0) {
                         requireActivity().toastMsg(getString(R.string.please_set_up_parameters_first))
-                    } else if (devicedetail.isEmpty() && devicedetail.isEmpty()) {
+                    }
+                     /*   else if (devicedetail.isEmpty() && devicedetail.isEmpty()) {
                         requireActivity().toastMsg(getString(R.string.device_detail_is_empty))
-                    } else if (binding.etInitTime.text.toString().trim().isEmpty() && isRTKPPK) {
+                    }*/
+                        else if (binding.etInitTime.text.toString().trim().isEmpty() && isRTKPPK) {
                         requireActivity().toastMsg(getString(R.string.please_enter_initial_time))
                     } else if (occupationTime.isEmpty() && isRTKPPK) {
                         requireActivity().toastMsg(getString(R.string.please_enter_occupation_time))
@@ -474,7 +471,8 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                         responseCount = 0
 //                        dddialog = null
                         cancelWrite = false
-                        resHandler= ResponseHandling(requireContext())
+                            resHandler= ResponseHandling(requireContext())
+                            dataconversion()
                     }
                 }
             } else {
@@ -513,6 +511,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
             binding.comupcard.visibility = View.GONE
             binding.gnsscommunication.visibility = View.VISIBLE
         }
+
         binding.btCommunication.setOnClickListener {
             BluetoothScanDeviceFragment.ChangeDevice = true
             findNavController().safeNavigate(GnssRoverProfileFragmentDirections.actionGlobalBluetoothscandevicefragment())
@@ -561,35 +560,35 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
             }
         }
 
-//        binding.triggerPoint.setOnClickListener {
-//            if (binding.etInitTime.text.toString().trim().isEmpty()) {
-//                Utils().setToast("Please Enter Initial Time", this)
-//            } else if (occupationTime.isEmpty()) {
-//                Utils().setToast("Please Enter Occupation Time", this)
-//            } else if (binding.etInitTime.text.toString().trim().toInt() < 300) {
-//                Utils().setToast("Please Enter Initial Time greater than 5 min.", this)
-//            } else {
-//                Utils.isFileWrite = true
-//                if (Utils.isBTConnected) {
-//                    try {
-//                        val str = "Raw On"
-//                        val msgs = (str + newline).toByteArray()
-//                        Utils.service!!.write(msgs)
-//                    } catch (ex: Exception) {
-//
-//                    }
-//                }
-//                val initialTime = binding.etInitTime.text.toString().trim()
-//                val finalInitialTime = initialTime.toLong() * 1000
-//                // Utils().checkInitailTime(finalInitialTime)
-//                val intent = Intent(this, TopoSurveyActivity::class.java)
-//                intent.putExtra(Constants.ISFROMPPK, "isFromPPkRTk")
-//                intent.putExtra(Constants.INITIALTIME, finalInitialTime)
-//                intent.putExtra(Constants.OCCUPATIONTIME, occupationTime)
-//                startActivity(intent)
-//                finish()
-//            }
-//        }
+/*        binding.triggerPoint.setOnClickListener {
+            if (binding.etInitTime.text.toString().trim().isEmpty()) {
+                Utils().setToast("Please Enter Initial Time", this)
+            } else if (occupationTime.isEmpty()) {
+                Utils().setToast("Please Enter Occupation Time", this)
+            } else if (binding.etInitTime.text.toString().trim().toInt() < 300) {
+                Utils().setToast("Please Enter Initial Time greater than 5 min.", this)
+            } else {
+                Utils.isFileWrite = true
+                if (Utils.isBTConnected) {
+                    try {
+                        val str = "Raw On"
+                        val msgs = (str + newline).toByteArray()
+                        Utils.service!!.write(msgs)
+                    } catch (ex: Exception) {
+
+                    }
+                }
+                val initialTime = binding.etInitTime.text.toString().trim()
+                val finalInitialTime = initialTime.toLong() * 1000
+                // Utils().checkInitailTime(finalInitialTime)
+                val intent = Intent(this, TopoSurveyActivity::class.java)
+                intent.putExtra(Constants.ISFROMPPK, "isFromPPkRTk")
+                intent.putExtra(Constants.INITIALTIME, finalInitialTime)
+                intent.putExtra(Constants.OCCUPATIONTIME, occupationTime)
+                startActivity(intent)
+                finish()
+            }
+        }*/
 
     }
 
@@ -629,12 +628,19 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     fun getcommandforparsing(opid: Int, oppid: Int) {
         if (opid > 0) {
             gnssdelay = dbControl.delaylist(opid, dgps_id)
-            gnsscommands = dbControl.commandforparsinglist(opid, dgps_id)
-            gnnsFormatCommands = dbControl.commandformatparsinglist(opid, dgps_id)
-            Log.d(
-                TAG,
-                "getcommandforparsing: $gnsscommands \n ${gnsscommands.size} \n $opid "
-            )
+            val commandDataList=dbControl.getRoverCommandforparsinglist(opid, dgps_id)
+
+            for(cmds in commandDataList){
+                gnsscommands.add(cmds.split(",")[0])
+                commandIDList.add(cmds.split(",")[1])
+                responseList=dbControl.getResponseList(cmds.split(",")[1])
+                gnnsFormatCommands.add(cmds.split(",")[2])
+            }
+//            gnsscommands = dbControl.commandforparsinglist(opid, dgps_id)
+//            gnnsFormatCommands = dbControl.commandformatparsinglist(opid, dgps_id)
+            Log.d(TAG,"commandDataList --\ngnsscommands:-- $gnsscommands\n responseList--${responseList.size}\n gnnsFormatCommands-- " +
+                    "$gnnsFormatCommands \n commandIDList--$commandIDList \n ${gnsscommands.size} \n $opid ")
+
         } else if (oppid > 0) {
             radiodelay = dbControl.delaylist(oppid, dgps_id)
             radiocommands = dbControl.commandforparsinglist(oppid, dgps_id)
@@ -1065,7 +1071,8 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
 //            Conversion(requireContext()).toHexString(sb, newline.toByteArray())
             msg = sb.toString()
             data = Conversion(requireContext()).fromHexString(msg)
-        } else {
+        }
+        else {
             msg = newCommandList[commandCounter]
 //            data = (msg + newline).toByteArray()
         }

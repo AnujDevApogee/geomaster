@@ -8,17 +8,16 @@ import android.database.DatabaseUtils
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.DelimeterResponse
-import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.model.SatelliteModel
+import com.apogee.geomaster.response_handling.model.DBResponseModel
+import com.apogee.geomaster.response_handling.model.SateliteTypeModel
 import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
-import kotlin.math.log
 
 
 class DatabaseRepsoitory(context: Context) {
@@ -1555,6 +1554,25 @@ class DatabaseRepsoitory(context: Context) {
 
 
 
+        val model_logic_map = "model_logic_map"
+        val model_logic_mapColumn = arrayOf(
+            TableCreator.ColumnDetails("model_logic_map_id", "INTEGER", true, true),
+            TableCreator.ColumnDetails("model_name", "STRING"),
+            TableCreator.ColumnDetails("logic_name", "STRING"),
+            TableCreator.ColumnDetails("header", "STRING"),
+            TableCreator.ColumnDetails("revision_no", "INTEGER"),
+            TableCreator.ColumnDetails("active", "STRING"),
+            TableCreator.ColumnDetails("remark", "STRING"),
+            TableCreator.ColumnDetails("created_at", "STRING"),
+            TableCreator.ColumnDetails("created_by", "STRING")
+
+        )
+        val model_logic_mapTable =
+            tableCreator.createMainTableIfNeeded(
+                model_logic_map,
+                model_logic_mapColumn
+            )
+
 
 
         Log.d(
@@ -1634,9 +1652,8 @@ class DatabaseRepsoitory(context: Context) {
                     "\n project_folderTable:--$project_folderTable" +
                     "\n project_tableData:--$project_tableData" +
                     "\n project_configuration_mappingTable:--$project_configuration_mappingTable" +
-                    "\n dataSourceTable:--$dataSourceTable"
-
-        )
+                    "\n dataSourceTable:--$dataSourceTable"+
+                    "\n model_logic_mapTable:--$model_logic_mapTable")
 
 
 
@@ -1716,6 +1733,7 @@ class DatabaseRepsoitory(context: Context) {
             && project_tableData.equals("Table Created Successfully...")
             && project_configuration_mappingTable.equals("Table Created Successfully...")
             && dataSourceTable.equals("Table Created Successfully...")
+            && model_logic_mapTable.equals("Table Created Successfully...")
 
 
         ) {
@@ -2254,7 +2272,7 @@ class DatabaseRepsoitory(context: Context) {
 
     //Get All Response Data on bases of command_id from Database
     @SuppressLint("Range")
-    fun getResponseList(id: String): ArrayList<DBResponseModel>? {
+    fun getResponseList(id: String): ArrayList<DBResponseModel> {
         val list: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
         try {
             var cursor =
@@ -2263,7 +2281,7 @@ class DatabaseRepsoitory(context: Context) {
                 for (i in 0 until cursor.count) {
                     cursor.moveToPosition(i)
                     val response_id = cursor.getString(cursor.getColumnIndex("response_id"))
-                    val response = cursor.getString(cursor.getColumnIndex("response"))
+                    val response = cursor.getString(cursor.getColumnIndex("response_name"))
                     val response_type_id =
                         cursor.getString(cursor.getColumnIndex("response_type_id"))
                     val data_extract_type =
@@ -2420,6 +2438,25 @@ class DatabaseRepsoitory(context: Context) {
             Log.e(
                 TAG,
                 "commandforparsinglist Error: $e"
+            )
+        }
+        return list
+    }
+
+    fun getRoverCommandforparsinglist(id: Int, Device_id: Int): java.util.ArrayList<String> {
+        val list = java.util.ArrayList<String>()
+        try {
+            val query =
+                "SELECT c.command_name,c.command_id,c.format  FROM command_device_map as map , command as c WHERE map.device_id= $Device_id AND map.operation_id=$id  and map.command_id = c.command_id ORDER By order_no; "
+            val cursor = tableCreator.executeStaticQueryForCursor(query)
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getString(0)+","+cursor.getString(1)+","+cursor.getString(2))
+            }
+        } catch (e: Exception) {
+            Log.e(
+                TAG,
+                "getRoverCommandforparsinglist Error: $e"
             )
         }
         return list
@@ -3274,6 +3311,32 @@ class DatabaseRepsoitory(context: Context) {
         Log.d(TAG, "displayvaluelist: $selectionMap")
         return selectionMap
     }
+
+
+    fun getHeaderNameFromModelLogicMap(model_name: String): String? {
+        val query = "select header from model_logic_map where model_name='$model_name'"
+        var headername = ""
+        val cursor = database.rawQuery(query, null)
+        cursor.moveToPosition(0)
+        for (i in 0 until cursor.count) {
+            cursor.moveToPosition(i)
+            headername = cursor.getString(0)
+        }
+        return headername
+    }
+
+    fun getHeaderLength():String{
+        var headerLength=""
+        val result=tableCreator.executeStaticQuery("SELECT D.created_by FROM device as D Join device_type as Dt on  D.device_type_id=Dt.device_type_id where Dt.type='Finished'")
+    if(result!!.size==1){
+        try {
+            headerLength=result.get(0)
+        }catch (e:java.lang.Exception){
+            Log.d(TAG, "getHeaderLength: Exception --${e.message}")
+        }
+    }
+    return headerLength}
+
 
 
 }

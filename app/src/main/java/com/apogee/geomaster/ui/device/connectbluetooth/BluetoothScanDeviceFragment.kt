@@ -176,10 +176,12 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             var dgpsIdRadio = ""
             val modelId = dbControl.getUserRegNo(firstFourChars)
             val getdevice = dbControl.getdeviceId(modelId!!)
-            val deviceId = getdevice!!.split(",")[0]
-            val finishedModelType = dbControl.getMakeName(getdevice!!.split(",")[1])
+            val deviceId = getdevice.split(",")[0]
+            val headerLength = dbControl.getHeaderLength()
+            Log.d(TAG, "fetchDetails: getDevice$getdevice --headerLength--$headerLength")
+            val finishedModelType = dbControl.getMakeName(getdevice.split(",")[1])
             val moduleDeviceID = dbControl.getModuleFinishedId(deviceId)
-            val joined = TextUtils.join(", ", moduleDeviceID!!)
+            val joined = TextUtils.join(", ", moduleDeviceID)
             Log.d(
                 "TAG",
                 "joinedfetchDetails: " + deviceId + "\n" + joined + "\n" + finishedModelType
@@ -221,6 +223,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                     profileName = modelDetails[i].split(",")[0]
                 }
             }
+            val headerName=dbControl.getHeaderNameFromModelLogicMap(modelName)
             Log.d(
                 TAG, "fetchDetails: finishedModelType--$finishedModelType \n" +
                         "modelName--$modelName \n" +
@@ -228,7 +231,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                         "deviceIds--$deviceIds \n" +
                         "dgpsId--$dgpsId \n" +
                         "dgpsIdRadio--$dgpsIdRadio \n" +
-                        "deviceModule--${deviceModule.toString()}"
+                        "deviceModule--${deviceModule}"
             )
 
 
@@ -240,6 +243,9 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             sharedPreferences!!.putStringData(Constants.DGPS_DEVICE_ID_FOR_RADIO, dgpsIdRadio)
             sharedPreferences!!.putStringData(Constants.MODULE_DEVICE, deviceModule.toString())
             sharedPreferences!!.putStringData(Constants.DEVICE_NAME, firstFourChars)
+            sharedPreferences!!.putStringData(Constants.HEADER_NAME, headerName!!)
+            sharedPreferences!!.putStringData(Constants.HEADER_LENGTH, headerLength)
+
         } catch (e: Exception) {
             Log.d(TAG, "fetchDetails: Exception --${e.message}")
         }

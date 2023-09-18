@@ -45,4 +45,8 @@ internal object Constants {
         var gsv_res_map = ArrayList<ResponseHandlingModel>()
         var gsa_res_map = ArrayList<ResponseHandlingModel>()
 
+
+    const val HEADER_LENGTH = "header_length"
+    val HEADER_NAME: String = "header_name"
+
 }
