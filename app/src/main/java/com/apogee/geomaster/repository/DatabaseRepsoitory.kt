@@ -8,17 +8,16 @@ import android.database.DatabaseUtils
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.DelimeterResponse
 import com.apogee.basicble.Utils.SateliteTypeModel
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.model.SatelliteModel
+import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
-import kotlin.math.log
 
 
 class DatabaseRepsoitory(context: Context) {
@@ -1321,6 +1320,30 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(siteCalibration, siteCalibrationColumn)
 
 
+        val satellite_type_delimeter_mapping = "satellite_type_delimeter_mapping"
+        val satellite_type_delimeter_mappingColumn = arrayOf(
+            TableCreator.ColumnDetails("satellite_type_delimeter_mapping_id", "INTEGER", true),
+            TableCreator.ColumnDetails("end_prn", "STRING"),
+            TableCreator.ColumnDetails("start_prn", "STRING"),
+            TableCreator.ColumnDetails("revision_no", "STRING"),
+            TableCreator.ColumnDetails("satellite_type", "STRING"),
+            TableCreator.ColumnDetails("active", "STRING"),
+            TableCreator.ColumnDetails("created_at", "STRING"),
+            TableCreator.ColumnDetails("remark", "STRING", nullable = true),
+            TableCreator.ColumnDetails(
+                "delimeter_validation_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "delimeter_validation(delimeter_validation_id)"
+            )
+        )
+        val satellite_type_delimeter_mappingTable =
+            tableCreator.createMainTableIfNeeded(
+                satellite_type_delimeter_mapping,
+                satellite_type_delimeter_mappingColumn
+            )
+
+
         val project_folder = "project_folder"
         val project_folderColumn = arrayOf(
             TableCreator.ColumnDetails("folder_id", "INTEGER", true, true),
@@ -1716,7 +1739,7 @@ class DatabaseRepsoitory(context: Context) {
             && project_tableData.equals("Table Created Successfully...")
             && project_configuration_mappingTable.equals("Table Created Successfully...")
             && dataSourceTable.equals("Table Created Successfully...")
-
+            && satellite_type_delimeter_mappingTable.equals("Table Created Successfully...")
 
         ) {
             Log.d(TAG, "CommonApiTablesCreation1: All table created")
@@ -2257,13 +2280,16 @@ class DatabaseRepsoitory(context: Context) {
     fun getResponseList(id: String): ArrayList<DBResponseModel>? {
         val list: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
         try {
-            var cursor =
-                tableCreator.executeStaticQueryForCursor("SELECT * FROM response where command_id IN ($id) order by response_type_id asc")
+            val qry =
+                "SELECT * FROM response where command_id IN ($id) order by response_type_id asc"
+            createLog("RESPONSE_LIST", qry)
+            val cursor =
+                tableCreator.executeStaticQueryForCursor(qry)
             if (cursor != null) {
                 for (i in 0 until cursor.count) {
                     cursor.moveToPosition(i)
                     val response_id = cursor.getString(cursor.getColumnIndex("response_id"))
-                    val response = cursor.getString(cursor.getColumnIndex("response"))
+                    val response = cursor.getString(cursor.getColumnIndex("response_name"))
                     val response_type_id =
                         cursor.getString(cursor.getColumnIndex("response_type_id"))
                     val data_extract_type =
@@ -2279,6 +2305,7 @@ class DatabaseRepsoitory(context: Context) {
                     val all_delimeter_list = ArrayList<DelimeterResponse>()
                     val query = (" select * from delimeter_validation  where active='Y' "
                             + " and response_id='" + response_id + "'")
+                    createLog("RESPONSE_LIST", "$query ITEM")
                     val d_cursor = tableCreator.executeStaticQueryForCursor(query)
                     while (d_cursor!!.moveToNext()) {
                         val delimeter_validation_id =
@@ -2291,7 +2318,7 @@ class DatabaseRepsoitory(context: Context) {
                         val type = d_cursor.getString(d_cursor.getColumnIndex("type"))
                         val sateliteTypeList = ArrayList<SateliteTypeModel>()
                         val query1 =
-                            (" select * from satellite_type_delimeter_mapping  where active='Y' "
+                            ("select * from satellite_type_delimeter_mapping  where active='Y' "
                                     + " and delimeter_validation_id='" + delimeter_validation_id + "'")
                         val cursor1 = tableCreator.executeStaticQueryForCursor(query1)
                         while (cursor1!!.moveToNext()) {
