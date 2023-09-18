@@ -65,7 +65,7 @@ class CorrectionFragment : Fragment(R.layout.fragment_correction) {
         }
         Log.d("TAG", "onCreate:moduleDevice "+moduleDevice)
         gnssmodulename = args.mode
-        if(gnssmodulename.equals(getString(R.string.rover)) && deviceName!!.contains("NAVIK200-1.2"))
+        if(gnssmodulename.equals(getString(R.string.rover)) && deviceName.contains("NAVIK200-1.2"))
         {
             binding!!.cvPDA.visibility=View.VISIBLE
         } else
@@ -311,9 +311,11 @@ class CorrectionFragment : Fragment(R.layout.fragment_correction) {
             wifiMap.clear()
             pdaMap.clear()
             externalRadioMap.clear()
+            sharedPreferences!!.putStringData(Constants.RADIO_TYPE,whichRtk)
             findNavController().safeNavigate(CorrectionFragmentDirections.actionCorrectionFragmentToRadioCommunication2(gnssmodulename,whichRtk))
             binding!!.communication.isClickable = false
         }
+
         binding!!.radioGroup.setOnCheckedChangeListener { radioGroup, i ->
             if(binding!!.rbRadioExternal.isChecked)
             {
@@ -335,17 +337,17 @@ class CorrectionFragment : Fragment(R.layout.fragment_correction) {
         findNavController().safeNavigate(CorrectionFragmentDirections.actionCorrectionFragmentToWiFiSetupFragment2(gnssmodulename))
             binding!!.btwifi.isClickable = false
         }
+
         binding!!.btPDA.setOnClickListener {
-/*            roverMap.clear()
+            roverMap.clear()
             radioMap.clear()
             wifiMap.clear()
             pdaMap.clear()
             externalRadioMap.clear()
-            val pdaCommunication = PDACommunication()
-            val intent = Intent(this@Correction, pdaCommunication::class.java)
-            intent.putExtra(Constants.GNSSMODULENAME, gnssmodulename)
-            startActivity(intent)
-            binding!!.btPDA.isClickable = false*/
+            findNavController().safeNavigate(CorrectionFragmentDirections.actionCorrectionFragmentToPDAFragment(gnssmodulename))
+//            intent.putExtra(Constants.GNSSMODULENAME, gnssmodulename)
+//            startActivity(intent)
+            binding!!.btPDA.isClickable = false
         }
 
 
@@ -414,7 +416,6 @@ class CorrectionFragment : Fragment(R.layout.fragment_correction) {
         })
         binding!!.recyclerView.adapter = dataSourceAdapter
     }
-
     fun showExternalRadio(){
         listDataSource.clear()
         var count = 1
@@ -445,9 +446,6 @@ class CorrectionFragment : Fragment(R.layout.fragment_correction) {
         })
         binding!!.recyclerView.adapter = dataSourceAdapter
     }
-
-
-
     fun showRadioData(){
         listDataSource.clear()
         var count = 1
@@ -479,8 +477,6 @@ class CorrectionFragment : Fragment(R.layout.fragment_correction) {
         })
         binding!!.recyclerView.adapter = dataSourceAdapter
     }
-
-
     fun showWifiData(){
         listDataSource.clear()
         var count = 1

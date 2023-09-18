@@ -27,6 +27,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
     companion object{
         // delete this information
         var measuredHeight=-1
+        var model=""
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,6 +79,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
                 return@setOnClickListener
             }
             SetUpAntennaFragment.measuredHeight=measuredHeight.toInt()
+            SetUpAntennaFragment.model=model
 
             findNavController().popBackStack()
 

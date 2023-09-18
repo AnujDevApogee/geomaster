@@ -3,6 +3,7 @@ package com.apogee.geomaster.utils
 import android.R
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.text.Html
 import android.text.SpannableString
@@ -21,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 
 
@@ -144,5 +146,10 @@ fun TextView.changeIconDrawable(id:Int,color: Int=R.color.holo_green_dark,positi
         3->setCompoundDrawables(null, null, drawable, null)
         4->setCompoundDrawables(null, null, null, drawable)
     }
+
+
+    var isAlertFirst = true
+
+
 }
 

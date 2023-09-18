@@ -12,6 +12,7 @@ internal object Constants {
     const val NOTIFICATION_CHANNEL = /*BuildConfig.APPLICATION_ID +*/ "com.example.pda.Channel"
     const val INTENT_CLASS_MAIN_ACTIVITY =/*BuildConfig.APPLICATION_ID+*/ "com.example.pda.MainActivity"
     const val ELEVATION = "elevation"
+    const val RADIO_TYPE = "radio_type"
 
 
     // values have to be unique within each app

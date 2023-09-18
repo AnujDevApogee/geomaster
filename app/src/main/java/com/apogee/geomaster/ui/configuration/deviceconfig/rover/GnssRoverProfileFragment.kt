@@ -1,6 +1,9 @@
 package com.apogee.geomaster.ui.configuration.deviceconfig.rover
 
 import android.content.ContentValues
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +14,11 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,6 +26,7 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.FragmentGnssRoverProfileBinding
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.service.Constants
+import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
 import com.apogee.geomaster.utils.Conversion
 import com.apogee.geomaster.utils.MyPreference
@@ -26,13 +35,16 @@ import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
+import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.Socket
+import java.text.SimpleDateFormat
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.system.measureTimeMillis
 
 
 class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
@@ -54,7 +66,6 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     //    var mBluetoothLeService: BluetoothLeService? = null
     var deviceName = ""
     private lateinit var dbControl: DatabaseRepsoitory
-    var sharedPreferences: MyPreference? = null
 
     //    var dbTask = DatabaseOperation(this)
     var gnssdelay: ArrayList<String> = ArrayList()
@@ -67,6 +78,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var commandsfromlist: ArrayList<String> = ArrayList()
     var delaylist: ArrayList<String> = ArrayList()
     var commandsformatList: ArrayList<String> = ArrayList()
+//    private val newline = TextUtil.newline_crlf
     var devicedetail: String = ""
     var newCommandList: ArrayList<String> = ArrayList()
     var datumcommands: ArrayList<String> = ArrayList()
@@ -121,8 +133,9 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var isClickEnable = false
     var textString = StringBuilder()
     var occupationTime = ""
-//    lateinit var preferenceStore: PreferenceStore
-
+    private val sharedPreferences by lazy {
+        MyPreference.getInstance(requireActivity())
+    }
     var progressCount = 0
     var isRadio = false
 
@@ -182,10 +195,8 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dbControl = DatabaseRepsoitory(requireContext())
-        sharedPreferences = MyPreference.getInstance(requireContext())
         binding = FragmentGnssRoverProfileBinding.bind(view)
-      //  fetchDetails("NAVIK200-1.1")
-
+        Log.d(TAG, "onViewCreated: ")
         dgps_id = sharedPreferences!!.getStringData(Constants.DGPS_DEVICE_ID).toInt()
         device_id = sharedPreferences!!.getStringData(Constants.DEVICE_ID).toInt()
         deviceName = sharedPreferences!!.getStringData(Constants.DEVICE_NAME)
@@ -267,10 +278,10 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     override fun onResponse(res: BleResponse) {
         if (res != null) {
             when (res) {
-                is BleResponse.OnConnected -> {}
+                is BleResponse.OnConnected -> {
+
+                }
 //                         binding.pbBle.isVisible = false
-
-
                 is BleResponse.OnConnectionClose -> Log.d(
                     ContentValues.TAG,
                     "getResponse: " + res.message
@@ -294,8 +305,20 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                 )
 
                 is BleResponse.OnResponseRead -> {
-                    Log.d(ContentValues.TAG, "getResponse: " + res.response)
-//                         findNavController().safeNavigate(R.id.action_bluetoothscandevicefragment_to_homeScreenMainFragment)
+                    when(res.response){
+                        is OnSerialRead.onSerialNmeaRead->
+                        {
+
+                        }
+                        is OnSerialRead.onSerialResponseRead->
+                        {
+
+                        }
+                        is OnSerialRead.onSerialProtocolRead->
+                        {
+
+                        }
+                    }
                 }
 
                 is BleResponse.OnResponseWrite -> Log.d(
@@ -340,9 +363,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         }
 
         binding.ibantennahdown.setOnClickListener {
-
-//         findNavController().safeNavigate(R.layout.fragment_antenna_height)
-
+            findNavController().safeNavigate(GnssRoverProfileFragmentDirections.actionGnssRoverProfileFragmentToSetUpAntennaFragment())
             binding.ibantennahdown.isClickable = false
         }
 
@@ -469,19 +490,14 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         }
 
         binding.btAntennah.setOnClickListener {
-//            val intent = Intent(this@GNSSRoverProfile, AnteenaHeight::class.java)
-//            startActivity(intent)
-//            binding.btAntennah.isClickable = false
+            findNavController().safeNavigate(GnssRoverProfileFragmentDirections.actionGnssRoverProfileFragmentToSetUpAntennaFragment())
+            binding.btAntennah.isClickable = false
         }
 
-//        binding.btParameters.setOnClickListener {
-//            val intent = Intent(this@GNSSRoverProfile, BasicParameters::class.java)
-//            if(deviceName.contains(resources.getString(R.string.navik300)) && externalradioMapProfile.size>0) {
-//                intent.putExtra(Constants.RADIO_TYPE, resources.getString(R.string.radio_external))
-//            }
-//            startActivity(intent)
-//            binding.btParameters.isClickable = false
-//        }
+        binding.btParameters.setOnClickListener {
+      findNavController().safeNavigate(GnssRoverProfileFragmentDirections.actionGnssRoverProfileFragmentToBasicParameterFragment())
+            binding.btParameters.isClickable = false
+        }
 
         binding.gnsscommunication.setOnClickListener {
             isdiscnetHde = true
@@ -501,11 +517,11 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         }
 
         binding.btCorrection.setOnClickListener {
-/*            if (modeWork == "Raw Log") {
+            if (modeWork == "Raw Log") {
                 requireActivity().toastMsg(
                     "You can't Confugured Rover with Static, Please wait to finish static first."
                 )
-            } else {*/
+            } else {
             roverMapProfile.clear()
             radioMapProfile.clear()
             externalradioMapProfile.clear()
@@ -516,13 +532,8 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                     getString(R.string.rover)
                 )
             )
-
-//                val intent = Intent(this@GNSSRoverProfile, Correction::class.java)
-//                intent.putExtra(Constants.GNSSMODULENAME, getString(R.string.rover))
-//                startActivity(intent)
             binding.btCorrection.isClickable = false
-//            }
-
+            }
         }
 
         binding.spindrop.setOnTouchListener { _, _ -> true }
@@ -610,81 +621,6 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     }
 
 
-    private fun fetchDetails(firstFourChars: String) {
-        try {
-            var dgpsIdRadio = ""
-            val modelId = dbControl.getUserRegNo(firstFourChars)
-            val getdevice = dbControl.getdeviceId(modelId!!)
-            val deviceId = getdevice!!.split(",")[0]
-            val finishedModelType = dbControl.getMakeName(getdevice!!.split(",")[1])
-            val moduleDeviceID = dbControl.getModuleFinishedId(deviceId)
-            val joined = TextUtils.join(", ", moduleDeviceID!!)
-            Log.d(
-                "TAG",
-                "joinedfetchDetails: " + deviceId + "\n" + joined + "\n" + finishedModelType
-            )
-            if (joined.contains("186")) {
-                dgpsIdRadio = "186"
-            }
-            val deviceDetails = dbControl.getDeviceDetail(joined)
-            val deviceModule = dbControl.getDeviceModule(joined)
-            val modelIdList: ArrayList<String> = ArrayList()
-            val bleTypeId = dbControl.getDeviceTypeeId("BLE")
-            val dgpsTypeId = dbControl.getDeviceTypeeId("DGPS")
-            var deviceIds = ""
-            var dgpsId = ""
-
-
-            for (i in 0 until deviceDetails!!.size) {
-
-                modelIdList.add(deviceDetails[i].split(",")[0])
-                if (deviceDetails[i].split(",")[1] == bleTypeId) {
-                    deviceIds = deviceDetails[i].split(",")[2]
-                } else if (deviceDetails[i].split(",")[1] == dgpsTypeId) {
-                    dgpsId = deviceDetails[i].split(",")[2]
-                    Log.d("TAG", "fetchDetails: " + dgpsId)
-                }
-            }
-            val joined1 = TextUtils.join(",", modelIdList)
-            val modelDetails = dbControl.getModelDetail(joined1)
-            Log.d(TAG, "fetchDetails: modelDetails--$modelDetails")
-
-            var modelName = ""
-            var profileName = ""
-            for (i in 0 until modelDetails!!.size) {
-                if (modelDetails[i].split(",")[1] == "7" +
-                    ""
-                ) {
-                    modelName = modelDetails[i].split(",")[0]
-                } else {
-                    profileName = modelDetails[i].split(",")[0]
-                }
-            }
-            Log.d(
-                TAG, "fetchDetails: finishedModelType--$finishedModelType \n" +
-                        "modelName--$modelName \n" +
-                        "profileName--$profileName \n" +
-                        "deviceIds--$deviceIds \n" +
-                        "dgpsId--$dgpsId \n" +
-                        "dgpsIdRadio--$dgpsIdRadio \n" +
-                        "deviceModule--${deviceModule.toString()}"
-            )
-
-
-            sharedPreferences!!.putStringData(Constants.MAKE, finishedModelType!!)
-            sharedPreferences!!.putStringData(Constants.MODEL, modelName)
-            sharedPreferences!!.putStringData(Constants.PROFILENAME, profileName)
-            sharedPreferences!!.putStringData(Constants.DEVICE_ID, deviceIds)
-            sharedPreferences!!.putStringData(Constants.DGPS_DEVICE_ID, dgpsId)
-            sharedPreferences!!.putStringData(Constants.DGPS_DEVICE_ID_FOR_RADIO, dgpsIdRadio)
-            sharedPreferences!!.putStringData(Constants.MODULE_DEVICE, deviceModule.toString())
-            sharedPreferences!!.putStringData(Constants.DEVICE_NAME, firstFourChars)
-        } catch (e: Exception) {
-            Log.d(TAG, "fetchDetails: Exception --${e.message}")
-        }
-
-
-    }
 
 
     fun getcommandforparsing(opid: Int, oppid: Int) {
@@ -808,78 +744,334 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     override fun onResume() {
         super.onResume()
         bleConnectionViewModel.bindService()
+
+
+        if (BluetoothScanDeviceFragment.BTConnected)
+        {
+            binding.ibantennahdown.isClickable = true
+            binding.btCorrection.isClickable = true
+            binding.btParameters.isClickable = true
+            binding.btCommunication.isClickable = true
+            mDeviceAddress = sharedPreferences.getStringData(Constants.DEVICE_ADDRESSS)
+            deviceName = sharedPreferences.getStringData(Constants.DEVICE_NAME)
+
+            try {
+                val str = "$$$$,03,03,1,0,0,0000,####"
+//                val msgs: ByteArray = (str + newline).toByteArray()
+//                Utils.service!!.write(msgs)
+            } catch (ex: Exception) {
+
+            }
+            updateConnectionState(R.string.connected)
+        }
+        else {
+            updateConnectionState(R.string.disconnected)
+        }
+
+        if (roverMapProfile.size > 0 || radioMapProfile.size > 0 || externalradioMapProfile.size > 0 || wifiMapProfile.size > 0 || pdaMapProfile.size > 0) {
+            binding.cdCorrection.visibility = View.VISIBLE
+            binding.btCorrection.visibility = View.GONE
+            if (radioMapProfile.size > 0) {
+                isRadio = true
+                PDACorrection = false
+                binding.tvCorrection.text = getString(R.string.rtk_via_radio)
+            } else if (roverMapProfile.size > 0) {
+                isRadio = false
+                PDACorrection = false
+                binding.tvCorrection.text = getString(R.string.rtk_via_gsm)
+            } else if (externalradioMapProfile.size > 0) {
+                isRadio = true
+                PDACorrection = false
+                binding.tvCorrection.text = getString(R.string.rtk_via_external_radio)
+            } else if (wifiMapProfile.size > 0) {
+                isRadio = false
+                PDACorrection = false
+                binding.tvCorrection.text = getString(R.string.rtk_via_wifi)
+            } else if (pdaMapProfile.size > 0) {
+                isRadio = false
+                PDACorrection=true
+                binding.tvCorrection.text = getString(R.string.rtk_via_pda)
+            }
+            binding.btAntennah.setBackgroundResource(R.drawable.buttondesign)
+            binding.btAntennah.isClickable = true
+            binding.btAntennah.isFocusable = true
+            binding.btAntennah.isEnabled = true
+
+        } else {
+            binding.cdCorrection.visibility = View.GONE
+            binding.btCorrection.visibility = View.VISIBLE
+        }
+
+        if (SetUpAntennaFragment.measuredHeight!=-1 && SetUpAntennaFragment.model != "" && (roverMapProfile.size > 0 ||
+                    radioMapProfile.size > 0|| externalradioMapProfile.size > 0
+                    || wifiMapProfile.size > 0 || pdaMapProfile.size > 0)) {
+            binding.anteenaup.visibility = View.VISIBLE
+            binding.btAntennah.visibility = View.GONE
+            val pname = SetUpAntennaFragment.model
+            val height = SetUpAntennaFragment.measuredHeight
+            binding.tvheight.text = "$height m"
+            binding.btParameters.setBackgroundResource(R.drawable.buttondesign)
+            binding.btParameters.isClickable = true
+            binding.btParameters.isFocusable = true
+            binding.btParameters.isEnabled = true
+            binding.tvmeasuredHeight.text = "Height : " + height + " m"
+            binding.tvanteenahmodel.text = "Model Name : " + pname
+
+        }
+
+        if (parameterList.size > 0) {
+            binding.cdParameters.visibility = View.VISIBLE
+            binding.btParameters.visibility = View.GONE
+            if (parameterList.containsKey("Mask angle")) {
+                binding.maskAngle.text = "Mask Angle : " + parameterList["Mask angle"]!!
+            } else if (parameterList.containsKey("Mask-angle")) {
+                binding.maskAngle.text = "Mask Angle : " + parameterList["Mask-angle"]!!
+            }
+            binding.etInitTime.isEnabled = true
+            binding.spindrop.setOnTouchListener { _, _ -> false }
+            binding.etInitTime.setBackgroundResource(R.drawable.border)
+            binding.spindrop.setBackgroundResource(R.drawable.border)
+        }
+        else {
+            binding.cdParameters.visibility = View.GONE
+            binding.btParameters.visibility = View.VISIBLE
+        }
+
+        map1.putAll(roverMapProfile)
+        map1.putAll(radioMapProfile)
+        map1.putAll(externalradioMapProfile)
+        map1.putAll(wifiMapProfile)
+        map1.putAll(pdaMapProfile)
+        map1.putAll(parameterList)
+        when {
+            radioMapProfile.size > 0 -> {
+                val opppid = dbControl.getOperationId(getString(R.string.radio_rover))
+                getcommandforparsing(0, opppid)
+            }
+            externalradioMapProfile.size > 0 -> {
+
+                val opppid = dbControl.getOperationId(getString(R.string.radio_external))
+                getcommandforparsing(0, opppid)
+
+
+            }
+            roverMapProfile.size > 0 -> {
+                val opppid = dbControl.getOperationId(getString(R.string.gsm))
+                getcommandforparsing(0, opppid)
+            }
+            wifiMapProfile.size > 0 -> {
+                val opppid = dbControl.getOperationId(getString(R.string.wifi))
+                getcommandforparsing(0, opppid)
+            }
+            pdaMapProfile.size > 0 -> {
+                val opppid = dbControl.getOperationId(getString(R.string.pda))
+                getcommandforparsing(0, opppid)
+            }
+        }
+  /*      if (Utils.service != null && !Utils.isBTConnected) {
+            runOnUiThread { this.connect() }
+        }*/
+
+        setDeviceInfo()
+
     }
-//    fun dataconversion() {
-//        delaylist.clear()
-//        commandsformatList.clear()
-//        commandsfromlist.clear()
-//        newCommandList.clear()
-//        if(pdaMapProfile.size>0)
-//        {
-//            val pda_off_opid = dbControl.getOperationId(getString(R.string.pda_off))
-//            val dis_commandid = dbControl.commandidls1(pda_off_opid, dgps_id)
-//            Log.d(TAG, "dataconversion:dis_commandid $dis_commandid")
-//            val formatCommands = dbControl.commandformatparsinglist(pda_off_opid, dgps_id)
-//            if (dis_commandid.size > 0) {
-//                val pdaOffcommand = dbControl.getCommand(dis_commandid[0])
-//                delaylist.add("100")
-//                commandsfromlist.add(pdaOffcommand!!)
-//                commandsformatList.add(formatCommands[0])
-//            }
-//        }
-//        commandsfromlist.addAll(gnsscommands)
-//        Log.d(TAG, "dataconversion: " + gnssdelay + "\n" + radiodelay + "\n" + gnsscommands + "\n" + radioFormatCommands+ "\n" + pdaMapProfile)
-//        delaylist.addAll(gnssdelay)
-//        commandsformatList.addAll(gnnsFormatCommands)
-//        System.out.println(pdaMapProfile.size)
-//        for (param in radiodelay) {
-//            delaylist.add(param)
-//        }
-//
-//        for (param in radioFormatCommands) {
-//            commandsformatList.add(param)
-//        }
-//        Log.d(TAG, "dataconversionRadio: "+radiocommands)
-//        for (param in radiocommands) {
-//            Log.d(TAG, "dataconversionradiocommands: "+param)
-//            val colums = param.split("(?i)2C".toRegex()).toTypedArray()
-//            if (colums.size > 2) {
-//                if (!devicedetail.isNullOrEmpty()) {
-//                    val columss: Array<String> =
-//                        devicedetail.split(",".toRegex()).toTypedArray()
-//                    Log.d(TAG, "dataconversion: columss $columss \n ${columss.size}")
-//                    var getvall = columss[2].trim { it <= ' ' }
-//                    getvall = stringtohex(getvall)
-//                    colums[2] = getvall
-//                } else if (!Utils.devicedetail.isNullOrEmpty()) {
-//                    val columss: Array<String> =
-//                        Utils.devicedetail.split(",".toRegex()).toTypedArray()
-//                    var getvall = columss[2].trim { it <= ' ' }
-//                    getvall = stringtohex(getvall)
-//                    colums[2] = getvall
-//                }
-//                colums[4] = "32"
-//                if (isRTKPPK) {
-//                    colums[28] = "32"
-//                }
-//                val sb = StringBuffer()
-//                for (i in colums.indices) {
-//                    sb.append(colums[i] + "2C")
-//                }
-//                val str = sb.toString()
-//                commandsfromlist.add(str)
-//
-//            }else
-//            {
-//                commandsfromlist.add(param)
-//            }
-//
-//        }
-//
-//
-//        Log.d(TAG, "dataconversion: commandsfromlist---$commandsfromlist")
-//        editCommand(commandsfromlist)
-//    }
+    fun dataconversion() {
+        delaylist.clear()
+        commandsformatList.clear()
+        commandsfromlist.clear()
+        newCommandList.clear()
+        if(pdaMapProfile.size>0)
+        {
+            val pda_off_opid = dbControl.getOperationId(getString(R.string.pda_off))
+            val dis_commandid = dbControl.commandidls1(pda_off_opid, dgps_id)
+            Log.d(TAG, "dataconversion:dis_commandid $dis_commandid")
+            val formatCommands = dbControl.commandformatparsinglist(pda_off_opid, dgps_id)
+            if (dis_commandid.size > 0) {
+                val pdaOffcommand = dbControl.getCommand(dis_commandid[0])
+                delaylist.add("100")
+                commandsfromlist.add(pdaOffcommand!!)
+                commandsformatList.add(formatCommands[0])
+            }
+        }
+        commandsfromlist.addAll(gnsscommands)
+        Log.d(TAG, "dataconversion: " + gnssdelay + "\n" + radiodelay + "\n" + gnsscommands + "\n" + radioFormatCommands+ "\n" + pdaMapProfile)
+        delaylist.addAll(gnssdelay)
+        commandsformatList.addAll(gnnsFormatCommands)
+        System.out.println(pdaMapProfile.size)
+        for (param in radiodelay) {
+            delaylist.add(param)
+        }
+
+        for (param in radioFormatCommands) {
+            commandsformatList.add(param)
+        }
+        Log.d(TAG, "dataconversionRadio: "+radiocommands)
+        for (param in radiocommands) {
+            Log.d(TAG, "dataconversionradiocommands: "+param)
+            val colums = param.split("(?i)2C".toRegex()).toTypedArray()
+            if (colums.size > 2) {
+                if (!devicedetail.isNullOrEmpty()) {
+                    val columss: Array<String> =
+                        devicedetail.split(",".toRegex()).toTypedArray()
+                    Log.d(TAG, "dataconversion: columss $columss \n ${columss.size}")
+                    var getvall = columss[2].trim { it <= ' ' }
+                    getvall = Conversion(requireContext()).stringtohex(getvall)
+                    colums[2] = getvall
+                } /*else if (!Utils.devicedetail.isNullOrEmpty()) {
+                    val columss: Array<String> =
+                        Utils.devicedetail.split(",".toRegex()).toTypedArray()
+                    var getvall = columss[2].trim { it <= ' ' }
+                    getvall = Conversion(requireContext()).stringtohex(getvall)
+                    colums[2] = getvall
+                }*/
+                colums[4] = "32"
+                if (isRTKPPK) {
+                    colums[28] = "32"
+                }
+                val sb = StringBuffer()
+                for (i in colums.indices) {
+                    sb.append(colums[i] + "2C")
+                }
+                val str = sb.toString()
+                commandsfromlist.add(str)
+
+            }else
+            {
+                commandsfromlist.add(param)
+            }
+
+        }
+
+        Log.d(TAG, "dataconversion: commandsfromlist---$commandsfromlist")
+        editCommand(commandsfromlist)
+    }
+
+    fun editCommand(commandsfromlist: ArrayList<String>) {
+        var i = 1
+        var index = IntArray(3)
+        var commands = ""
+        for (command in commandsfromlist) {
+            Log.d(TAG, "editCommandCommands: "+command)
+            commands = command
+            var index1 = commands.indexOf('/')
+            while (index1 >= 0) {
+                println(index1)
+                index[i] = index1
+                index1 = commands.indexOf('/', index1 + 1)
+                if (i == 2) {
+                    val key = commands.substring(index[1] + 1, index[2])
+
+                    val device_name: List<String> = temp_device_name.split("-")
+                    if(device_name[0].isNotEmpty() && (device_name[0] == resources.getString(R.string.navik300))){
+                        if (key == "CRC" && device_name[0].isNotEmpty() &&(device_name[0] == resources.getString(R.string.navik300))) {
+                            val check: String = Conversion(requireContext()).calculateChecksum(commands.substring(2, index[1]))
+                            val actualKey = commands.substring(index[1], index[2] + 1)
+                            commands = commands.replace(actualKey, check)
+                            i = 1
+                            index = IntArray(3)
+                            break
+                        }
+                    }else {
+                        if (key == "CRC") {
+                            val checksum: String = Conversion(requireContext()).checksum(commands.substring(4, index[1]))
+                            val actualKey = commands.substring(index[1], index[2] + 1)
+                            commands = commands.replace(actualKey, checksum)
+                            i = 1
+                            index = IntArray(3)
+                            break
+                        }
+                    }
+                    val actualKey = commands.substring(index[1], index[2] + 1)
+                    var value = ""
+                    value = if (key == "RTKOBSMODE ") {
+                        "0"
+                    } else {
+                        map1[key]!!
+                    }
+                    commands = commands.replace(actualKey, value)
+                    i = 1
+                    index = IntArray(3)
+                    index1 = commands.indexOf('/')
+                } else {
+                    i++
+                }
+            }
+            if(temp_device_name.contains(resources.getString(R.string.navik300)) && commands.contains("2424") && radioMapProfile.size > 0){
+                var ArraysT: Array<String?>
+                ArraysT = commands.split("2C").toTypedArray()
+                val list = ArrayList<String>()
+                for (s in ArraysT) {
+                    s?.let { list.add(it) }
+                }
+                val Frequencyvalue = map1.get("Frequency")
+                list.set(21, Frequencyvalue.toString())
+                val AirDataRatevalue = map1.get("AirDataRate")
+                list.set(15, AirDataRatevalue.toString())
+
+                val stringBuilder = java.lang.StringBuilder()
+                for (element in list) {
+                    stringBuilder.append(element).append("2C")
+                }
+                commands = stringBuilder.toString()
+                commands = commands.substring(0, commands.length - 2)
+            }
+            newCommandList.add(commands)
+        }
+        Log.i("TAG","rovernewCommandList:="+newCommandList)
+        Log.d(TAG, "editCommand_datumcommands: "+modelName)
+        if(datumcommands.size>0) {
+            newCommandList.add(1, datumcommands[0])
+            commandsformatList.add(1, datumFormatCommands[0])
+            delaylist.add(1, datumdelay[0])
+        }
+        delaylist.add(3, "150")
+
+        if (modelName == "AMGR" && isRoverAllow) {
+            requireActivity().toastMsg("Switching")
+            newCommandList.add(0, "UNLOGALL")
+            commandsformatList.add(0, "String")
+            delaylist.add(0, "500")
+        }
+        else if (modelName == "ALGR" && isRoverAllow) {
+            requireActivity().toastMsg("Switching")
+            newCommandList.add(0, "B56206040400000001000F66")
+            commandsformatList.add(0, "hex")
+            delaylist.add(0, "500")
+        }
+        else if (modelName == "AHGR" && isRoverAllow) {
+            newCommandList.add(0, "exeResetReceiver, hard, none")
+            commandsformatList.add(0, "String")
+            delaylist.add(0, "50000")
+        }
+
+
+        else  if(deviceName.contains("NAVIK300") && modelName == "AMGRT" && isRoverAllow){
+            /*for trimble*/
+            requireActivity().toastMsg("Switching")
+            newCommandList.add(0, "02006D0200047303")
+            commandsformatList.add(0, "hex")
+            delaylist.add(0, "500")
+        }
+
+        var msg = ""
+        val data: ByteArray
+        commandCounter = 0
+        if (commandsformatList[commandCounter] == "hex") {
+            val sb = java.lang.StringBuilder()
+            Conversion(requireContext()).toHexString(sb,  Conversion(requireContext()).fromHexString(newCommandList[commandCounter]))
+//            Conversion(requireContext()).toHexString(sb, newline.toByteArray())
+            msg = sb.toString()
+            data = Conversion(requireContext()).fromHexString(msg)
+        } else {
+            msg = newCommandList[commandCounter]
+//            data = (msg + newline).toByteArray()
+        }
+
+        Log.d(TAG, "editCommandNewCommandList: "+newCommandList)
+//        Log.d(TAG, "editCommandNewmsg: "+msg +"\n"+ data)
+
+    }
+
 
 
 }
