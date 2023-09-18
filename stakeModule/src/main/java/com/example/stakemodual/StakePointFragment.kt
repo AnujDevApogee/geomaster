@@ -2,7 +2,6 @@ package com.example.stakemodual
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -56,7 +54,6 @@ import com.example.stakemodual.utils.showSatellite
 import com.example.stakemodual.utils.showStreetView
 import com.example.stakemodual.utils.zoomAndAnimateToPoints
 import com.example.stakemodual.utils.zoomToPoint
-import com.example.stakemodual.viewmodel.StakePointViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -198,8 +195,7 @@ class StakePointFragment : Fragment(), MockStakePointImpl {
 
                                 binding.northIngTxt.text = " "
                                 binding.northIngTxt.append(setHtmlTxt("N", "'#B5B5B5'"))
-                                binding.northIngTxt.append("\t")
-                                binding.northIngTxt.append("$latitude")
+                                binding.northIngTxt.append("\t\t$latitude")
 
                                 binding.eastingTxt.text = " "
                                 binding.eastingTxt.append(setHtmlTxt("E", "'#B5B5B5'"))
@@ -243,7 +239,6 @@ class StakePointFragment : Fragment(), MockStakePointImpl {
                                     binding.mapView.overlays.add(
                                         DrawCircles(
                                             desLocation,
-                                            Paint(Paint.ANTI_ALIAS_FLAG),
                                             RADIUS,//meter
                                             Color.RED
                                         )
@@ -358,7 +353,8 @@ class StakePointFragment : Fragment(), MockStakePointImpl {
         }
         binding.mapView.overlays.add(
             DrawCircles(
-                startPoint, Paint(Paint.ANTI_ALIAS_FLAG), RADIUS,//meter
+                startPoint,
+                RADIUS,//meter
                 if (distance <= RADIUS) {
                     Color.GREEN
                 } else {
