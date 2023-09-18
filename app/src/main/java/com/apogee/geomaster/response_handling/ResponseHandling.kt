@@ -769,7 +769,7 @@ class ResponseHandling(context: Context ) {
 
             if(validate_res_map.size()>0)
             {
-                listner.fixResponseeData(validate_res_map)
+                listner.fixResponseData(validate_res_map)
             }
 
             if (gsvFlag == 1) {

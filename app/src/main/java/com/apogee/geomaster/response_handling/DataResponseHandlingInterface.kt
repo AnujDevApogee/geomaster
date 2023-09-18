@@ -7,6 +7,6 @@ import com.apogee.geomaster.response_handling.model.ResponseHandlingModel
 interface DataResponseHandlingInterface {
     fun gsaRecieveData(data : ArrayList<ResponseHandlingModel>)
     fun gsvRecieveData(data : ArrayList<ResponseHandlingModel>)
-    fun fixResponseeData(validate_res_map: MultiMap<String, String>)
+    fun fixResponseData(validate_res_map: MultiMap<String, String>)
     fun ackRecieveData(status: Int)
 }

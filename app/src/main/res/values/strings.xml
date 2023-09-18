@@ -89,8 +89,8 @@
     <string name="ssid_conn">SSID</string>
     <string name="ssid_pass_conn">SSID Password</string>
     <string name="select_work_mode">SELECT WORK MODE</string>
-    <string name="base">BASE</string>
-    <string name="rover">ROVER</string>
+    <string name="base">Base</string>
+    <string name="rover">Rover</string>
     <string name="static_">STATIC</string>
 
     <string name="ppk">PPK</string>
@@ -169,12 +169,19 @@
     <string name="enter_measured_height">Enter Measured Height</string>
     <string name="enter_model">Enter Model</string>
     <string name="meter">Meter</string>
+    <string name="rtk_via_external_radio">RTK Via Radio External</string>
+    <string name="rtk_via_pda">RTK Via PDA</string>
+    <string name="mode">Mode</string>
     <string name="RTKbyradio">RTK By Radio</string>
     <string name="rtk_by_wifi">RTK By Wifi</string>
+    <string name="rtk_via_radio">RTK Via Radio</string>
+    <string name="rtk_via_gsm">RTK Via GSM</string>
+    <string name="rtk_via_wifi">RTK Via WiFi</string>
     <string name="rtk_by_pda">RTK By PDA</string>
     <string name="set_up_data_source">Set Up data source</string>
     <string name="SetUpCommunications">Set Up Communication</string>
     <string name="SetUpInternet">Set Up Internet</string>
+    <string name="navik300">NAVIK300</string>
     <string name="setuppda">Set Up PDA</string>
     <string name="setupWifi">Set Up Wifi</string>
     <string name="radio">Radio</string>
@@ -196,6 +203,12 @@
     <string-array name="antenna_array">
         <item>Vertical</item>
         <item>Slope</item>
+    </string-array>
+
+    <string-array name="mode_array_rover">
+        <item>RTK</item>
+        <item>DGPS</item>
+        <item>SBAS</item>
     </string-array>
 
 

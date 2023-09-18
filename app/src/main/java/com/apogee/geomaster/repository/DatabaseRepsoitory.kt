@@ -18,6 +18,7 @@ import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
+import kotlin.math.log
 
 
 class DatabaseRepsoitory(context: Context) {
@@ -2372,7 +2373,10 @@ class DatabaseRepsoitory(context: Context) {
         }
     }
 
-
+     /** This Function will return the OperationID for the respective
+     * OperationName
+     *
+     * */
     fun getOperationId(operation_name: String): Int {
         var a = 0
         try {
@@ -2594,9 +2598,7 @@ class DatabaseRepsoitory(context: Context) {
         val list = ArrayList<String>()
         var name: String
         try {
-            val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT parameter_name FROM parameter Where parameter_id IN ($joined) "
-            )
+            val cursor = tableCreator.executeStaticQueryForCursor("SELECT parameter_name FROM parameter Where parameter_id IN ($joined) ")
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
                 name = cursor.getString(0)
@@ -2605,6 +2607,7 @@ class DatabaseRepsoitory(context: Context) {
         } catch (e: Exception) {
             Log.e(TAG, "inputparameterLists:Exception ${e.message}")
         }
+        Log.d(TAG, "inputparameterlists: $list")
         return list
     }
 
@@ -2615,11 +2618,6 @@ class DatabaseRepsoitory(context: Context) {
         var type: String
         var remark: String
         try {
-
-            /*val query =
-                "SELECT parameter_name,parameter_type,remark FROM parameter Where parameter_id IN ($joined) ; "
-            Log.d(TAG, "inputparameterlist: $query")*/
-
             val cursor = tableCreator.executeStaticQueryForCursor(
                 "SELECT p.parameter_name,pt.parameter_type_name,p.remark FROM parameter as p JOIN " +
                         "parameter_type as pt ON p.parameter_type_id=pt.parameter_type_id Where " +
@@ -2635,6 +2633,7 @@ class DatabaseRepsoitory(context: Context) {
         } catch (e: Exception) {
             Log.e(TAG, "parameterDataList: Exception ${e.message}")
         }
+        Log.d(TAG, "inputparameterlist: $")
         return list
     }
 
@@ -2748,10 +2747,9 @@ class DatabaseRepsoitory(context: Context) {
         return true
     }
 
-    fun parameteridlist(joined: String): java.util.ArrayList<Int> {
+    fun parameteridlist(joined: String): ArrayList<Int> {
         val list = java.util.ArrayList<Int>()
         try {
-            //  Cursor cursor = database.rawQuery("SELECT parameter_id FROM selection  where command_id IN ("+joined+") ; ", null);
             val cursor = tableCreator.executeStaticQueryForCursor(
                 "SELECT parameter_id FROM command_param_map  where command_id IN ($joined) "
             )
@@ -2762,6 +2760,7 @@ class DatabaseRepsoitory(context: Context) {
         } catch (e: java.lang.Exception) {
             Log.e(TAG, "parameteridlist: $e")
         }
+        Log.d(TAG, "parameteridlist:list $list")
         return list
     }
 
@@ -2778,25 +2777,24 @@ class DatabaseRepsoitory(context: Context) {
         } catch (e: java.lang.Exception) {
             Log.e(TAG, "getmorecommandlistError: $e")
         }
+        Log.d(TAG, "retrnfromtfromrmrk: $rtrnfrmrmk")
         return rtrnfrmrmk
     }
 
 
-    fun inputhint(name: String): String? {
-        var a: String? = null
+    fun inputhint(parameter_name: String): String? {
+        var remark: String? = null
         try {
             val cursor = tableCreator.executeStaticQueryForCursor(
-                "SELECT remark FROM parameter pm  WHERE pm.parameter_name='$name' "
+                "SELECT remark FROM parameter pm  WHERE pm.parameter_name='$parameter_name' "
             )
             cursor!!.moveToPosition(0)
-            a = cursor.getString(0)
-        } catch (e: java.lang.Exception) {
-            Log.e(
-                TAG,
-                "getUserDtailerror: $e"
-            )
+            remark = cursor.getString(0)
+        } catch (e: Exception) {
+            Log.e(TAG,"inputhint Error: $e")
         }
-        return a
+        Log.d(TAG, "inputhint: $remark")
+        return remark
     }
 
     /*   fun getDeviceModule(deviceId: String): java.util.ArrayList<String>? {
@@ -2843,20 +2841,21 @@ class DatabaseRepsoitory(context: Context) {
      }
  */
 
-    fun getdeviceId(modelId: String): String? {
-        var a = ""
+    fun getdeviceId(modelId: String): String {
+        var getDeviceId = ""
         var manufacture_id = ""
         try {
             val cursor = tableCreator.executeStaticQueryForCursor(
                 "SELECT device_id, manufacture_id FROM device WHERE model_id = '$modelId' and device_type_id = '2'"
             )
             cursor!!.moveToPosition(0)
-            a = cursor.getString(0)
+            getDeviceId = cursor.getString(0)
             manufacture_id = cursor.getString(1)
         } catch (e: java.lang.Exception) {
-            Log.e(TAG, "getdeviceId error: ${e.message}")
+            Log.e(TAG, "getdeviceId Error: ${e.message}")
         }
-        return "$a,$manufacture_id"
+        Log.d(TAG, "getdeviceId: $getDeviceId--manufacture_id--$manufacture_id")
+        return "$getDeviceId,$manufacture_id"
     }
 
     fun getMakeName(manufacturer_id: String): String? {
@@ -3136,24 +3135,6 @@ class DatabaseRepsoitory(context: Context) {
         return list
     }
 
-    /**
-     * This Function will return the Operator Name With ID
-     *
-     * @param name:String
-     * @return it will return the operator id
-     */
-    fun detopnameid(name: String): Int? {
-        val query = "SELECT operation_id FROM operation where operation_name='$name'"
-        createLog("TAG_OPERATION", query)
-        val cursor =
-            tableCreator.executeStaticQueryForCursor(query)
-        return if (cursor != null && cursor.moveToPosition(0)) {
-            cursor.getInt(0)
-        } else {
-            null
-        }
-
-    }
 
     /**
      * Get Operation Id for BLE Device status:Successfully
@@ -3207,6 +3188,93 @@ class DatabaseRepsoitory(context: Context) {
         }
         return list.toList()
     }
+
+    fun parameternamelist(joined: String): ArrayList<String> {
+        val list = java.util.ArrayList<String>()
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT parameter_name FROM parameter where parameter_id IN ($joined)")
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getString(0))
+            }
+        } catch (e: Exception) {
+            Log.e(TAG,"parameternamelist Error: $e")
+        }
+        Log.d(TAG, "parameternamelist: $list")
+        return list
+    }
+
+    fun selectionidlist(joined: String): ArrayList<Int> {
+        val list = ArrayList<Int>()
+        try {
+            val query =
+                "SELECT selection_id FROM selection where command_id IN ($joined) ; "
+            Log.d(TAG,"selectionidlist: $query")
+            val cursor = tableCreator.executeStaticQueryForCursor(query)
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getInt(0))
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG,"selectionidlist Error: $e")
+        }
+        Log.d(TAG, "selectionidlist: $list")
+        return list
+    }
+
+    fun getSelection_value_id(joined: String, joined1: String): ArrayList<Int> {
+        val list = java.util.ArrayList<Int>()
+        try {
+            val cursor = tableCreator.executeStaticQueryForCursor(
+                "SELECT selection_value_id FROM command_param_map Where parameter_id IN ($joined) and command_id IN ($joined1)")
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                list.add(cursor.getInt(0))
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG,"getSelection_value_id Error: $e")
+        }
+        Log.d(TAG, "getSelection_value_id: $list")
+        return list
+    }
+
+
+    fun displayvaluelist(joined: String): Map<String, Map<String, String>> {
+        val selectionMap: MutableMap<String, Map<String, String>> = java.util.LinkedHashMap()
+        var selectionValueMap: MutableMap<String, String> = java.util.LinkedHashMap()
+        var parameter = ""
+        try {
+            val query =
+                "SELECT distinct parameter_name,display_value,byte_value FROM  selection, parameter, selection_value where  selection_value.selection_id = selection.selection_id and selection.parameter_id = parameter.parameter_id and selection_value.selection_value_id IN ($joined) ;"
+            Log.d(TAG,"displayvaluelist: $query")
+
+            val cursor = tableCreator.executeStaticQueryForCursor(query)
+            for (i in 0 until cursor!!.count) {
+                cursor.moveToPosition(i)
+                val para1 = cursor.getString(0)
+                if (parameter == "") {
+                    selectionValueMap[cursor.getString(1)] = cursor.getString(2)
+                    parameter = para1
+                } else if (parameter == para1) {
+                    selectionValueMap[cursor.getString(1)] = cursor.getString(2)
+                } else if (parameter != para1) {
+                    selectionMap[parameter] = selectionValueMap
+                    parameter = para1
+                    selectionValueMap = java.util.LinkedHashMap()
+                    selectionValueMap[cursor.getString(1)] = cursor.getString(2)
+                }
+                if (i == cursor.count - 1) {
+                    selectionMap[parameter] = selectionValueMap
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG,"displayvaluelist Error: $e"
+            ) }
+        Log.d(TAG, "displayvaluelist: $selectionMap")
+        return selectionMap
+    }
+
 
 }
 

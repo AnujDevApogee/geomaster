@@ -29,6 +29,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
     companion object{
         // delete this information
         var measuredHeight=-1
+        var model=""
     }
 
     private val deviceName by lazy {
@@ -83,6 +84,7 @@ class SetUpAntennaFragment : Fragment(R.layout.set_up_antenna_layout) {
                 return@setOnClickListener
             }
             SetUpAntennaFragment.measuredHeight=measuredHeight.toInt()
+            SetUpAntennaFragment.model=model
 
             findNavController().popBackStack()
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        style="@style/matchParent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                style="@style/matchWarp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+            <TextView
+                style="@style/matchWrap"
+                android:layout_margin="@dimen/five_dp"
+                android:text="@string/mode"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                style="@style/matchWrap"
+                android:layout_margin="@dimen/five_dp">
+
+                <Spinner
+                    android:id="@+id/measuredPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/forty_five"
+                    android:background="@drawable/border"
+                    android:entries="@array/mode_array_rover"
+                    android:padding="@dimen/five_dp"
+                    android:spinnerMode="dialog" />
+
+                <ImageView
+                    style="@style/wrapContent"
+                    android:layout_gravity="right|center"
+                    android:contentDescription="@null"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/arrow_down_24" />
+            </FrameLayout>
+            <Button
+                android:id="@+id/conirm"
+                style="@style/wrapContent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/fifty_dp"
+                android:background="@drawable/buttondesign"
+                android:text="@string/confirm"
+                android:layout_gravity="right"
+                android:textColor="@color/white"
+                android:minWidth="@dimen/one_hundred_twenty"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

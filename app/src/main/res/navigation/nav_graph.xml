@@ -142,14 +142,17 @@
         android:label="create_radio_conn_layout_fragment"
         tools:layout="@layout/fragment_gnss_rover_profile" >
         <action
-            android:id="@+id/action_gnssRoverProfileFragment_to_antennaHeightFragment"
-            app:destination="@id/antennaHeightFragment" />
-        <action
             android:id="@+id/action_gnssRoverProfileFragment_to_correctionFragment"
             app:destination="@id/correctionFragment" />
         <action
             android:id="@+id/action_gnssRoverProfileFragment_to_bluetoothscandevicefragment"
             app:destination="@id/bluetoothscandevicefragment" />
+        <action
+            android:id="@+id/action_gnssRoverProfileFragment_to_setUpAntennaFragment"
+            app:destination="@id/setUpAntennaFragment" />
+        <action
+            android:id="@+id/action_gnssRoverProfileFragment_to_basicParameterFragment"
+            app:destination="@id/basicParameterFragment" />
     </fragment>
 
     <fragment
@@ -310,15 +313,6 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/antennaHeightFragment"
-        tools:layout="@layout/fragment_antenna_height"
-        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.AntennaHeightFragment"
-        android:label="AntennaHeightFragment" >
-        <action
-            android:id="@+id/action_antennaHeightFragment_to_gnssRoverProfileFragment"
-            app:destination="@id/gnssRoverProfileFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/correctionFragment"
         android:name="com.apogee.geomaster.ui.configuration.deviceconfig.CorrectionFragment"
         android:label="CorrectionFragment" >
@@ -337,6 +331,9 @@
         <action
             android:id="@+id/action_correctionFragment_to_wiFiSetupFragment2"
             app:destination="@id/wiFiSetupFragment" />
+        <action
+            android:id="@+id/action_correctionFragment_to_PDAFragment"
+            app:destination="@id/PDAFragment" />
     </fragment>
     <fragment
         android:id="@+id/newConnectionSourceFragment2"
@@ -367,9 +364,25 @@
             app:argType="string" />
     </fragment>
     <fragment
+        android:id="@+id/basicParameterFragment"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.rover.BasicParameterFragment"
+        android:label="BasicParameterFragment" />
+    <fragment
+        android:id="@+id/PDAFragment"
+        android:name="com.apogee.geomaster.ui.configuration.deviceconfig.PDAFragment"
+        android:label="PDAFragment" >
+        <argument
+            android:name="gnssModuleName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/stakePointFragment"
         android:name="com.apogee.geomaster.ui.stake.plotpoint.StakePointFragment"
         android:label="main_stake_plot_point_layout"
-        tools:layout="@layout/main_stake_plot_point_layout" /><action android:id="@+id/action_global_stakePointFragment" app:destination="@id/stakePointFragment"/>
+        tools:layout="@layout/main_stake_plot_point_layout" />
+    <action android:id="@+id/action_global_stakePointFragment"
+        app:destination="@id/stakePointFragment"/>
+
 
 </navigation>
