@@ -42,6 +42,9 @@ class BaseCommandRepository(application: Application) {
         createLog("TAG_BLE_CMD", "Operation CMD_LIST_STRING -> $cmdIdLsString")
         val resposeLs = dbDataRepository.getResponseList(cmdIdLsString)!!.toList()
         createLog("TAG_BLE_CMD", "Operation Response_Ls -> $resposeLs")
+        if (resposeLs.isEmpty()) {
+            return ApiResponse.Error("Empty Response List Found", null)
+        }
         val cmdListLs = dbDataRepository.getCommandList(cmdIdLsString)
         createLog("TAG_BLE_CMD", "Operation CMD_NAME_LIST -> $cmdListLs")
         if (cmdListLs.isEmpty()) {

@@ -14,9 +14,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.apogee.basicble.Utils.MultiMap
 import com.apogee.geomaster.R
+import com.apogee.geomaster.bluetooth.DataResponseHandlingInterface
 import com.apogee.geomaster.databinding.BaseProfileLayoutBinding
+import com.apogee.geomaster.response_handling.ResponseHandling
 import com.apogee.geomaster.response_handling.model.DBResponseModel
+import com.apogee.geomaster.response_handling.model.ResponseHandlingModel
 import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.ui.connection.ConnectionFragment
@@ -33,6 +37,7 @@ import com.apogee.geomaster.utils.hide
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
 import com.apogee.geomaster.utils.show
+import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
@@ -40,7 +45,8 @@ import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.coroutines.launch
 
-class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
+class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponseHandlingInterface {
+
     private lateinit var binding: BaseProfileLayoutBinding
 
     private val viewModel: BaseConfigurationViewModel by viewModels()
@@ -52,6 +58,14 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
 
         }
     }
+
+    private val responseHandling by lazy {
+        ResponseHandling(requireActivity())
+    }
+
+    private val listOfCommand = mutableListOf<String>()
+    private val responseList = mutableListOf<DBResponseModel>()
+
     private var list = mutableListOf<String>()
 
     private val deviceName by lazy {
@@ -60,6 +74,9 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
     private val dgps by lazy {
         MyPreference.getInstance(requireActivity()).getStringData(Constants.DGPS_DEVICE_ID).toInt()
     }
+
+    private var errorCount = 0
+    private var currentIndex = 0
 
     companion object {
         var baseSetUp: Pair<String, Map<String, Any?>>? = null
@@ -263,11 +280,17 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                     createLog("TAG_FULL_Info", "${ConnectionFragment.connectionSelectionType}")
                     createLog("TAG_FULL_Info", "$baseSetUp")
                     val data = (it.data as Pair<List<DBResponseModel>, List<String>>)
-                    val list = EditCommand.getEditCommand(
+                    EditCommand.getEditCommand(
                         data.second,
                         ConnectionFragment.connectionSelectionType!!,
                         baseSetUp!!
-                    )
+                    ).run {
+                        listOfCommand.clear()
+                        listOfCommand.addAll(this)
+                        responseList.clear()
+                        responseList.addAll(data.first)
+                        bleConnectionViewModel.writeToBle(listOfCommand.first())
+                    }
                 }
             }
         }
@@ -281,45 +304,98 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout) {
                         when (it) {
                             is BleResponse.OnConnected -> {
                                 BluetoothScanDeviceFragment.BTConnected = true
+                                createLog("ADD_GNSS_TEST","Ble Connected")
                             }
 
 
                             is BleResponse.OnConnectionClose -> {
                                 BluetoothScanDeviceFragment.BTConnected = false
-                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
+                                Log.d("ADD_GNSS_TEST", "getResponse: OnConnectClose " + it.message)
                             }
 
                             is BleResponse.OnDisconnected -> {
                                 BluetoothScanDeviceFragment.BTConnected = false
-                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
+                                Log.d("ADD_GNSS_TEST", "getResponse: OnDisconnected " + it.message)
                             }
 
                             is BleResponse.OnError -> {
                                 BluetoothScanDeviceFragment.BTConnected = false
-                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
+                                Log.d("ADD_GNSS_TEST", "getResponse: OnError " + it.message)
                             }
 
                             is BleResponse.OnLoading -> {
+                                createLog("ADD_GNSS_TEST","OnLading ${it.message}")
                             }
 
                             is BleResponse.OnReconnect -> Log.d(
                                 "ADD_GNSS_TEST",
-                                "getResponse: " + it.message
+                                " OnReconect getResponse: " + it.message
                             )
 
                             is BleResponse.OnResponseRead -> {
-                                Log.d("ADD_GNSS_TEST", "getResponse:GNSS ${it.response.data}")
-
+                                Log.d("ADD_GNSS_TEST", " ONResponseRead getResponse:GNSS ${it.response.data}")
+                                if (responseList.isNotEmpty()) {
+                                    responseHandling.validateResponse(
+                                        it.response.data!!,
+                                        7,
+                                        responseList,
+                                        this@BaseProfileFragment
+                                    )
+                                }
                             }
 
 
                             is BleResponse.OnResponseWrite -> Log.d(
                                 "ADD_GNSS_TEST",
-                                "getResponse: " + it.isMessageSend
+                                "onResponsesWrite getResponse: " + it.isMessageSend
                             )
 
                         }
                     }
+                }
+            }
+        }
+    }
+
+    override fun gsaRecieveData(data: ArrayList<ResponseHandlingModel>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun gsvRecieveData(data: ArrayList<ResponseHandlingModel>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun fixResponseData(validate_res_map: MultiMap<String, String>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun ackRecieveData(status: Int) {
+        when (status) {
+            1 -> {
+                try {
+                    errorCount = 0
+                    createLog("ADD_GNSS_TEST","${listOfCommand.first()} Acceoted")
+                    listOfCommand.removeAt(0)
+                    bleConnectionViewModel.writeToBle(listOfCommand.first())
+                } catch (e: IndexOutOfBoundsException) {
+                    if (listOfCommand.isEmpty()) {
+                        showMessage("BaseConfigured")
+                        createLog("ADD_GNSS_TEST","Base Confined")
+                    }
+                }
+            }
+
+            0 -> {
+                if (errorCount <= 5 && listOfCommand.isNotEmpty()) {
+                    createLog("ADD_GNSS_TEST","Re-sending ${listOfCommand.first()} $errorCount")
+                    bleConnectionViewModel.writeToBle(listOfCommand.first())
+                    errorCount += 1
+                }
+                if (errorCount > 5) {
+                    showMessage("Failed to Configured!!")
+                    createLog("ADD_GNSS_TEST","Failed to send config ${listOfCommand.first()}")
+                    listOfCommand.clear()
+                    errorCount = 0
                 }
             }
         }
