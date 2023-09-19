@@ -65,6 +65,7 @@ class WiFiSetupFragment : Fragment(R.layout.fragment_wi_fi_setup), OnItemValueLi
     val TAG = "WiFiSetupFragment"
     var gnssmodulename = ""
     var dgps_id = 0
+    var motherBoardID = 0
     private val args by navArgs<WiFiSetupFragmentArgs>()
     private lateinit var dbTask: DatabaseRepsoitory
 
@@ -101,10 +102,12 @@ class WiFiSetupFragment : Fragment(R.layout.fragment_wi_fi_setup), OnItemValueLi
         wifiManager =
             requireActivity().getSystemService(AppCompatActivity.WIFI_SERVICE) as WifiManager
         val sharedPreferences = MyPreference.getInstance(requireContext())
-        val dgpsid: String? = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID)!!
+        val dgpsid: String? = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID)
+        val mthrBrd: String? = sharedPreferences.getStringData(Constants.MOTHERBOARDID)
         gnssmodulename=args.gnssmodulename
         if (dgpsid != null) {
             dgps_id = dgpsid.toInt()
+            motherBoardID = mthrBrd!!.toInt()
         }
 
         val opppid = dbTask.getOperationId(getString(R.string.wifi))
@@ -442,7 +445,7 @@ class WiFiSetupFragment : Fragment(R.layout.fragment_wi_fi_setup), OnItemValueLi
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = mLayoutManager
         val commandls: List<Int?>
-        commandls = dbTask.commandidls1(opid, dgps_id)
+        commandls = dbTask.commandidls1(opid, motherBoardID)
         val joined = TextUtils.join(", ", commandls)
         val selectionidlist: ArrayList<Int?>
         selectionidlist = dbTask.selectionidlist1(joined) as ArrayList<Int?>

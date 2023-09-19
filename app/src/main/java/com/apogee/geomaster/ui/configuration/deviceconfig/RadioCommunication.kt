@@ -51,6 +51,7 @@ class RadioCommunication : Fragment(R.layout.activity_radio_communication), OnIt
     var gnnsFormatCommands: ArrayList<String> = ArrayList()
     var radioFormatCommands: ArrayList<String> = ArrayList()
     var dgps_id = 0
+    var motherBoardID = 0
     var map1: HashMap<String, String> = HashMap()
     var gnssmodulename = ""
     var value = 0
@@ -73,7 +74,8 @@ class RadioCommunication : Fragment(R.layout.activity_radio_communication), OnIt
         dbControl = DatabaseRepsoitory(requireContext())
         binding =ActivityRadioCommunicationBinding.bind(view)
         sharedPreferences = MyPreference.getInstance(requireContext())
-        val dgpsid: String? = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID)
+        val dgpsid: String = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID)
+        val mthrBrd: String = sharedPreferences.getStringData(Constants.MOTHERBOARDID)
         temp_device_name  = sharedPreferences.getStringData(Constants.DEVICE_NAME)
         val radiodgps_id: String? = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID_FOR_RADIO)
         val radioType=args.radioRtkType
@@ -82,6 +84,7 @@ class RadioCommunication : Fragment(R.layout.activity_radio_communication), OnIt
 
         if (dgpsid != null) {
             dgps_id = dgpsid.toInt()
+            motherBoardID = mthrBrd.toInt()
         }
 
         if(temp_device_name.contains("NAVIK300") && radioType.equals(resources.getString(R.string.radio))){
@@ -159,9 +162,7 @@ class RadioCommunication : Fragment(R.layout.activity_radio_communication), OnIt
         radiodelay.clear()
         commandsfromlist.clear()
         delaylist.clear()
-        getcommandforparsing(0, opppid)
         editpoint(opppid)
-
         gnssmodulename = args.gnssModuleName
         binding!!.confirm.setOnClickListener {
             binding!!.confirm.requestFocus()
@@ -254,18 +255,6 @@ return true       }
         return true
     }
 
-    fun getcommandforparsing(opid: Int, oppid: Int) {
-        if (opid > 0) {
-            gnssdelay = dbControl.delaylist(opid, dgps_id)
-            gnsscommands = dbControl.commandforparsinglist(opid, dgps_id)
-            gnnsFormatCommands = dbControl.commandformatparsinglist(opid, dgps_id)
-        } else if (oppid > 0) {
-            radiodelay = dbControl.delaylist(oppid, dgps_id)
-            radiocommands = dbControl.commandforparsinglist(oppid, dgps_id)
-
-            radioFormatCommands = dbControl.commandformatparsinglist(oppid, dgps_id)
-        }
-    }
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -279,7 +268,7 @@ return true       }
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
         binding!!.recyclerView.layoutManager = mLayoutManager
         val commandls: List<Int?>
-        commandls = dbControl.commandidls1(opid, dgps_id)
+        commandls = dbControl.commandidls1(opid, motherBoardID)
         val joined = TextUtils.join(", ", commandls)
         var parameteridlist = ArrayList<Int?>()
         parameteridlist = dbControl.parameteridlist(joined) as ArrayList<Int?>

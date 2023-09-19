@@ -1,5 +1,7 @@
 package com.apogee.basicble.Utils
 
+import com.apogee.geomaster.response_handling.model.SateliteTypeModel
+
 class DelimeterResponse(
     val validation_value: String,
     val validation_index: String,

@@ -53,6 +53,7 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
 
 
     var dgps_id = 0
+    var motherBoardID = 0
     var radiocommands: ArrayList<String> = ArrayList()
     var radiodelay: ArrayList<String> = ArrayList()
     var commandsfromlist: ArrayList<String> = ArrayList()
@@ -91,8 +92,10 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
         gnssmodulename = args.gnssmodulename
         val sharedPreferences = MyPreference.getInstance(requireContext())
         val dgpsid: String? = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID)!!
-        if (dgpsid != null) {
+        val motherboardID: String? = sharedPreferences.getStringData(Constants.MOTHERBOARDID)!!
+        if (dgpsid != null ) {
             dgps_id = dgpsid.toInt()
+            motherBoardID=motherboardID!!.toInt()
         }
 
         val opppid = dbControl.getOperationId(getString(R.string.gsm))
@@ -100,22 +103,11 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
         radiodelay.clear()
         commandsfromlist.clear()
         delaylist.clear()
-        getcommandforparsing(0, opppid)
         editpoint(opppid)
-
         binding!!.refreshSSID.visibility = View.GONE
         binding!!.idBtnToggle.visibility = View.GONE
 
         binding!!.done.setOnClickListener {
-
-
-/*
-            binding!!.done.requestFocus()
-            */
-            /* REQUEST FOCUS */
-
-
-
 
             for (key in mapParameters.keys) {
                 Log.d("paramName_key", key)
@@ -234,17 +226,7 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
         alertDialog.show()
     }
 
-    fun getcommandforparsing(opid: Int, oppid: Int) {
-        if (opid > 0) {
-            gnssdelay = dbControl.delaylist(opid, dgps_id)
-            gnsscommands = dbControl.commandforparsinglist(opid, dgps_id)
-            gnnsFormatCommands = dbControl.commandformatparsinglist(opid, dgps_id)
-        } else if (oppid > 0) {
-            radiodelay = dbControl.delaylist(oppid, dgps_id)
-            radiocommands = dbControl.commandforparsinglist(oppid, dgps_id)
-            radioFormatCommands = dbControl.commandformatparsinglist(oppid, dgps_id)
-        }
-    }
+
 
 
     fun editpoint(opid: Int) {
@@ -254,7 +236,7 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
         binding!!.recyclerView.layoutManager = mLayoutManager
         val commandls: List<Int?>
-        commandls = dbControl.commandidls1(opid, dgps_id)
+        commandls = dbControl.commandidls1(opid, motherBoardID)
         val joined = TextUtils.join(", ", commandls)
         val selectionidlist: ArrayList<Int?>
         selectionidlist = dbControl.selectionidlist1(joined) as ArrayList<Int?>
@@ -509,10 +491,16 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
 
     val callback = object : SocketListener {
         override fun socketListener(conn: ConnectionResponse) {
+            var request=false
             when (conn) {
                 is ConnectionResponse.OnConnected -> {
                     Log.d(TAG, "socketListener:OnConnected ${conn.response}")
-                    socketClient.onRequestSent(data)
+                    try{
+                        socketClient.onRequestSent(data)
+
+                    }catch (e:Exception){
+                        Log.d(TAG, "socketListener: ${e.message}")
+                    }
 
                 }
 
@@ -567,8 +555,6 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
 
                 is ConnectionResponse.OnNetworkConnection -> {
                     Log.d(TAG, "socketListener:OnNetworkConnection $conn")
-
-
                 }
 
                 is ConnectionResponse.OnRequestError -> {
