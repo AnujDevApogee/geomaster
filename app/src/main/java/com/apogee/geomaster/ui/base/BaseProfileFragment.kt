@@ -28,6 +28,7 @@ import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragment
 import com.apogee.geomaster.use_case.EditCommand
 import com.apogee.geomaster.utils.ApiResponse
+import com.apogee.geomaster.utils.BLE_CMD_LINE
 import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
@@ -172,7 +173,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
 
 
         binding.setAntennaBtn.setOnClickListener {
-            findNavController().safeNavigate(BaseProfileFragmentDirections.actionBaseProfileFragmentToSetUpAntennaFragment())
+           findNavController().safeNavigate(BaseProfileFragmentDirections.actionBaseProfileFragmentToSetUpAntennaFragment())
         }
 
 
@@ -295,8 +296,8 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                         listOfCommand.addAll(this)
                         responseList.clear()
                         responseList.addAll(data.first)
+                        bleConnectionViewModel.writeToBle(listOfCommand.first()+ BLE_CMD_LINE)
                     }
-                    bleConnectionViewModel.writeToBle("FIX auto")
                 }
             }
         }
@@ -349,24 +350,25 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
 
                                     is OnSerialRead.onSerialResponseRead -> {
                                         createLog("TAG_RESPONSE_READ", "${it.response.data}")
+                                        if (responseList.isNotEmpty()) {
+                                            Log.d(
+                                                "ADD_DATA_POINT_TEST",
+                                                " ONResponseRead getResponse:GNSS ${it.response.data}"
+                                            )
+                                            responseHandling.validateResponse(
+                                                it.response.data!!,
+                                                7,
+                                                responseList,
+                                                this@BaseProfileFragment
+                                            )
+                                        }
                                     }
                                 }
                                 Log.d(
                                     "ADD_GNSS_TEST",
                                     " ONResponseRead getResponse:GNSS ${it.response.data}"
                                 )
-                                /*     if (responseList.isNotEmpty()) {
-                                         Log.d(
-                                             "ADD_DATA_POINT_TEST",
-                                             " ONResponseRead getResponse:GNSS ${it.response.data}"
-                                         )
-                                         responseHandling.validateResponse(
-                                             it.response.data!!,
-                                             7,
-                                             responseList,
-                                             this@BaseProfileFragment
-                                         )
-                                     }*/
+
                             }
 
 
@@ -401,7 +403,12 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                     errorCount = 0
                     createLog("ADD_CMD_POINT_TEST", "${listOfCommand.first()} Accepted")
                     listOfCommand.removeAt(0)
-                    bleConnectionViewModel.writeToBle(listOfCommand.first())
+                    createLog("TAG_LIST_ITEM","Size of cmd ${listOfCommand.size}\n first ${listOfCommand.first()} \n total list $listOfCommand")
+                    bleConnectionViewModel.writeToBle(listOfCommand.first()+BLE_CMD_LINE)
+                    if (listOfCommand.isEmpty()) {
+                        showMessage("BaseConfigured")
+                        createLog("ADD_CMD_POINT_TEST", "Base Confined")
+                    }
                 } catch (e: IndexOutOfBoundsException) {
                     if (listOfCommand.isEmpty()) {
                         showMessage("BaseConfigured")
@@ -416,7 +423,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                         "ADD_CMD_POINT_TEST",
                         "Re-sending ${listOfCommand.first()} $errorCount"
                     )
-                    bleConnectionViewModel.writeToBle(listOfCommand.first())
+                    bleConnectionViewModel.writeToBle(listOfCommand.first()+BLE_CMD_LINE)
                     errorCount += 1
                 }
                 if (errorCount > 5) {

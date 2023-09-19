@@ -107,7 +107,8 @@ class CreateConnectionFragment : Fragment(R.layout.create_connection_layout) {
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.DGPS_DEVICE_ID).toInt())
+        createLog("MOTHER_BRD","${sharePreference.getStringData(Constants.MOTHERBOARDID)} id")
+        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.MOTHERBOARDID).toInt())
     }
 
     private fun getResponseValue() {

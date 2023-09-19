@@ -83,24 +83,6 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
             //_bleResponse.value = res
             try {
-                when(res){
-                    is BleResponse.OnConnected -> TODO()
-                    is BleResponse.OnConnectionClose -> TODO()
-                    is BleResponse.OnDisconnected -> TODO()
-                    is BleResponse.OnError -> TODO()
-                    is BleResponse.OnLoading -> TODO()
-                    is BleResponse.OnReconnect -> TODO()
-                    is BleResponse.OnResponseRead -> {
-                       when(res.response){
-                           is OnSerialRead.onSerialNmeaRead -> TODO()
-                           is OnSerialRead.onSerialProtocolRead -> {
-                               createLog("BLE_PROTCAL", "${res.response.data}")
-                           }
-                           is OnSerialRead.onSerialResponseRead -> TODO()
-                       }
-                    }
-                    is BleResponse.OnResponseWrite -> TODO()
-                }
                 _bleResponse.value = res
             }catch (e:NotImplementedError){
 

@@ -16,7 +16,10 @@ import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.BleDeviceAdaptor
 import com.apogee.geomaster.databinding.FragmentCommunicationBinding
+import com.apogee.geomaster.repository.DatabaseRepsoitory
+import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
+import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.PermissionUtils
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
@@ -25,9 +28,6 @@ import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.showDeviceAdd
 import com.apogee.geomaster.utils.showMessage
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
-import com.apogee.geomaster.repository.DatabaseRepsoitory
-import com.apogee.geomaster.service.Constants
-import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.viewmodel.BleGetConfigDataViewModel
 import com.apogee.updatedblelibrary.BleDeviceScanner
 import com.apogee.updatedblelibrary.Utils.BleResponse
@@ -253,6 +253,10 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             sharedPreferences!!.putStringData(Constants.HEADER_LENGTH, headerLength)
             sharedPreferences!!.putStringData(Constants.MOTHERBOARDID, motherBoardID)
 
+            Log.d(
+                TAG,
+                "fetchDetails:MOTHERBOARDID ${sharedPreferences!!.getStringData(Constants.MOTHERBOARDID)}"
+            )
         } catch (e: Exception) {
             Log.d(TAG, "fetchDetails: Exception --${e.message}")
         }
@@ -341,7 +345,6 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                         is BleResponse.OnConnected ->{
                             binding.pbBle.isVisible = false
                             BTConnected=true
-
                         }
 
 

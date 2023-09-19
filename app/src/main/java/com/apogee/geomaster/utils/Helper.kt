@@ -121,6 +121,7 @@ fun createLog(tag: String, msg: String) {
     Log.i(tag, "createLog: $msg")
 }
 
+const val BLE_CMD_LINE="\r\n"
 
 fun TextView.changeIconDrawable(id:Int,color: Int=R.color.holo_green_dark,position:Int=1){
     val tintColor = ContextCompat.getColor(context, color)

@@ -1590,7 +1590,6 @@ class DatabaseRepsoitory(context: Context) {
             TableCreator.ColumnDetails("remark", "STRING"),
             TableCreator.ColumnDetails("created_at", "STRING"),
             TableCreator.ColumnDetails("created_by", "STRING")
-
         )
         val model_logic_mapTable =
             tableCreator.createMainTableIfNeeded(
@@ -1677,7 +1676,8 @@ class DatabaseRepsoitory(context: Context) {
                     "\n project_folderTable:--$project_folderTable" +
                     "\n project_tableData:--$project_tableData" +
                     "\n project_configuration_mappingTable:--$project_configuration_mappingTable" +
-                    "\n dataSourceTable:--$dataSourceTable"
+                    "\n dataSourceTable:--$dataSourceTable"+
+                    "\n model_logic_mapTable:--$model_logic_mapTable"
 
         )
 
@@ -1759,6 +1759,7 @@ class DatabaseRepsoitory(context: Context) {
             && project_tableData.equals("Table Created Successfully...")
             && project_configuration_mappingTable.equals("Table Created Successfully...")
             && dataSourceTable.equals("Table Created Successfully...")
+            && model_logic_mapTable.equals("Table Created Successfully...")
 
 
         ) {
