@@ -194,8 +194,10 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             val modelIdList: ArrayList<String> = ArrayList()
             val bleTypeId = dbControl.getDeviceTypeeId("BLE")
             val dgpsTypeId = dbControl.getDeviceTypeeId("DGPS")
+            val motherBoardTypeId = dbControl.getDeviceTypeeId("Motherboard")
             var deviceIds = ""
             var dgpsId = ""
+            var motherBoardID = ""
 
 
             for (i in 0 until deviceDetails!!.size) {
@@ -205,7 +207,11 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
                     deviceIds = deviceDetails[i].split(",")[2]
                 } else if (deviceDetails[i].split(",")[1] == dgpsTypeId) {
                     dgpsId = deviceDetails[i].split(",")[2]
-                    Log.d("TAG", "fetchDetails: " + dgpsId)
+                    Log.d("TAG", "fetchDetails:dgpsId " + dgpsId)
+                }
+                else if (deviceDetails[i].split(",")[1] == motherBoardTypeId) {
+                    motherBoardID = deviceDetails[i].split(",")[2]
+                    Log.d("TAG", "fetchDetails:motherBoardID " + motherBoardID)
                 }
             }
             val joined1 = TextUtils.join(",", modelIdList)
@@ -245,6 +251,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
             sharedPreferences!!.putStringData(Constants.DEVICE_NAME, firstFourChars)
             sharedPreferences!!.putStringData(Constants.HEADER_NAME, headerName!!)
             sharedPreferences!!.putStringData(Constants.HEADER_LENGTH, headerLength)
+            sharedPreferences!!.putStringData(Constants.MOTHERBOARDID, motherBoardID)
 
         } catch (e: Exception) {
             Log.d(TAG, "fetchDetails: Exception --${e.message}")

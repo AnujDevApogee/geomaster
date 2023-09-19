@@ -59,6 +59,7 @@ class PDAFragment : Fragment(R.layout.fragment_pda), OnItemValueListener {
 
 
     var dgps_id = 0
+    var motherBoardID = 0
     var radiocommands: ArrayList<String> = ArrayList()
     var radiodelay: ArrayList<String> = ArrayList()
     var commandsfromlist: ArrayList<String> = ArrayList()
@@ -103,8 +104,10 @@ class PDAFragment : Fragment(R.layout.fragment_pda), OnItemValueListener {
 
         gnssmodulename = args.gnssModuleName
         val dgpsid: String? = sharedPreferences.getStringData(Constants.DGPS_DEVICE_ID)
+        val mthrBrd: String? = sharedPreferences.getStringData(Constants.MOTHERBOARDID)
         if (dgpsid != null) {
             dgps_id = dgpsid.toInt()
+            motherBoardID=mthrBrd!!.toInt()
         }
 
 
@@ -114,7 +117,6 @@ class PDAFragment : Fragment(R.layout.fragment_pda), OnItemValueListener {
         radiodelay.clear()
         commandsfromlist.clear()
         delaylist.clear()
-        getcommandforparsing(0, opppid)
         editpoint(opppid)
 
         binding!!.refreshSSID.visibility = View.GONE
@@ -185,17 +187,7 @@ findNavController().popBackStack()
 
     }
 
-    fun getcommandforparsing(opid: Int, oppid: Int) {
-        if (opid > 0) {
-            gnssdelay = dbTask.delaylist(opid, dgps_id)
-            gnsscommands = dbTask.commandforparsinglist(opid, dgps_id)
-            gnnsFormatCommands = dbTask.commandformatparsinglist(opid, dgps_id)
-        } else if (oppid > 0) {
-            radiodelay = dbTask.delaylist(oppid, dgps_id)
-            radiocommands = dbTask.commandforparsinglist(oppid, dgps_id)
-            radioFormatCommands = dbTask.commandformatparsinglist(oppid, dgps_id)
-        }
-    }
+
 
     fun getMountPoint(ip: String, port: String) {
         try {
@@ -266,7 +258,7 @@ findNavController().popBackStack()
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
         binding!!.recyclerView.layoutManager = mLayoutManager
         val commandls: List<Int?>
-        commandls = dbTask.commandidls1(opid, dgps_id)
+        commandls = dbTask.commandidls1(opid, motherBoardID)
         val joined = TextUtils.join(", ", commandls)
         val selectionidlist: ArrayList<Int?>
         selectionidlist = dbTask.selectionidlist1(joined) as ArrayList<Int?>

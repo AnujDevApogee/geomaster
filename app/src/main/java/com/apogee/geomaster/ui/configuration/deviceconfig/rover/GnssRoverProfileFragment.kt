@@ -34,7 +34,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.DataInputStream
 import java.io.DataOutputStream
+import java.io.IOException
 import java.net.Socket
+import java.nio.charset.StandardCharsets
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -103,6 +105,9 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var isCdParameters = true
     var isdiscnetHde = true
     var responseList: ArrayList<DBResponseModel> = ArrayList<DBResponseModel>()
+   var errorCount = 0
+    var commandCount = 0
+//    var isShowFirstTime = true
 
 
     //    private val newline = TextUtil.newline_crlf
@@ -144,6 +149,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     var device_id = 0
     var headerLength = 0
     var dgps_id = 0
+    var motherBoardID = 0
 
 
     companion object {
@@ -194,6 +200,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         binding = FragmentGnssRoverProfileBinding.bind(view)
         Log.d(TAG, "onViewCreated: ")
         dgps_id = sharedPreferences!!.getStringData(Constants.DGPS_DEVICE_ID).toInt()
+        motherBoardID = sharedPreferences!!.getStringData(Constants.MOTHERBOARDID).toInt()
         device_id = sharedPreferences!!.getStringData(Constants.DEVICE_ID).toInt()
         headerLength = sharedPreferences!!.getStringData(Constants.HEADER_LENGTH).toInt()
         Log.d(TAG, "onViewCreated: dgps_id$dgps_id--device_id$device_id")
@@ -642,13 +649,11 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                     "$gnnsFormatCommands \n ${gnsscommands.size} \n $opid ")
 
         } else if (oppid > 0) {
-            protocolDelay = dbControl.delaylist(oppid, dgps_id)
-
-
+            protocolDelay = dbControl.delaylist(oppid, motherBoardID)
 //            protocolCommands = dbControl.commandforparsinglist(oppid, dgps_id)
 //            protocolFormatCommands = dbControl.commandformatparsinglist(oppid, dgps_id)
 
-            val protocolDataList=dbControl.getRoverCommandforparsinglist(oppid, dgps_id)
+            val protocolDataList=dbControl.getRoverCommandforparsinglist(oppid, motherBoardID)
 
             for(cmds in protocolDataList)
             {
@@ -657,9 +662,7 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                 responseList.addAll(dbControl.getResponseList(cmds.split(",")[1]))
                 protocolFormatCommands.add(cmds.split(",")[2])
             }
-
             Log.d(TAG, "protocolCommands: $oppid\n$protocolCommands \n responseList--${responseList.size} \n ")
-
         }
     }
 
@@ -674,34 +677,6 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
     }
 
 
-    private fun send() {
-
-        try {
-            if (isRTKPPK) {
-//                Utils.isFileWrite = true
-//                if (Utils.isBTConnected) {
-                try {
-                    val str = "Raw On"
-//                        val msgs = (str + newline).toByteArray()
-//                        Utils.service!!.write(msgs)
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
-//                }
-
-                val tstamp = System.currentTimeMillis()
-//                Utils.fileName = "apogeePPK_$tstamp.apg" //like 2016_01_12.txt
-//                preferenceStore.setFileName(Utils.fileName)
-            }
-
-//            dataconversion()
-
-        } catch (e: java.lang.Exception) {
-            Log.d(TAG, "send: ${e.message}")
-
-        }
-    }
-
     private fun getResponse() {
         Log.d(TAG, "getResponse: IN")
         try {
@@ -710,33 +685,41 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                     if (it != null) {
                         when (it) {
                             is BleResponse.OnConnected -> {
+                                Log.d(TAG, "getBleResponse: OnConnected ${it.message}")
                                 BluetoothScanDeviceFragment.BTConnected = true
                             }
 
 
                             is BleResponse.OnConnectionClose -> {
+                                Log.d(TAG, "getBleResponse: OnConnectionClose ${it.message}")
                                 BluetoothScanDeviceFragment.BTConnected = false
-                                Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
                             }
 
                             is BleResponse.OnDisconnected -> {
+                                Log.d(TAG, "getBleResponse: OnDisconnected ${it.message}")
                                 BluetoothScanDeviceFragment.BTConnected = false
                                 Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
                             }
 
                             is BleResponse.OnError -> {
+                                Log.d(TAG, "getBleResponse: OnError ${it.message}")
+
                                 BluetoothScanDeviceFragment.BTConnected = false
                                 Log.d("ADD_GNSS_TEST", "getResponse: " + it.message)
                             }
 
                             is BleResponse.OnLoading -> {
+                                Log.d(TAG, "getBleResponse: OnLoading ${it.message}")
+
                             }
 
-                            is BleResponse.OnReconnect -> Log.d(
-                                "ADD_GNSS_TEST",
-                                "getResponse: " + it.message
-                            )
+                            is BleResponse.OnReconnect -> {
 
+                                Log.d(
+                                    "ADD_GNSS_TEST",
+                                    "getResponse: " + it.message
+                                )
+                            }
                             is BleResponse.OnResponseRead -> {
                                 Log.d("ADD_GNSS_TEST", "getResponse:GNSS ${it.response.data}")
                             }
@@ -982,7 +965,6 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
                 index1 = commands.indexOf('/', index1 + 1)
                 if (i == 2) {
                     val key = commands.substring(index[1] + 1, index[2])
-
                     val device_name: List<String> = temp_device_name.split("-")
                     if(device_name[0].isNotEmpty() && (device_name[0] == resources.getString(R.string.navik300))){
                         if (key == "CRC" && device_name[0].isNotEmpty() &&(device_name[0] == resources.getString(R.string.navik300))) {
@@ -1091,8 +1073,38 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
         }
 
         Log.d(TAG, "editCommandNewCommandList: "+newCommandList)
+        sendCommandsToBLE()
 //        Log.d(TAG, "editCommandNewmsg: "+msg +"\n"+ data)
 
+    }
+    fun sendCommandsToBLE(){
+        errorCount = 0
+        commandCount = 0
+        responseList[commandCount].flag
+
+        for (commandCount in newCommandList.indices) {
+            var msg: String
+            var data: ByteArray
+            if (commandsformatList.get(commandCount) == "hex") {
+                var sb = java.lang.StringBuilder()
+                Conversion(requireContext()).toHexString(sb, Conversion(requireContext()).fromHexString(newCommandList.get(commandCount)))
+                Conversion(requireContext()).toHexString(sb, Constants.newline_crlf.toByteArray(StandardCharsets.UTF_8))
+                msg = sb.toString()
+                Log.d(TAG, "onClick: $msg")
+                data =  Conversion(requireContext()).fromHexString(msg)
+            } else {
+                msg = newCommandList.get(commandCount)
+                data = (msg + Constants.newline_crlf).toByteArray(StandardCharsets.UTF_8)
+            }
+            try {
+                    bleConnectionViewModel.writeToBle(data)
+//                Utils.Companion.getService().write(data)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
     }
 
 

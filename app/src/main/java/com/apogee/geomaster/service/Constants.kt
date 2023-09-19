@@ -13,6 +13,7 @@ internal object Constants {
     const val INTENT_CLASS_MAIN_ACTIVITY =/*BuildConfig.APPLICATION_ID+*/ "com.example.pda.MainActivity"
     const val ELEVATION = "elevation"
     const val RADIO_TYPE = "radio_type"
+    const val newline_crlf = "\r\n"
 
 
     // values have to be unique within each app
@@ -47,6 +48,7 @@ internal object Constants {
 
 
     const val HEADER_LENGTH = "header_length"
+    const val MOTHERBOARDID = "motherBoard_id"
     val HEADER_NAME: String = "header_name"
 
 }
