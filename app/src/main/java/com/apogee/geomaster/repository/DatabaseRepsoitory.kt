@@ -2499,8 +2499,10 @@ class DatabaseRepsoitory(context: Context) {
     fun commandidls1(opId: Int, dgpsId: Int): ArrayList<Int> {
         val list = ArrayList<Int>()
         try {
+            val query="SELECT command_id FROM command_device_map where operation_id=$opId AND device_id=$dgpsId ORDER BY order_no ASC "
+            createLog("TAG_CMD_LIST","QUERY IS $query")
             val cursor =
-                tableCreator.executeStaticQueryForCursor("SELECT command_id FROM command_device_map where operation_id=$opId AND device_id=$dgpsId ORDER BY order_no ASC ")
+                tableCreator.executeStaticQueryForCursor(query)
             for (i in 0 until cursor!!.count) {
                 cursor.moveToPosition(i)
                 list.add(cursor.getInt(0))

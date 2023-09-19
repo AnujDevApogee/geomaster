@@ -42,6 +42,7 @@ import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
 import com.apogee.updatedblelibrary.Utils.BleResponse
+import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.coroutines.launch
 
@@ -275,11 +276,16 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                 }
 
                 is ApiResponse.Success -> {
-                    createLog("BASE_SETUP_CMD", "Success ${it.data}")
+
 
                     createLog("TAG_FULL_Info", "${ConnectionFragment.connectionSelectionType}")
                     createLog("TAG_FULL_Info", "$baseSetUp")
                     val data = (it.data as Pair<List<DBResponseModel>, List<String>>)
+                    createLog("CMD_LIST_DATA", "SIZE IS ${data.second.size} VALUE ${data.second}")
+                    createLog(
+                        "RESPONSE_LIST_DATA",
+                        " SIZE IS ${data.first.size} AND VALUE ${data.first}"
+                    )
                     EditCommand.getEditCommand(
                         data.second,
                         ConnectionFragment.connectionSelectionType!!,
@@ -289,8 +295,8 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                         listOfCommand.addAll(this)
                         responseList.clear()
                         responseList.addAll(data.first)
-                        bleConnectionViewModel.writeToBle(listOfCommand.first())
                     }
+                    bleConnectionViewModel.writeToBle("FIX auto")
                 }
             }
         }
@@ -333,21 +339,40 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                             )
 
                             is BleResponse.OnResponseRead -> {
-                                Log.d("ADD_GNSS_TEST", " ONResponseRead getResponse:GNSS ${it.response.data}")
-                                if (responseList.isNotEmpty()) {
-                                    responseHandling.validateResponse(
-                                        it.response.data!!,
-                                        7,
-                                        responseList,
-                                        this@BaseProfileFragment
-                                    )
+                                when (it.response) {
+                                    is OnSerialRead.onSerialNmeaRead -> {
+                                        createLog("TAG_SERIAL_READ","${it.response.data}")
+                                    }
+                                    is OnSerialRead.onSerialProtocolRead -> {
+                                        createLog("TAG_PROTOCOL_READ", "${it.response.data}")
+                                    }
+
+                                    is OnSerialRead.onSerialResponseRead -> {
+                                        createLog("TAG_RESPONSE_READ", "${it.response.data}")
+                                    }
                                 }
+                                Log.d(
+                                    "ADD_GNSS_TEST",
+                                    " ONResponseRead getResponse:GNSS ${it.response.data}"
+                                )
+                                /*     if (responseList.isNotEmpty()) {
+                                         Log.d(
+                                             "ADD_DATA_POINT_TEST",
+                                             " ONResponseRead getResponse:GNSS ${it.response.data}"
+                                         )
+                                         responseHandling.validateResponse(
+                                             it.response.data!!,
+                                             7,
+                                             responseList,
+                                             this@BaseProfileFragment
+                                         )
+                                     }*/
                             }
 
 
-                            is BleResponse.OnResponseWrite -> Log.d(
-                                "ADD_GNSS_TEST",
-                                "onResponsesWrite getResponse: " + it.isMessageSend
+                            is BleResponse.OnResponseWrite -> createLog(
+                                "CHECK_RESPONSE_WRITE",
+                                " IS DATA SEND " + it.isMessageSend
                             )
 
                         }
@@ -374,26 +399,32 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
             1 -> {
                 try {
                     errorCount = 0
-                    createLog("ADD_GNSS_TEST","${listOfCommand.first()} Acceoted")
+                    createLog("ADD_CMD_POINT_TEST", "${listOfCommand.first()} Accepted")
                     listOfCommand.removeAt(0)
                     bleConnectionViewModel.writeToBle(listOfCommand.first())
                 } catch (e: IndexOutOfBoundsException) {
                     if (listOfCommand.isEmpty()) {
                         showMessage("BaseConfigured")
-                        createLog("ADD_GNSS_TEST","Base Confined")
+                        createLog("ADD_CMD_POINT_TEST", "Base Confined")
                     }
                 }
             }
 
             0 -> {
                 if (errorCount <= 5 && listOfCommand.isNotEmpty()) {
-                    createLog("ADD_GNSS_TEST","Re-sending ${listOfCommand.first()} $errorCount")
+                    createLog(
+                        "ADD_CMD_POINT_TEST",
+                        "Re-sending ${listOfCommand.first()} $errorCount"
+                    )
                     bleConnectionViewModel.writeToBle(listOfCommand.first())
                     errorCount += 1
                 }
                 if (errorCount > 5) {
                     showMessage("Failed to Configured!!")
-                    createLog("ADD_GNSS_TEST","Failed to send config ${listOfCommand.first()}")
+                    createLog(
+                        "ADD_CMD_POINT_TEST",
+                        "Failed to send config ${listOfCommand.first()}"
+                    )
                     listOfCommand.clear()
                     errorCount = 0
                 }
