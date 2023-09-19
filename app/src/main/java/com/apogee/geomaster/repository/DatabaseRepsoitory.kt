@@ -8,16 +8,17 @@ import android.database.DatabaseUtils
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.DelimeterResponse
 import com.apogee.databasemodule.DatabaseSingleton
 import com.apogee.databasemodule.TableCreator
 import com.apogee.geomaster.model.SatelliteModel
-import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.geomaster.response_handling.model.SateliteTypeModel
 import com.apogee.geomaster.utils.createLog
 import org.json.JSONException
 import org.json.JSONObject
 import java.time.LocalDateTime
+import kotlin.math.log
 
 
 class DatabaseRepsoitory(context: Context) {
@@ -1320,6 +1321,30 @@ class DatabaseRepsoitory(context: Context) {
             tableCreator.createMainTableIfNeeded(siteCalibration, siteCalibrationColumn)
 
 
+        val satellite_type_delimeter_mapping = "satellite_type_delimeter_mapping"
+        val satellite_type_delimeter_mappingColumn = arrayOf(
+            TableCreator.ColumnDetails("satellite_type_delimeter_mapping_id", "INTEGER", true),
+            TableCreator.ColumnDetails("end_prn", "STRING"),
+            TableCreator.ColumnDetails("start_prn", "STRING"),
+            TableCreator.ColumnDetails("revision_no", "STRING"),
+            TableCreator.ColumnDetails("satellite_type", "STRING"),
+            TableCreator.ColumnDetails("active", "STRING"),
+            TableCreator.ColumnDetails("created_at", "STRING"),
+            TableCreator.ColumnDetails("remark", "STRING", nullable = true),
+            TableCreator.ColumnDetails(
+                "delimeter_validation_id",
+                "INTEGER",
+                foreignKey = true,
+                foreignKeyReference = "delimeter_validation(delimeter_validation_id)"
+            )
+        )
+        val satellite_type_delimeter_mappingTable =
+            tableCreator.createMainTableIfNeeded(
+                satellite_type_delimeter_mapping,
+                satellite_type_delimeter_mappingColumn
+            )
+
+
         val project_folder = "project_folder"
         val project_folderColumn = arrayOf(
             TableCreator.ColumnDetails("folder_id", "INTEGER", true, true),
@@ -1652,8 +1677,9 @@ class DatabaseRepsoitory(context: Context) {
                     "\n project_folderTable:--$project_folderTable" +
                     "\n project_tableData:--$project_tableData" +
                     "\n project_configuration_mappingTable:--$project_configuration_mappingTable" +
-                    "\n dataSourceTable:--$dataSourceTable"+
-                    "\n model_logic_mapTable:--$model_logic_mapTable")
+                    "\n dataSourceTable:--$dataSourceTable"
+
+        )
 
 
 
@@ -1733,7 +1759,6 @@ class DatabaseRepsoitory(context: Context) {
             && project_tableData.equals("Table Created Successfully...")
             && project_configuration_mappingTable.equals("Table Created Successfully...")
             && dataSourceTable.equals("Table Created Successfully...")
-            && model_logic_mapTable.equals("Table Created Successfully...")
 
 
         ) {
@@ -2348,7 +2373,8 @@ class DatabaseRepsoitory(context: Context) {
                                 all_delimeter_list
                             )
                         )
-                    } else {
+                    }
+                    else {
                         list.add(
                             DBResponseModel(
                                 response,
@@ -3328,18 +3354,21 @@ class DatabaseRepsoitory(context: Context) {
     fun getHeaderLength():String{
         var headerLength=""
         val result=tableCreator.executeStaticQuery("SELECT D.created_by FROM device as D Join device_type as Dt on  D.device_type_id=Dt.device_type_id where Dt.type='Finished'")
-    if(result!!.size==1){
-        try {
-            headerLength=result.get(0)
-        }catch (e:java.lang.Exception){
-            Log.d(TAG, "getHeaderLength: Exception --${e.message}")
+        if(result!!.size==1){
+            try {
+                headerLength=result.get(0)
+            }catch (e:java.lang.Exception){
+                Log.d(TAG, "getHeaderLength: Exception --${e.message}")
+            }
         }
-    }
-    return headerLength}
+        return headerLength}
 
 
 
 }
+
+
+
 
 
 

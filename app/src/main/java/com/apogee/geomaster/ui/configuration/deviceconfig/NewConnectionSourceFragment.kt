@@ -512,7 +512,12 @@ class NewConnectionSourceFragment : Fragment(R.layout.fragment_new_connection_so
             when (conn) {
                 is ConnectionResponse.OnConnected -> {
                     Log.d(TAG, "socketListener:OnConnected ${conn.response}")
-                    socketClient.onRequestSent(data)
+                    try{
+                        socketClient.onRequestSent(data)
+
+                    }catch (e:Exception){
+                        Log.d(TAG, "socketListener: ${e.message}")
+                    }
 
                 }
 

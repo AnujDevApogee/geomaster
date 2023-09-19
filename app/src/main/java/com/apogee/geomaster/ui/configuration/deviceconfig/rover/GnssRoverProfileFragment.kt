@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.apogee.geomaster.R
 import com.apogee.geomaster.databinding.FragmentGnssRoverProfileBinding
-import com.apogee.geomaster.model.ResponseModel
 import com.apogee.geomaster.repository.DatabaseRepsoitory
 import com.apogee.geomaster.response_handling.ResponseHandling
 import com.apogee.geomaster.response_handling.model.DBResponseModel
@@ -63,11 +62,11 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
 
     //    var dbTask = DatabaseOperation(this)
     var gnssdelay: ArrayList<String> = ArrayList()
-    var radiodelay: ArrayList<String> = ArrayList()
+    var protocolDelay: ArrayList<String> = ArrayList()
     var gnnsFormatCommands: ArrayList<String> = ArrayList()
-    var radioFormatCommands: ArrayList<String> = ArrayList()
+    var protocolFormatCommands: ArrayList<String> = ArrayList()
     var gnsscommands: ArrayList<String> = ArrayList()
-    var radiocommands: ArrayList<String> = ArrayList()
+    var protocolCommands: ArrayList<String> = ArrayList()
     var configTTs: TextToSpeech? = null
     var commandsfromlist: ArrayList<String> = ArrayList()
     var commandIDList: ArrayList<String> = ArrayList()
@@ -630,22 +629,36 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
             gnssdelay = dbControl.delaylist(opid, dgps_id)
             val commandDataList=dbControl.getRoverCommandforparsinglist(opid, dgps_id)
 
-            for(cmds in commandDataList){
+            for(cmds in commandDataList)
+            {
                 gnsscommands.add(cmds.split(",")[0])
-                commandIDList.add(cmds.split(",")[1])
-                responseList=dbControl.getResponseList(cmds.split(",")[1])
+//                commandIDList.add(cmds.split(",")[1])
+                responseList .addAll(dbControl.getResponseList(cmds.split(",")[1]))
                 gnnsFormatCommands.add(cmds.split(",")[2])
             }
 //            gnsscommands = dbControl.commandforparsinglist(opid, dgps_id)
 //            gnnsFormatCommands = dbControl.commandformatparsinglist(opid, dgps_id)
             Log.d(TAG,"commandDataList --\ngnsscommands:-- $gnsscommands\n responseList--${responseList.size}\n gnnsFormatCommands-- " +
-                    "$gnnsFormatCommands \n commandIDList--$commandIDList \n ${gnsscommands.size} \n $opid ")
+                    "$gnnsFormatCommands \n ${gnsscommands.size} \n $opid ")
 
         } else if (oppid > 0) {
-            radiodelay = dbControl.delaylist(oppid, dgps_id)
-            radiocommands = dbControl.commandforparsinglist(oppid, dgps_id)
-            radioFormatCommands = dbControl.commandformatparsinglist(oppid, dgps_id)
-            Log.d(TAG, "NewListgetcommandforparsing: $oppid\n$radiocommands")
+            protocolDelay = dbControl.delaylist(oppid, dgps_id)
+
+
+//            protocolCommands = dbControl.commandforparsinglist(oppid, dgps_id)
+//            protocolFormatCommands = dbControl.commandformatparsinglist(oppid, dgps_id)
+
+            val protocolDataList=dbControl.getRoverCommandforparsinglist(oppid, dgps_id)
+
+            for(cmds in protocolDataList)
+            {
+                protocolCommands.add(cmds.split(",")[0])
+//                commandIDList.add(cmds.split(",")[1])
+                responseList.addAll(dbControl.getResponseList(cmds.split(",")[1]))
+                protocolFormatCommands.add(cmds.split(",")[2])
+            }
+
+            Log.d(TAG, "protocolCommands: $oppid\n$protocolCommands \n responseList--${responseList.size} \n ")
 
         }
     }
@@ -903,19 +916,19 @@ class GnssRoverProfileFragment : Fragment(R.layout.fragment_gnss_rover_profile),
             }
         }
         commandsfromlist.addAll(gnsscommands)
-        Log.d(TAG, "dataconversion: " + gnssdelay + "\n" + radiodelay + "\n" + gnsscommands + "\n" + radioFormatCommands+ "\n" + pdaMapProfile)
+        Log.d(TAG, "dataconversion: " + gnssdelay + "\n" + protocolDelay + "\n" + gnsscommands + "\n" + protocolFormatCommands+ "\n" + pdaMapProfile)
         delaylist.addAll(gnssdelay)
         commandsformatList.addAll(gnnsFormatCommands)
         System.out.println(pdaMapProfile.size)
-        for (param in radiodelay) {
+        for (param in protocolDelay) {
             delaylist.add(param)
         }
 
-        for (param in radioFormatCommands) {
+        for (param in protocolFormatCommands) {
             commandsformatList.add(param)
         }
-        Log.d(TAG, "dataconversionRadio: "+radiocommands)
-        for (param in radiocommands) {
+        Log.d(TAG, "dataconversionRadio: "+protocolCommands)
+        for (param in protocolCommands) {
             Log.d(TAG, "dataconversionradiocommands: "+param)
             val colums = param.split("(?i)2C".toRegex()).toTypedArray()
             if (colums.size > 2) {
