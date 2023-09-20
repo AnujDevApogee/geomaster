@@ -2,6 +2,7 @@ package com.apogee.geomaster.response_handling
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import com.apogee.geomaster.response_handling.model.DBResponseModel
 import com.apogee.basicble.Utils.MultiMap
 import com.apogee.geomaster.response_handling.model.ResponseHandlingModel
@@ -15,13 +16,14 @@ import com.apogee.geomaster.service.Constants.gsv_res_map
 
 import java.util.ArrayList
 import java.util.HashMap
+import kotlin.math.log
 
 class ResponseHandling(context: Context ) {
 
     var dbTask: DatabaseRepsoitory = DatabaseRepsoitory(context)
 
      fun validateResponse(response: String, headerLength: Int, response_id_list: List<DBResponseModel>, listner: DataResponseHandlingInterface) {
-        // Log.d(TAG, "validateResponse: "+response)
+
         var response = response
         val validate_res_map: MultiMap<String, String> = MultiMap()
         val validate_gsv_map: MultiMap<String, String> = MultiMap()
@@ -82,6 +84,7 @@ class ResponseHandling(context: Context ) {
                                         db_response = db_response.replace("*", ";")
                                     }
                                     if (response_type_id == "2") {
+                                        Log.d("TAG", "validateResponse: "+response+"==="+remark)
                                         if (remark != "") {
                                             val res_split = response.split(remark.toRegex())
                                                 .dropLastWhile { it.isEmpty() }
@@ -104,6 +107,8 @@ class ResponseHandling(context: Context ) {
                                                 res_val =
                                                     header.substring(start_index - 1, end_index)
                                                 if (res_val == validation_value) {
+
+                                                    Log.d("TAG", "validateResponse: "+res_val)
                                                     val flag_param_map = checkParameter(
                                                         res_id,
                                                         remark,
@@ -111,6 +116,7 @@ class ResponseHandling(context: Context ) {
                                                         db_response,
                                                         data_extract_type
                                                     )
+                                                    Log.d("TAG", "flag_param_map: "+flag_param_map)
                                                     if (flag_param_map != "") {
                                                         val flag_param_map_arr =
                                                             flag_param_map.split("~".toRegex())
@@ -142,7 +148,9 @@ class ResponseHandling(context: Context ) {
                                                                 header.split(data_extract_type.toRegex())
                                                                     .dropLastWhile { it.isEmpty() }
                                                                     .toTypedArray()
+
                                                             for (i in header_split.indices) {
+                                                                Log.d("TAG", "header_split: ${header_split[i]}")
                                                                 for (j in keyList.indices) {
                                                                     val key = keyList[j]
                                                                     if (i == key) {
@@ -184,7 +192,8 @@ class ResponseHandling(context: Context ) {
                                                                                     disp_val
                                                                                 )
                                                                             }
-                                                                        } else {
+                                                                        }
+                                                                        else {
                                                                             val parameter =
                                                                                 valList[j]
 
@@ -227,12 +236,17 @@ class ResponseHandling(context: Context ) {
                                                                                     valList[j],
                                                                                     `val`
                                                                                 )
+                                                                                Log.d(
+                                                                                    "TAG",
+                                                                                    "validateResponseAnother: "+validate_res_map
+                                                                                )
                                                                             }
                                                                         }
                                                                     }
                                                                 }
                                                             }
-                                                        } else {
+                                                        }
+                                                        else {
                                                             val header_split =
                                                                 header2.split(data_extract_type.toRegex())
                                                                     .dropLastWhile { it.isEmpty() }
@@ -271,13 +285,16 @@ class ResponseHandling(context: Context ) {
                                                                                     valList[j],
                                                                                     disp_val
                                                                                 )
-                                                                            } else {
+                                                                            }
+                                                                            else {
                                                                                 gsvFlag = 0
                                                                                 gsaFlag = 0
                                                                                 validate_res_map.put(
                                                                                     valList[j],
                                                                                     disp_val
                                                                                 )
+
+
                                                                             }
                                                                         } else {
                                                                             val parameter =
@@ -374,7 +391,8 @@ class ResponseHandling(context: Context ) {
                                                 }
                                             }
                                         }
-                                    } else {
+                                    }
+                                    else {
                                         var flag_count = response_id_list[rl].flag
                                         if (flag_count == 0) {
                                             response_id_list[rl].flag = 1
@@ -769,6 +787,7 @@ class ResponseHandling(context: Context ) {
 
             if(validate_res_map.size()>0)
             {
+                Log.d("TAG", "validateResponseFix: "+validate_res_map)
                 listner.fixResponseData(validate_res_map)
             }
 
@@ -871,6 +890,7 @@ class ResponseHandling(context: Context ) {
         } catch (e: java.lang.Exception) {
             println("com.apogee.db.SPU.checkParameter()$e")
         }
+        Log.d("TAG", "checkParameter: $flag===$map")
         return "$flag~$map"
     }
     //End Function Three
@@ -896,10 +916,6 @@ class ResponseHandling(context: Context ) {
         var type = ""
         var parameter_id = ""
         try {
-            val query =
-                (" select * from parameter2 p,parameter_type pt where p.active='Y' and pt.active='Y' "
-                        + " and p.parameter_type_id=pt.parameter_type_id "
-                        + " and p.parameter_name='" + param + "' and p.parameter_type_id in(8,9,10) ")
 
             val rs = dbTask.getParameterResponse(param)
             while (rs!!.moveToNext()) {
@@ -910,6 +926,7 @@ class ResponseHandling(context: Context ) {
         } catch (e: java.lang.Exception) {
             println("com.apogee.db.SPU.checkParamType()$e")
         }
+        Log.d("TAG", "checkParamType: $type,$parameter_id")
         return "$type,$parameter_id"
     }
 }

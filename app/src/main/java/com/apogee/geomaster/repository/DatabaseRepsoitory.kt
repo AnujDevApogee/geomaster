@@ -2289,7 +2289,7 @@ class DatabaseRepsoitory(context: Context) {
 
     fun getParameterResponse(param: String): Cursor? {
         val query =
-            (" select * from parameter2 p,parameter_type pt where p.active='Y' and pt.active='Y' "
+            (" select * from parameter p,parameter_type pt where p.active='Y' and pt.active='Y' "
                     + " and p.parameter_type_id=pt.parameter_type_id "
                     + " and p.parameter_name='" + param + "' and p.parameter_type_id in(8,9,10) ")
         return tableCreator.executeStaticQueryForCursor(query)
@@ -3242,7 +3242,7 @@ class DatabaseRepsoitory(context: Context) {
      * Command List Operation with Command List and Selected Operation IDs
      */
     fun getCommandList(commandList: String): List<String> {
-        val query = "SELECT command_name FROM command  where command_id IN ($commandList)"
+        val query = "SELECT command_name,format FROM command  where command_id IN ($commandList)"
         createLog("TAG_BLE_CMD",query)
         val list = mutableListOf<String>()
         val cursor = tableCreator.executeStaticQueryForCursor(query)

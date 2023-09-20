@@ -10,6 +10,7 @@ import com.apogee.geomaster.databinding.SpinnerDropdownLayoutBinding
 import com.apogee.geomaster.model.DynamicViewType
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.createLog
+import com.apogee.geomaster.utils.toHex
 
 sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -34,7 +35,12 @@ sealed class MultiViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(bin
             binding.spinner.setAdapter(coordinateAdaptor)
             binding.spinner.setOnItemClickListener { _, _, position, _ ->
                 createLog("TAG_SPINNER", "Position $position")
-                val selectedItem = Pair(data.dataList[position], data.valueList[position])
+                val value =if (data.hint=="Frequency"){
+                    toHex(data.dataList[position].replace("MHz","").trim()).trim()
+                }else{
+                    data.valueList[position]
+                }
+                val selectedItem = Pair(data.dataList[position],value)
                 data.selectedPair = selectedItem
                 itemClickListener.onClickListener(data)
             }

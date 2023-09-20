@@ -3,7 +3,6 @@ package com.apogee.geomaster.utils
 import android.R
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.text.Html
 import android.text.SpannableString
@@ -22,8 +21,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import java.io.ByteArrayOutputStream
+import java.math.BigInteger
 
 
 fun Context.toastMsg(msg: String) {
@@ -140,5 +140,27 @@ fun TextView.changeIconDrawable(id:Int,color: Int=R.color.holo_green_dark,positi
     var isAlertFirst = true
 
 
+}
+
+fun toHex(arg: String): String {
+    return String.format("%40x", BigInteger(1, arg.toByteArray())).trim()
+}
+
+
+fun toHexString(sb: StringBuilder, buf: ByteArray) {
+    toHexString(sb, buf, 0, buf.size)
+}
+
+private fun toHexString(sb: StringBuilder, buf: ByteArray, begin: Int, end: Int) {
+    for (pos in begin until end) {
+        if (sb.length > 0) sb.append(' ')
+        var c: Int
+        c = (buf[pos].toInt() and 0xff) / 16
+        c += if (c >= 10) 'A'.code - 10 else '0'.code
+        sb.append(c.toChar())
+        c = (buf[pos].toInt() and 0xff) % 16
+        c += if (c >= 10) 'A'.code - 10 else '0'.code
+        sb.append(c.toChar())
+    }
 }
 

@@ -31,6 +31,7 @@ import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.BLE_CMD_LINE
 import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
+import com.apogee.geomaster.utils.TextUtil
 import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getColorInt
@@ -74,7 +75,13 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
         MyPreference.getInstance(requireActivity()).getStringData(Constants.DEVICE_NAME)
     }
     private val dgps by lazy {
-        MyPreference.getInstance(requireActivity()).getStringData(Constants.DGPS_DEVICE_ID).toInt()
+        (MyPreference.getInstance(requireActivity())).let {
+            return@let if (it.getStringData(Constants.MOTHERBOARDID).isNotEmpty()) {
+                it.getStringData(Constants.MOTHERBOARDID).toInt()
+            } else {
+                it.getStringData(Constants.DGPS_DEVICE_ID).toInt()
+            }
+        }
     }
 
     private var errorCount = 0
@@ -296,7 +303,19 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                         listOfCommand.addAll(this)
                         responseList.clear()
                         responseList.addAll(data.first)
-                        bleConnectionViewModel.writeToBle(listOfCommand.first()+ BLE_CMD_LINE)
+                        if (listOfCommand.first().startsWith("24242424")) {
+                            val sb = java.lang.StringBuilder()
+
+                            TextUtil.toHexString(
+                                sb,
+                                TextUtil.fromHexString(listOfCommand.first())
+                            )
+                            TextUtil.toHexString(sb, TextUtil.newline_crlf.toByteArray())
+                            createLog("DATA_RESPONSE_CMD","${TextUtil.fromHexString(sb.toString())}")
+                            bleConnectionViewModel.writeToBle(TextUtil.fromHexString(sb.toString()))
+                        } else {
+                            bleConnectionViewModel.writeToBle(listOfCommand.first() + BLE_CMD_LINE)
+                        }
                     }
                 }
             }
@@ -346,6 +365,18 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                                     }
                                     is OnSerialRead.onSerialProtocolRead -> {
                                         createLog("TAG_PROTOCOL_READ", "${it.response.data}")
+                                        if (responseList.isNotEmpty()) {
+                                            Log.d(
+                                                "Add_PROTOCAL_STRING",
+                                                "Protcal_response ${it.response.data}"
+                                            )
+                                            responseHandling.validateResponse(
+                                                it.response.data!!,
+                                                7,
+                                                responseList,
+                                                this@BaseProfileFragment
+                                            )
+                                        }
                                     }
 
                                     is OnSerialRead.onSerialResponseRead -> {
@@ -393,7 +424,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
     }
 
     override fun fixResponseData(validate_res_map: MultiMap<String, String>) {
-        TODO("Not yet implemented")
+        createLog("TAG_NEXT_RESPONSE", "fixResponseData: $validate_res_map")
     }
 
     override fun ackRecieveData(status: Int) {
@@ -404,7 +435,18 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                     createLog("ADD_CMD_POINT_TEST", "${listOfCommand.first()} Accepted")
                     listOfCommand.removeAt(0)
                     createLog("TAG_LIST_ITEM","Size of cmd ${listOfCommand.size}\n first ${listOfCommand.first()} \n total list $listOfCommand")
-                    bleConnectionViewModel.writeToBle(listOfCommand.first()+BLE_CMD_LINE)
+                    if (listOfCommand.first().startsWith("24242424")) {
+                        val sb = java.lang.StringBuilder()
+
+                        TextUtil.toHexString(
+                            sb,
+                            TextUtil.fromHexString(listOfCommand.first())
+                        )
+                        TextUtil.toHexString(sb, TextUtil.newline_crlf.toByteArray())
+                        bleConnectionViewModel.writeToBle(TextUtil.fromHexString(sb.toString()))
+                    } else {
+                        bleConnectionViewModel.writeToBle(listOfCommand.first() + BLE_CMD_LINE)
+                    }
                     if (listOfCommand.isEmpty()) {
                         showMessage("BaseConfigured")
                         createLog("ADD_CMD_POINT_TEST", "Base Confined")
