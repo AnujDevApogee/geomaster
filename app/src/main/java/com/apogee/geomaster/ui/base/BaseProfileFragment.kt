@@ -318,9 +318,9 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                             )
                             TextUtil.toHexString(sb, TextUtil.newline_crlf.toByteArray())
                             createLog("DATA_RESPONSE_CMD","${TextUtil.fromHexString(sb.toString())}")
-                           // bleConnectionViewModel.writeToBle(TextUtil.fromHexString(sb.toString()))
+                          bleConnectionViewModel.writeToBle(TextUtil.fromHexString(sb.toString()))
                         } else {
-                           // bleConnectionViewModel.writeToBle(listOfCommand.first() + BLE_CMD_LINE)
+                         bleConnectionViewModel.writeToBle(listOfCommand.first() + BLE_CMD_LINE)
                         }
                     }
                 }
