@@ -41,6 +41,7 @@ import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.setHtmlBoldTxt
 import com.apogee.geomaster.utils.show
 import com.apogee.geomaster.utils.showMessage
+import com.apogee.geomaster.utils.showSnackBr
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BaseConfigurationViewModel
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
@@ -434,7 +435,8 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
         val validRes = validate_res_map.get("AckNack")
         if (!validRes.isNullOrEmpty() && validRes.contains("Ack")) {
             baseProgressDialog.hideDialog()
-            showMessage("Base Configured")
+            binding.root.showSnackBr("Base Configure Successfully")
+            findNavController().popBackStack()
         }
     }
 

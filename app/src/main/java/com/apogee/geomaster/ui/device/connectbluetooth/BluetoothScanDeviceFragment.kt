@@ -21,6 +21,7 @@ import com.apogee.geomaster.service.Constants
 import com.apogee.geomaster.ui.HomeScreen
 import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.PermissionUtils
+import com.apogee.geomaster.utils.createLog
 import com.apogee.geomaster.utils.displayActionBar
 import com.apogee.geomaster.utils.getEmojiByUnicode
 import com.apogee.geomaster.utils.hide
@@ -82,7 +83,7 @@ class BluetoothScanDeviceFragment : Fragment(R.layout.fragment_communication) {
     @SuppressLint("NotifyDataSetChanged", "MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+createLog("TAG_BLE_SCAN","ON Create")
         binding = FragmentCommunicationBinding.bind(view)
         dbControl = DatabaseRepsoitory(requireContext())
         sharedPreferences = MyPreference.getInstance(requireContext())

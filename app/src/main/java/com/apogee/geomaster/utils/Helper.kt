@@ -3,7 +3,9 @@ package com.apogee.geomaster.utils
 import android.R
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
+import android.health.connect.datatypes.units.Length
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
@@ -21,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
 import java.math.BigInteger
@@ -110,6 +113,9 @@ fun NavController.safeNavigate(direction: NavDirections) {
     }
 }
 
+fun View.showSnackBr(txt: String){
+    Snackbar.make(this,txt,Snackbar.LENGTH_SHORT).setBackgroundTint(Color.GREEN).show()
+}
 
 fun NavController.safeNavigate(direction: Int) {
     currentDestination?.getAction(direction)?.run {
