@@ -29,6 +29,7 @@ import com.apogee.geomaster.ui.device.connectbluetooth.BluetoothScanDeviceFragme
 import com.apogee.geomaster.use_case.EditCommand
 import com.apogee.geomaster.utils.ApiResponse
 import com.apogee.geomaster.utils.BLE_CMD_LINE
+import com.apogee.geomaster.utils.BaseProgressDialog
 import com.apogee.geomaster.utils.MyPreference
 import com.apogee.geomaster.utils.OnItemClickListener
 import com.apogee.geomaster.utils.TextUtil
@@ -55,6 +56,10 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
     private val viewModel: BaseConfigurationViewModel by viewModels()
 
     private val bleConnectionViewModel: BleConnectionViewModel by activityViewModels()
+
+    private val baseProgressDialog by lazy {
+        BaseProgressDialog(requireActivity())
+    }
 
     private val menuCallback = object : OnItemClickListener {
         override fun <T> onClickListener(response: T) {
@@ -303,6 +308,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                         listOfCommand.addAll(this)
                         responseList.clear()
                         responseList.addAll(data.first)
+                        baseProgressDialog.setUI(listOfCommand.size)
                         if (listOfCommand.first().startsWith("24242424")) {
                             val sb = java.lang.StringBuilder()
 
@@ -312,9 +318,9 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                             )
                             TextUtil.toHexString(sb, TextUtil.newline_crlf.toByteArray())
                             createLog("DATA_RESPONSE_CMD","${TextUtil.fromHexString(sb.toString())}")
-                            bleConnectionViewModel.writeToBle(TextUtil.fromHexString(sb.toString()))
+                           // bleConnectionViewModel.writeToBle(TextUtil.fromHexString(sb.toString()))
                         } else {
-                            bleConnectionViewModel.writeToBle(listOfCommand.first() + BLE_CMD_LINE)
+                           // bleConnectionViewModel.writeToBle(listOfCommand.first() + BLE_CMD_LINE)
                         }
                     }
                 }
@@ -427,6 +433,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
         createLog("TAG_NEXT_RESPONSE", "fixResponseData: $validate_res_map")
         val validRes = validate_res_map.get("AckNack")
         if (!validRes.isNullOrEmpty() && validRes.contains("Ack")) {
+            baseProgressDialog.hideDialog()
             showMessage("Base Configured")
         }
     }
@@ -438,6 +445,7 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
                     errorCount = 0
                     createLog("ADD_CMD_POINT_TEST", "${listOfCommand.first()} Accepted")
                     listOfCommand.removeAt(0)
+                    baseProgressDialog.setProgress(listOfCommand.size.toDouble())
                     createLog("TAG_LIST_ITEM","Size of cmd ${listOfCommand.size}\n first ${listOfCommand.first()} \n total list $listOfCommand")
                     if (listOfCommand.first().startsWith("24242424")) {
                         val sb = java.lang.StringBuilder()

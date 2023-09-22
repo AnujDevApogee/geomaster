@@ -73,7 +73,6 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
     fun sendData(data:Any){
         coroutineScope.launch {
-            delay(2000)
             service?.write(data)
         }
     }

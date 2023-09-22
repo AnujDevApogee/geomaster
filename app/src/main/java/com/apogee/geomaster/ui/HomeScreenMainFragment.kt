@@ -1,6 +1,5 @@
 package com.apogee.geomaster.ui
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +12,9 @@ import com.apogee.geomaster.R
 import com.apogee.geomaster.adaptor.ViewPagerAdapter
 import com.apogee.geomaster.databinding.HomeScreenMainFragmentLayoutBinding
 import com.apogee.geomaster.model.HomeScreenOption
+import com.apogee.geomaster.ui.base.BaseProfileFragment
+import com.apogee.geomaster.ui.connection.ConnectionFragment
+import com.apogee.geomaster.ui.connection.antenna.SetUpAntennaFragment
 import com.apogee.geomaster.ui.device.DeviceFragment
 import com.apogee.geomaster.ui.projects.ProjectsFragment
 import com.apogee.geomaster.ui.survey.SurveyFragment
@@ -21,7 +23,6 @@ import com.apogee.geomaster.utils.RotateDownPageTransformer
 import com.apogee.geomaster.utils.safeNavigate
 import com.apogee.geomaster.utils.toastMsg
 import com.apogee.geomaster.viewmodel.BleConnectionViewModel
-import com.apogee.updatedblelibrary.BleService
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
 import com.apogee.updatedblelibrary.Utils.OnSerialRead
@@ -35,7 +36,6 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
     private lateinit var viewPagerAdaptor: ViewPagerAdapter
     val TAG="HomeScreenMainFragment"
     private val bleConnectionViewModel: BleConnectionViewModel by activityViewModels()
-    private var service: BleService? = null
     private val menuItem = arrayOf(
         CbnMenuItem(
             R.drawable.ic_folder,
@@ -81,13 +81,12 @@ class HomeScreenMainFragment : Fragment(R.layout.home_screen_main_fragment_layou
         }
     }
 
-    @SuppressLint("UseRequireInsteadOfGet")
-    override fun onStart() {
-        super.onStart()
-
+    override fun onResume() {
+        super.onResume()
+        BaseProfileFragment.baseSetUp=null
+        SetUpAntennaFragment.measuredHeight=-1
+        ConnectionFragment.connectionSelectionType=null
     }
-
-
 
     private fun setUpBottomNav() {
         binding.navView.setMenuItems(menuItem)
