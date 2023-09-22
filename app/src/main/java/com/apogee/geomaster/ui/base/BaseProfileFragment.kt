@@ -425,6 +425,10 @@ class BaseProfileFragment : Fragment(R.layout.base_profile_layout), DataResponse
 
     override fun fixResponseData(validate_res_map: MultiMap<String, String>) {
         createLog("TAG_NEXT_RESPONSE", "fixResponseData: $validate_res_map")
+        val validRes = validate_res_map.get("AckNack")
+        if (!validRes.isNullOrEmpty() && validRes.contains("Ack")) {
+            showMessage("Base Configured")
+        }
     }
 
     override fun ackRecieveData(status: Int) {

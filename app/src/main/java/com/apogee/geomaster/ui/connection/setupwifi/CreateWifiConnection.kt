@@ -113,7 +113,14 @@ class CreateWifiConnection : Fragment(R.layout.create_wifi_connection_layout) {
     }
 
     private fun getResponse() {
-        viewModel.getInputRequiredParma(args.mode, sharePreference.getStringData(Constants.MOTHERBOARDID).toInt())
+        val dgps=(MyPreference.getInstance(requireActivity())).let {
+            return@let if (it.getStringData(Constants.MOTHERBOARDID).isNotEmpty()) {
+                it.getStringData(Constants.MOTHERBOARDID).toInt()
+            } else {
+                it.getStringData(Constants.DGPS_DEVICE_ID).toInt()
+            }
+        }
+        viewModel.getInputRequiredParma(args.mode,dgps)
     }
 
     private fun getResponseValue() {

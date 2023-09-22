@@ -15,6 +15,7 @@ import com.apogee.updatedblelibrary.Utils.BleResponseListener
 import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -73,6 +74,7 @@ class BleConnectionRepository(private val context: Context) : ServiceConnection,
 
     fun sendData(data:Any){
         coroutineScope.launch {
+            delay(2000)
             service?.write(data)
         }
     }
