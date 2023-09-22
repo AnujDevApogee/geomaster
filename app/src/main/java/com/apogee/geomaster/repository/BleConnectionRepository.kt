@@ -12,7 +12,6 @@ import com.apogee.geomaster.utils.createLog
 import com.apogee.updatedblelibrary.BleService
 import com.apogee.updatedblelibrary.Utils.BleResponse
 import com.apogee.updatedblelibrary.Utils.BleResponseListener
-import com.apogee.updatedblelibrary.Utils.OnSerialRead
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
